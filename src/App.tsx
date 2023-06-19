@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import Homepage from './pages/homepage';
 import AppHeader from './components/AppHeader';
+import AppFooter from './components/AppFooter';
+import './App.css';
 
 function App() {
   return (
     <BrowserRouter>
       <AppHeader/>
-      <Routes>
-        <Route path='/' element={<Homepage/>} />
-      </Routes>
+        <Routes>
+          <Route path='/'>
+            <Route index element={<Homepage />} />
+          </Route >
+        </Routes>
+      <AppFooter />
     </BrowserRouter>
   );
 }
