@@ -46,4 +46,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Desenvolvido por
-- Pedro Henrique Vilela do Nascimento na função de estagiário da CRInt.
+- Pedro Henrique Vilela do Nascimento.
