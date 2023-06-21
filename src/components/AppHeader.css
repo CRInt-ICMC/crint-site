@@ -43,9 +43,11 @@
     display: inline-block;
 }
 
-.linha span {
+.linha a {
+    text-decoration: none;
+    color: black;
     font-weight: bolder;
-    margin: 0px 5px;
+    margin: 0px 15px;
 }
 
 .flags img {
