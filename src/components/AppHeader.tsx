@@ -14,8 +14,8 @@ const logos = () => {
     return (
     <span className='logos'>
         {/* <a href="https://www5.usp.br/"><img className='logo-usp' alt='' src={usp} /></a> */}
-        <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='' src={icmc} /></a>
-        <Link to='/'><img className='logo-crint' alt='' src={crint} /></Link>
+        <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={icmc} /></a>
+        <Link to='/'><img className='logo-crint' alt='Link Página Principal' src={crint} /></Link>
     </span>
     );
 }
@@ -24,13 +24,13 @@ const topics = () => {
     return (
         <span className='topics'>
             <div className='linha'>
-                <a href='http://localhost:3000'> GRADUAÇÃO </a>
-                <a href='http://localhost:3000'> PÓS-GRADUAÇÃO </a>
-                <a href='http://localhost:3000'> PESQUISA </a>
+                <Link to='graduacao'> GRADUAÇÃO </Link>
+                <Link to='mobilidade'> MOBILIDADE USP </Link>
+                <Link to='estrangeiros'> ESTRANGEIROS </Link>
             </div>
             <div className='linha'>
-                <a href='http://localhost:3000'> CULTURA E EXTENSÃO </a>
-                <a href='http://localhost:3000'> INCLUSÃO E PERTENCIMENTO </a>
+                <Link to='convenios'> CONVÊNIOS </Link>
+                <Link to='informacoes'> INFORMAÇÕES </Link>
             </div>
         </span>
     );
@@ -39,7 +39,7 @@ const topics = () => {
 const languages = (currentURL : string) => {
     return (
         <span className='flags'>
-            <a href={currentURL + '?lang=en'}><img className='en-flag' alt='' src={en_flag} /></a>
+            <a href={currentURL + '?lang=en'}><img className='en-flag' alt='Mudar para inglês' src={en_flag} /></a>
             {/* <a href={currentURL}><img className='es-flag' alt='' src={es_flag} /></a> */}
         </span>
     );
@@ -57,7 +57,7 @@ const AppHeader = () => {
                     {logos()}
                 </div>
 
-                <div className='navbar-center'>
+                <div className='navbar-center' role='navigation'>
                     {topics()}
                 </div>
 
