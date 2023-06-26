@@ -8,11 +8,13 @@ import Mobilidade from './pages/mobilidade';
 import Estrangeiros from './pages/estrangeiros';
 import Informacoes from './pages/informacoes';
 import Convenios from './pages/convenios';
+// import VLibras from '@djpfs/react-vlibras/dist/types';
 
 function App() {
   return (
     <BrowserRouter>
       <AppHeader/>
+        {/* <VLibras /> */}
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />

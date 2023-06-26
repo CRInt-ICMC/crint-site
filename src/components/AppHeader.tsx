@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import './AppHeader.css'
 // IMAGENS
 // import usp from '../img/usp-logo.png'
-import icmc from '../img/icmc-logo-completo.png'
+import icmc from '../img/icmc-logo-completo-b.png'
 import crint from '../img/crint-logo.png'
 import en_flag from '../img/english-flag.png'
 // import es_flag from '../img/spanish-flag.png'
