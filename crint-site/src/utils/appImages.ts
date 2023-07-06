@@ -6,6 +6,7 @@ import crint_preto from '../img/logos/crint-preto.png';
 import crint_branco from '../img/logos/crint-branco.png';
 import crint_colorido from '../img/logos/crint-colorido.png';
 import bandeira_en from '../img/english-flag.png';
+import bandeira_pt from '../img/portuguese-flag.png';
 import icmc_background from '../img/background/icmc-background.jpg';
 
 export const USP = usp;
@@ -16,4 +17,5 @@ export const CRINT_PRETO = crint_preto;
 export const CRINT_BRANCO = crint_branco;
 export const CRINT_COLORIDO = crint_colorido;
 export const BANDEIRA_EN = bandeira_en;
+export const BANDEIRA_PT = bandeira_pt;
 export const ICMC_BACKGROUND = icmc_background;
