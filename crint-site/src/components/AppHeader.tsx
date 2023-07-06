@@ -7,7 +7,7 @@ import './AppHeader.css';
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
 import { mountURL, loadLanguage, updateParams } from '../utils/utils';
 import { useEffect, useState } from 'react';
-import { LANGUAGES_AVAILABLE } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 
 
 const logos = (search : string) => {
@@ -68,41 +68,23 @@ const AppHeader = () => {
     const parameters = new URLSearchParams(search);
 
     // Executa apenas quando a página carrega, se for nulo, deixa vazio
-    let langParam = parameters.get('lang') || '';
-
-    // Se na URL o parâmetros está errado, checa o cookie
-    if (!LANGUAGES_AVAILABLE.includes(langParam))
-        langParam = localStorage.getItem('lang') || '';
+    let langParam = localStorage.getItem('lang') || '';
 
     useEffect(() => {
-        // Garante que é uma opção de linguagem válida
+        // Se o valor anteriormente armazenado é inválido ou não existe, usa a linguagem padrão
         if (!LANGUAGES_AVAILABLE.includes(langParam)) {
-            let newParams = updateParams(parameters, [['lang', 'pt']]);
-            const newURL = mountURL(base, newParams);
-            localStorage.setItem('lang', 'pt');
-            setLang('pt');
-            navigate(newURL);
-        }
-
-        // Verifica se o estado está atualizado
-        if (langParam !== currentLang) {
-            let newParams = updateParams(parameters, [['lang', langParam]]);
-            const newURL = mountURL(base, newParams);
-            navigate(newURL);
-        }
-
-        
+            localStorage.setItem('lang', DEFAULT_LANGUAGE);
+            setLang(DEFAULT_LANGUAGE);
+            loadLanguage(DEFAULT_LANGUAGE)
+        } 
 
         // Se houve mudança na língua, atualiza os valores e a página
         else if (langParam !== currentLang) {
             localStorage.setItem('lang', langParam);
-            loadLanguage(langParam);
             setLang(langParam);
+            loadLanguage(langParam);
         }
     })
-
-    
-
 
     return (
         <header className='header-root'>
