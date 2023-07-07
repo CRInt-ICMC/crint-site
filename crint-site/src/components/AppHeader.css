@@ -56,3 +56,9 @@
     width: 30px;
     margin-right: 5px;
 }
+
+.flags button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}

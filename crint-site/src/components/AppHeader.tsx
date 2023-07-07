@@ -35,7 +35,7 @@ const topics = (search : string) => {
     );
 }
 
-const languages = (currentLang : string, base : string, parameters : URLSearchParams) => {
+const languages = (currentLang : string, setLang : CallableFunction) => {
     const langDescs = [
         {id: 'pt', alt: 'Mudar para português', flag: BANDEIRA_PT},
         {id: 'en', alt: 'Change to English', flag: BANDEIRA_EN},
@@ -46,10 +46,7 @@ const languages = (currentLang : string, base : string, parameters : URLSearchPa
             { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
             langDescs.map((desc) => {
                 if (desc.id !== currentLang) {
-                    parameters = updateParams(parameters, [['lang', desc.id]])
-                    const currentURL = mountURL(base, parameters);
-
-                    return (<Link key={desc.id} to={currentURL}><img alt={desc.alt} src={desc.flag} /></Link>)
+                    return (<button key={desc.id} onClick={() => setLang(desc.id)}><img alt={desc.alt} src={desc.flag} /></button>)
                 }
             })}
         </span>
@@ -59,32 +56,37 @@ const languages = (currentLang : string, base : string, parameters : URLSearchPa
 const AppHeader = () => {
     // Hooks    
     const location = useLocation();
-    const navigate = useNavigate();
     const [currentLang, setLang] = useState('');
 
     // Pega a URL atual da página
-    const base = location.pathname;
     const search = location.search;
-    const parameters = new URLSearchParams(search);
 
     // Executa apenas quando a página carrega, se for nulo, deixa vazio
     let langParam = localStorage.getItem('lang') || '';
 
     useEffect(() => {
-        // Se o valor anteriormente armazenado é inválido ou não existe, usa a linguagem padrão
+        // Se o valor anteriormente armazenado é inválido ou não existe, usa língua padrão
         if (!LANGUAGES_AVAILABLE.includes(langParam)) {
-            localStorage.setItem('lang', DEFAULT_LANGUAGE);
-            setLang(DEFAULT_LANGUAGE);
-            loadLanguage(DEFAULT_LANGUAGE)
+            changeLang(DEFAULT_LANGUAGE)
         } 
 
         // Se houve mudança na língua, atualiza os valores e a página
         else if (langParam !== currentLang) {
-            localStorage.setItem('lang', langParam);
-            setLang(langParam);
-            loadLanguage(langParam);
+            changeLang(langParam)
         }
     })
+
+    function changeLang(lang : string) {
+        // Impede o uso inapropriado da função
+        if (!LANGUAGES_AVAILABLE.includes(lang)) {
+            console.log('Língua desconhecida!')
+            return;
+        }
+
+        localStorage.setItem('lang', lang);
+        setLang(lang);
+        loadLanguage(lang);
+    }
 
     return (
         <header className='header-root'>
@@ -98,7 +100,7 @@ const AppHeader = () => {
                 </div>
 
                 <div className='navbar-right'>
-                    {languages(currentLang, base, parameters)}
+                    {languages(currentLang, changeLang)}
                 </div>
             </nav>
         </header>
