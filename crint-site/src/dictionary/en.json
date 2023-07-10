@@ -1,7 +1,9 @@
 {
-    "grad":"Graduation",
-    "mob":"Mobility",
-    "estr":"Foreigners",
-    "conv":"Partnerships",
-    "info":"Informations"
+    "header" : {
+        "graduacao" : "GRADUATION",
+        "mobilidade" : "MOBILITY",
+        "estrangeiros" : "FOREIGNERS",
+        "convenios" : "PARTNERSHIPS",
+        "informacoes" : "INFORMATIONS"
+    }
 }

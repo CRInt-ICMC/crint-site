@@ -1,3 +1,7 @@
+import en_dict from '../dictionary/en.json';
+import pt_dict from '../dictionary/pt.json';
+import { LANGUAGES_AVAILABLE } from './appConstants';
+
 export function mountURL(base : string, params : URLSearchParams) {
     let url = base;
 
@@ -34,7 +38,16 @@ export function updateParams(currentParams : URLSearchParams, newParams : [strin
     return currentParams;
 }
 
+// Existem problemas de escalabilidade com o modelo atual, porém, serve para o projeto
 export function loadLanguage(currentLang : string) {
-    /* Função de carrega linguagem atual */
-    console.log(`Linguagem atual: ${currentLang}`);
+    switch (currentLang) {
+        case 'pt':
+            return pt_dict;
+
+        case 'en':
+            return en_dict;
+        
+        default:
+            return pt_dict;
+    }
 }

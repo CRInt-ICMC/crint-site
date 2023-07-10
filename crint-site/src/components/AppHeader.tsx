@@ -1,14 +1,14 @@
 // COMPONENTES
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 // CSS
 import './AppHeader.css';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
-import { mountURL, loadLanguage, updateParams } from '../utils/utils';
+import { loadLanguage } from '../utils/utils';
 import { useEffect, useState } from 'react';
 import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
-
+// import Graduacao from '../pages/graduacao';
 
 const logos = (search : string) => {
     return (
@@ -19,17 +19,19 @@ const logos = (search : string) => {
     );
 }
 
-const topics = (search : string) => {
+const topics = (search : string, dictionary : languageDictionary) => {
+
+
     return (
         <span className='topics'>
-            <div className='linha'>
-                <Link to={'graduacao' + search}> GRADUAÇÃO </Link>
-                <Link to={'mobilidade' + search}> MOBILIDADE USP </Link>
-                <Link to={'estrangeiros' + search}> ESTRANGEIROS </Link>
+            <div className='linha'> {/* VOLTAR PARA MELHORAR ISSO MAIS TARDE */}
+                <Link to={'graduacao' + search}> {dictionary.header?.graduacao} </Link>
+                <Link to={'mobilidade' + search}> {dictionary.header?.mobilidade} </Link>
+                <Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros} </Link>
             </div>
             <div className='linha'>
-                <Link to={'convenios' + search}> CONVÊNIOS </Link>
-                <Link to={'informacoes' + search}> INFORMAÇÕES </Link>
+                <Link to={'convenios' + search}> {dictionary.header?.estrangeiros} </Link>
+                <Link to={'informacoes' + search}> {dictionary.header?.informacoes} </Link>
             </div>
         </span>
     );
@@ -57,6 +59,7 @@ const AppHeader = () => {
     // Hooks    
     const location = useLocation();
     const [currentLang, setLang] = useState('');
+    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(DEFAULT_LANGUAGE));
 
     // Pega a URL atual da página
     const search = location.search;
@@ -67,16 +70,17 @@ const AppHeader = () => {
     useEffect(() => {
         // Se o valor anteriormente armazenado é inválido ou não existe, usa língua padrão
         if (!LANGUAGES_AVAILABLE.includes(langParam)) {
-            changeLang(DEFAULT_LANGUAGE)
+            changeLang(DEFAULT_LANGUAGE);
         } 
 
         // Se houve mudança na língua, atualiza os valores e a página
         else if (langParam !== currentLang) {
-            changeLang(langParam)
+            changeLang(langParam);
         }
-    })
+    }, [currentLang])
 
-    function changeLang(lang : string) {
+    // Carrega o novo dicionário de linguagem
+    const changeLang = (lang : string) => {
         // Impede o uso inapropriado da função
         if (!LANGUAGES_AVAILABLE.includes(lang)) {
             console.log('Língua desconhecida!')
@@ -85,7 +89,7 @@ const AppHeader = () => {
 
         localStorage.setItem('lang', lang);
         setLang(lang);
-        loadLanguage(lang);
+        setLangDict(loadLanguage(lang))
     }
 
     return (
@@ -96,7 +100,7 @@ const AppHeader = () => {
                 </div>
 
                 <div className='navbar-center' role='navigation'>
-                    {topics(search)}
+                    {topics(search, langDict)}
                 </div>
 
                 <div className='navbar-right'>

@@ -1,7 +1,29 @@
 {
-    "grad":"Graduação",
-    "mob":"Mobilidade",
-    "estr":"Estrangeiros",
-    "conv":"Convênios",
-    "info":"Informações"
+    "header" : {
+        "graduacao" : "GRADUAÇÃO",
+        "mobilidade" : "MOBILIDADE",
+        "estrangeiros" : "ESTRANGEIROS",
+        "convenios" : "CONVÊNIOS",
+        "informacoes" : "INFORMAÇÕES"
+    },
+
+    "graduacao" : {
+        "titulo" : "GRADUAÇÃO"
+    },
+
+    "mobilidade" : {
+        "titulo" : "MOBILIDADE"
+    },
+
+    "estrangeiros" : {
+        "titulo" : "ESTRANGEIROS"
+    },
+
+    "convenios" : {
+        "titulo" : "CONVÊNIOS"
+    },
+
+    "informacoes" : {
+        "titulo" : "INFORMAÇÕES"
+    }
 }
