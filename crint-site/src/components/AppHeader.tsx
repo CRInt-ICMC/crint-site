@@ -30,7 +30,7 @@ const topics = (search : string, dictionary : languageDictionary) => {
                 <Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros} </Link>
             </div>
             <div className='linha'>
-                <Link to={'convenios' + search}> {dictionary.header?.estrangeiros} </Link>
+                <Link to={'convenios' + search}> {dictionary.header?.convenios} </Link>
                 <Link to={'informacoes' + search}> {dictionary.header?.informacoes} </Link>
             </div>
         </span>

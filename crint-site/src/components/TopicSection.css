@@ -1,0 +1,9 @@
+.topic-section {
+    color: black;
+    padding: 10px 20%;
+}
+
+.topic-section a, .topic-section a:link, .topic-section a:visited {
+    color: inherit;
+    font-weight: bolder;
+}

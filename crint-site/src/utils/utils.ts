@@ -1,6 +1,5 @@
 import en_dict from '../dictionary/en.json';
 import pt_dict from '../dictionary/pt.json';
-import { LANGUAGES_AVAILABLE } from './appConstants';
 
 export function mountURL(base : string, params : URLSearchParams) {
     let url = base;

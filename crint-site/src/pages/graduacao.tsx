@@ -5,6 +5,7 @@ const Graduacao = () => {
     return (
         <div id='graduacao-root' >
             <TopicBanner topicoNome='GRADUACAO' />
+            
         </div>
     );
 }
