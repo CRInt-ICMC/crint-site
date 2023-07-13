@@ -1,0 +1,33 @@
+{
+    "header" : {
+        "graduacao" : "GRADUATION",
+        "mobilidade" : "MOBILITY",
+        "estrangeiros" : "FOREIGNERS",
+        "convenios" : "PARTNERSHIPS",
+        "informacoes" : "INFORMATIONS"
+    },
+
+    "homepage" : {
+        "searchbar" : "Type here what you're searching for..."
+    },
+
+    "graduacao" : {
+        "titulo" : "GRADUATION"
+    },
+
+    "mobilidade" : {
+        "titulo" : "MOBILITY"
+    },
+
+    "estrangeiros" : {
+        "titulo" : "FOREIGNERS"
+    },
+
+    "convenios" : {
+        "titulo" : "PARTNERSHIPS"
+    },
+
+    "informacoes" : {
+        "titulo" : "INFORMATIONS"
+    }
+}
