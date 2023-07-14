@@ -20,23 +20,51 @@ interface languageDictionary {
         },
     },
 
-    graduacao? : {
-        titulo? : string,
-    }
+    pages : {
+        mobilidade : {
+            titulo : string,
+        
+            subpaginas : {
+                alunos : {
+                    titulo : string,
+                },
 
-    mobilidade? : {
-        titulo? : string,
-    }
+                professor : {
+                    titulo : string,
+                },
+                
+                servidor : {
+                    titulo : string,
+                },
+            },
+        },
+    
+        estrangeiros : {
+            titulo : string,
+        
+            subpaginas : {
+                guias : {
+                    titulo : string,
+                },
+            },
+        },
+    
+        informacoes : {
+            titulo : string,
+        
+            subpaginas : {
+                convenios : {
+                    titulo : string,
+                },
 
-    estrangeiros? : {
-        titulo? : string,
-    }
-
-    convenios? : {
-        titulo? : string,
-    }
-
-    informacoes? : {
-        titulo? : string,
-    }
+                dia : {
+                    titulo : string,
+                },
+                
+                pesquisa : {
+                    titulo : string,
+                },
+            },
+        },
+    },
 }

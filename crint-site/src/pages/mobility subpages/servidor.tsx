@@ -1,12 +1,12 @@
 import TopicBanner from '../../components/TopicBanner';
-import './convenios.css'
+import './servidor.css'
 
-const Convenios = () => {
+const Servidor = () => {
     return (
-        <div id='convenios-root'>
-            <TopicBanner topicoNome='CONVÊNIOS' />
+        <div id='servidor-root'>
+            <TopicBanner topicoNome='SERVIDOR' />
         </div>
     );
 }
 
-export default Convenios;
+export default Servidor;

@@ -24,23 +24,47 @@
         "searchbar" : "Digite aqui o que você procura..."
     },
 
-    "graduacao" : {
-        "titulo" : "GRADUAÇÃO"
-    },
-
-    "mobilidade" : {
-        "titulo" : "MOBILIDADE"
-    },
-
-    "estrangeiros" : {
-        "titulo" : "ESTRANGEIROS"
-    },
-
-    "convenios" : {
-        "titulo" : "CONVÊNIOS"
-    },
-
-    "informacoes" : {
-        "titulo" : "INFORMAÇÕES"
+    "pages" : {
+        "mobilidade" : {
+            "titulo" : "MOBILIDADE",
+        
+            "subpaginas" : {
+                "alunos" : {
+                    "titulo" : "ALUNOS"
+                },
+                "professor" : {
+                    "titulo" : "PROFESSOR"
+                },
+                "servidor" : {
+                    "titulo" : "SERVIDOR"
+                }
+            }
+        },
+    
+        "estrangeiros" : {
+            "titulo" : "ESTRANGEIROS",
+        
+            "subpaginas" : {
+                "guias" : {
+                    "titulo" : "GUIAS"
+                }
+            }
+        },
+    
+        "informacoes" : {
+            "titulo" : "INFORMAÇÕES",
+        
+            "subpaginas" : {
+                "convenios" : {
+                    "titulo" : "CONVÊNIOS"
+                },
+                "dia" : {
+                    "titulo" : "DIA"
+                },
+                "pesquisa" : {
+                    "titulo" : "PESQUISA"
+                }
+            }
+        }
     }
 }

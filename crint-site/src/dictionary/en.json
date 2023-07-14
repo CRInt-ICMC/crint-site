@@ -24,23 +24,51 @@
         "searchbar" : "Type here what you're searching for..."
     },
 
-    "graduacao" : {
-        "titulo" : "GRADUATION"
-    },
+    "pages" : {
+        "mobilidade" : {
+            "titulo" : "MOBILITY",
+        
+            "subpaginas" : {
+                "alunos" : {
+                    "titulo" : "STUDENT"
+                },
 
-    "mobilidade" : {
-        "titulo" : "MOBILITY"
-    },
+                "professor" : {
+                    "titulo" : "PROFESSOR"
+                },
+                
+                "servidor" : {
+                    "titulo" : "PUBLIC SERVANT"
+                }
+            }
+        },
+    
+        "estrangeiros" : {
+            "titulo" : "FOREIGNERS",
+        
+            "subpaginas" : {
+                "guias" : {
+                    "titulo" : "GUIDES"
+                }
+            }
+        },
+    
+        "informacoes" : {
+            "titulo" : "INFORMATIONS",
+        
+            "subpaginas" : {
+                "convenios" : {
+                    "titulo" : "PARTNERSHIPS"
+                },
 
-    "estrangeiros" : {
-        "titulo" : "FOREIGNERS"
-    },
-
-    "convenios" : {
-        "titulo" : "PARTNERSHIPS"
-    },
-
-    "informacoes" : {
-        "titulo" : "INFORMATIONS"
+                "dia" : {
+                    "titulo" : "SET"
+                },
+                
+                "pesquisa" : {
+                    "titulo" : "RESEARCH"
+                }
+            }
+        }
     }
 }

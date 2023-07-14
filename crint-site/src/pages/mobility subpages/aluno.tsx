@@ -1,12 +1,14 @@
 import TopicBanner from '../../components/TopicBanner';
-import './convenios.css'
+import './aluno.css'
 
-const Convenios = () => {
+
+
+const Aluno = () => {
     return (
-        <div id='convenios-root'>
-            <TopicBanner topicoNome='CONVÊNIOS' />
+        <div id='aluno-root'>
+            <TopicBanner topicoNome='ALUNO' />
         </div>
     );
 }
 
-export default Convenios;
+export default Aluno;
