@@ -72,8 +72,8 @@ const InterServidores = () => {
             <h3>Auxílios Financeiros</h3>
             <p>
                 A CRInt tem apoiado os funcionários técnico-administrativos para a participação em eventos internacionais ou outros eventos 
-                pertinentes à internacionalização. A solicitação é em fluxo contínuo e deve ser feita diretamente pelo email 
-                <a href="mailto:crint@icmc.usp.br">crint@icmc.usp.br</a>. Recomenda-se que a solicitação seja feita com pelo menos 60 dias 
+                pertinentes à internacionalização. A solicitação é em fluxo contínuo e deve ser feita diretamente pelo  
+                email <a href="mailto:crint@icmc.usp.br">crint@icmc.usp.br</a>. Recomenda-se que a solicitação seja feita com pelo menos 60 dias 
                 de antecedência do evento. 
             </p>
             <p>Documentos para a solicitação:</p>

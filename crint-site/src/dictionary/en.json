@@ -1,10 +1,23 @@
 {
     "header" : {
-        "graduacao" : "GRADUATION",
-        "mobilidade" : "MOBILITY",
-        "estrangeiros" : "FOREIGNERS",
-        "convenios" : "PARTNERSHIPS",
-        "informacoes" : "INFORMATIONS"
+        "mobilidade" : {
+            "titulo" : "MOBILITY",
+            "aluno" : "Student",
+            "professor" : "Professor",
+            "servidor" : "Public Servant (temp)"
+        },
+
+        "estrangeiros" : {
+            "titulo" : "FOREIGNERS",
+            "guias" : "Guides"
+        },
+
+        "informacoes" : {
+            "titulo" : "INFORMATIONS",
+            "convenios" : "Partnerships",
+            "dia" : "SET",
+            "pesquisa" : "Conducted research"
+        }
     },
 
     "homepage" : {

@@ -1,14 +1,14 @@
 // COMPONENTES
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import { ReactNode, useEffect, useState } from 'react';
+import { loadLanguage } from '../utils/utils';
+import { useLocation, Link } from 'react-router-dom';
+import DropDownMenu from './DropDownMenu';
+// Constantes
+import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
 import './AppHeader.css';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
-import { loadLanguage } from '../utils/utils';
-import { useEffect, useState } from 'react';
-import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
-// import Graduacao from '../pages/graduacao';
 
 const logos = (search : string) => {
     return (
@@ -20,19 +20,44 @@ const logos = (search : string) => {
 }
 
 const topics = (search : string, dictionary : languageDictionary) => {
+    let mobilidadeBody : ReactNode = (
+        <span className='subtopics'>
+            <Link to={'mobilidade/aluno' + search}> {'>'} {dictionary.header?.mobilidade?.aluno} </Link>
+            <Link to={'mobilidade/professor' + search}> {'>'} {dictionary.header?.mobilidade?.professor} </Link>
+            <Link to={'mobilidade/servidor' + search}> {'>'} {dictionary.header?.mobilidade?.servidor} </Link>
+        </span>
+    );
 
+    let estrangeirosBody : ReactNode = (
+        <span className='subtopics'>
+            <Link to={'estrangeiros/guias' + search}> {'>'} {dictionary.header?.estrangeiros?.guias} </Link>
+        </span>
+    );
+
+    let informacoesBody : ReactNode = (
+        <span className='subtopics'>
+            <Link to={'informacoes/convenios' + search}> {'>'} {dictionary.header?.informacoes?.convenios} </Link>
+            <Link to={'informacoes/dia' + search}> {'>'} {dictionary.header?.informacoes?.dia} </Link>
+            <Link to={'informacoes/pesquisa' + search}> {'>'} {dictionary.header?.informacoes?.pesquisa} </Link>
+        </span>
+    );
 
     return (
         <span className='topics'>
-            <div className='linha'> {/* VOLTAR PARA MELHORAR ISSO MAIS TARDE */}
-                <Link to={'graduacao' + search}> {dictionary.header?.graduacao} </Link>
-                <Link to={'mobilidade' + search}> {dictionary.header?.mobilidade} </Link>
-                <Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros} </Link>
-            </div>
-            <div className='linha'>
-                <Link to={'convenios' + search}> {dictionary.header?.convenios} </Link>
-                <Link to={'informacoes' + search}> {dictionary.header?.informacoes} </Link>
-            </div>
+            <DropDownMenu 
+                head={<Link to={'mobilidade' + search}> {dictionary.header?.mobilidade?.titulo} </Link>} 
+                body={mobilidadeBody} 
+                />
+
+            <DropDownMenu 
+                head={<Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros?.titulo} </Link>} 
+                body={estrangeirosBody} 
+                />
+
+            <DropDownMenu 
+                head={<Link to={'informacoes' + search}> {dictionary.header?.informacoes?.titulo} </Link>} 
+                body={informacoesBody} 
+                />
         </span>
     );
 }
@@ -48,7 +73,11 @@ const languages = (currentLang : string, setLang : CallableFunction) => {
             { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
             langDescs.map((desc) => {
                 if (desc.id !== currentLang) {
-                    return (<button key={desc.id} onClick={() => setLang(desc.id)}><img alt={desc.alt} src={desc.flag} /></button>)
+                    return (
+                        <button key={desc.id} onClick={() => setLang(desc.id)}>
+                            <img alt={desc.alt} src={desc.flag} />
+                        </button>
+                    );
                 }
             })}
         </span>

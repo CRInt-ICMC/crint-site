@@ -1,10 +1,23 @@
 {
     "header" : {
-        "graduacao" : "GRADUAÇÃO",
-        "mobilidade" : "MOBILIDADE",
-        "estrangeiros" : "ESTRANGEIROS",
-        "convenios" : "CONVÊNIOS",
-        "informacoes" : "INFORMAÇÕES"
+        "mobilidade" : {
+            "titulo" : "MOBILIDADE",
+            "aluno" : "Aluno",
+            "professor" : "Professor",
+            "servidor" : "Servidor"
+        },
+
+        "estrangeiros" : {
+            "titulo" : "ESTRANGEIROS",
+            "guias" : "Guias"
+        },
+
+        "informacoes" : {
+            "titulo" : "INFORMAÇÕES",
+            "convenios" : "Convênios",
+            "dia" : "DIA",
+            "pesquisa" : "Pesquisa conduzida"
+        }
     },
 
     "homepage" : {

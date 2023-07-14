@@ -1,10 +1,23 @@
 interface languageDictionary {
     header? : {
-        graduacao? : string,
-        mobilidade? : string,
-        estrangeiros? : string,
-        convenios? : string,
-        informacoes? : string,
+        mobilidade? : {
+            titulo? : string,
+            aluno? : string,
+            professor? : string,
+            servidor? : string,
+        },
+
+        estrangeiros? : {
+            titulo? : string,
+            guias? : string,
+        },
+
+        informacoes? : {
+            titulo? : string,
+            convenios? : string,
+            dia? : string,
+            pesquisa? : string,
+        },
     },
 
     graduacao? : {
