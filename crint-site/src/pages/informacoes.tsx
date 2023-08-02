@@ -1,31 +1,11 @@
 import TopicBanner from '../components/TopicBanner';
 import './informacoes.css'
 import TopicSection from '../components/TopicSection';
+import { BEJE_CLARO } from '../utils/appConstants';
 
-const InfoDoc = () => {
+const AcordosConvenios = () => {
     return (
         <>
-            <h3>Auxílios Financeiros</h3>
-            <p>A CRInt tem apoiado os docentes para a participação em eventos internacionais ou outros eventos pertinentes à internalização. 
-                A solicitação é em fluxo contínuo e deve ser feita diretamente à 
-                <a href='https://www.icmc.usp.br/pesquisa/informacoes-gerais-e-servicos'>Comissão de Pesquisa (CPq)</a>. 
-                Após análise de mérito por essa comissão, a solicitação é enviada internamente para a CRInt. Recomenda-se que a solicitação 
-                seja feita com pelo menos 60 dias de antecedência do evento.
-            </p>
-
-            <h3>Oportunidades no Exterior e Editais em Andamento</h3>
-            <p>
-                Ao longo do ano, diversas oportunidades para mobilidade internacional para docentes, chamadas de projeto, bolsas no exterior, 
-                cursos de línguas e outras oportunidades no exterior são disponibilizadas. 
-            </p>
-            <p>
-                Os docentes podem acompanhar as oportunidades no exterior e editais em andamento pelas redes sociais da CRInt 
-                (<a href='https://www.instagram.com/icmc.usp/'> Instagram</a> e <a href='https://t.me/crinticmc'>Telegram</a>) ou por meio do 
-                <a href='https://uspdigital.usp.br/mundus'> Sistema Mundus da USP</a>. No Mundus, selecione no menu a opção Editais {'>'} 
-                Docentes. Ao selecionar o ICMC na unidade de origem do interessado, todos os editais válidos para docentes do ICMC/USP serão listados.
-            </p>
-
-            <h3>Acordos e Convênios</h3>
             <p>
                 Os Convênios de Mobilidade Internacional, os Acordos de Cooperação Internacional e os Protocolo de Intenções Internacionais 
                 vigentes podem ser acessados por meio do site da <a href='http://www.usp.br/internationaloffice/'> AUCANI da USP</a>. 
@@ -58,14 +38,35 @@ const InfoDoc = () => {
     );
 }
 
+const OportunidadesExterior = () => (
+    <>
+        <p>
+            Ao longo do ano, diversas oportunidades para mobilidade internacional para docentes, chamadas de projeto, bolsas no exterior, 
+            cursos de línguas e outras oportunidades no exterior são disponibilizadas. 
+        </p>
+        <p>
+            Os docentes podem acompanhar as oportunidades no exterior e editais em andamento pelas redes sociais da CRInt 
+            (<a href='https://www.instagram.com/icmc.usp/'> Instagram</a> e <a href='https://t.me/crinticmc'>Telegram</a>) ou por meio do 
+            <a href='https://uspdigital.usp.br/mundus'> Sistema Mundus da USP</a>. No Mundus, selecione no menu a opção Editais {'>'} 
+            Docentes. Ao selecionar o ICMC na unidade de origem do interessado, todos os editais válidos para docentes do ICMC/USP serão listados.
+        </p>
+    </>
+)
+
 const Informacoes = () => {
     return (
         <div id='informacoes-root'>
             <TopicBanner topicoNome='INFORMAÇÕES' />
             <TopicSection 
-                title='Informações para Docentes sobre Mobilidade Internacional' 
-                body={InfoDoc()} 
+                title='Acordos e Convênios' 
+                body={AcordosConvenios()} 
+                style={{backgroundColor: BEJE_CLARO}}
                 /> 
+            <TopicSection 
+                title='Oportunidades no Exterior e Editais em Andamento' 
+                body={OportunidadesExterior()} 
+                style={{backgroundColor: BEJE_CLARO}}
+                />
         </div>
     );
 }

@@ -1,11 +1,10 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { AZUL_ICMC, CIANO_USP, LARANJA_USP } from '../../utils/appConstants';
+import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP } from '../../utils/appConstants';
 import './guias.css'
 
 const InformacoesGerais = () => (
     <>
-        <h3>Informações Gerais</h3>
         <p><a href="https://web.icmc.usp.br/CRINT/Guia%20do%20aluno%20estrangeiro%202020.pdf">Informação geral sobre São Carlos e o ICMC/USP</a></p>                
         <p>
             <a href="https://www.gov.br/pf/pt-br/assuntos/imigracao/registrar-se-como-estrangeiro-no-brasil/registro-de-imigrante-detentor-de-visto">
@@ -25,24 +24,8 @@ const InformacoesGerais = () => (
     </>
 )
 
-const CursosPortugues = () => (
-    <>
-        <h3>Cursos de Português</h3>
-        <p>
-            Para consultar os cursos de Português oferecidos pela USP, acesse o <a href='https://uspdigital.usp.br/mundus'> Sistema Mundus da USP</a>. 
-            No Mundus, selecione no menu a opção Editais {'>'} Alunos de Graduação {'>'} Editais. Ao selecionar Curso Online ou Curso no Tipo e o ICMC 
-            na unidade de origem do interessado, todos os editais serão listados.
-        </p>
-        <p>
-            Cursos de Português para estrangeiros são também oferecidos pelo Instituto de Línguas da Universidade Federal de São Carlos (UFSCar). Mais informações 
-            podem ser encontradas <a href="https://www.institutodelinguas.ufscar.br/pt-br/cursos/portugues-para-estrangeiros">aqui</a>.
-        </p>
-    </>
-)
-
 const Procedimentos = () => (
     <>
-        <h3>Procedimentos para nomeações de Estrangeiros em Disciplinas do ICMC (free-mover)</h3>
         <p>
             Para a candidatura de alunos estrangeiros em disciplinas ministradas no ICMC/USP, os seguintes documentos deverão ser enviados pela universidade do aluno, 
             em formato .pdf (de boa qualidade), por meio do formulário de inscrição disponível em breve:
@@ -80,18 +63,13 @@ const Guias = () => {
             <TopicBanner topicoNome='GUIAS' />
             <TopicSection 
                 title='Informações Gerais' 
-                body={InformacoesGerais()} 
-                style={{backgroundColor: '#F9F9F9'}}
-                />
-            <TopicSection 
-                title='Cursos de Português' 
-                body={CursosPortugues()} 
-                style={{backgroundColor: CIANO_USP}}
+                body={InformacoesGerais()}
+                style={{backgroundColor: BEJE_CLARO}}
                 />
             <TopicSection 
                 title='Procedimentos para nomeações de Estrangeiros em Disciplinas do ICMC' 
                 body={Procedimentos()} 
-                style={{backgroundColor: LARANJA_USP}}
+                style={{backgroundColor: CIANO_USP}}
                 />
         </div>
     );
