@@ -1,3 +1,30 @@
 .footer {
+    align-items: center;
     display: flex;
+    justify-content: center;
+
+    padding: 25px 5%;
+    width: 90%;
+    
+    background-color: #0A2C57;
+    color: white;
+    font-weight: bolder;
+}
+
+.footer-left {
+    min-width: 30%;
+    float: left;
+    text-align: left;
+}
+
+.footer-center {
+    min-width: 30%;
+    max-width: 50%;
+    float: center;
+}
+
+.footer-right {
+    min-width: 20%;
+    float: right;
+    font-size: 1.5em;
 }
