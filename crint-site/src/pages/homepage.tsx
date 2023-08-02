@@ -29,8 +29,9 @@ const Homepage = () => {
                 <span className='searchbar-container' style={{width: '70%'}}><SearchBar /></span>
             </section>
             <TopicSection title='Comissão de Relações Internacionais (CRInt)' 
-            body={CRInt()} 
-            style={{backgroundColor: '#F9F9F9'}} />
+                body={CRInt()} 
+                style={{backgroundColor: '#F9F9F9'}} 
+                />
         </div>
     )
 }

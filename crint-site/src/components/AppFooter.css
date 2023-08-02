@@ -15,6 +15,11 @@
     text-decoration: underline;
 }
 
+.footer a, .footer a:link, .footer a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
 .footer-left {
     min-width: 30%;
     float: left;
