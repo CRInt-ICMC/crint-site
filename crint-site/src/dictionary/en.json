@@ -1,0 +1,74 @@
+{
+    "header" : {
+        "mobilidade" : {
+            "titulo" : "MOBILITY",
+            "aluno" : "Student",
+            "professor" : "Professor",
+            "servidor" : "Public Servant (temp)"
+        },
+
+        "estrangeiros" : {
+            "titulo" : "FOREIGNERS",
+            "guias" : "Guides"
+        },
+
+        "informacoes" : {
+            "titulo" : "INFORMATIONS",
+            "convenios" : "Partnerships",
+            "dia" : "SET",
+            "pesquisa" : "Conducted research"
+        }
+    },
+
+    "homepage" : {
+        "searchbar" : "Type here what you're searching for..."
+    },
+
+    "pages" : {
+        "mobilidade" : {
+            "titulo" : "MOBILITY",
+        
+            "subpaginas" : {
+                "alunos" : {
+                    "titulo" : "STUDENT"
+                },
+
+                "professor" : {
+                    "titulo" : "PROFESSOR"
+                },
+                
+                "servidor" : {
+                    "titulo" : "PUBLIC SERVANT"
+                }
+            }
+        },
+    
+        "estrangeiros" : {
+            "titulo" : "FOREIGNERS",
+        
+            "subpaginas" : {
+                "guias" : {
+                    "titulo" : "GUIDES"
+                }
+            }
+        },
+    
+        "informacoes" : {
+            "titulo" : "INFORMATIONS",
+        
+            "subpaginas" : {
+                "convenios" : {
+                    "titulo" : "PARTNERSHIPS"
+                },
+
+                "dia" : {
+                    "titulo" : "SET"
+                },
+                
+                "pesquisa" : {
+                    "titulo" : "RESEARCH"
+                }
+            }
+        }
+    }
+}

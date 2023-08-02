@@ -1,0 +1,70 @@
+{
+    "header" : {
+        "mobilidade" : {
+            "titulo" : "MOBILIDADE",
+            "aluno" : "Aluno",
+            "professor" : "Professor",
+            "servidor" : "Servidor"
+        },
+
+        "estrangeiros" : {
+            "titulo" : "ESTRANGEIROS",
+            "guias" : "Guias"
+        },
+
+        "informacoes" : {
+            "titulo" : "INFORMAÇÕES",
+            "convenios" : "Convênios",
+            "dia" : "DIA",
+            "pesquisa" : "Pesquisa conduzida"
+        }
+    },
+
+    "homepage" : {
+        "searchbar" : "Digite aqui o que você procura..."
+    },
+
+    "pages" : {
+        "mobilidade" : {
+            "titulo" : "MOBILIDADE",
+        
+            "subpaginas" : {
+                "alunos" : {
+                    "titulo" : "ALUNOS"
+                },
+                "professor" : {
+                    "titulo" : "PROFESSOR"
+                },
+                "servidor" : {
+                    "titulo" : "SERVIDOR"
+                }
+            }
+        },
+    
+        "estrangeiros" : {
+            "titulo" : "ESTRANGEIROS",
+        
+            "subpaginas" : {
+                "guias" : {
+                    "titulo" : "GUIAS"
+                }
+            }
+        },
+    
+        "informacoes" : {
+            "titulo" : "INFORMAÇÕES",
+        
+            "subpaginas" : {
+                "convenios" : {
+                    "titulo" : "CONVÊNIOS"
+                },
+                "dia" : {
+                    "titulo" : "DIA"
+                },
+                "pesquisa" : {
+                    "titulo" : "PESQUISA"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.header-root {
+    background: rgba(10, 44, 87, 0.85);
+
+    height: 96px;
+    width: 100%;    
+
+    position: fixed;
+    top: 0;
+}
+
+.navbar {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-left {
+    float: left;
+}
+
+.navbar-center {
+    float: center;
+    text-align: center;
+
+    width: 70%;
+}
+
+.navbar-right {
+    float: right;
+}
+
+.logos {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    height: 96px;
+}
+
+.logos img {
+    display: inline-block;
+
+    height: 72px;
+    margin-left: 10px;
+}
+
+.topics {
+    display: inline-flex;
+}
+
+.topics a {
+    color: white;
+    font-size: 2em;
+    font-weight: bolder;
+    text-decoration: none;
+
+    margin: 0px 0px;
+}
+
+.subtopics a {
+    font-size: 1.5em;
+    font-weight: bolder;
+    text-decoration: none;
+
+    display: flex;
+
+    width: 100%;
+}
+
+.flags img {
+    height: 18.25px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.flags button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
