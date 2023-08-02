@@ -11,6 +11,7 @@ import icmc_background from '../img/background/icmc-background.jpg';
 import wip from '../img/work-in-progress.png';
 import telefone from '../img/telefone.png';
 import email from '../img/email.png'
+import brickwall_background from '../img/background/brickwall.jpg'
 
 export const USP = usp;
 export const ICMC_PRETO = icmc_preto;
@@ -25,3 +26,4 @@ export const ICMC_BACKGROUND = icmc_background;
 export const WIP = wip
 export const TELEFONE = telefone;
 export const EMAIL = email;
+export const BRICKWALL_BACKGROUND = brickwall_background;
