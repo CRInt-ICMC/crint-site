@@ -1,5 +1,4 @@
 .footer {
-    align-items: center;
     display: flex;
     justify-content: center;
 
@@ -8,23 +7,39 @@
     
     background-color: #0A2C57;
     color: white;
+    font-size: 1.5em;
     font-weight: bolder;
+}
+
+.footer h3 {
+    text-decoration: underline;
+}
+
+.footer a, .footer a:link, .footer a:visited {
+    text-decoration: none;
+    color: inherit;
 }
 
 .footer-left {
     min-width: 30%;
     float: left;
     text-align: left;
+    height: 100%;
 }
 
 .footer-center {
     min-width: 30%;
     max-width: 50%;
+    height: 100%;
+
+
+    padding: 0 20px;
+
     float: center;
 }
 
 .footer-right {
     min-width: 20%;
+    height: 100%;
     float: right;
-    font-size: 1.5em;
 }
