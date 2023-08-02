@@ -1,5 +1,6 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
+import { BEJE_CLARO } from '../../utils/appConstants';
 import './servidor.css'
 
 const MobilidadeServidor = () => (
@@ -23,7 +24,6 @@ const MobilidadeServidor = () => (
 const OportunidadesServidores = () => {
     return (
         <>            
-            <h3>Oportunidades no Exterior e Editais em Andamento</h3>
             <p>
                 Ao longo do ano, diversas oportunidades de cursos de línguas, mobilidade internacional para servidores técnicos e administrativos e 
                 outras oportunidades no exterior são disponibilizadas. 
@@ -47,8 +47,9 @@ const Servidor = () => {
                 body={MobilidadeServidor()}
                 />
             <TopicSection
-                title='Mobilidade'
+                title='Oportunidades no Exterior e Editais em Andamento'
                 body={OportunidadesServidores()}
+                style={{backgroundColor: BEJE_CLARO}}
                 />
         </div>
     );
