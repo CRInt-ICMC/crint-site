@@ -1,5 +1,6 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
+import WIP_page from '../wip';
 import './pesquisa.css'
 
 const PesquisasICMC = () => (
@@ -13,10 +14,11 @@ const Pesquisa = () => {
     return (
         <div id='pesquisa-root'>
             <TopicBanner topicoNome='PESQUISA' />
-            <TopicSection 
+            <WIP_page />
+            {/* <TopicSection 
                 title='Pesquisas Conduzidas no ICMC/USP'
                 body={PesquisasICMC()}
-                />
+                /> */}
         </div>
     );
 }
