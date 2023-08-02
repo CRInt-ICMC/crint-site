@@ -1,0 +1,9 @@
+.wip {
+    background-image: url('../img/background/brickwall.jpg');
+    background-repeat: repeat;
+    background-size: cover;
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}

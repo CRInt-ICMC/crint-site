@@ -1,8 +1,8 @@
 import { WIP } from "../utils/appImages";
+import './wip.css'
 
 const WIP_page = () => (
     <div className="wip">
-        <p>Página em Construção</p>
         <img src={WIP} />
     </div>
 );
