@@ -6,14 +6,20 @@ import './aluno.css'
 const AuxiliosFinanceiros = () => (
     <>
         <p>
-            A CRInt tem apoiado alunos de graduação e de pós-graduação e pesquisadores de pós-doutorado do ICMC/USP 
-            para a participação em eventos internacionais. A solicitação é em fluxo contínuo e deve ser feita inicialmente 
+            A CRInt tem apoiado alunos(as) de graduação e de pós-graduação e pesquisadores(as) de pós-doutorado do ICMC/USP 
+            para a participação em eventos internacionais. 
+        </p>
+        <p>
+            A solicitação é em fluxo contínuo e deve ser feita inicialmente 
             para a <a href='https://www.icmc.usp.br/graduacao/informacoes-gerais-e-servicos'>Comissão de Graduação (CG)</a> nos
-            casos de alunos de graduação, para a <a href='https://www.icmc.usp.br/pos-graduacao/informacoes-gerais-e-servicos'>
-            Comissão de Pós-Graduação (CPG)</a> nos casos de alunos de pós-graduação e para 
+            casos de alunos(as) de graduação, para a <a href='https://www.icmc.usp.br/pos-graduacao/informacoes-gerais-e-servicos'>
+            Comissão de Pós-Graduação (CPG)</a> nos casos de alunos(as) de pós-graduação e para 
             a <a href='https://www.icmc.usp.br/pesquisa/informacoes-gerais-e-servicos'>Comissão de Pesquisa (CPq)</a> nos casos de 
-            pesquisadores de pós-doutorado. Após análise de mérito por essas comissões, a solicitação é enviada internamente para 
-            a CRInt. Recomenda-se que a solicitação seja feita com pelo menos 60 dias de antecedência do evento. 
+            pesquisadores(as) de pós-doutorado.
+        </p>
+        <p>
+            Após análise de mérito por essas comissões, a solicitação é enviada internamente para 
+            a CRInt. Recomenda-se que a solicitação seja feita com pelo menos 60 dias de antecedência do evento.
         </p>
     </>
 )
@@ -21,18 +27,18 @@ const AuxiliosFinanceiros = () => (
 const OportunidadesEditais = () => (
     <>
         <p>
-            Ao longo do ano, diversas oportunidades para mobilidade internacional para alunos de graduação e pós-graduação, 
+            Ao longo do ano, diversas oportunidades para mobilidade internacional para alunos(as) de graduação e pós-graduação, 
             bolsas para estudos no exterior, cursos de línguas e outros oportunidades no exterior são disponibilizadas.
         </p>
         <p>
-            Os alunos podem acompanhar essas oportunidades pelas redes sociais da CRInt (<a href='https://www.instagram.com/icmc.usp/'>
+            Os(As) alunos(as) podem acompanhar essas oportunidades pelas redes sociais da CRInt (<a href='https://www.instagram.com/icmc.usp/'>
             Instagram</a> e <a href='https://t.me/crinticmc'>Telegram</a>) ou por meio do <a href='https://uspdigital.usp.br/mundus'>
-            Sistema Mundus da USP</a>. No Mundus, para alunos de graduação, selecione no menu a opção Editais {'>'} Alunos de Graduação
-            {'>'} Editais. Para alunos de pós-graduação, selecione no menu a opção Editais {'>'} Alunos de Pós-Graduação. Ao selecionar 
+            Sistema Mundus da USP</a>. No Mundus, para alunos(as) de graduação, selecione no menu a opção Editais {'>'} Alunos de Graduação
+            {'>'} Editais. Para alunos(as) de pós-graduação, selecione no menu a opção Editais {'>'} Alunos de Pós-Graduação. Ao selecionar 
             o ICMC na unidade de origem do interessado, todos os editais válidos para alunos do ICMC/USP serão listados.
         </p>
         <p>
-            Requisitos mínimos exigidos para os alunos de graduação se inscreverem nos editais de vagas de intercâmbio e 
+            Requisitos mínimos exigidos para os alunos(as) de graduação se inscreverem nos editais de vagas de intercâmbio e 
             editais de bolsa:
         </p>
         <ul>
@@ -40,7 +46,7 @@ const OportunidadesEditais = () => (
             <li>Dois semestres já cursados no momento da inscrição (nos editais de vagas de intercâmbio);</li>
             <li>Quatro semestres já cursados no momento da inscrição (nos editais de bolsas); e</li>
             <li>
-                Nos casos de reprovações em disciplinas obrigatórias, os alunos devem ter cursado novamente essas disciplinas 
+                Nos casos de reprovações em disciplinas obrigatórias, os(as) alunos(as) devem ter cursado novamente essas disciplinas 
                 e sido aprovado em todas elas.
             </li>
         </ul>
