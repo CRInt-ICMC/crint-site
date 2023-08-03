@@ -2,13 +2,13 @@
     "header" : {
         "mobilidade" : {
             "titulo" : "MOBILIDADE",
-            "aluno" : "Aluno",
-            "professor" : "Professor",
-            "servidor" : "Servidor"
+            "aluno" : "Aluno(a)",
+            "professor" : "Professor(a)",
+            "servidor" : "Servidor(a)"
         },
 
         "estrangeiros" : {
-            "titulo" : "ESTRANGEIROS",
+            "titulo" : "ESTRANGEIROS(AS)",
             "guias" : "Guias"
         },
 
@@ -30,19 +30,19 @@
         
             "subpaginas" : {
                 "alunos" : {
-                    "titulo" : "ALUNOS"
+                    "titulo" : "ALUNOS(AS)"
                 },
                 "professor" : {
-                    "titulo" : "PROFESSOR"
+                    "titulo" : "PROFESSOR(A)"
                 },
                 "servidor" : {
-                    "titulo" : "SERVIDOR"
+                    "titulo" : "SERVIDOR(A)"
                 }
             }
         },
     
         "estrangeiros" : {
-            "titulo" : "ESTRANGEIROS",
+            "titulo" : "ESTRANGEIROS(AS)",
         
             "subpaginas" : {
                 "guias" : {

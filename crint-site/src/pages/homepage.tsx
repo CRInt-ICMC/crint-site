@@ -11,7 +11,7 @@ const NovidadesAvisos = () => (
             do ICMC tinha e um pouco mais.
         </p>
         <p>
-            Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinra-se à vontade para enviar
+            Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinta-se à vontade para enviar
             para um dos seguintes emails:
             <ul>
                 <li>crint@icmc.usp.br</li>
