@@ -21,12 +21,12 @@ const AcordosConvenios = () => {
             
             <ol>
                 <li>
-                    A USP disponibiliza <a href='https://uspdigital.usp.br/mundus/conveniosinternacionaismodelos?codmnu=2058'>templates</a> 
-                    dos documentos para Convênios de Mobilidade Internacional, Acordos de Cooperação Internacional e Protocolos de Intenções 
+                    A USP disponibiliza <a href='https://uspdigital.usp.br/mundus/conveniosinternacionaismodelos?codmnu=2058'>templates</a> dos 
+                    documentos para Convênios de Mobilidade Internacional, Acordos de Cooperação Internacional e Protocolos de Intenções 
                     Internacionais nas três principais línguas (inglês, português e espanhol);
                 </li>
                 <li>
-                    Após as negociações iniciais feitas pelos docentes interessados, o Serviço de Bolsas e Convênios do ICMC/USP envia o 
+                    Após as negociações iniciais feitas pelos(as) docentes interessados(as), o Serviço de Bolsas e Convênios do ICMC/USP envia o 
                     documento para o setor equivalente na instituição do exterior;
                 </li>
                 <li>O documento tramita nas diversas instâncias do ICMC/USP.</li>
@@ -46,9 +46,9 @@ const OportunidadesExterior = () => (
         </p>
         <p>
             Os docentes podem acompanhar as oportunidades no exterior e editais em andamento pelas redes sociais da CRInt 
-            (<a href='https://www.instagram.com/icmc.usp/'> Instagram</a> e <a href='https://t.me/crinticmc'>Telegram</a>) ou por meio do 
-            <a href='https://uspdigital.usp.br/mundus'> Sistema Mundus da USP</a>. No Mundus, selecione no menu a opção Editais {'>'} 
-            Docentes. Ao selecionar o ICMC na unidade de origem do interessado, todos os editais válidos para docentes do ICMC/USP serão listados.
+            (<a href='https://www.instagram.com/icmc.usp/'>Instagram</a> e <a href='https://t.me/crinticmc'>Telegram</a>) ou por meio do <a href='https://uspdigital.usp.br/mundus'> Sistema Mundus da USP</a>. 
+            No Mundus, selecione no menu a opção Editais {'>'} Docentes. Ao selecionar o ICMC na unidade de origem do interessado, 
+            todos os editais válidos para docentes do ICMC/USP serão listados.
         </p>
     </>
 )
