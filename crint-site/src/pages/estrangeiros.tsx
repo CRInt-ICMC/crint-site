@@ -1,6 +1,6 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
-import { CIANO_USP, LARANJA_USP, MARMORE } from '../utils/appConstants';
+import { CIANO_USP, MARMORE } from '../utils/appConstants';
 import './estrangeiros.css'
 
 const informacaoGeraisEstrangeiros = () => {
@@ -34,44 +34,11 @@ const CursosPortugues = () => (
             na unidade de origem do interessado, todos os editais serão listados.
         </p>
         <p>
-            Cursos de Português para estrangeiros são também oferecidos pelo Instituto de Línguas da Universidade Federal de São Carlos (UFSCar). Mais informações 
+            Cursos de Português para estrangeiros(as) são também oferecidos pelo Instituto de Línguas da Universidade Federal de São Carlos (UFSCar). Mais informações 
             podem ser encontradas <a href="https://www.institutodelinguas.ufscar.br/pt-br/cursos/portugues-para-estrangeiros">aqui</a>.
         </p>
     </>
 );
-
-const ProcedimentosEstrangeiros = () => (
-    <>
-        <p>
-            Para a candidatura de alunos estrangeiros em disciplinas ministradas no ICMC/USP, os seguintes documentos deverão ser enviados pela universidade do aluno, 
-            em formato .pdf (de boa qualidade), por meio do formulário de inscrição disponível em breve:
-        </p>                
-        <ul>
-            <li>Carta de nomeação do aluno provida pelo Escritório Internacional da universidade do aluno;</li>
-            <li>Histórico escolar da graduação emitido pela universidade do aluno;</li>
-            <li>
-                <a href="https://gestao.icmc.usp.br/CRINT/Registration%20form.pdf">Formulário de inscrição</a> com as disciplinas de interesse do aluno. Para ter
-                acesso às disciplinas oferecidas pelo ICMC clique <a href="https://www.icmc.usp.br/graduacao/informacoes-gerais-e-servicos/horarios-de-aulas">aqui</a>;
-            </li>
-            <li>
-                Carta emitida pelo Escritório Internacional da universidade de origem do aluno, informando que o aluno tem proficiência suficiente na língua
-                portuguesa para acompanhar aulas ministradas em português;
-            </li>
-            <li>Cópia da folha do passaporte do aluno onde consta dados do aluno e a validade do documento;</li>
-            <li>Fotografia do aluno em formato .jpg.</li>
-        </ul>
-        <p>Prazos:</p>
-        <ul>
-            <li>Primeiro semestre (Fevereiro-Julho): até 06.01</li>
-            <li>Segundo semestre (Agosto-Dezembro): até 15.06</li>
-        </ul>
-        <p>
-            Recomenda-se fortemente que o candidato consiga comunicar-se em português pois a maior parte das disciplinas é ministrada neste idioma. 
-            Para saber quais disciplinas serão ministradas clique <a href="https://www.icmc.usp.br/graduacao/informacoes-gerais-e-servicos/horarios-de-aulas">
-            aqui</a>.
-        </p>
-    </>
-)
 
 const Estrangeiros = () => {
     return (
@@ -86,11 +53,6 @@ const Estrangeiros = () => {
                 title='Cursos de Português' 
                 body={CursosPortugues()} 
                 style={{backgroundColor: CIANO_USP}}
-                />
-            <TopicSection 
-                title='Procedimentos para nomeações de Estrangeiros em Disciplinas do ICMC (free-mover)' 
-                body={ProcedimentosEstrangeiros()} 
-                style={{backgroundColor: LARANJA_USP}}
                 />
         </div>
     );
