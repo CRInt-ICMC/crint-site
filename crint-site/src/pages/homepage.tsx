@@ -32,7 +32,7 @@ const CRInt = () => {
                 A CRInt é uma comissão que atua de forma integrada com as demais comissões estatutárias do ICMC, a saber, Comissão de Pesquisa (CPq), Comissão de Pós-Graduação (CPG), Comissão de Graduação (CG) e Comissão de Cultura e Extensão (CCEx).
             </p>
             <p>
-                A CRInt tem papel fundamental para a internacionalização da comunidade de alunos, docentes e funcionários do ICMC, apoiando e promovendo diversas iniciativas e ações nos mais diferentes segmentos. 
+                A CRInt tem papel fundamental para a internacionalização da comunidade de alunos(as), docentes e funcionários(as) do ICMC, apoiando e promovendo diversas iniciativas e ações nos mais diferentes segmentos. 
             </p>
             <p>
                 Missão: Zelar pelo estimulo e difusão das ações de internacionalização.
