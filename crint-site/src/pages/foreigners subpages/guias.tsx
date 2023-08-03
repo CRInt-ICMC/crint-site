@@ -1,6 +1,6 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP } from '../../utils/appConstants';
+import { BEJE_CLARO, CIANO_USP } from '../../utils/appConstants';
 import './guias.css'
 
 const InformacoesGerais = () => (

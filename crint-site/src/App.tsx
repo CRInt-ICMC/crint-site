@@ -16,24 +16,14 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
-import { WIP } from './utils/appImages';
 import './App.css';
 import WIP_page from './pages/wip';
-// import VLibras from '@djpfs/react-vlibras/dist/types';
-// import { useState } from 'react';
-// import { LangDictContext, STD_LANGUAGE_DICTIONARY, LangDictState, STD_LANGUAGE_STATE, setLangDict } from './Contexts';
 
 function App() {
-  // const [appLangDict, setAppLangDict] = useState(STD_LANGUAGE_STATE);
 
   return (
     <BrowserRouter>
       <AppHeader/>
-        {/* <VLibras /> */}
-        {/* <LangDictContext.Provider 
-          value={{LangDictState: appLangDict, 
-            setLangDict: setAppLangDict}}
-          > */}
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
@@ -53,7 +43,6 @@ function App() {
             <Route path='contato' element={<WIP_page />} />
           </Route >
         </Routes>
-        {/* </LangDictContext.Provider> */}
       <AppFooter />
     </BrowserRouter>
   );
