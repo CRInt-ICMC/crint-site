@@ -17,21 +17,13 @@ import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
 import './App.css';
-// import VLibras from '@djpfs/react-vlibras/dist/types';
-import { useState } from 'react';
-import { LangDictContext, STD_LANGUAGE_DICTIONARY, LangDictState, STD_LANGUAGE_STATE, setLangDict } from './Contexts';
+import WIP_page from './pages/wip';
 
 function App() {
-  const [appLangDict, setAppLangDict] = useState(STD_LANGUAGE_STATE);
 
   return (
     <BrowserRouter>
       <AppHeader/>
-        {/* <VLibras /> */}
-        {/* <LangDictContext.Provider 
-          value={{LangDictState: appLangDict, 
-            setLangDict: setAppLangDict}}
-          > */}
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
@@ -47,9 +39,10 @@ function App() {
             <Route path='informacoes/convenios' element={<Convenios />} />
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
+
+            <Route path='contato' element={<WIP_page />} />
           </Route >
         </Routes>
-        {/* </LangDictContext.Provider> */}
       <AppFooter />
     </BrowserRouter>
   );
