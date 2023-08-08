@@ -1,7 +1,7 @@
 .header-root {
     background: rgba(10, 44, 87, 0.85);
 
-    height: 96px;
+    height: 128px;
     width: 100%;    
 
     position: fixed;
@@ -34,13 +34,13 @@
     display: flex;
     justify-content: center;
 
-    height: 96px;
+    height: 128px;
 }
 
 .logos img {
     display: inline-block;
 
-    height: 72px;
+    height: 103px;
     margin-left: 10px;
 }
 
@@ -50,16 +50,16 @@
 
 .topics a {
     color: white;
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: bolder;
-    text-decoration: underline 3px;
+    text-decoration: none; 
     /* text-underline-position: below; */
 
     margin: 0px 0px;
 }
 
 .subtopics a {
-    font-size: 1.5em;
+    font-size: 1.35em;
     font-weight: bolder;
     text-decoration: none;
 
@@ -69,8 +69,8 @@
 }
 
 .flags img {
-    height: 18.25px;
-    width: 30px;
+    height: 24px;
+    width: 40px;
     margin-right: 5px;
 }
 
