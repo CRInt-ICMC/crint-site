@@ -8,13 +8,17 @@ import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
 import './AppHeader.css';
 // IMAGENS
-import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
+import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO, CRINT_COLORIDO } from '../utils/appImages';
 
 const logos = (search : string) => {
     return (
     <span className='logos'>
         <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={ICMC_BRANCO} /></a>
-        <Link to={'/' + search}><img className='logo-crint' alt='Link Página Principal' src={CRINT_BRANCO} /></Link>
+        <Link to={'/' + search}>
+            <img className='logo-crint' alt='Link Página Principal' src={CRINT_BRANCO} 
+                onMouseOver={(e)=>{e.currentTarget.src = CRINT_COLORIDO}} 
+                onMouseLeave={(e)=>{e.currentTarget.src = CRINT_BRANCO}} />
+            </Link>
     </span>
     );
 }
