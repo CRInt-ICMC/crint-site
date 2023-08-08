@@ -20,6 +20,10 @@
     color: inherit;
 }
 
+.footer a:hover {
+    color: #FFB500;
+}
+
 .footer-left {
     min-width: 30%;
     float: left;
