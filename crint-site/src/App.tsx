@@ -16,7 +16,6 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
-import './App.css';
 import WIP_page from './pages/wip';
 
 function App() {
