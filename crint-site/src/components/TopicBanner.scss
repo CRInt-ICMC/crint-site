@@ -1,7 +1,7 @@
 @use '../Base.scss' as base;
 
 .topic-header {
-    margin-top: $altura-header;
+    margin-top: base.$altura-header;
 }
 
 .topic-banner {
