@@ -1,7 +1,10 @@
-.topic-section {
-    color: black;
+@use '../Base.scss' as base;
+
+.topic-section {    
     padding: 10px 20%;
-    font-size: 1.5em;
+
+    color: black;
+    font-size: base.$section-fontize;
 }
 
 .topic-section a, .topic-section a:link, .topic-section a:visited {

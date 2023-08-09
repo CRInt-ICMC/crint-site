@@ -1,0 +1,28 @@
+@use '../Base.scss' as base;
+
+.topic-header {
+    margin-top: $altura-header;
+}
+
+.topic-banner {
+    height: base.$altura-banner;
+    width: 100%;
+
+    background-color: base.$laranja-usp;
+    
+    align-items: center;
+    display: flex;
+}
+
+.topic-banner img {
+    height: base.$altura-banner * 0.75;
+
+    margin-left: 5%;
+}
+
+.topic-banner h1 {
+    margin-left: 5%;
+
+    font-size: base.$banner-fontize;
+    color: black;
+}

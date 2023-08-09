@@ -1,7 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { BEJE_CLARO } from '../../utils/appConstants';
-import './servidor.css'
+import './servidor.scss'
 
 const MobilidadeServidor = () => (
     <>

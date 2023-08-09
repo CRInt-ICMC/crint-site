@@ -1,6 +1,6 @@
 import TopicBanner from '../../components/TopicBanner';
 import WIP_page from '../../components/wip';
-import './dia.css'
+import './dia.scss'
 
 const Dia = () => {
     return (

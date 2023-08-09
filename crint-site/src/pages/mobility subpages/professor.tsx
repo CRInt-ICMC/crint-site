@@ -1,7 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { MARMORE } from '../../utils/appConstants';
-import './professor.css'
+import './professor.scss'
 
 const AuxiliosFinanceiros = () => (
     <>

@@ -1,3 +1,5 @@
+@use '../Base.scss' as base;
+
 .dropMenu {
     display: flex;
     position: relative;
@@ -12,7 +14,7 @@
 }
 
 .dropMenuItens {
-    background-color: rgba(10, 44, 88, 0.5);
+    background-color: base.$azul-icmc;
     
     display: block;
     min-width: 100%;
@@ -34,6 +36,6 @@
 }
 
 .dropMenuItens a:hover {
-    background-color: #C5DAED;
+    background-color: base.$azul-aucani;
     color: black;
 }

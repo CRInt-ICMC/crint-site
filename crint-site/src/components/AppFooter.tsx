@@ -1,7 +1,7 @@
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
-import './AppFooter.css'
+import './AppFooter.scss'
 
 const AppFooter = () => {
     return (

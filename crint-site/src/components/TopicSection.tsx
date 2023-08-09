@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
-import './TopicSection.css'
+import './TopicSection.scss'
 
 const TopicSection = (props : {title : string, body : ReactNode, style? : CSSProperties}) => {
     return (
