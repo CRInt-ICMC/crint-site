@@ -1,28 +1,39 @@
 .dropMenu {
     display: flex;
     position: relative;
+    
 }
 
 .dropMenuHead {
     position: relative;
     transition: 0.5s;
+    min-width: 100%;
+
 }
 
 .dropMenuItens {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(10, 44, 88, 0.5);
     
     display: block;
     min-width: 100%;
-    padding: 0 5%;
-    
+    padding-right: 10px;
+
     top: 100%;
     position: absolute;
-    
+
     white-space: nowrap;
     
     transform-origin: top center;
 }
 
-.dropMenuItens *:hover {
-    background-color: black;
+.dropMenuItens a {
+    width: 100%;
+    padding-left: 10px;
+    background-clip: border-box;
+    text-align: left;
+}
+
+.dropMenuItens a:hover {
+    background-color: #C5DAED;
+    color: black;
 }

@@ -4,7 +4,7 @@
             "titulo" : "MOBILITY",
             "aluno" : "Student",
             "professor" : "Professor",
-            "servidor" : "Public Servant (temp)"
+            "servidor" : "Public Servant"
         },
 
         "estrangeiros" : {
@@ -13,7 +13,7 @@
         },
 
         "informacoes" : {
-            "titulo" : "INFORMATIONS",
+            "titulo" : "INFORMATION",
             "convenios" : "Partnerships",
             "dia" : "SET",
             "pesquisa" : "Conducted research"
