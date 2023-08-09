@@ -6,7 +6,7 @@ import DropDownMenu from './DropDownMenu';
 // Constantes
 import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
-import './AppHeader.css';
+import './AppHeader.scss';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

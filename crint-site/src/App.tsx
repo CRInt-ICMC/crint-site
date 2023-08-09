@@ -17,7 +17,7 @@ import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
 import './App.css';
-import WIP_page from './pages/wip';
+import WIP_page from './components/wip';
 
 function App() {
 

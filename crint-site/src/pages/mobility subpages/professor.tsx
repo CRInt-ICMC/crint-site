@@ -25,7 +25,7 @@ const Professor = () => {
             <TopicSection 
                 title='Auxílios Financeiros' 
                 body={AuxiliosFinanceiros()} 
-                style={{backgroundColor: MARMORE}}
+                style={{backgroundColor: MARMORE}}  
                 />
         </div>
     );

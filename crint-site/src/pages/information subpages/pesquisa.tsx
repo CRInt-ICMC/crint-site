@@ -1,5 +1,5 @@
 import TopicBanner from '../../components/TopicBanner';
-import WIP_page from '../wip';
+import WIP_page from '../../components/wip';
 import './pesquisa.css'
 
 
