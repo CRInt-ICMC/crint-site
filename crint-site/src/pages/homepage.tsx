@@ -12,12 +12,12 @@ const NovidadesAvisos = () => (
         <p>
             Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinta-se à vontade
             para entrar em contato através de um dos seguintes emails:
-            <ul>
-                <li>crint@icmc.usp.br</li>
-                <li>estagiocrint@icmc.usp.br</li>
-                <li>pedro.hvn@usp.br</li>
-            </ul>
         </p>
+        <ul>
+            <li>crint@icmc.usp.br</li>
+            <li>estagiocrint@icmc.usp.br</li>
+            <li>pedro.hvn@usp.br</li>
+        </ul>
     </>
 )
 
