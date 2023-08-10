@@ -83,3 +83,28 @@
     border: none;
     cursor: pointer;
 }
+
+.options {
+    display: flex;
+
+    position: relative;
+
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte * 2;
+}
+
+.increase-button {
+    position: absolute;
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+
+    left: 0;
+}
+
+.decrease-button {
+    position: absolute;
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+    
+    right: 0;
+}

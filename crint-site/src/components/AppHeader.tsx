@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import DropDownMenu from './DropDownMenu';
 import { ConfigContext } from '../Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleHalfStroke, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';// Constantes
-import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';// Constantes
+import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
 import './AppHeader.scss';
 // IMAGENS
@@ -93,11 +93,10 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
 
 
     return (
-        <span className='options'>
-            <button onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>
-            <button onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>
-            <button><FontAwesomeIcon icon={faCircleHalfStroke} /></button>
-        </span>
+        <div className='options'>
+            {currentFontSizeMod < FONTE_MAXIMA && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
+            {currentFontSizeMod > FONTE_MINIMA && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
+        </div>
     )
 }
 
@@ -152,8 +151,13 @@ const AppHeader = () => {
 
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
-        if (fontSizeMod < 0.5) {
-            changeFontSizeMod(0.5);
+        if (fontSizeMod < FONTE_MINIMA) {
+            changeFontSizeMod(FONTE_MINIMA);
+            return;
+        }
+
+        else if (fontSizeMod > FONTE_MAXIMA) {
+            changeFontSizeMod(FONTE_MAXIMA);
             return;
         }
 
