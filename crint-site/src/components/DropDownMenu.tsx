@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import './DropDownMenu.scss'
 
-const DropDownMenu = (props : {head : ReactNode, body : ReactNode}) => {
+const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : number}) => {
     const [menuScale, toggleMenu] = useState<any>("scaleY(0)");
 
     const hideMenu = () => toggleMenu("scaleY(0)");
@@ -11,7 +11,7 @@ const DropDownMenu = (props : {head : ReactNode, body : ReactNode}) => {
         <menu className="dropMenu" onMouseEnter={showMenu} onMouseLeave={hideMenu}>
             <div className="dropMenuHead">
                 {props.head}
-                <div className="dropMenuItens" style={{transform: menuScale}}>
+                <div className="dropMenuItens" style={{transform: menuScale, fontSize: props.fontSize + 'em'}}>
                     {props.body}
                 </div>
             </div>

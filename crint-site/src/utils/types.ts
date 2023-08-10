@@ -77,6 +77,6 @@ interface languageDictionary {
 
 interface userConfig {
     lang : string,
-    fontSizeMod : Number,
+    fontSizeMod : number,
     contrast : boolean,
 }

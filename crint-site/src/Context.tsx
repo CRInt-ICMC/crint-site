@@ -3,7 +3,7 @@ import { DEFAULT_LANGUAGE } from "./utils/appConstants";
 
 export const STD_CONFIG_STATE : userConfig = {
     lang: DEFAULT_LANGUAGE,
-    fontSizeMod: 0,
+    fontSizeMod: 1, // É a proporção em relação ao tamanho padrão do texto
     contrast: false,
 }
 
