@@ -12,7 +12,7 @@ const AppFooter = () => {
     const langDict : languageDictionary = loadLanguage(userConfig?.lang || DEFAULT_LANGUAGE);
 
     return (
-    <footer>
+    <footer style={{fontSize: (userConfig?.fontSizeMod || 1) + 'em'}}>
         <nav className='footer'>
                 <div className='footer-left'>
                     <h3> {langDict.footer.endereco} </h3>

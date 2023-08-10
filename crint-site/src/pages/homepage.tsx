@@ -1,6 +1,6 @@
-import TopicSection from '../components/TopicSection';
-import { MARMORE } from '../utils/appConstants';
 import './homepage.scss'
+import TopicSection from '../components/TopicSection';
+import { AZUL_AUCANI, MARMORE } from '../utils/appConstants';
 
 const NovidadesAvisos = () => (
     <>
@@ -12,12 +12,12 @@ const NovidadesAvisos = () => (
         <p>
             Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinta-se à vontade
             para entrar em contato através de um dos seguintes emails:
+            <ul>
+                <li>crint@icmc.usp.br</li>
+                <li>estagiocrint@icmc.usp.br</li>
+                <li>pedro.hvn@usp.br</li>
+            </ul>
         </p>
-        <ul>
-            <li>crint@icmc.usp.br</li>
-            <li>estagiocrint@icmc.usp.br</li>
-            <li>pedro.hvn@usp.br</li>
-        </ul>
     </>
 )
 
@@ -50,7 +50,7 @@ const Homepage = () => {
             <TopicSection 
                 title='Novidades e Avisos' 
                 body={NovidadesAvisos()} 
-                style={{backgroundColor: 'lightgreen'}}
+                style={{backgroundColor: AZUL_AUCANI}} /* lightgreen */
                 />
             <TopicSection 
                 title='Comissão de Relações Internacionais (CRInt)' 

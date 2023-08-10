@@ -1,11 +1,16 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useContext } from 'react';
 import './TopicSection.scss'
+import { ConfigContext } from '../Context';
 
 const TopicSection = (props : {title : string, body : ReactNode, style? : CSSProperties}) => {
+    const {userConfig} = useContext(ConfigContext);
+
     return (
         <section className='topic-section' style={props.style}>
-            <h1 className='topic-title'>{`${props.title}`}</h1>
-            {props.body}
+            <div style={{fontSize: (userConfig?.fontSizeMod || 1) + 'em'}}>
+                <h1 className='topic-title'>{`${props.title}`}</h1>
+                {props.body}
+            </div>
         </section>
     )
 }

@@ -24,7 +24,7 @@ const logos = (search : string) => {
     );
 }
 
-const topics = (search : string, dictionary : languageDictionary) => {
+const topics = (search : string, dictionary : languageDictionary, fontSizeMod : number) => {
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
             <Link to={'mobilidade/aluno' + search}> {'>'} {dictionary.header?.mobilidade?.aluno} </Link>
@@ -48,20 +48,23 @@ const topics = (search : string, dictionary : languageDictionary) => {
     );
 
     return (
-        <span className='topics'>
+        <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
             <DropDownMenu 
                 head={<Link to={'mobilidade' + search}> {dictionary.header?.mobilidade?.titulo} </Link>} 
                 body={mobilidadeBody} 
+                fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
                 head={<Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros?.titulo} </Link>} 
                 body={estrangeirosBody} 
+                fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
                 head={<Link to={'informacoes' + search}> {dictionary.header?.informacoes?.titulo} </Link>} 
-                body={informacoesBody} 
+                body={informacoesBody}
+                fontSize={fontSizeMod}
                 />
         </span>
     );
@@ -89,11 +92,13 @@ const languages = (currentLang : string, setLang : CallableFunction) => {
     );
 }
 
-const options = () => {
+const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction) => {
+
+
     return (
         <span className='options'>
-            <button><FontAwesomeIcon icon={faPlus} /></button>
-            <button><FontAwesomeIcon icon={faMinus} /></button>
+            <button onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>
+            <button onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>
             <button><FontAwesomeIcon icon={faCircleHalfStroke} /></button>
         </span>
     )
@@ -104,28 +109,21 @@ const AppHeader = () => {
     const location = useLocation();
     const {userConfig, setUserConfig} = useContext(ConfigContext);
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
+    const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
 
     // Pega a URL atual da página
     const search = location.search;
 
-    // Executa apenas quando a página carrega, se for nulo, deixa vazio
-    let langParam = localStorage.getItem('lang') || '';
-
     useEffect(() => {
-        // Se o valor anteriormente armazenado é inválido ou não existe, usa língua padrão
-        if (!LANGUAGES_AVAILABLE.includes(langParam)) {
+        if (!userConfig?.lang) {
             changeLang(DEFAULT_LANGUAGE);
-        } 
-
-        // Se houve mudança na língua, atualiza os valores e a página
-        else if (langParam !== currentLang) {
-            changeLang(langParam);
         }
 
-        console.log(userConfig);
-        console.log(currentLang);
-        console.log(localStorage.getItem('lang'));    
+        // Se houve mudança na língua, atualiza os valores e a página
+        else if (userConfig.lang !== currentLang) {
+            changeLang(currentLang);
+        }
     }, [currentLang]);
 
     // Carrega o novo dicionário de linguagem
@@ -141,7 +139,32 @@ const AppHeader = () => {
         setLangDict(loadLanguage(lang));
 
         if (setUserConfig !== undefined)
-            setUserConfig({lang: lang, fontSizeMod: userConfig?.fontSizeMod || 0 , contrast: userConfig?.contrast || false});            
+            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod, contrast: userConfig?.contrast || false});            
+    }
+
+    // Esse bloco lida com o tamanho da fonte    
+    let fontSizeModParam = Number(localStorage.getItem('font')) || 0;
+
+    useEffect(() => {
+        if (!userConfig?.fontSizeMod) {
+            changeFontSizeMod(1);
+        }
+
+        else if (fontSizeModParam !== currentFontSizeMod) {
+            changeFontSizeMod(currentFontSizeMod);
+        }
+    }, [currentFontSizeMod]);
+
+    const changeFontSizeMod = (fontSizeMod : number) => {
+        // Impede o uso inapropriado da função
+        if (fontSizeMod < 0.1) 
+            return;
+
+        localStorage.setItem('font', String(fontSizeMod));
+        setFontSizeMod(fontSizeMod);
+
+        if (setUserConfig !== undefined)
+            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod, contrast: userConfig?.contrast || false});
     }
 
     return (
@@ -152,12 +175,12 @@ const AppHeader = () => {
                 </div>
 
                 <div className='navbar-center' role='navigation'>
-                    {topics(search, langDict)}
+                    {topics(search, langDict, currentFontSizeMod || 1)}
                 </div>
 
                 <div className='navbar-right'>
                     {languages(currentLang, changeLang)}
-                    {options()}
+                    {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
         </header>
