@@ -130,7 +130,8 @@ const AppHeader = () => {
     const changeLang = (lang : string) => {
         // Impede o uso inapropriado da função
         if (!LANGUAGES_AVAILABLE.includes(lang)) {
-            console.log('Língua desconhecida!')
+            console.log('Língua desconhecida!\nMudando para o padrão.')
+            changeLang(DEFAULT_LANGUAGE);
             return;
         }
 
@@ -157,8 +158,10 @@ const AppHeader = () => {
 
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
-        if (fontSizeMod < 0.1) 
+        if (fontSizeMod < 0.5) {
+            changeFontSizeMod(0.5);
             return;
+        }
 
         localStorage.setItem('font', String(fontSizeMod));
         setFontSizeMod(fontSizeMod);
