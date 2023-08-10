@@ -1,8 +1,15 @@
+// Caminhos
+$caminho-imagens: '/src/img';
+
 // Cores
 $laranja-usp: #FFB500;
 $ciano-usp: #1094AB;
 $azul-icmc: #0A2C57;
 $azul-aucani: #C5DAED;
+
+// Imagens
+$icmc-background: url(#{$caminho-imagens}/background/icmc-background.jpg);
+$brickwall-background: url(#{$caminho-imagens}/background/brickwall.jpg);
 
 // Tamanhos de elementos
 $altura-header: 128px;
@@ -18,7 +25,3 @@ $topico-fontsize: 1.8em;
 $searchbar-fontsize: 1em;
 $section-fontize: 1.5em;
 $subtopico-fontsize: 1.35em;
-
-// Imagens
-$icmc-background: url('/src/img/background/icmc-background.jpg');
-$brickwall-background: url('/src/img/background/brickwall.jpg');
