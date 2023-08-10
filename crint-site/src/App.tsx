@@ -17,32 +17,42 @@ import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
 import WIP_page from './components/wip';
+import { ConfigContext, STD_CONFIG_STATE } from './Context';
+import { useState } from 'react';
 
 function App() {
+	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
 
   return (
     <BrowserRouter>
-      <AppHeader/>
-        <Routes>
-          <Route path='/'>
-            <Route index element={<Homepage />} />
-            <Route path='mobilidade' element={<Mobilidade />} />
-            <Route path='mobilidade/aluno' element={<Aluno />} />
-            <Route path='mobilidade/professor' element={<Professor />} />
-            <Route path='mobilidade/servidor' element={<Servidor />} />
-            
-            <Route path='estrangeiros' element={<Estrangeiros />} />
-            <Route path='estrangeiros/guias' element={<Guias />} />
+      <ConfigContext.Provider
+        value={{
+          userConfig: appConfigState,
+          setUserConfig: setAppConfigState,
+        }}
+        >
+        <AppHeader/>
+          <Routes>
+            <Route path='/'>
+              <Route index element={<Homepage />} />
+              <Route path='mobilidade' element={<Mobilidade />} />
+              <Route path='mobilidade/aluno' element={<Aluno />} />
+              <Route path='mobilidade/professor' element={<Professor />} />
+              <Route path='mobilidade/servidor' element={<Servidor />} />
+              
+              <Route path='estrangeiros' element={<Estrangeiros />} />
+              <Route path='estrangeiros/guias' element={<Guias />} />
 
-            <Route path='informacoes' element={<Informacoes />} />
-            <Route path='informacoes/convenios' element={<Convenios />} />
-            <Route path='informacoes/dia' element={<Dia />} />
-            <Route path='informacoes/pesquisa' element={<Pesquisa />} />
+              <Route path='informacoes' element={<Informacoes />} />
+              <Route path='informacoes/convenios' element={<Convenios />} />
+              <Route path='informacoes/dia' element={<Dia />} />
+              <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
-            <Route path='contato' element={<WIP_page />} />
-          </Route >
-        </Routes>
-      <AppFooter />
+              <Route path='contato' element={<WIP_page />} />
+            </Route >
+          </Routes>
+        <AppFooter />
+      </ConfigContext.Provider>
     </BrowserRouter>
   );
 }

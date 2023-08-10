@@ -1,5 +1,5 @@
 // COMPONENTES
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { loadLanguage } from '../utils/utils';
 import { useLocation, Link } from 'react-router-dom';
 import DropDownMenu from './DropDownMenu';
@@ -9,8 +9,11 @@ import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 import './AppHeader.scss';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
+
+import { ConfigContext } from '../Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleHalfStroke, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 const logos = (search : string) => {
     return (
@@ -99,8 +102,9 @@ const options = () => {
 const AppHeader = () => {
     // Hooks    
     const location = useLocation();
-    const [currentLang, setLang] = useState('');
-    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(DEFAULT_LANGUAGE));
+    const {userConfig, setUserConfig} = useContext(ConfigContext);
+    const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
+    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
 
     // Pega a URL atual da página
     const search = location.search;
@@ -118,7 +122,11 @@ const AppHeader = () => {
         else if (langParam !== currentLang) {
             changeLang(langParam);
         }
-    }, [currentLang])
+
+        console.log(userConfig);
+        console.log(currentLang);
+        console.log(localStorage.getItem('lang'));    
+    }, [currentLang]);
 
     // Carrega o novo dicionário de linguagem
     const changeLang = (lang : string) => {
@@ -130,7 +138,10 @@ const AppHeader = () => {
 
         localStorage.setItem('lang', lang);
         setLang(lang);
-        setLangDict(loadLanguage(lang))
+        setLangDict(loadLanguage(lang));
+
+        if (setUserConfig !== undefined)
+            setUserConfig({lang: lang, fontSizeMod: userConfig?.fontSizeMod || 0 , contrast: userConfig?.contrast || false});            
     }
 
     return (
