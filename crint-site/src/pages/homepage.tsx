@@ -1,7 +1,6 @@
-import './homepage.css'
-import { ICMC_BACKGROUND } from '../utils/appImages';
+import './homepage.scss'
 import TopicSection from '../components/TopicSection';
-import { MARMORE } from '../utils/appConstants';
+import { AZUL_AUCANI, MARMORE } from '../utils/appConstants';
 
 const NovidadesAvisos = () => (
     <>
@@ -44,14 +43,14 @@ const CRInt = () => {
 const Homepage = () => {
     return (
         <div className='homepage-body'>
-            <section className='main-section' style={{backgroundImage: `url(${ICMC_BACKGROUND})`}}>
+            <section className='main-section'>
                 <span className='searchbar-container' style={{width: '70%'}}>
                 </span>
             </section>
             <TopicSection 
                 title='Novidades e Avisos' 
                 body={NovidadesAvisos()} 
-                style={{backgroundColor: 'lightgreen'}}
+                style={{backgroundColor: AZUL_AUCANI}} /* lightgreen */
                 />
             <TopicSection 
                 title='Comissão de Relações Internacionais (CRInt)' 

@@ -1,12 +1,14 @@
 // COMPONENTES
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { loadLanguage } from '../utils/utils';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DropDownMenu from './DropDownMenu';
-// Constantes
-import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
+import { ConfigContext } from '../Context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';// Constantes
+import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
-import './AppHeader.css';
+import './AppHeader.scss';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
 
@@ -19,7 +21,7 @@ const logos = (search : string) => {
     );
 }
 
-const topics = (search : string, dictionary : languageDictionary) => {
+const topics = (search : string, dictionary : languageDictionary, fontSizeMod : number) => {
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
             <Link to={'mobilidade/aluno' + search}> {'>'} {dictionary.header?.mobilidade?.aluno} </Link>
@@ -43,20 +45,23 @@ const topics = (search : string, dictionary : languageDictionary) => {
     );
 
     return (
-        <span className='topics'>
+        <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
             <DropDownMenu 
                 head={<Link to={'mobilidade' + search}> {dictionary.header?.mobilidade?.titulo} </Link>} 
                 body={mobilidadeBody} 
+                fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
                 head={<Link to={'estrangeiros' + search}> {dictionary.header?.estrangeiros?.titulo} </Link>} 
                 body={estrangeirosBody} 
+                fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
                 head={<Link to={'informacoes' + search}> {dictionary.header?.informacoes?.titulo} </Link>} 
-                body={informacoesBody} 
+                body={informacoesBody}
+                fontSize={fontSizeMod}
                 />
         </span>
     );
@@ -84,41 +89,83 @@ const languages = (currentLang : string, setLang : CallableFunction) => {
     );
 }
 
+const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction) => {
+
+
+    return (
+        <div className='options'>
+            {currentFontSizeMod < FONTE_MAXIMA && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
+            {currentFontSizeMod > FONTE_MINIMA && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
+        </div>
+    )
+}
+
 const AppHeader = () => {
     // Hooks    
-    const location = useLocation();
-    const [currentLang, setLang] = useState('');
-    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(DEFAULT_LANGUAGE));
+    const {userConfig, setUserConfig} = useContext(ConfigContext);
+    const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
+    const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
+    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
 
     // Pega a URL atual da página
     const search = location.search;
 
-    // Executa apenas quando a página carrega, se for nulo, deixa vazio
-    let langParam = localStorage.getItem('lang') || '';
-
     useEffect(() => {
-        // Se o valor anteriormente armazenado é inválido ou não existe, usa língua padrão
-        if (!LANGUAGES_AVAILABLE.includes(langParam)) {
+        if (!userConfig?.lang) {
             changeLang(DEFAULT_LANGUAGE);
-        } 
+        }
 
         // Se houve mudança na língua, atualiza os valores e a página
-        else if (langParam !== currentLang) {
-            changeLang(langParam);
+        else if (userConfig.lang !== currentLang) {
+            changeLang(currentLang);
         }
-    }, [currentLang])
+    }, [currentLang]);
 
     // Carrega o novo dicionário de linguagem
     const changeLang = (lang : string) => {
         // Impede o uso inapropriado da função
         if (!LANGUAGES_AVAILABLE.includes(lang)) {
-            console.log('Língua desconhecida!')
+            console.log('Língua desconhecida!\nMudando para o padrão.')
+            changeLang(DEFAULT_LANGUAGE);
             return;
         }
 
         localStorage.setItem('lang', lang);
         setLang(lang);
-        setLangDict(loadLanguage(lang))
+        setLangDict(loadLanguage(lang));
+
+        if (setUserConfig !== undefined)
+            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod, contrast: userConfig?.contrast || false});            
+    }
+
+    // Esse bloco lida com o tamanho da fonte    
+    useEffect(() => {
+        if (!userConfig?.fontSizeMod) {
+            changeFontSizeMod(1);
+        }
+
+        else if (userConfig.fontSizeMod !== currentFontSizeMod) {
+            changeFontSizeMod(currentFontSizeMod);
+        }
+    }, [currentFontSizeMod]);
+
+    const changeFontSizeMod = (fontSizeMod : number) => {
+        // Impede o uso inapropriado da função
+        if (fontSizeMod < FONTE_MINIMA) {
+            changeFontSizeMod(FONTE_MINIMA);
+            return;
+        }
+
+        else if (fontSizeMod > FONTE_MAXIMA) {
+            changeFontSizeMod(FONTE_MAXIMA);
+            return;
+        }
+
+        localStorage.setItem('font', String(fontSizeMod));
+        setFontSizeMod(fontSizeMod);
+
+        if (setUserConfig !== undefined)
+            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod, contrast: userConfig?.contrast || false});
     }
 
     return (
@@ -129,11 +176,12 @@ const AppHeader = () => {
                 </div>
 
                 <div className='navbar-center' role='navigation'>
-                    {topics(search, langDict)}
+                    {topics(search, langDict, currentFontSizeMod || 1)}
                 </div>
 
                 <div className='navbar-right'>
                     {languages(currentLang, changeLang)}
+                    {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
         </header>

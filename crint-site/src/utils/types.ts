@@ -67,4 +67,16 @@ interface languageDictionary {
             },
         },
     },
+
+    footer : {
+        endereco : string,
+        redes : string,
+        contato : string,
+    },
+}
+
+interface userConfig {
+    lang : string,
+    fontSizeMod : number,
+    contrast : boolean,
 }

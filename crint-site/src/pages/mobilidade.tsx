@@ -1,7 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 // import TopicSection from '../components/TopicSection';
-import './mobilidade.css';
-import WIP_page from './wip';
+import WIP_page from '../components/wip';
+import './mobilidade.scss';
 
 const Mobilidade = () => {
     return (

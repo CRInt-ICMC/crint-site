@@ -16,14 +16,23 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
-import './App.css';
-import WIP_page from './pages/wip';
+import WIP_page from './components/wip';
+import { ConfigContext, STD_CONFIG_STATE } from './Context';
+import { useState } from 'react';
+import VLibras from '@djpfs/react-vlibras';
 
 function App() {
+	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
 
   return (
     <BrowserRouter>
-      <AppHeader/>
+      <ConfigContext.Provider
+        value={{
+          userConfig: appConfigState,
+          setUserConfig: setAppConfigState,
+        }}
+        >
+        <AppHeader/>
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
@@ -43,7 +52,9 @@ function App() {
             <Route path='contato' element={<WIP_page />} />
           </Route >
         </Routes>
-      <AppFooter />
+        <VLibras forceOnload={true} />
+        <AppFooter />
+      </ConfigContext.Provider>
     </BrowserRouter>
   );
 }

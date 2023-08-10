@@ -1,0 +1,41 @@
+@use '../Base.scss' as base;
+
+.dropMenu {
+    display: flex;
+    position: relative;
+    
+}
+
+.dropMenuHead {
+    position: relative;
+    transition: 0.5s;
+    min-width: 100%;
+
+}
+
+.dropMenuItens {
+    background-color: base.$azul-icmc;
+    
+    display: block;
+    min-width: 100%;
+    padding-right: 10px;
+
+    top: 100%;
+    position: absolute;
+
+    white-space: nowrap;
+    
+    transform-origin: top center;
+}
+
+.dropMenuItens a {
+    width: 100%;
+    padding-left: 10px;
+    background-clip: border-box;
+    text-align: left;
+}
+
+.dropMenuItens a:hover {
+    background-color: base.$azul-aucani;
+    color: black;
+}

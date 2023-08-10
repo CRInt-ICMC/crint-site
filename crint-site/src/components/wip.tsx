@@ -1,5 +1,5 @@
 import { WIP } from "../utils/appImages";
-import './wip.css'
+import './wip.scss'
 
 const WIP_page = () => (
     <div className="wip">

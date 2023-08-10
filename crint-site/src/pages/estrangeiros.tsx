@@ -1,7 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
 import { CIANO_USP, MARMORE } from '../utils/appConstants';
-import './estrangeiros.css'
+import './estrangeiros.scss'
 
 const informacaoGeraisEstrangeiros = () => {
     return (

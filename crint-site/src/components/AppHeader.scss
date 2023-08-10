@@ -1,7 +1,10 @@
-.header-root {
-    background: rgba(10, 44, 87, 0.85);
+@use '../Base.scss' as base;
 
-    height: 128px;
+.header-root {
+    background-color: base.$azul-icmc;
+    opacity: 0.85;
+
+    height: base.$altura-header;
     width: 100%;    
 
     position: fixed;
@@ -16,6 +19,7 @@
 
 .navbar-left {
     float: left;
+    margin-left: 2%;
 }
 
 .navbar-center {
@@ -27,6 +31,7 @@
 
 .navbar-right {
     float: right;
+    margin-right: 2%;
 }
 
 .logos {
@@ -34,13 +39,13 @@
     display: flex;
     justify-content: center;
 
-    height: 128px;
+    height: base.$altura-header;
 }
 
 .logos img {
     display: inline-block;
 
-    height: 103px;
+    height: base.$altura-header * 0.85;
     margin-left: 10px;
 }
 
@@ -50,16 +55,15 @@
 
 .topics a {
     color: white;
-    font-size: 1.8em;
+    font-size: base.$topico-fontsize;
     font-weight: bolder;
     text-decoration: none; 
-    /* text-underline-position: below; */
 
     margin: 0px 0px;
 }
 
 .subtopics a {
-    font-size: 1.35em;
+    font-size: base.$subtopico-fontsize;
     font-weight: bolder;
     text-decoration: none;
 
@@ -69,8 +73,8 @@
 }
 
 .flags img {
-    height: 24px;
-    width: 40px;
+    height: base.$altura-bandeira;
+    width: base.$largura-bandeira;
     margin-right: 5px;
 }
 
@@ -78,4 +82,29 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.options {
+    display: flex;
+
+    position: relative;
+
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte * 2;
+}
+
+.increase-button {
+    position: absolute;
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+
+    left: 0;
+}
+
+.decrease-button {
+    position: absolute;
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+    
+    right: 0;
 }

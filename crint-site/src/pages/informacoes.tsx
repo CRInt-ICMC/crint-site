@@ -1,7 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
-import './informacoes.css'
 import TopicSection from '../components/TopicSection';
 import { BEJE_CLARO } from '../utils/appConstants';
+import './informacoes.scss'
 
 const AcordosConvenios = () => {
     return (
