@@ -19,6 +19,7 @@ import Pesquisa from './pages/information subpages/pesquisa';
 import WIP_page from './components/wip';
 import { ConfigContext, STD_CONFIG_STATE } from './Context';
 import { useState } from 'react';
+import VLibras from '@djpfs/react-vlibras';
 
 function App() {
 	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
@@ -32,25 +33,26 @@ function App() {
         }}
         >
         <AppHeader/>
-          <Routes>
-            <Route path='/'>
-              <Route index element={<Homepage />} />
-              <Route path='mobilidade' element={<Mobilidade />} />
-              <Route path='mobilidade/aluno' element={<Aluno />} />
-              <Route path='mobilidade/professor' element={<Professor />} />
-              <Route path='mobilidade/servidor' element={<Servidor />} />
-              
-              <Route path='estrangeiros' element={<Estrangeiros />} />
-              <Route path='estrangeiros/guias' element={<Guias />} />
+        <Routes>
+          <Route path='/'>
+            <Route index element={<Homepage />} />
+            <Route path='mobilidade' element={<Mobilidade />} />
+            <Route path='mobilidade/aluno' element={<Aluno />} />
+            <Route path='mobilidade/professor' element={<Professor />} />
+            <Route path='mobilidade/servidor' element={<Servidor />} />
+            
+            <Route path='estrangeiros' element={<Estrangeiros />} />
+            <Route path='estrangeiros/guias' element={<Guias />} />
 
-              <Route path='informacoes' element={<Informacoes />} />
-              <Route path='informacoes/convenios' element={<Convenios />} />
-              <Route path='informacoes/dia' element={<Dia />} />
-              <Route path='informacoes/pesquisa' element={<Pesquisa />} />
+            <Route path='informacoes' element={<Informacoes />} />
+            <Route path='informacoes/convenios' element={<Convenios />} />
+            <Route path='informacoes/dia' element={<Dia />} />
+            <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
-              <Route path='contato' element={<WIP_page />} />
-            </Route >
-          </Routes>
+            <Route path='contato' element={<WIP_page />} />
+          </Route >
+        </Routes>
+        <VLibras forceOnload={true} />
         <AppFooter />
       </ConfigContext.Provider>
     </BrowserRouter>
