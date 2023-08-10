@@ -17,7 +17,7 @@ import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
 import WIP_page from './pages/wip';
-import { ConfigContext, STD_CONFIG_STATE, useConfigState } from './Context';
+import { ConfigContext, STD_CONFIG_STATE } from './Context';
 import { useState } from 'react';
 
 function App() {
