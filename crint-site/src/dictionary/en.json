@@ -70,5 +70,11 @@
                 }
             }
         }
+    },
+
+    "footer" : {
+        "endereco" : "Adress",
+        "redes" : "Social Media",
+        "contato" : "Contact"
     }
 }
