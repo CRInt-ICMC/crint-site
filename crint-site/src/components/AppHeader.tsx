@@ -1,19 +1,16 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { loadLanguage } from '../utils/utils';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DropDownMenu from './DropDownMenu';
-// Constantes
+import { ConfigContext } from '../Context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleHalfStroke, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';// Constantes
 import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
 import './AppHeader.scss';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
-
-import { ConfigContext } from '../Context';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleHalfStroke, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-
 
 const logos = (search : string) => {
     return (
@@ -106,7 +103,6 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
 
 const AppHeader = () => {
     // Hooks    
-    const location = useLocation();
     const {userConfig, setUserConfig} = useContext(ConfigContext);
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);

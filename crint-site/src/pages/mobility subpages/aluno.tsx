@@ -84,7 +84,7 @@ const Aluno = () => {
             <TopicSection 
                 title='Solicitações de auxílios financeiros' 
                 body={AuxiliosFinanceiros()}
-                style={{color: 'white', backgroundColor: CIANO_USP}}
+                style={{color: 'black', backgroundColor: CIANO_USP}}
                 />
             <TopicSection 
                 title='Oportunidades no Exterior e Editais em Andamentos' 
