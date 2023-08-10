@@ -144,14 +144,12 @@ const AppHeader = () => {
     }
 
     // Esse bloco lida com o tamanho da fonte    
-    let fontSizeModParam = Number(localStorage.getItem('font')) || 0;
-
     useEffect(() => {
         if (!userConfig?.fontSizeMod) {
             changeFontSizeMod(1);
         }
 
-        else if (fontSizeModParam !== currentFontSizeMod) {
+        else if (userConfig.fontSizeMod !== currentFontSizeMod) {
             changeFontSizeMod(currentFontSizeMod);
         }
     }, [currentFontSizeMod]);
