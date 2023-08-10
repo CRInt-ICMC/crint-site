@@ -1,6 +1,6 @@
 import TopicBanner from '../../components/TopicBanner';
-import WIP_page from '../wip';
-import './pesquisa.css'
+import WIP_page from '../../components/wip';
+import './pesquisa.scss'
 
 
 const Pesquisa = () => {

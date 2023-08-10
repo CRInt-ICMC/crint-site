@@ -6,10 +6,14 @@ import DropDownMenu from './DropDownMenu';
 // Constantes
 import { DEFAULT_LANGUAGE, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 // CSS
-import './AppHeader.css';
+import './AppHeader.scss';
 // IMAGENS
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
+
 import { ConfigContext } from '../Context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleHalfStroke, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 const logos = (search : string) => {
     return (
@@ -85,6 +89,16 @@ const languages = (currentLang : string, setLang : CallableFunction) => {
     );
 }
 
+const options = () => {
+    return (
+        <span className='options'>
+            <button><FontAwesomeIcon icon={faPlus} /></button>
+            <button><FontAwesomeIcon icon={faMinus} /></button>
+            <button><FontAwesomeIcon icon={faCircleHalfStroke} /></button>
+        </span>
+    )
+}
+
 const AppHeader = () => {
     // Hooks    
     const location = useLocation();
@@ -143,6 +157,7 @@ const AppHeader = () => {
 
                 <div className='navbar-right'>
                     {languages(currentLang, changeLang)}
+                    {options()}
                 </div>
             </nav>
         </header>

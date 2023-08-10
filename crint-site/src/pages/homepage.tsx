@@ -1,7 +1,6 @@
-import './homepage.css'
-import { ICMC_BACKGROUND } from '../utils/appImages';
 import TopicSection from '../components/TopicSection';
 import { MARMORE } from '../utils/appConstants';
+import './homepage.scss'
 
 const NovidadesAvisos = () => (
     <>
@@ -13,12 +12,12 @@ const NovidadesAvisos = () => (
         <p>
             Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinta-se à vontade
             para entrar em contato através de um dos seguintes emails:
-            <ul>
-                <li>crint@icmc.usp.br</li>
-                <li>estagiocrint@icmc.usp.br</li>
-                <li>pedro.hvn@usp.br</li>
-            </ul>
         </p>
+        <ul>
+            <li>crint@icmc.usp.br</li>
+            <li>estagiocrint@icmc.usp.br</li>
+            <li>pedro.hvn@usp.br</li>
+        </ul>
     </>
 )
 
@@ -44,7 +43,7 @@ const CRInt = () => {
 const Homepage = () => {
     return (
         <div className='homepage-body'>
-            <section className='main-section' style={{backgroundImage: `url(${ICMC_BACKGROUND})`}}>
+            <section className='main-section'>
                 <span className='searchbar-container' style={{width: '70%'}}>
                 </span>
             </section>

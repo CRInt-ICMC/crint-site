@@ -1,10 +1,12 @@
+@use '../Base.scss' as base;
+
 .homepage-body {
     color: black;
     width: 100%;
 }
 
 .main-section {
-    /* background-size: cover; */
+    background-image: base.$icmc-background;
     background-repeat: no-repeat;
     background-size:100%;
 

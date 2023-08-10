@@ -1,7 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { CIANO_USP } from '../../utils/appConstants';
-import './guias.css'
+import './guias.scss'
 
 const ProcedimentosEstrangeiros = () => (
     <>

@@ -16,7 +16,7 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
-import WIP_page from './pages/wip';
+import WIP_page from './components/wip';
 import { ConfigContext, STD_CONFIG_STATE } from './Context';
 import { useState } from 'react';
 

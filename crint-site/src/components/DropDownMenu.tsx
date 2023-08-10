@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import './DropDownMenu.css'
+import './DropDownMenu.scss'
 
 const DropDownMenu = (props : {head : ReactNode, body : ReactNode}) => {
     const [menuScale, toggleMenu] = useState<any>("scaleY(0)");

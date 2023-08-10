@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import './SearchBar.css'
 import { mountURL, updateParams } from '../utils/utils';
+import './SearchBar.scss'
 
 
 const SearchBar = (props : {placeholder? : string, width? : string}) => {
