@@ -1,5 +1,6 @@
 import en_dict from '../dictionary/en.json';
 import pt_dict from '../dictionary/pt.json';
+import { DEFAULT_LANGUAGE } from './appConstants';
 
 export function mountURL(base : string, params : URLSearchParams) {
     let url = base;
@@ -49,4 +50,25 @@ export function loadLanguage(currentLang : string) {
         default:
             return pt_dict;
     }
+}
+
+// Salva as configurações
+export function saveSettings(configSettings : userConfig) {
+    localStorage.setItem('settings', JSON.stringify(configSettings));
+}
+
+// Carrega as configurações armazenadas
+export function loadSettings() {
+    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, fontSizeMod: 1};
+
+    const savedConfigString : string = localStorage.getItem('settings') || '';
+    if (savedConfigString === '') 
+        return configSettings;
+
+    const savedConfig = JSON.parse(savedConfigString);
+
+    configSettings.lang = savedConfig.lang;
+    configSettings.fontSizeMod = savedConfig.fontSizeMod;
+
+    return configSettings;
 }

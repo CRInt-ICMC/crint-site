@@ -1,6 +1,6 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import { loadLanguage } from '../utils/utils';
+import { loadLanguage, loadSettings, saveSettings } from '../utils/utils';
 import { Link } from 'react-router-dom';
 import DropDownMenu from './DropDownMenu';
 import { ConfigContext } from '../Context';
@@ -135,7 +135,7 @@ const AppHeader = () => {
         setLangDict(loadLanguage(lang));
 
         if (setUserConfig !== undefined)
-            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod, contrast: userConfig?.contrast || false});            
+            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod});            
     }
 
     // Esse bloco lida com o tamanho da fonte    
@@ -165,8 +165,13 @@ const AppHeader = () => {
         setFontSizeMod(fontSizeMod);
 
         if (setUserConfig !== undefined)
-            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod, contrast: userConfig?.contrast || false});
+            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod});
     }
+
+    console.log("salvo", loadSettings());
+    if (userConfig)
+        saveSettings(userConfig);
+    
 
     return (
         <header className='header-root'>
