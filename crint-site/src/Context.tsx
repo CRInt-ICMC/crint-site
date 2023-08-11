@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { DEFAULT_LANGUAGE } from "./utils/appConstants";
+import { loadSettings } from "./utils/utils";
 
-export const STD_CONFIG_STATE : userConfig = {
-    lang: DEFAULT_LANGUAGE,
-    fontSizeMod: 1, // É a proporção em relação ao tamanho padrão do texto
-    contrast: false,
-}
+// export const STD_CONFIG_STATE : userConfig = {
+//     lang: DEFAULT_LANGUAGE,
+//     fontSizeMod: 1, // É a proporção em relação ao tamanho padrão do texto
+// }
+export const STD_CONFIG_STATE : userConfig = loadSettings();
 
 export interface UserOptionsState {
     userConfig? : userConfig;
