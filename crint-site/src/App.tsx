@@ -55,7 +55,7 @@ function App() {
             <Route path='privacidade' element={<WIP_page />} />
           </Route >
         </Routes>
-        <VLibras forceOnload={true} />
+        <VLibras />
         <AppFooter />
       </ConfigContext.Provider>
     </BrowserRouter>
