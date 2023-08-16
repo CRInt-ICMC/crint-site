@@ -1,0 +1,45 @@
+@use '../Base.scss' as base;
+
+$semi-escuro: #222;
+
+.searchbar-root {
+    border-radius: 50px;
+    border: $semi-escuro solid 5px;
+
+    background-color: white;
+    
+    height: base.$altura-searchbar;
+
+    color: $semi-escuro;
+    
+    padding: 10px 0px;
+    display: flex;
+}
+
+.searchbar-root button {
+    border: none;
+    
+    background-color: transparent;
+    
+    font-size: 1em;
+    color: $semi-escuro;
+
+    padding-right: 30px;
+}
+
+.searchbar-root input {
+    flex: 1;
+
+    border: none;
+
+    background-color: transparent;
+
+    color: $semi-escuro;
+    font-size: base.$searchbar-fontsize;
+
+    padding-left: 30px;
+}
+
+.searchbar-root input:focus {
+    outline: none;
+}

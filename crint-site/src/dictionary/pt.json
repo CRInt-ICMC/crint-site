@@ -66,5 +66,11 @@
                 }
             }
         }
+    },
+
+    "footer" : {
+        "endereco" : "Endereço",
+        "redes" : "Redes Sociais",
+        "contato" : "Contato"
     }
 }

@@ -1,7 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP } from '../../utils/appConstants';
-import './aluno.css'
+import './aluno.scss'
 
 const AuxiliosFinanceiros = () => (
     <>
@@ -84,7 +84,7 @@ const Aluno = () => {
             <TopicSection 
                 title='Solicitações de auxílios financeiros' 
                 body={AuxiliosFinanceiros()}
-                style={{color: 'white', backgroundColor: CIANO_USP}}
+                style={{color: 'black', backgroundColor: CIANO_USP}}
                 />
             <TopicSection 
                 title='Oportunidades no Exterior e Editais em Andamentos' 

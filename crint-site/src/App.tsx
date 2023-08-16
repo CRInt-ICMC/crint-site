@@ -1,7 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import VLibras from '@djpfs/react-vlibras';
+
 import Homepage from './pages/homepage';
 import AppHeader from './components/AppHeader';
 import AppFooter from './components/AppFooter';
+import WIP_page from './components/wip';
 
 import Mobilidade from './pages/mobilidade';
 import Aluno from './pages/mobility subpages/aluno';
@@ -16,14 +19,21 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
-import './App.css';
-import WIP_page from './pages/wip';
+import { ConfigContext, STD_CONFIG_STATE } from './Context';
+import { useState } from 'react';
 
 function App() {
+	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
 
   return (
     <BrowserRouter>
-      <AppHeader/>
+      <ConfigContext.Provider
+        value={{
+          userConfig: appConfigState,
+          setUserConfig: setAppConfigState,
+        }}
+        >
+        <AppHeader/>
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
@@ -41,9 +51,13 @@ function App() {
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
             <Route path='contato' element={<WIP_page />} />
+            <Route path='creditos' element={<WIP_page />} />
+            <Route path='privacidade' element={<WIP_page />} />
           </Route >
         </Routes>
-      <AppFooter />
+        <VLibras />
+        <AppFooter />
+      </ConfigContext.Provider>
     </BrowserRouter>
   );
 }
