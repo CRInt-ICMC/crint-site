@@ -7,9 +7,9 @@ import crint_branco from '../img/logos/crint-branco.png';
 import crint_colorido from '../img/logos/crint-colorido.png';
 import bandeira_en from '../img/language-flags/english-flag.png';
 import bandeira_pt from '../img/language-flags/portuguese-flag.png';
-import wip from '../img/work-in-progress.png';
-import telefone from '../img/telefone.png';
-import email from '../img/email.png'
+import wip from '../img/icones/work-in-progress.png';
+import telefone from '../img/icones/telefone.png';
+import email from '../img/icones/email.png'
 
 export const USP = usp;
 export const ICMC_PRETO = icmc_preto;
