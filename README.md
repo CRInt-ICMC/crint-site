@@ -8,7 +8,9 @@ O código disponibilizado aqui é de uso livre em partes ou em sua totalidade de
 
 ## Funcionamento
 
-(descrição do funcionamento de cada parte do site)
+Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
+
+- `components` 
 
 ## Pré-requisitos
 
