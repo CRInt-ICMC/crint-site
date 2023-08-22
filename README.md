@@ -40,9 +40,9 @@ A implementação do VLibras é realizada segundo as instruções na [página do
 
 Atenção: O VLibras não carregará normalmente na versão de produção devido a sua natureza síncrona, mas executará corretamente na build. Se precisar que ele apareça durante o desenvolvimento, adicione `forceOnload={true}` à seu elemento em `/App.tsx`
 
-### Componentes
+### Componentes e Utilidades
 
-(Adicionar links para um outro README com as explicações detalhadas)
+Para manter o README principal organizado e simples, essas explicações estão localizadas [aqui](Funcionamento.md).
 
 ## Pré-requisitos
 
@@ -57,7 +57,7 @@ git clone https://github.com/CRInt-ICMC/crint-site
 
 ```
 
-Então, entre na pasta do repositório e baixe as dependências do projeto. 
+Então, entre na pasta do repositório e baixe as dependências do projeto.
 
 ```
 cd crint-site/crint-site
