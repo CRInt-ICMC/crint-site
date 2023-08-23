@@ -40,13 +40,20 @@ A implementação do VLibras é realizada segundo as instruções na [página do
 
 Atenção: O VLibras não carregará normalmente na versão de produção devido a sua natureza síncrona, mas executará corretamente na build. Se precisar que ele apareça durante o desenvolvimento, adicione `forceOnload={true}` à seu elemento em `/App.tsx`
 
-### Componentes
+### Componentes e Utilidades
 
-(Adicionar links para um outro README com as explicações detalhadas)
+Para manter o README principal organizado e simples, essas explicações estão localizadas [aqui](Funcionamento.md).
 
 ## Pré-requisitos
 
-Apenas o NodeJS 20. Todas as outras dependências serão instaladas automaticamente.
+Não é necessário nada mais do que o NodeJS 20 para executar o projeto, pois as outras dependências serão instaladas automaticamente. Ainda assim, conhecimento básico nas seguintes áreas é recomendado para compreender o código:
+
+- React;
+- Typescript;
+- SCSS;
+- Básico de Web Development (HTML, CSS E Javascript).
+
+Vite foi usado para criar o projeto e é usado para executá-lo e construí-lo, porém não é necessário qualquer conhecimento dessa ferramenta para compreender o projeto.
 
 ## Utilização
 
@@ -57,7 +64,7 @@ git clone https://github.com/CRInt-ICMC/crint-site
 
 ```
 
-Então, entre na pasta do repositório e baixe as dependências do projeto. 
+Então, entre na pasta do repositório e baixe as dependências do projeto.
 
 ```
 cd crint-site/crint-site
