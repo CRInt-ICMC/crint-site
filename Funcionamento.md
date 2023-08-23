@@ -1,4 +1,4 @@
-## Funcionamento
+# Funcionamento
 
 ## Componentes
 
@@ -37,3 +37,42 @@ Recebe o nome do tópico e uma imagem que o representa para montar a *banner* da
 Recebe o títula da seção e o corpo (conjunto de elementos HTML) para forma uma seção da página. Também é modular e capaz de receber propriedades de CSS diretamente. Esses são e devem ser utilizados para produzir quaisquer páginas do site.
 
 ## Utilidades
+
+### appConstants
+
+Esses são valores constantes que serão reutilizados multiplas vezes pelo código. Funcionam como constantes globais que são importadas caso necessário. Imagens e quaisquer outros arquivos não devem ser armazenados aqui.
+
+Aqui também podem ser armazenados valores que, apesar de não serem reutilizados, são constantes e seriam mais fáceis de modificar caso estivessem isolados.
+
+### appImages
+
+Aqui são armazenadas as importações de imagens. Isso é feito para melhorar a legibilidade do código, especialmente das importações, e facilitar a reutilização e substituição das imagens caso seja necessário.
+
+### types
+
+Todas as interfaces que não são locais (não são reutilizadas) devem ser armazenadas aqui, assim as mudanças se propagam mais facilmente através do projeto e as interfaces podem realmente atual como tipos.
+
+### utils
+
+Aqui devem ser armazenadas as funções globais e somente elas, quaisquer constantes e interfaces que elas necessitem devem ser guardadas nos outros arquivos de utilidade. É mandatório que todas as funções nesse arquivo sejam globais.
+
+## Páginas
+
+As páginas devem seguir formatos específicos definido a seguir:
+
+- Todas as páginas do projeto, com exceção da Homepage, devem ter um banner;
+- Todos os assuntos das páginas devem ser divididos em tópicos;
+- A diferenças de coloração entre o texto e a cor de fundo deve sempre seguir as regras de contraste da web (4.5:1);
+- Todo conteúdo informativo e as áreas de link devem aumentar ou diminuir dinamicamente para auxiliar o usuário.
+
+## CSS
+
+Exceto por `/index.css`, todos os arquivos de estilo da página devem estar no formato SCSS e todos as variáveis que se repetem através dos arquivos devem ser dispostas em `/Base.scss`.
+
+`/Base.scss` contém apenas as variáveis e frações de código globais do estilo do projeto e deve ser mantida dessa forma.
+
+Certos partes do site não utilizam CSS próprios, é optativo manter ou não arquivos SCSS vazios para essas frações.
+
+## Outras dúvidas
+
+Caso ainda haja dúvidas quanto ao funcionamento do site, sinta-se à vontade para abrir um issue quanto à documentação do projeto. Alternativamente, pode me enviar uma mensagem pelo Github ou [email](mailto:pedro.hvn.2018@gmail.com).

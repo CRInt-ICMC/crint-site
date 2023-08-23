@@ -46,7 +46,14 @@ Para manter o README principal organizado e simples, essas explicações estão 
 
 ## Pré-requisitos
 
-Apenas o NodeJS 20. Todas as outras dependências serão instaladas automaticamente.
+Não é necessário nada mais do que o NodeJS 20 para executar o projeto, pois as outras dependências serão instaladas automaticamente. Ainda assim, conhecimento básico nas seguintes áreas é recomendado para compreender o código:
+
+- React;
+- Typescript;
+- SCSS;
+- Básico de Web Development (HTML, CSS E Javascript).
+
+Vite foi usado para criar o projeto e é usado para executá-lo e construí-lo, porém não é necessário qualquer conhecimento dessa ferramenta para compreender o projeto.
 
 ## Utilização
 
