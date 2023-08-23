@@ -2,7 +2,7 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
-import { loadLanguage, saveSettings } from '../utils/utils';
+import { loadLanguage, saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
 import DropDownMenu from './DropDownMenu';
 // CSS
@@ -132,8 +132,8 @@ const AppHeader = () => {
         setLang(lang)
         setLangDict(loadLanguage(lang));
 
-        if (setUserConfig !== undefined)
-            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod});            
+        if (setUserConfig && userConfig)
+            setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
     }
 
     // Esse bloco lida com o tamanho da fonte    
@@ -151,8 +151,8 @@ const AppHeader = () => {
         if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
             return;
 
-        if (setUserConfig !== undefined)
-            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod});
+        if (setUserConfig && userConfig)
+            setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
     }
 
     if (userConfig)
