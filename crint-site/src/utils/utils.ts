@@ -4,6 +4,7 @@ import { DEFAULT_LANGUAGE } from './appConstants';
 
 // Existem problemas de escalabilidade com o modelo atual, porém, serve para o projeto
 export function loadLanguage(currentLang : string) {
+    // Recebe a linguagem e retorna o JSON associado
     switch (currentLang) {
         case 'pt':
             return pt_dict;
@@ -28,7 +29,9 @@ export function loadSettings() {
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString : string = localStorage.getItem('settings') || '';
-    if (savedConfigString === '') 
+
+    // Retorna as configurações padrão caso o cookie não seja encontrado
+    if (savedConfigString === '')
         return configSettings;
 
     // Recupera as informações em JSON e passa para a variável que será retornada
