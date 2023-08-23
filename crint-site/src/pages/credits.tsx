@@ -15,6 +15,17 @@ const assets = () => (
     </>
 )
 
+const participantes = () => (
+    <>
+        <p>O site foi desenvolvido com a participação de:</p>
+        <ul>
+            <li>Elisa Yumi Nakagawa (diretora do projeto)</li>
+            <li>Fernanda Maria Ortega Magro (coordenadora do projeto)</li>
+            <li>Pedro Henrique Vilela do Nascimento (estagiário desenvolvedor do projeto)</li>
+        </ul>
+    </>
+)
+
 const Creditos = () => {
     return (
         <div id='credits-root'>
@@ -25,6 +36,10 @@ const Creditos = () => {
                 title='Créditos' 
                 body={assets()}
                 style={{backgroundColor: BEJE_CLARO}}
+                />
+            <TopicSection 
+                title='Participantes'
+                body={participantes()}
                 />
         </div>
     );

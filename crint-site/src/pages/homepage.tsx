@@ -21,24 +21,51 @@ const NovidadesAvisos = () => (
     </>
 )
 
-const CRInt = () => {
-    return (
-        <>
-            <p>
-                A Comissão de Relações Internacionais (CRInt) do ICMC foi criada em 2010 a partir da descentralização promovida pela Reitoria da USP em relação às atividades de internacionalização.
-            </p>
-            <p>
-                A CRInt é uma comissão que atua de forma integrada com as demais comissões estatutárias do ICMC, a saber, Comissão de Pesquisa (CPq), Comissão de Pós-Graduação (CPG), Comissão de Graduação (CG) e Comissão de Cultura e Extensão (CCEx).
-            </p>
-            <p>
-                A CRInt tem papel fundamental para a internacionalização da comunidade de alunos(as), docentes e funcionários(as) do ICMC, apoiando e promovendo diversas iniciativas e ações nos mais diferentes segmentos. 
-            </p>
-            <p>
-                Missão: Zelar pelo estimulo e difusão das ações de internacionalização.
-            </p>
-        </>
-    );
-}
+const CRInt = () => (
+    <>
+        <p>
+            A Comissão de Relações Internacionais (CRInt) do ICMC foi criada em 2010 a partir da descentralização promovida pela Reitoria da USP em relação às atividades de internacionalização.
+        </p>
+        <p>
+            A CRInt é uma comissão que atua de forma integrada com as demais comissões estatutárias do ICMC, a saber, Comissão de Pesquisa (CPq), Comissão de Pós-Graduação (CPG), Comissão de Graduação (CG) e Comissão de Cultura e Extensão (CCEx).
+        </p>
+        <p>
+            A CRInt tem papel fundamental para a internacionalização da comunidade de alunos(as), docentes e funcionários(as) do ICMC, apoiando e promovendo diversas iniciativas e ações nos mais diferentes segmentos. 
+        </p>
+        <p>
+            Missão: Zelar pelo estimulo e difusão das ações de internacionalização.
+        </p>
+    </>
+)
+
+const EquipeCRint = () => (
+    <>
+        <p><b>Presidente da CRInt:</b> Elisa Yumi Nakagawa</p>
+        <p><b>Vice-Presidente da CRInt:</b> Roberto Frederico Ausas</p>
+
+        <p><b>Representantes Docentes Titulares</b></p>
+        <ul>
+            <li>Mariana Curi</li>
+            <li>Robson Leonardo Ferreira Cordeiro</li>
+            <li>Cláudio Fabiano Motta Toledo</li>
+            <li>Roberto Federico Ausas</li>
+        </ul>
+
+        <p><b>Representantes Docentes Suplentes</b></p>
+        <ul>
+            <li>Fernando Manfio</li>
+            <li>Ellen Francine Barbosa</li>
+            <li>Kalinka Regina Lucas Jaquie Castelo Branco</li>
+            <li>Paulo Sergio Lopes de Souza</li>
+        </ul>
+
+        <p><b>Representantes Titular e Suplente dos Servidores Técnico-Administrativos</b></p>
+        <ul>
+            <li>Bruno Mohamad Abdallah Chaaban</li>
+            <li>Luana Rufino de Souza</li>
+        </ul>
+    </>
+)
 
 const Homepage = () => {
     return (
@@ -56,6 +83,10 @@ const Homepage = () => {
                 title='Comissão de Relações Internacionais (CRInt)' 
                 body={CRInt()} 
                 style={{backgroundColor: MARMORE}}
+                />
+            <TopicSection 
+                title='Composição da CRInt'
+                body={EquipeCRint()}
                 />
         </div>
     )
