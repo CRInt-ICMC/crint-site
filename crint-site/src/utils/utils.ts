@@ -25,7 +25,7 @@ export function saveSettings(configSettings : userConfig) {
 // Carrega as configurações armazenadas
 export function loadSettings() {
     // Configurações padrão
-    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, firstVisit: true, fontSizeMod: 1};
+    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, cookieConsent: true, fontSizeMod: 1};
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString : string = localStorage.getItem('settings') || '';
@@ -44,10 +44,10 @@ export function loadSettings() {
 }
 
 // Facilita a atualização do valores de configuração
-export function updateUserConfig(currentUserConfig : userConfig, newValues: {lang? : string, firstVisit?: boolean, fontSizeMod?: number}) {
+export function updateUserConfig(currentUserConfig : userConfig, newValues: {lang? : string, cookieConsent?: boolean, fontSizeMod?: number}) {
     let definedLang : string = newValues.lang || currentUserConfig.lang;
-    let definedFirstVisit : boolean = newValues.firstVisit || currentUserConfig.firstVisit;
+    let definedCookieConsent : boolean = newValues.cookieConsent || currentUserConfig.cookieConsent;
     let definedFontSizeMod : number = newValues.fontSizeMod || currentUserConfig.fontSizeMod;
     
-    return <userConfig>{lang: definedLang, firstVisit: definedFirstVisit, fontSizeMod: definedFontSizeMod};
+    return <userConfig>{lang: definedLang, cookieConsent: definedCookieConsent, fontSizeMod: definedFontSizeMod};
 }

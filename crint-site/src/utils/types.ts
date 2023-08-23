@@ -76,7 +76,7 @@ interface languageDictionary {
 }
 
 interface userConfig {
+    cookieConsent : boolean,
     lang : string,
-    firstVisit : boolean,
     fontSizeMod : number,
 }
