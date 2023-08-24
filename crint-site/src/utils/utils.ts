@@ -25,7 +25,7 @@ export function saveSettings(configSettings : userConfig) {
 // Carrega as configurações armazenadas
 export function loadSettings() {
     // Configurações padrão
-    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, cookieConsent: true, fontSizeMod: 1};
+    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: 1};
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString : string = localStorage.getItem('settings') || '';

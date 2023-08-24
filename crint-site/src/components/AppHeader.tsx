@@ -11,6 +11,7 @@ import './AppHeader.scss';
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO, CRINT_COLORIDO } from '../utils/appImages';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Popup from './Popup';
 
 const logos = () => (
     <span className='logos'>
@@ -101,6 +102,26 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
     </div>
 );
 
+const cookieConsentPopup = (cookieConsent : boolean, setConsentTrue : CallableFunction) => {
+    const popupBody = () => (
+        <>
+            <p>Rapaziada</p>
+            <button onClick={() => setConsentTrue()}>Aceito</button>
+        </>
+    )
+
+    return (
+        <>
+            {!cookieConsent &&
+                <Popup 
+                    head="Privacidade e Cookies" 
+                    body={popupBody()} 
+                    />
+            }
+        </>
+    )
+}
+
 const AppHeader = () => {
     // Hooks    
     const {userConfig, setUserConfig} = useContext(ConfigContext);
@@ -178,6 +199,10 @@ const AppHeader = () => {
                     {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
+
+            {
+            }
+
         </header>
     );
 }

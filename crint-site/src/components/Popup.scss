@@ -1,0 +1,17 @@
+.popup-root {
+    position: fixed;
+    bottom: 50px;
+    
+    width: 100%;
+
+    text-align: center;
+}
+
+.popup-content {
+    text-align: left;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: black;
+}
