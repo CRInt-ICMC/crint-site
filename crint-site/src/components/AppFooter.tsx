@@ -28,7 +28,7 @@ const AppFooter = () => {
                 <div className='footer-right'>
                     <h3> {langDict.footer.contato} </h3>
                     <a href='mailto:crint@icmc.usp.br'><FontAwesomeIcon icon={faEnvelope} /> crint@icmc.usp.br </a> <br/>
-                    <a href='tel:3373-8109'><FontAwesomeIcon icon={faPhone} /> 3373-8109 </a>
+                    <a href='tel:3373-8109'><FontAwesomeIcon icon={faPhone} /> +55 (16) 3373-8109 </a>
                 </div>
             </nav>
     </footer>
