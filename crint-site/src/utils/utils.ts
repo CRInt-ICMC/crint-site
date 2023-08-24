@@ -35,8 +35,9 @@ export function loadSettings() {
         return configSettings;
 
     // Recupera as informações em JSON e passa para a variável que será retornada
-    const savedConfig = JSON.parse(savedConfigString);
+    const savedConfig : userConfig = JSON.parse(savedConfigString);
 
+    configSettings.cookieConsent = savedConfig.cookieConsent;
     configSettings.lang = savedConfig.lang;
     configSettings.fontSizeMod = savedConfig.fontSizeMod;
 

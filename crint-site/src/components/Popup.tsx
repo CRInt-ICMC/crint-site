@@ -7,7 +7,7 @@ const Popup = (props : {head : string, body : ReactNode}) => {
         <div className='popup-root'>
             <div className='popup-content'>
                 <h3 className='popup-head'>{props.head}</h3>
-                {props.body}
+                <div className='popup-body'>{props.body}</div>
             </div>
         </div>
     );

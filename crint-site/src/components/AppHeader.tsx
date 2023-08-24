@@ -102,23 +102,19 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
     </div>
 );
 
-const cookieConsentPopup = (cookieConsent : boolean, setConsentTrue : CallableFunction) => {
+const cookieConsentPopup = (setConsentTrue : CallableFunction) => {
     const popupBody = () => (
         <>
-            <p>Rapaziada</p>
+            <p>Ao acessar e utilizar nosso website você concorda com nossas políticas de uilização de cookies. <Link to={'privacidade'}>Saiba mais.</Link></p>
             <button onClick={() => setConsentTrue()}>Aceito</button>
         </>
     )
 
     return (
-        <>
-            {!cookieConsent &&
-                <Popup 
-                    head="Privacidade e Cookies" 
-                    body={popupBody()} 
-                    />
-            }
-        </>
+        <Popup 
+            head="Privacidade e Cookies" 
+            body={popupBody()} 
+            />
     )
 }
 
@@ -178,6 +174,7 @@ const AppHeader = () => {
 
     if (userConfig)
         saveSettings(userConfig);
+    console.log(userConfig);
     
 
     return (
@@ -200,7 +197,17 @@ const AppHeader = () => {
                 </div>
             </nav>
 
-            {
+            {/* Aparece caso o usuário não tenha consentido ainda */}
+            { !userConfig?.cookieConsent &&
+                cookieConsentPopup( 
+                    () => { 
+                        if(setUserConfig && userConfig) {
+                            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
+                            saveSettings(userConfig);
+                            console.log(userConfig);
+                        }
+                    }
+                )
             }
 
         </header>
