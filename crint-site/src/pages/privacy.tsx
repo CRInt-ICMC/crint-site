@@ -15,11 +15,11 @@ const termos = () => (
             fins além de melhorar a experiência do usuário.
         </p>
 
-        <p> O cookie "settings" tem a seguinte estrutura: </p>
+        <p> O cookie "<b>settings</b>" tem a seguinte estrutura: </p>
         <ul>
-            <li> consentCookie - Variável booleana que armazena se o usuário já aceitou o uso de cookies. </li>
-            <li> lang - Variável de texto que armazena a última opção de linguagem selecionada pelo usuário. </li>
-            <li> fontSizeMod - Variável numérica que armazena as modificações no tamanho da fonte realizadas pelo usuário. </li>
+            <li> <b>consentCookie</b> - Variável booleana que armazena se o usuário já aceitou o uso de cookies. </li>
+            <li> <b>lang</b> - Variável de texto que armazena a última opção de linguagem selecionada pelo usuário. </li>
+            <li> <b>fontSizeMod</b> - Variável numérica que armazena as modificações no tamanho da fonte realizadas pelo usuário. </li>
         </ul>
 
         <p> Ao utilizar o nosso website, você concorda com o uso desse cookie e o armazenamento local dessas informações. </p>
