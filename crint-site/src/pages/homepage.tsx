@@ -64,6 +64,17 @@ const EquipeCRint = () => (
             <li>Bruno Mohamad Abdallah Chaaban</li>
             <li>Luana Rufino de Souza</li>
         </ul>
+        
+        <p><b>Representantes Discentes Titular e Suplente da Pós-Graduação</b></p>
+        <ul>
+            <li>A serem eleitos</li>
+        </ul>
+
+        <p><b>Representantes Discente Titular e Suplente da Graduação</b></p>
+        <ul>
+            <li>Felipi Adenildo Soares Sousa</li>
+            <li>Diego da Silva Parra</li>
+        </ul>
     </>
 )
 

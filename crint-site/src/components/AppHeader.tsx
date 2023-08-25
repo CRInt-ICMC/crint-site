@@ -1,6 +1,6 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
 import { loadLanguage, saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
@@ -124,6 +124,12 @@ const AppHeader = () => {
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
+    const location = useLocation();
+
+    // Sobe para o topo caso troque de página
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+    }, [location])
 
     // Esse bloco lida com a língua atual
     useEffect(() => {
