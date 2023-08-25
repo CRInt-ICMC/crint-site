@@ -11,12 +11,12 @@ const NovidadesAvisos = () => (
         </p>
         <p>
             Caso tenha bugs para reportar, informações ou funcionalidades que gostaria de encontrar no site, ou comentários gerais, sinta-se à vontade
-            para entrar em contato através de um dos seguintes emails:
+            para entrar em contato através de um dos seguintes canais de contato:
             </p>
         <ul>
             <li>crint@icmc.usp.br</li>
             <li>estagiocrint@icmc.usp.br</li>
-            <li>pedro.hvn@usp.br</li>
+            <li><a href='https://github.com/CRInt-ICMC/crint-site/issues'>Github do site</a></li>
         </ul>
     </>
 )
