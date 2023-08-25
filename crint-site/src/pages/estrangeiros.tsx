@@ -43,9 +43,9 @@ const CursosPortugues = () => (
 const Estrangeiros = () => {
     return (
         <div id='estrangeiros-root'>
-            <TopicBanner topicoNome='ESTRANGEIROS' />
+            <TopicBanner topicoNome='ESTRANGEIROS(AS)' />
             <TopicSection 
-                title='Informação para Estrangeiros' 
+                title='Informação para Estrangeiros(as)' 
                 body={informacaoGeraisEstrangeiros()} 
                 style={{backgroundColor: MARMORE}}
                 />
