@@ -80,7 +80,7 @@ const DocumentosIntercambio = () => (
 const Aluno = () => {
     return (
         <div id='aluno-root'>
-            <TopicBanner topicoNome='ALUNO' />
+            <TopicBanner topicoNome='ALUNOS(AS)' />
             <TopicSection 
                 title='Solicitações de auxílios financeiros' 
                 body={AuxiliosFinanceiros()}
