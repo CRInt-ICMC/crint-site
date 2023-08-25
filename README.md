@@ -57,7 +57,7 @@ Vite foi usado para criar o projeto e é usado para executá-lo e construí-lo, 
 
 ## Utilização
 
-Primeiramente, faça baixe do ZIP do repositório ou clone ele com:
+Primeiramente, baixe do ZIP do repositório ou clone ele com:
 
 ```
 git clone https://github.com/CRInt-ICMC/crint-site
