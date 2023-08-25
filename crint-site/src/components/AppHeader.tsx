@@ -1,8 +1,8 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
-import { loadLanguage, saveSettings } from '../utils/utils';
+import { loadLanguage, saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
 import DropDownMenu from './DropDownMenu';
 // CSS
@@ -11,6 +11,7 @@ import './AppHeader.scss';
 import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO, CRINT_COLORIDO } from '../utils/appImages';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Popup from './Popup';
 
 const logos = () => (
     <span className='logos'>
@@ -101,12 +102,34 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
     </div>
 );
 
+const cookieConsentPopup = (setConsentTrue : CallableFunction) => {
+    const popupBody = () => (
+        <>
+            <p>Ao acessar e utilizar nosso website você concorda com nossas políticas de uilização de cookies. <Link to={'privacidade'}>Saiba mais.</Link></p>
+            <button onClick={() => setConsentTrue()}>Aceito</button>
+        </>
+    )
+
+    return (
+        <Popup 
+            head="Privacidade e Cookies" 
+            body={popupBody()} 
+            />
+    )
+}
+
 const AppHeader = () => {
     // Hooks    
     const {userConfig, setUserConfig} = useContext(ConfigContext);
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
+    const location = useLocation();
+
+    // Sobe para o topo caso troque de página
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+    }, [location])
 
     // Esse bloco lida com a língua atual
     useEffect(() => {
@@ -132,8 +155,8 @@ const AppHeader = () => {
         setLang(lang)
         setLangDict(loadLanguage(lang));
 
-        if (setUserConfig !== undefined)
-            setUserConfig({lang: lang, fontSizeMod: currentFontSizeMod});            
+        if (setUserConfig && userConfig)
+            setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
     }
 
     // Esse bloco lida com o tamanho da fonte    
@@ -151,12 +174,13 @@ const AppHeader = () => {
         if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
             return;
 
-        if (setUserConfig !== undefined)
-            setUserConfig({lang: currentLang, fontSizeMod: fontSizeMod});
+        if (setUserConfig && userConfig)
+            setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
     }
 
     if (userConfig)
         saveSettings(userConfig);
+    console.log(userConfig);
     
 
     return (
@@ -178,6 +202,20 @@ const AppHeader = () => {
                     {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
+
+            {/* Aparece caso o usuário não tenha consentido ainda */}
+            { !userConfig?.cookieConsent &&
+                cookieConsentPopup( 
+                    () => { 
+                        if(setUserConfig && userConfig) {
+                            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
+                            saveSettings(userConfig);
+                            console.log(userConfig);
+                        }
+                    }
+                )
+            }
+
         </header>
     );
 }

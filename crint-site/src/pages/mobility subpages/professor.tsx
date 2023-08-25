@@ -21,7 +21,7 @@ const AuxiliosFinanceiros = () => (
 const Professor = () => {
     return (
         <div id='professor-root'>
-            <TopicBanner topicoNome='PROFESSOR' />
+            <TopicBanner topicoNome='PROFESSORES(AS)' />
             <TopicSection 
                 title='Auxílios Financeiros' 
                 body={AuxiliosFinanceiros()} 
