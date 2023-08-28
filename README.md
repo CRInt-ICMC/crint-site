@@ -61,7 +61,6 @@ Primeiramente, baixe do ZIP do repositório ou clone ele com:
 
 ```
 git clone https://github.com/CRInt-ICMC/crint-site
-
 ```
 
 Então, entre na pasta do repositório e baixe as dependências do projeto.
@@ -85,7 +84,6 @@ npm run preview
 
 # Faz o host da versão de produção na rede local na porta 8080
 npm run host
-
 ```
 
 ## Créditos
