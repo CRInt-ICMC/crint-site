@@ -2,9 +2,9 @@
     "header" : {
         "mobilidade" : {
             "titulo" : "MOBILIDADE",
-            "aluno" : "Aluno(a)",
-            "professor" : "Professor(a)",
-            "servidor" : "Servidor(a)"
+            "aluno" : "Alunos(as)",
+            "professor" : "Professores(as)",
+            "servidor" : "Servidores(as)"
         },
 
         "estrangeiros" : {

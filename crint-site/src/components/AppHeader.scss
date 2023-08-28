@@ -49,6 +49,15 @@
     margin-left: 10px;
 }
 
+.logo-crint {
+    transition: 50ms;
+}
+
+.logo-crint:hover {
+    filter: brightness(0) saturate(100%) invert(79%) sepia(22%) saturate(6448%) hue-rotate(359deg) brightness(102%) contrast(105%);
+    transition: 50ms;
+}
+
 .topics {
     display: inline-flex;
 }
