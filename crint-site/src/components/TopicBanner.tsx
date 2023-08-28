@@ -6,7 +6,6 @@ const TopicBanner = (props : { topicoNome : string, topicoImage? : string, style
     const defaultImage : string = props.topicoImage || ICMC_PRETO;
     const defaultStyle : CSSProperties = props.style || {}
 
-
     return (
         <section className="topic-header">
             <section className='topic-banner'>

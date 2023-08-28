@@ -19,6 +19,9 @@ import Convenios from './pages/information subpages/convenios';
 import Dia from './pages/information subpages/dia';
 import Pesquisa from './pages/information subpages/pesquisa';
 
+import Creditos from './pages/credits';
+import Privacidade from './pages/privacy';
+
 import { ConfigContext, STD_CONFIG_STATE } from './Context';
 import { useState } from 'react';
 
@@ -51,8 +54,8 @@ function App() {
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
             <Route path='contato' element={<WIP_page />} />
-            <Route path='creditos' element={<WIP_page />} />
-            <Route path='privacidade' element={<WIP_page />} />
+            <Route path='creditos' element={<Creditos />} />
+            <Route path='privacidade' element={<Privacidade />} />
           </Route >
         </Routes>
         <VLibras />

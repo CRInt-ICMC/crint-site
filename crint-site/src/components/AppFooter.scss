@@ -1,12 +1,6 @@
 @use '../Base.scss' as base;
 
 .footer {
-    display: flex;
-    justify-content: center;
-
-    padding: 25px 5%;
-    width: 90%;
-    
     background-color: base.$azul-icmc;
     color: white;
 
@@ -25,6 +19,14 @@
 
 .footer a:hover {
     color: base.$laranja-usp;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: center;
+
+    padding: 25px 5%;
+    width: 90%;    
 }
 
 .footer-left {

@@ -4,6 +4,7 @@ import './DropDownMenu.scss'
 const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : number}) => {
     const [menuScale, toggleMenu] = useState<any>("scaleY(0)");
 
+    // Usa escalas para fazer o dropdown
     const hideMenu = () => toggleMenu("scaleY(0)");
     const showMenu = () => toggleMenu("scaleY(1)");
 
