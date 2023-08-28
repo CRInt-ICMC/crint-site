@@ -8,7 +8,7 @@ import DropDownMenu from './DropDownMenu';
 // CSS
 import './AppHeader.scss';
 // IMAGENS E ÍCONES
-import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO, CRINT_COLORIDO } from '../utils/appImages';
+import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from './Popup';
