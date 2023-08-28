@@ -16,11 +16,8 @@ import Popup from './Popup';
 const logos = () => (
     <span className='logos'>
         <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={ICMC_BRANCO} /></a>
-        <Link to={'/'}>
-            <img className='logo-crint' alt='Link Página Principal' src={CRINT_BRANCO} 
-                onMouseOver={(e)=>{e.currentTarget.src = CRINT_COLORIDO}} 
-                onMouseLeave={(e)=>{e.currentTarget.src = CRINT_BRANCO}} />
-            </Link>
+
+        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={CRINT_BRANCO} /></Link>
     </span>
 );
 
