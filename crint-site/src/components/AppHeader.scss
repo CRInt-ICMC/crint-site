@@ -50,27 +50,13 @@
 }
 
 .logo-crint {
-    animation-name: fade;
-    animation-timing-function: ease-out;
-    /* animation-iteration-count: infinite; */
-    animation-duration: 1s;
-    /* animation-direction: alternate; */
+    transition: 50ms;
 }
 
-@keyframes fade {
-    0% {
-      opacity: 1;
-    }
-    25% {
-      opacity: 1;
-    }
-    75% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
+.logo-crint:hover {
+    filter: brightness(0) saturate(100%) invert(79%) sepia(22%) saturate(6448%) hue-rotate(359deg) brightness(102%) contrast(105%);
+    transition: 50ms;
+}
 
 .topics {
     display: inline-flex;
