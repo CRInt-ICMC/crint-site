@@ -8,7 +8,11 @@ const Dia = () => {
     return (
         <div id='dia-root'>
 
-            <TopicBanner topicoNome='Dados de Internacionalização dos Alunos' topicoImage={INFORMACOES_BANNER} style={{background: INFORMACOES_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='Dados de Internacionalização dos Alunos' 
+                topicoImage={INFORMACOES_BANNER} 
+                style={{background: INFORMACOES_GRADIENTE}} 
+                />
             <WIP />
         </div>
     );

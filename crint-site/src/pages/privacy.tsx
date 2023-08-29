@@ -1,6 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
-import { AZUL_AUCANI } from '../utils/appConstants';
+import { MARMORE, OUTROS_GRADIENTE } from '../utils/appConstants';
+import { CRINT_COLORIDO } from '../utils/appImages';
 import './privacy.scss'
 
 const termos = () => (
@@ -31,11 +32,13 @@ const Privacidade = () => {
         <div id='privacy-root'>
             <TopicBanner
                 topicoNome='Política de Privacidade'
+                topicoImage={CRINT_COLORIDO}
+                style={{background: OUTROS_GRADIENTE}}
                 />
             <TopicSection
-                title='Termos'
+                title='Termos de Uso'
                 body={termos()}
-                style={{backgroundColor: AZUL_AUCANI}} 
+                style={{backgroundColor: MARMORE}} 
                 />
         </div>
     );

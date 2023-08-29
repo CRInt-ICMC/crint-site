@@ -8,7 +8,11 @@ import './pesquisa.scss'
 const Pesquisa = () => {
     return (
         <div id='pesquisa-root'>
-            <TopicBanner topicoNome='PESQUISA' topicoImage={INFORMACOES_BANNER} style={{background: INFORMACOES_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='PESQUISA' 
+                topicoImage={INFORMACOES_BANNER} 
+                style={{background: INFORMACOES_GRADIENTE}} 
+                />
             <WIP />
         </div>
     );

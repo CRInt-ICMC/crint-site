@@ -1,6 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
-import { BEJE_CLARO } from '../utils/appConstants';
+import { BEJE_CLARO, OUTROS_GRADIENTE } from '../utils/appConstants';
+import { CRINT_COLORIDO } from '../utils/appImages';
 import './credits.scss'
 
 const assets = () => (
@@ -36,6 +37,8 @@ const Creditos = () => {
         <div id='credits-root'>
             <TopicBanner
                 topicoNome='Créditos'
+                topicoImage={CRINT_COLORIDO}
+                style={{background: OUTROS_GRADIENTE}}
                 />
             <TopicSection
                 title='Assets utilizados' 

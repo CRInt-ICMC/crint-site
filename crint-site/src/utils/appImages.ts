@@ -15,6 +15,8 @@ import bandeira_pt from '../img/language-flags/portuguese-flag.png';
 import wip_icon from '../img/icones/work-in-progress.png';
 import telefone from '../img/icones/telefone.png';
 import email from '../img/icones/email.png';
+
+// Banners
 import mobilidade_banner from '../img/mobilidade_banner.png';
 import estrangeiros_banner from '../img/estrangeiros_banner.png';
 import informacoes_banner from '../img/informacoes_banner.png';

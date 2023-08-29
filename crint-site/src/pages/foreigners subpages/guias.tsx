@@ -40,7 +40,11 @@ const ProcedimentosEstrangeiros = () => (
 const Guias = () => {
     return (
         <div id='guias-root'>
-            <TopicBanner topicoNome='GUIAS' topicoImage={ESTRANGEIROS_BANNER} style={{background: ESTRANGEIROS_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='GUIAS' 
+                topicoImage={ESTRANGEIROS_BANNER} 
+                style={{background: ESTRANGEIROS_GRADIENTE}} 
+                />
             <TopicSection 
                 title='Procedimentos para nomeações de Estrangeiros em Disciplinas do ICMC' 
                 body={ProcedimentosEstrangeiros()} 

@@ -57,7 +57,11 @@ const OportunidadesExterior = () => (
 const Informacoes = () => {
     return (
         <div id='informacoes-root'>
-            <TopicBanner topicoNome='INFORMAÇÕES' topicoImage={INFORMACOES_BANNER} style={{background: INFORMACOES_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='INFORMAÇÕES' 
+                topicoImage={INFORMACOES_BANNER} 
+                style={{background: INFORMACOES_GRADIENTE}} 
+                />
             <TopicSection 
                 title='Acordos e Convênios' 
                 body={AcordosConvenios()} 

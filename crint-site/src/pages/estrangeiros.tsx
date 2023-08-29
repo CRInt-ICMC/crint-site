@@ -44,7 +44,11 @@ const CursosPortugues = () => (
 const Estrangeiros = () => {
     return (
         <div id='estrangeiros-root'>
-            <TopicBanner topicoNome='ESTRANGEIROS(AS)' topicoImage={ESTRANGEIROS_BANNER} style={{background: ESTRANGEIROS_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='ESTRANGEIROS(AS)' 
+                topicoImage={ESTRANGEIROS_BANNER} 
+                style={{background: ESTRANGEIROS_GRADIENTE}} 
+                />
             <TopicSection 
                 title='Informação para Estrangeiros(as)' 
                 body={informacaoGeraisEstrangeiros()} 

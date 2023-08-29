@@ -8,7 +8,11 @@ import './mobilidade.scss';
 const Mobilidade = () => {
     return (
         <div id="mobilidade-root">
-            <TopicBanner topicoNome='MOBILIDADE' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
+            <TopicBanner 
+                topicoNome='MOBILIDADE' 
+                topicoImage={MOBILIDADE_BANNER} 
+                style={{background: MOBILIDADE_GRADIENTE}} 
+                />
             <WIP />
         </div>
     );
