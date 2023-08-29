@@ -19,8 +19,10 @@ const participantes = () => (
     <>
         <p>O site foi desenvolvido com a participação de:</p>
         <ul>
-            <li>Elisa Yumi Nakagawa (diretora do projeto)</li>
-            <li>Fernanda Maria Ortega Magro (coordenadora do projeto)</li>
+            <li>Elisa Yumi Nakagawa (presidente da CRInt)</li>
+            <li>Roberto Federico Ausas (vice-presidente da CRInt)</li>
+            <li>Ana Oneide Sáles (assistente acadêmico)</li>
+            <li>Fernanda Maria Ortega Magro (analista acadêmico)</li>
             <li>Pedro Henrique Vilela do Nascimento (estagiário desenvolvedor do projeto)</li>
         </ul>
     </>
