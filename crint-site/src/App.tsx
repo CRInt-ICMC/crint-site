@@ -53,7 +53,6 @@ function App() {
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
-            <Route path='contato' element={<WIP_page />} />
             <Route path='creditos' element={<Creditos />} />
             <Route path='privacidade' element={<Privacidade />} />
           </Route >
