@@ -11,6 +11,9 @@ const assets = () => (
             <li><a href="https://www.flaticon.com/free-icons/phone" title="phone icons">Phone icons created by Dave Gandy - Flaticon</a></li>
             <li><a href="https://www.flaticon.com/free-icons/under-construction" title="under-construction icons">Under-construction icons created by Freepik - Flaticon</a></li>
             <li>Brickwall image by <a href="https://www.freepik.com/free-photo/background-made-from-bricks_10980125.htm#query=brick%20wall&position=1&from_view=keyword&track=ais">Freepik</a></li>
+            <li>Banner de Mobilidade: <a href="https://pixabay.com/users/mohamed_hassan-5229782/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3953229">Mohamed Hassan</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3953229">Pixabay</a></li>
+            <li>Banner de Estrangeiros: <a href="https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=695193">Gerd Altmann</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=695193">Pixabay</a></li>
+            <li>Banner de Informações: <a href="https://pixabay.com/users/ar130405-423602/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2082642">ar130405</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2082642">Pixabay</a></li>
         </ul>
     </>
 )
@@ -23,7 +26,7 @@ const participantes = () => (
             <li>Roberto Federico Ausas (vice-presidente da CRInt)</li>
             <li>Ana Oneide Sáles (assistente acadêmico)</li>
             <li>Fernanda Maria Ortega Magro (analista acadêmico)</li>
-            <li>Pedro Henrique Vilela do Nascimento (estagiário desenvolvedor do projeto)</li>
+            <li>Pedro Henrique Vilela do Nascimento (estagiário desenvolvedor do site)</li>
         </ul>
     </>
 )
@@ -35,12 +38,12 @@ const Creditos = () => {
                 topicoNome='Créditos'
                 />
             <TopicSection
-                title='Créditos' 
+                title='Assets utilizados' 
                 body={assets()}
                 style={{backgroundColor: BEJE_CLARO}}
                 />
             <TopicSection 
-                title='Participantes'
+                title='Participantes no desenvolvimento'
                 body={participantes()}
                 />
         </div>

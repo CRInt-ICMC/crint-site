@@ -1,6 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { CIANO_USP } from '../../utils/appConstants';
+import { CIANO_USP, ESTRANGEIROS_GRADIENTE } from '../../utils/appConstants';
+import { ESTRANGEIROS_BANNER } from '../../utils/appImages';
 import './guias.scss'
 
 const ProcedimentosEstrangeiros = () => (
@@ -39,7 +40,7 @@ const ProcedimentosEstrangeiros = () => (
 const Guias = () => {
     return (
         <div id='guias-root'>
-            <TopicBanner topicoNome='GUIAS' />
+            <TopicBanner topicoNome='GUIAS' topicoImage={ESTRANGEIROS_BANNER} style={{background: ESTRANGEIROS_GRADIENTE}} />
             <TopicSection 
                 title='Procedimentos para nomeações de Estrangeiros em Disciplinas do ICMC' 
                 body={ProcedimentosEstrangeiros()} 
