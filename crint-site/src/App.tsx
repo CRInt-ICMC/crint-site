@@ -4,7 +4,6 @@ import VLibras from '@djpfs/react-vlibras';
 import Homepage from './pages/homepage';
 import AppHeader from './components/AppHeader';
 import AppFooter from './components/AppFooter';
-import WIP_page from './components/wip';
 
 import Mobilidade from './pages/mobilidade';
 import Aluno from './pages/mobility subpages/aluno';
@@ -53,7 +52,6 @@ function App() {
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
-            <Route path='contato' element={<WIP_page />} />
             <Route path='creditos' element={<Creditos />} />
             <Route path='privacidade' element={<Privacidade />} />
           </Route >
