@@ -1,6 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { BEJE_CLARO } from '../../utils/appConstants';
+import { BEJE_CLARO, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
+import { MOBILIDADE_BANNER } from '../../utils/appImages';
 import './servidor.scss'
 
 const MobilidadeServidor = () => (
@@ -41,7 +42,7 @@ const OportunidadesServidores = () => {
 const Servidor = () => {
     return (
         <div id='servidor-root'>
-            <TopicBanner topicoNome='SERVIDOR' />
+            <TopicBanner topicoNome='SERVIDOR' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
             <TopicSection
                 title='Mobilidade'
                 body={MobilidadeServidor()}

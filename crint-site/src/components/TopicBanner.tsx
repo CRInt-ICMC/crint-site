@@ -7,10 +7,10 @@ const TopicBanner = (props : { topicoNome : string, topicoImage? : string, style
     const defaultStyle : CSSProperties = props.style || {}
 
     return (
-        <section className="topic-header">
-            <section className='topic-banner'>
+        <section className="topic-header" style={defaultStyle}>
+            <section className='topic-banner' style={defaultStyle}>
                 <img src={defaultImage} alt="" />
-                <h1 style={defaultStyle}>{props.topicoNome}</h1>
+                <h1>{props.topicoNome}</h1>
             </section>
         </section>
     );

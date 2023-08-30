@@ -1,6 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP } from '../../utils/appConstants';
+import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
+import { MOBILIDADE_BANNER } from '../../utils/appImages';
 import './aluno.scss'
 
 const AuxiliosFinanceiros = () => (
@@ -80,7 +81,7 @@ const DocumentosIntercambio = () => (
 const Aluno = () => {
     return (
         <div id='aluno-root'>
-            <TopicBanner topicoNome='ALUNOS(AS)' />
+            <TopicBanner topicoNome='ALUNOS(AS)' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
             <TopicSection 
                 title='Solicitações de auxílios financeiros' 
                 body={AuxiliosFinanceiros()}

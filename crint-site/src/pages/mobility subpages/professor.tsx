@@ -1,6 +1,7 @@
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
-import { MARMORE } from '../../utils/appConstants';
+import { MARMORE, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
+import { MOBILIDADE_BANNER } from '../../utils/appImages';
 import './professor.scss'
 
 const AuxiliosFinanceiros = () => (
@@ -21,7 +22,7 @@ const AuxiliosFinanceiros = () => (
 const Professor = () => {
     return (
         <div id='professor-root'>
-            <TopicBanner topicoNome='PROFESSORES(AS)' />
+            <TopicBanner topicoNome='PROFESSORES(AS)' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
             <TopicSection 
                 title='Auxílios Financeiros' 
                 body={AuxiliosFinanceiros()} 
