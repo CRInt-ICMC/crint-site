@@ -1,6 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
-import { BEJE_CLARO } from '../utils/appConstants';
+import { BEJE_CLARO, INFORMACOES_GRADIENTE } from '../utils/appConstants';
+import { INFORMACOES_BANNER } from '../utils/appImages';
 import './informacoes.scss'
 
 const AcordosConvenios = () => {
@@ -56,7 +57,11 @@ const OportunidadesExterior = () => (
 const Informacoes = () => {
     return (
         <div id='informacoes-root'>
-            <TopicBanner topicoNome='INFORMAÇÕES' />
+            <TopicBanner 
+                topicoNome='INFORMAÇÕES' 
+                topicoImage={INFORMACOES_BANNER} 
+                style={{background: INFORMACOES_GRADIENTE}} 
+                />
             <TopicSection 
                 title='Acordos e Convênios' 
                 body={AcordosConvenios()} 
