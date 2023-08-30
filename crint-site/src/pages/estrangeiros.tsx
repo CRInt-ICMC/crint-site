@@ -1,6 +1,7 @@
 import TopicBanner from '../components/TopicBanner';
 import TopicSection from '../components/TopicSection';
-import { CIANO_USP, MARMORE } from '../utils/appConstants';
+import { CIANO_USP, ESTRANGEIROS_GRADIENTE, MARMORE } from '../utils/appConstants';
+import { ESTRANGEIROS_BANNER } from '../utils/appImages';
 import './estrangeiros.scss'
 
 const informacaoGeraisEstrangeiros = () => {
@@ -43,7 +44,11 @@ const CursosPortugues = () => (
 const Estrangeiros = () => {
     return (
         <div id='estrangeiros-root'>
-            <TopicBanner topicoNome='ESTRANGEIROS(AS)' />
+            <TopicBanner 
+                topicoNome='ESTRANGEIROS(AS)' 
+                topicoImage={ESTRANGEIROS_BANNER} 
+                style={{background: ESTRANGEIROS_GRADIENTE}} 
+                />
             <TopicSection 
                 title='Informação para Estrangeiros(as)' 
                 body={informacaoGeraisEstrangeiros()} 

@@ -1,6 +1,6 @@
 import './homepage.scss'
 import TopicSection from '../components/TopicSection';
-import { AZUL_AUCANI, MARMORE } from '../utils/appConstants';
+import { AZUL_AUCANI, BEJE_CLARO, MARMORE } from '../utils/appConstants';
 
 const NovidadesAvisos = () => (
     <>
@@ -93,11 +93,12 @@ const Homepage = () => {
             <TopicSection 
                 title='Comissão de Relações Internacionais (CRInt)' 
                 body={CRInt()} 
-                style={{backgroundColor: MARMORE}}
+                style={{backgroundColor: BEJE_CLARO}}
                 />
             <TopicSection 
                 title='Composição da CRInt'
                 body={EquipeCRint()}
+                style={{backgroundColor: MARMORE}}
                 />
         </div>
     )
