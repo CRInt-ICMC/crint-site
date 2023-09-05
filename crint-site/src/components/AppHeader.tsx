@@ -12,6 +12,7 @@ import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/ap
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from './Popup';
+import axios from 'axios';
 
 const logos = () => (
     <span className='logos'>
@@ -140,10 +141,10 @@ const AppHeader = () => {
     }, [currentLang]);
 
     // Carrega o novo dicionário de linguagem
+    let valores = null;
     const changeLang = (lang : string) => {
         // Impede o uso inapropriado da função
         if (!LANGUAGES_AVAILABLE.includes(lang)) {
-            console.log('Língua desconhecida!\nMudando para o padrão.')
             changeLang(DEFAULT_LANGUAGE);
             return;
         }
@@ -154,7 +155,15 @@ const AppHeader = () => {
 
         if (setUserConfig && userConfig)
             setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
+    
+        axios.get('http://localhost:1337/api/headers').then((response) => {
+            valores = response['data']['data'][0]['attributes'];
+            console.log(response['data']['data'][0]['attributes']);
+        })
     }
+
+    
+    console.log(valores)
 
     // Esse bloco lida com o tamanho da fonte    
     useEffect(() => {
@@ -177,8 +186,6 @@ const AppHeader = () => {
 
     if (userConfig)
         saveSettings(userConfig);
-    console.log(userConfig);
-    
 
     return (
         <header className='header-root'>
@@ -207,7 +214,6 @@ const AppHeader = () => {
                         if(setUserConfig && userConfig) {
                             setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
                             saveSettings(userConfig);
-                            console.log(userConfig);
                         }
                     }
                 )
