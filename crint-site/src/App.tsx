@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import VLibras from '@djpfs/react-vlibras';
+import { ConfigContext, STD_CONFIG_STATE } from './Context';
 
 import Homepage from './pages/homepage';
 import AppHeader from './components/AppHeader';
@@ -21,8 +23,7 @@ import Pesquisa from './pages/information subpages/pesquisa';
 import Creditos from './pages/credits';
 import Privacidade from './pages/privacy';
 
-import { ConfigContext, STD_CONFIG_STATE } from './Context';
-import { useState } from 'react';
+import NotFound from './pages/NotFound';
 
 function App() {
 	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
@@ -54,7 +55,9 @@ function App() {
 
             <Route path='creditos' element={<Creditos />} />
             <Route path='privacidade' element={<Privacidade />} />
-          </Route >
+          </Route>
+
+          <Route path='*' element={<NotFound />} /> 
         </Routes>
         <VLibras />
         <AppFooter />
