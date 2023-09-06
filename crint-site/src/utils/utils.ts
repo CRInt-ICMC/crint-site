@@ -1,20 +1,19 @@
-import en_dict from '../dictionary/en.json';
-import pt_dict from '../dictionary/pt.json';
-import { DEFAULT_LANGUAGE } from './appConstants';
+// import en_dict from '../dictionary/en.json';
+// import pt_dict from '../dictionary/pt.json';
+import axios from 'axios';
+import { DEFAULT_LANGUAGE, AVAILABLE_LANGUAGES } from './appConstants';
+import { Schema } from '@strapi/strapi';
+import { ApiHeaderHeader } from './generated/contentTypes';
 
 // Existem problemas de escalabilidade com o modelo atual, porém, serve para o projeto
-export function loadLanguage(currentLang : string) {
-    // Recebe a linguagem e retorna o JSON associado
-    switch (currentLang) {
-        case 'pt':
-            return pt_dict;
+export async function loadLanguage(currentLang : string, api : string) : Promise<Schema.CollectionType> {
+    // Recebe a linguagem e retorna o dicionário associado através da API provida
+    if (!AVAILABLE_LANGUAGES.includes(currentLang)) 
+        currentLang = DEFAULT_LANGUAGE;
 
-        case 'en':
-            return en_dict;
-        
-        default:
-            return pt_dict;
-    }
+    let response = await axios.get('http://localhost:1337/api' + api);
+
+    return response['data']['data'][0] as Schema.CollectionType;
 }
 
 // Salva as configurações

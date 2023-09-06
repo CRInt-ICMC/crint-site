@@ -1,7 +1,7 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, LANGUAGES_AVAILABLE } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES } from '../utils/appConstants';
 import { loadLanguage, saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
 import DropDownMenu from './DropDownMenu';
@@ -13,6 +13,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from './Popup';
 import axios from 'axios';
+import { ApiHeaderHeader } from '../utils/generated/contentTypes';
 
 const logos = () => (
     <span className='logos'>
@@ -22,27 +23,27 @@ const logos = () => (
     </span>
 );
 
-const topics = (dictionary : languageDictionary, fontSizeMod : number) => {
+const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'mobilidade/aluno'}> {'>'} {dictionary.header?.mobilidade?.aluno} </Link>
-            <Link to={'mobilidade/professor'}> {'>'} {dictionary.header?.mobilidade?.professor} </Link>
-            <Link to={'mobilidade/servidor'}> {'>'} {dictionary.header?.mobilidade?.servidor} </Link>
+            <Link to={'mobilidade/aluno'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
+            <Link to={'mobilidade/professor'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
+            <Link to={'mobilidade/servidor'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
         </span>
     );
 
     let estrangeirosBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'estrangeiros/guias'}> {'>'} {dictionary.header?.estrangeiros?.guias} </Link>
+            <Link to={'estrangeiros/guias'}> {'>'} {String(dictionary?.attributes.Guias)} </Link>
         </span>
     );
 
     let informacoesBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'informacoes/convenios'}> {'>'} {dictionary.header?.informacoes?.convenios} </Link>
-            <Link to={'informacoes/dia'}> {'>'} {dictionary.header?.informacoes?.dia} </Link>
-            <Link to={'informacoes/pesquisa'}> {'>'} {dictionary.header?.informacoes?.pesquisa} </Link>
+            <Link to={'informacoes/convenios'}> {'>'} {String(dictionary?.attributes.Convenios)} </Link>
+            <Link to={'informacoes/dia'}> {'>'} {String(dictionary?.attributes.DIA)} </Link>
+            <Link to={'informacoes/pesquisa'}> {'>'} {String(dictionary?.attributes.Pesquisa_conduzida)} </Link>
         </span>
     );
 
@@ -50,19 +51,19 @@ const topics = (dictionary : languageDictionary, fontSizeMod : number) => {
     return (
         <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
             <DropDownMenu 
-                head={<Link to={'mobilidade'}> {dictionary.header?.mobilidade?.titulo} </Link>} 
+                head={<Link to={'mobilidade'}> {String(dictionary?.attributes.Mobilidade)} </Link>} 
                 body={mobilidadeBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<Link to={'estrangeiros'}> {dictionary.header?.estrangeiros?.titulo} </Link>} 
+                head={<Link to={'estrangeiros'}> {String(dictionary?.attributes.Estrangeiros)} </Link>} 
                 body={estrangeirosBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<Link to={'informacoes'}> {dictionary.header?.informacoes?.titulo} </Link>} 
+                head={<Link to={'informacoes'}> {String(dictionary?.attributes.Informacoes)} </Link>} 
                 body={informacoesBody}
                 fontSize={fontSizeMod}
                 />
@@ -121,13 +122,20 @@ const AppHeader = () => {
     const {userConfig, setUserConfig} = useContext(ConfigContext);
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
-    const [langDict, setLangDict] = useState<languageDictionary>(loadLanguage(currentLang || DEFAULT_LANGUAGE));
+    const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const location = useLocation();
-
-    // Sobe para o topo caso troque de página
+    
+    // Executa quando a página carrega
     useEffect(()=>{
+        // Sobe para o topo caso troque de página
         window.scrollTo(0, 0);
+
+        axios.get('http://localhost:1337/api/headers').then((response) => {
+            setLangDict(response['data']['data'][0] as ApiHeaderHeader);
+        })
+
     }, [location])
+
 
     // Esse bloco lida com a língua atual
     useEffect(() => {
@@ -141,29 +149,21 @@ const AppHeader = () => {
     }, [currentLang]);
 
     // Carrega o novo dicionário de linguagem
-    let valores = null;
-    const changeLang = (lang : string) => {
+    async function changeLang(lang : string) {
         // Impede o uso inapropriado da função
-        if (!LANGUAGES_AVAILABLE.includes(lang)) {
+        if (!AVAILABLE_LANGUAGES.includes(lang)) {
             changeLang(DEFAULT_LANGUAGE);
             return;
         }
 
         // Atualiza as variáveis que dependem da língua atual
         setLang(lang)
-        setLangDict(loadLanguage(lang));
+        setLangDict(await loadLanguage(currentLang, '/headers') as ApiHeaderHeader)
 
         if (setUserConfig && userConfig)
             setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
-    
-        axios.get('http://localhost:1337/api/headers').then((response) => {
-            valores = response['data']['data'][0]['attributes'];
-            console.log(response['data']['data'][0]['attributes']);
-        })
     }
-
     
-    console.log(valores)
 
     // Esse bloco lida com o tamanho da fonte    
     useEffect(() => {
@@ -197,7 +197,7 @@ const AppHeader = () => {
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {topics(langDict, currentFontSizeMod)}
+                    {langDict && topics(langDict, currentFontSizeMod)}
                 </div>
 
                 {/* OPÇÕES */}
