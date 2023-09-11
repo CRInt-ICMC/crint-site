@@ -1,5 +1,5 @@
 {
-  "kind": "collectionType",
+  "kind": "singleType",
   "collectionName": "footers",
   "info": {
     "singularName": "footer",
@@ -27,7 +27,7 @@
     "Endereco_texto": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "string"
@@ -67,7 +67,7 @@
     "Instagram_link": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "string"
@@ -75,12 +75,20 @@
     "Telegram_link": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "string"
     },
     "Github_link": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string"
+    },
+    "Creditos": {
       "pluginOptions": {
         "i18n": {
           "localized": true

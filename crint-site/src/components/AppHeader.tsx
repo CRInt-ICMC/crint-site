@@ -2,7 +2,7 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES } from '../utils/appConstants';
-import { loadLanguage, saveSettings, updateUserConfig } from '../utils/utils';
+import { saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
 import DropDownMenu from './DropDownMenu';
 // CSS
@@ -125,15 +125,17 @@ const AppHeader = () => {
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const location = useLocation();
     
-    // Executa quando a página carrega
+    // Executa apenas uma vez quando o site é carregado
+    useEffect(() => {
+        axios.get('http://localhost:1337/api/header?locale=' + userConfig?.lang).then((response) => {
+            setLangDict(response['data']['data'] as ApiHeaderHeader);
+        })
+    }, [userConfig?.lang]);
+
+    // Executa quando troca de rota
     useEffect(()=>{
         // Sobe para o topo caso troque de página
         window.scrollTo(0, 0);
-
-        axios.get('http://localhost:1337/api/headers').then((response) => {
-            setLangDict(response['data']['data'][0] as ApiHeaderHeader);
-        })
-
     }, [location])
 
 
@@ -158,7 +160,6 @@ const AppHeader = () => {
 
         // Atualiza as variáveis que dependem da língua atual
         setLang(lang)
-        setLangDict(await loadLanguage(currentLang, '/headers') as ApiHeaderHeader)
 
         if (setUserConfig && userConfig)
             setUserConfig(updateUserConfig(userConfig, {lang: lang}));            

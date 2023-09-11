@@ -3,7 +3,6 @@
 import axios from 'axios';
 import { DEFAULT_LANGUAGE, AVAILABLE_LANGUAGES } from './appConstants';
 import { Schema } from '@strapi/strapi';
-import { ApiHeaderHeader } from './generated/contentTypes';
 
 // Existem problemas de escalabilidade com o modelo atual, porém, serve para o projeto
 export async function loadLanguage(currentLang : string, api : string) : Promise<Schema.CollectionType> {
@@ -13,7 +12,7 @@ export async function loadLanguage(currentLang : string, api : string) : Promise
 
     let response = await axios.get('http://localhost:1337/api' + api);
 
-    return response['data']['data'][0] as Schema.CollectionType;
+    return response['data']['data'] as Schema.CollectionType;
 }
 
 // Salva as configurações

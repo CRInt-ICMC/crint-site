@@ -1,8 +1,11 @@
+import { useContext, useEffect, useState } from 'react';
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
 import { MOBILIDADE_BANNER } from '../../utils/appImages';
 import './aluno.scss'
+import { ConfigContext } from '../../Context';
+import axios from 'axios';
 
 const AuxiliosFinanceiros = () => (
     <>
@@ -79,6 +82,17 @@ const DocumentosIntercambio = () => (
 )
 
 const Aluno = () => {
+    // const {userConfig} = useContext(ConfigContext);
+    // const [langDict, setLangDict] = useState<ApiFooterFooter>();
+
+    // // Executa apenas uma vez quando o site é carregado
+    // useEffect(() => {
+    //     axios.get('http://localhost:1337/api/footer?locale=' + userConfig?.lang).then((response) => {
+    //         console.log('http://localhost:1337/api/footer?locale=' + userConfig?.lang)
+    //         setLangDict(response['data']['data'] as ApiFooterFooter);
+    //     })
+    // }, [userConfig?.lang]);
+    
     return (
         <div id='aluno-root'>
             <TopicBanner topicoNome='ALUNOS(AS)' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
