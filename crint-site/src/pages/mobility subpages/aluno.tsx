@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, ReactNode } from 'react';
 import TopicBanner from '../../components/TopicBanner';
 import TopicSection from '../../components/TopicSection';
 import { AZUL_ICMC, BEJE_CLARO, CIANO_USP, LARANJA_USP, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
@@ -6,6 +6,7 @@ import { MOBILIDADE_BANNER } from '../../utils/appImages';
 import './aluno.scss'
 import { ConfigContext } from '../../Context';
 import axios from 'axios';
+import { ApiPaginaPagina, ApiSecaoSecao } from '../../utils/generated/contentTypes';
 
 const AuxiliosFinanceiros = () => (
     <>
@@ -81,41 +82,50 @@ const DocumentosIntercambio = () => (
     </>
 )
 
-const Aluno = () => {
-    // const {userConfig} = useContext(ConfigContext);
-    // const [langDict, setLangDict] = useState<ApiFooterFooter>();
-
-    // // Executa apenas uma vez quando o site é carregado
-    // useEffect(() => {
-    //     axios.get('http://localhost:1337/api/footer?locale=' + userConfig?.lang).then((response) => {
-    //         console.log('http://localhost:1337/api/footer?locale=' + userConfig?.lang)
-    //         setLangDict(response['data']['data'] as ApiFooterFooter);
-    //     })
-    // }, [userConfig?.lang]);
+const PageSections = (secoes : ApiSecaoSecao[]) => {
     
     return (
+        <>
+            {secoes.map((secao) => {
+                return (
+                    <TopicSection 
+                        key={String(secao.attributes.Titulo || '')} 
+                        title={String(secao.attributes.Titulo || '')}
+                        body={String(secao.attributes.Corpo || '')}
+                        style={{
+                            color: String(secao.attributes.Cor_texto || ''),
+                            backgroundColor: String(secao.attributes.Cor_fundo || '')
+                        }}
+                        />
+                );
+            })}
+        </>
+    );
+}
+
+const Aluno = () => {
+    const {userConfig} = useContext(ConfigContext);
+    const [langDict, setLangDict] = useState<ApiPaginaPagina>();
+    const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
+
+    useEffect(() => {
+        axios.get('http://localhost:1337/api/paginas?filters[uid][$eq]=alunos&populate=secoes').then((response) => {
+            setLangDict(response['data']['data'][0] as ApiPaginaPagina);
+            setSecoes(response['data']['data'][0]['attributes']['secoes']['data'])
+        })
+    }, [userConfig?.lang]);
+
+    console.log(langDict)
+    console.log(secoes)
+
+    return (
         <div id='aluno-root'>
-            <TopicBanner topicoNome='ALUNOS(AS)' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
-            <TopicSection 
-                title='Solicitações de auxílios financeiros' 
-                body={AuxiliosFinanceiros()}
-                style={{color: 'black', backgroundColor: CIANO_USP}}
+            <TopicBanner topicoNome={String(langDict?.attributes.Banner_text || '')} 
+                topicoImage={MOBILIDADE_BANNER} 
+                style={{background: MOBILIDADE_GRADIENTE}} 
                 />
-            <TopicSection 
-                title='Oportunidades no Exterior e Editais em Andamentos' 
-                body={OportunidadesEditais()}
-                style={{color: 'black', backgroundColor: BEJE_CLARO}}
-                />
-            <TopicSection 
-                title='Acordos e Convênios' 
-                body={AcordosConvenios()}
-                style={{color: 'white', backgroundColor: AZUL_ICMC}}
-                />
-            <TopicSection 
-                title='Documentos' 
-                body={DocumentosIntercambio()}
-                style={{color: 'black', backgroundColor: LARANJA_USP}}
-                />
+
+            {secoes && PageSections(secoes)}
         </div>
     );
 }

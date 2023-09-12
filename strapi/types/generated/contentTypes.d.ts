@@ -919,18 +919,25 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
     };
   };
   attributes: {
-    Banner: Attribute.String &
+    Banner_text: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    secaos: Attribute.Relation<
+    secoes: Attribute.Relation<
       'api::pagina.pagina',
       'oneToMany',
       'api::secao.secao'
     >;
     Banner_imagem: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    UID: Attribute.String &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -967,6 +974,7 @@ export interface ApiSecaoSecao extends Schema.CollectionType {
     singularName: 'secao';
     pluralName: 'secaos';
     displayName: 'Se\u00E7\u00E3o';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -994,6 +1002,20 @@ export interface ApiSecaoSecao extends Schema.CollectionType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
+        };
+      }>;
+    Cor_fundo: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    Cor_texto: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;

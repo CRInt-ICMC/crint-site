@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { ConfigContext } from '../Context';
-import { DEFAULT_LANGUAGE } from '../utils/appConstants';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
-import './AppFooter.scss'
 import { Link } from 'react-router-dom';
-import { ApiFooterFooter } from '../utils/generated/contentTypes';
 import axios from 'axios';
+import { ConfigContext } from '../Context';
+import { ApiFooterFooter } from '../utils/generated/contentTypes';
+import './AppFooter.scss'
 
 const AppFooter = () => {
     const {userConfig} = useContext(ConfigContext);
@@ -16,7 +15,6 @@ const AppFooter = () => {
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
         axios.get('http://localhost:1337/api/footer?locale=' + userConfig?.lang).then((response) => {
-            console.log('http://localhost:1337/api/footer?locale=' + userConfig?.lang)
             setLangDict(response['data']['data'] as ApiFooterFooter);
         })
     }, [userConfig?.lang]);

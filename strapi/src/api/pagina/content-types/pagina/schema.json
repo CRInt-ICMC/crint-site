@@ -16,7 +16,7 @@
     }
   },
   "attributes": {
-    "Banner": {
+    "Banner_text": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -24,25 +24,34 @@
       },
       "type": "string"
     },
-    "secaos": {
+    "secoes": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::secao.secao"
     },
     "Banner_imagem": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
       ],
-      "type": "media",
-      "multiple": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "UID": {
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       },
+      "type": "string",
       "required": true
     }
   }
