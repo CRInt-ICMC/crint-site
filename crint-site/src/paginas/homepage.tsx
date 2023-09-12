@@ -1,5 +1,5 @@
 import './homepage.scss'
-import TopicSection from '../components/TopicSection';
+import TopicSection from '../componentes/TopicSection';
 import { AZUL_AUCANI, BEJE_CLARO, MARMORE } from '../utils/appConstants';
 
 const NovidadesAvisos = () => (

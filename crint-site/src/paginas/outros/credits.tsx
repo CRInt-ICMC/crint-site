@@ -1,8 +1,7 @@
-import TopicBanner from '../components/TopicBanner';
-import TopicSection from '../components/TopicSection';
-import { BEJE_CLARO, OUTROS_GRADIENTE } from '../utils/appConstants';
-import { CRINT_COLORIDO } from '../utils/appImages';
-import './credits.scss'
+import TopicBanner from '../../componentes/TopicBanner';
+import TopicSection from '../../componentes/TopicSection';
+import { BEJE_CLARO, OUTROS_GRADIENTE } from '../../utils/appConstants';
+import { CRINT_COLORIDO } from '../../utils/appImages';
 
 const assets = () => (
     <>

@@ -3,27 +3,28 @@ import { useState } from 'react';
 import VLibras from '@djpfs/react-vlibras';
 import { ConfigContext, STD_CONFIG_STATE } from './Context';
 
-import Homepage from './pages/homepage';
-import AppHeader from './components/AppHeader';
-import AppFooter from './components/AppFooter';
+import Homepage from './paginas/homepage';
+import AppHeader from './componentes/AppHeader';
+import AppFooter from './componentes/AppFooter';
 
-import Mobilidade from './pages/mobilidade';
-import Aluno from './pages/mobility subpages/aluno';
-import Professor from './pages/mobility subpages/professor';
-import Servidor from './pages/mobility subpages/servidor';
+import Mobilidade from './paginas/mobilidade';
+import Aluno from './paginas/mobilidade subpaginas/alunos';
+import Professor from './paginas/mobilidade subpaginas/professores';
+import Servidor from './paginas/mobilidade subpaginas/servidores';
 
-import Estrangeiros from './pages/estrangeiros';
-import Guias from './pages/foreigners subpages/guias';
+import Estrangeiros from './paginas/estrangeiros';
+import Guias from './paginas/estrangeiros subpaginas/guias';
 
-import Informacoes from './pages/informacoes';
-import Convenios from './pages/information subpages/convenios';
-import Dia from './pages/information subpages/dia';
-import Pesquisa from './pages/information subpages/pesquisa';
+import Informacoes from './paginas/informacoes';
+import Convenios from './paginas/informação subpaginas/convenios';
+import Dia from './paginas/informação subpaginas/dia';
+import Pesquisa from './paginas/informação subpaginas/pesquisa';
 
-import Creditos from './pages/credits';
-import Privacidade from './pages/privacy';
+import Creditos from './paginas/outros/credits';
+import Privacidade from './paginas/outros/privacy';
 
-import NotFound from './pages/NotFound';
+import NotFound from './paginas/outros/NotFound';
+
 
 function App() {
 	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);

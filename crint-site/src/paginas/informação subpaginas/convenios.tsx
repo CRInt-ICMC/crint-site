@@ -1,8 +1,7 @@
-import TopicBanner from '../../components/TopicBanner';
-import WIP from '../../components/wip';
+import TopicBanner from '../../componentes/TopicBanner';
+import WIP from '../../componentes/wip';
 import { INFORMACOES_GRADIENTE } from '../../utils/appConstants';
 import { INFORMACOES_BANNER } from '../../utils/appImages';
-import './convenios.scss'
 
 const Convenios = () => {
     return (

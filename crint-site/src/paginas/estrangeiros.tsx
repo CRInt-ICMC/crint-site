@@ -1,8 +1,7 @@
-import TopicBanner from '../components/TopicBanner';
-import TopicSection from '../components/TopicSection';
+import TopicBanner from '../componentes/TopicBanner';
+import TopicSection from '../componentes/TopicSection';
 import { CIANO_USP, ESTRANGEIROS_GRADIENTE, MARMORE } from '../utils/appConstants';
 import { ESTRANGEIROS_BANNER } from '../utils/appImages';
-import './estrangeiros.scss'
 
 const informacaoGeraisEstrangeiros = () => {
     return (

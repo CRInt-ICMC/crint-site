@@ -1,8 +1,7 @@
-import TopicBanner from '../../components/TopicBanner';
-import TopicSection from '../../components/TopicSection';
+import TopicBanner from '../../componentes/TopicBanner';
+import TopicSection from '../../componentes/TopicSection';
 import { MARMORE, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
 import { MOBILIDADE_BANNER } from '../../utils/appImages';
-import './professor.scss'
 
 const AuxiliosFinanceiros = () => (
     <>
