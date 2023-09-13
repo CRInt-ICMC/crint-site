@@ -1,32 +1,11 @@
-import TopicBanner from '../../componentes/TopicBanner';
-import TopicSection from '../../componentes/TopicSection';
-import { MARMORE, MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
+import PageLoader from '../../componentes/PageLoader';
+import { MOBILIDADE_GRADIENTE } from '../../utils/appConstants';
 import { MOBILIDADE_BANNER } from '../../utils/appImages';
-
-const AuxiliosFinanceiros = () => (
-    <>
-        <p>
-            A CRInt tem apoiado os(as) docentes para a participação em eventos internacionais ou outros eventos pertinentes à internalização. 
-        </p>
-        <p>
-            A solicitação é em fluxo contínuo e deve ser feita diretamente à <a href='https://www.icmc.usp.br/pesquisa/informacoes-gerais-e-servicos'>Comissão de Pesquisa (CPq)</a>. 
-            Após análise de mérito por essa comissão, a solicitação é enviada internamente para a CRInt. 
-        </p>
-        <p>
-            Recomenda-se que a solicitação seja feita com pelo menos 60 dias de antecedência do evento.
-        </p>
-    </>
-)
 
 const Professor = () => {
     return (
         <div id='professor-root'>
-            <TopicBanner topicoNome='PROFESSORES(AS)' topicoImage={MOBILIDADE_BANNER} style={{background: MOBILIDADE_GRADIENTE}} />
-            <TopicSection 
-                title='Auxílios Financeiros' 
-                body={AuxiliosFinanceiros()} 
-                style={{backgroundColor: MARMORE}}  
-                />
+            <PageLoader uid='professores' topicoImagem={MOBILIDADE_BANNER} topicoGradiente={MOBILIDADE_GRADIENTE} />
         </div>
     );
 }

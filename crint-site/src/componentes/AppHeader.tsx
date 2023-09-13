@@ -13,7 +13,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from './Popup';
 import axios from 'axios';
-import { ApiHeaderHeader } from '../utils/generated/contentTypes';
+import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 
 const logos = () => (
     <span className='logos'>
@@ -101,34 +101,22 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
     </div>
 );
 
-const cookieConsentPopup = (setConsentTrue : CallableFunction) => {
-    const popupBody = () => (
-        <>
-            <p>Ao acessar e utilizar nosso website você concorda com nossas políticas de uilização de cookies. <Link to={'privacidade'}>Saiba mais.</Link></p>
-            <button onClick={() => setConsentTrue()}>Aceito</button>
-        </>
-    )
-
-    return (
-        <Popup 
-            head="Privacidade e Cookies" 
-            body={popupBody()} 
-            />
-    )
-}
-
 const AppHeader = () => {
     // Hooks    
     const {userConfig, setUserConfig} = useContext(ConfigContext);
     const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
+    const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const location = useLocation();
     
-    // Executa apenas uma vez quando o site é carregado
+    // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
         axios.get('http://localhost:1337/api/header?locale=' + userConfig?.lang).then((response) => {
             setLangDict(response['data']['data'] as ApiHeaderHeader);
+        })
+        axios.get('http://localhost:1337/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
+            setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
     }, [userConfig?.lang]);
 
@@ -185,6 +173,13 @@ const AppHeader = () => {
             setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
     }
 
+    const setConsentTrue = () => { 
+        if(setUserConfig && userConfig) {
+            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
+            saveSettings(userConfig);
+        }
+    }
+
     if (userConfig)
         saveSettings(userConfig);
 
@@ -209,15 +204,19 @@ const AppHeader = () => {
             </nav>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
-            { !userConfig?.cookieConsent &&
-                cookieConsentPopup( 
-                    () => { 
-                        if(setUserConfig && userConfig) {
-                            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
-                            saveSettings(userConfig);
-                        }
-                    }
-                )
+            { !userConfig?.cookieConsent && popupPrivacidade &&
+                <Popup 
+                    head={String(popupPrivacidade?.attributes.Titulo)} 
+                    body={
+                        <>
+                            <p>
+                                {String(popupPrivacidade?.attributes.Corpo)} 
+                                <Link to={'privacidade'}>{String(popupPrivacidade?.attributes.Saiba_mais)}</Link>
+                            </p>
+                            <button onClick={setConsentTrue}>{String(popupPrivacidade?.attributes.Saiba_mais)}</button>
+                        </>
+                    } 
+                    />
             }
 
         </header>

@@ -902,6 +902,58 @@ export interface ApiHeaderHeader extends Schema.SingleType {
   };
 }
 
+export interface ApiHomepageHomepage extends Schema.SingleType {
+  collectionName: 'homepages';
+  info: {
+    singularName: 'homepage';
+    pluralName: 'homepages';
+    displayName: 'Homepage';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Imagem_fundo: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    secoes: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToMany',
+      'api::secao.secao'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToMany',
+      'api::homepage.homepage'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiPaginaPagina extends Schema.CollectionType {
   collectionName: 'paginas';
   info: {
@@ -931,7 +983,6 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
       'api::secao.secao'
     >;
     Banner_imagem: Attribute.Media &
-      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -963,6 +1014,71 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
       'api::pagina.pagina',
       'oneToMany',
       'api::pagina.pagina'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiPopupDePrivacidadePopupDePrivacidade
+  extends Schema.SingleType {
+  collectionName: 'popup_de_privacidades';
+  info: {
+    singularName: 'popup-de-privacidade';
+    pluralName: 'popup-de-privacidades';
+    displayName: 'Popup de Privacidade';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Titulo: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Corpo: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Saiba_mais: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Botao: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::popup-de-privacidade.popup-de-privacidade',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::popup-de-privacidade.popup-de-privacidade',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::popup-de-privacidade.popup-de-privacidade',
+      'oneToMany',
+      'api::popup-de-privacidade.popup-de-privacidade'
     >;
     locale: Attribute.String;
   };
@@ -1060,7 +1176,9 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::footer.footer': ApiFooterFooter;
       'api::header.header': ApiHeaderHeader;
+      'api::homepage.homepage': ApiHomepageHomepage;
       'api::pagina.pagina': ApiPaginaPagina;
+      'api::popup-de-privacidade.popup-de-privacidade': ApiPopupDePrivacidadePopupDePrivacidade;
       'api::secao.secao': ApiSecaoSecao;
     }
   }
