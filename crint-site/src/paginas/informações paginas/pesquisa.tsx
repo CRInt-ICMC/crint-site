@@ -1,5 +1,4 @@
 import TopicBanner from '../../componentes/TopicBanner';
-import WIP from '../../componentes/WIP';
 
 const Pesquisa = () => {
     return (
@@ -7,7 +6,6 @@ const Pesquisa = () => {
             <TopicBanner 
                 topicoNome='PESQUISA' 
                 />
-            <WIP />
         </div>
     );
 }

@@ -1,5 +1,4 @@
 import TopicBanner from '../../componentes/TopicBanner';
-import WIP from '../../componentes/WIP';
 
 const Dia = () => {
     return (
@@ -8,7 +7,6 @@ const Dia = () => {
             <TopicBanner 
                 topicoNome='Dados de Internacionalização dos Alunos' 
                 />
-            <WIP />
         </div>
     );
 }
