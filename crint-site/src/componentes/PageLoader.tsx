@@ -7,19 +7,22 @@ import TopicSection from "./TopicSection";
 import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
 import './PageLoader.scss'
 
-const PageLoader = (props : {uid : string, topicoImagem : string, topicoGradiente : string}) => {
+const PageLoader = (props : {uid : string, topicoGradiente : string}) => {
     const {userConfig} = useContext(ConfigContext);
-    const [langDict, setLangDict] = useState<ApiPaginaPagina>();
+    const [texto, setTexto] = useState<ApiPaginaPagina>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
     const [imagemBanner, setImagemBanner] = useState<any>();
 
+    // Recebe o texto e as imagens do Strapi
     useEffect(() => {
+        // Strapi + Chamada de página filtrada por UID + Idioma selecionado
         axios.get(STRAPI_URL + `/api/paginas?filters[UID][$eq]=${props.uid}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
         .then((response) => {
             if (response.status !== 200)
                 return;
 
-            setLangDict(response['data']['data'][0] as ApiPaginaPagina);
+            
+            setTexto(response['data']['data'][0] as ApiPaginaPagina);
             setImagemBanner(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url'])
 
             if (response['data']['data'][0]['attributes']['secoes'] === undefined)
@@ -32,7 +35,7 @@ const PageLoader = (props : {uid : string, topicoImagem : string, topicoGradient
     return (
         <div className='page-body'>
             {imagemBanner &&
-                <TopicBanner topicoNome={String(langDict?.attributes.Banner_text || '')} 
+                <TopicBanner topicoNome={String(texto?.attributes.Banner_text || '')} 
                     topicoImage={STRAPI_URL + imagemBanner} 
                     style={{background: props.topicoGradiente}} 
                     />

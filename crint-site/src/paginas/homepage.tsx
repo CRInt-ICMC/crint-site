@@ -1,16 +1,17 @@
-import './homepage.scss'
-import TopicSection from '../componentes/TopicSection';
 import { useContext, useEffect, useState } from 'react';
 import { ConfigContext } from '../Context';
 import { ApiSecaoSecao } from '../utils/generated/contentTypes';
-import axios from 'axios';
 import { DEFAULT_LANGUAGE, STRAPI_URL } from '../utils/appConstants';
+import TopicSection from '../componentes/TopicSection';
+import axios from 'axios';
+import './homepage.scss'
 
 const Homepage = () => {
     const {userConfig} = useContext(ConfigContext);
     const [imagemBackground, setImagemBackground] = useState<string>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
 
+    // Recebe a imagem de fundo e as seções
     useEffect(() => {
         axios.get(`http://localhost:1337/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
         .then((response) => {
@@ -19,14 +20,12 @@ const Homepage = () => {
         })
     }, [userConfig?.lang]);
 
-    console.log(imagemBackground)
-
     return (
         <div className='homepage-body'>
-            <section className='main-section' style={{backgroundImage: `url(${STRAPI_URL + imagemBackground})`}}>
-                <span className='searchbar-container' style={{width: '70%'}}>
-                </span>
-            </section>
+            {/* Carrega a imagem central */}
+            <section className='main-section' style={{backgroundImage: `url(${STRAPI_URL + imagemBackground})`}}></section>
+
+            {/* Carrega as seções */}
             {secoes && 
                 secoes.map((secao) => {
                     return (
