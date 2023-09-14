@@ -26,9 +26,9 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'mobilidade/aluno'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
-            <Link to={'mobilidade/professor'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
-            <Link to={'mobilidade/servidor'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
+            <Link to={'mobilidade/alunos'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
+            <Link to={'mobilidade/professores'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
+            <Link to={'mobilidade/servidores'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
         </span>
     );
 

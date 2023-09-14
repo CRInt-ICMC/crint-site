@@ -994,7 +994,7 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    UID: Attribute.String &
+    URL: Attribute.String &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {

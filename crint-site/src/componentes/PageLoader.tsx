@@ -8,7 +8,7 @@ import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
 import './PageLoader.scss'
 import { useLocation } from "react-router-dom";
 
-const PageLoader = (props : {uid : string}) => {
+const PageLoader = () => {
     const {userConfig} = useContext(ConfigContext);
     const [texto, setTexto] = useState<ApiPaginaPagina>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
@@ -18,17 +18,21 @@ const PageLoader = (props : {uid : string}) => {
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-        axios.get(STRAPI_URL + `/api/paginas?filters[UID][$eq]=${props.uid}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
+        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
         .then((response) => {
+            // Checa se encontrou o caminho
             if (response.status !== 200)
                 return;
 
+            // Passa o texto e a imagem do banner para seus hooks
             setTexto(response['data']['data'][0] as ApiPaginaPagina);
             setImagemBanner(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url'])
 
+            // Verifica se encontrou as seções
             if (response['data']['data'][0]['attributes']['secoes'] === undefined)
                 console.log("Eita")
 
+            // Passa as seções para seu hook
             setSecoes(response['data']['data'][0]['attributes']['secoes']['data'])
         })
     }, [userConfig?.lang, location]);
@@ -38,6 +42,8 @@ const PageLoader = (props : {uid : string}) => {
         // Sobe para o topo caso troque de página
         window.scrollTo(0, 0);
     }, [location])
+
+    console.log(location.pathname)
 
     return (
         <div className='page-body'>
