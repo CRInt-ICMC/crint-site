@@ -62,7 +62,7 @@
     display: inline-flex;
 }
 
-.topics a {
+.topics p {
     color: white;
     font-size: base.$topico-fontsize;
     font-weight: bolder;
@@ -72,6 +72,7 @@
 }
 
 .subtopics a {
+    color: white;
     font-size: base.$subtopico-fontsize;
     font-weight: bolder;
     text-decoration: none;

@@ -51,19 +51,19 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     return (
         <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
             <DropDownMenu 
-                head={<Link to={'mobilidade'}> {String(dictionary?.attributes.Mobilidade)} </Link>} 
+                head={<p>{String(dictionary?.attributes.Mobilidade)}</p>}
                 body={mobilidadeBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<Link to={'estrangeiros'}> {String(dictionary?.attributes.Estrangeiros)} </Link>} 
+                head={<p>{String(dictionary?.attributes.Estrangeiros)}</p>} 
                 body={estrangeirosBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<Link to={'informacoes'}> {String(dictionary?.attributes.Informacoes)} </Link>} 
+                head={<p>{String(dictionary?.attributes.Informacoes)}</p>} 
                 body={informacoesBody}
                 fontSize={fontSizeMod}
                 />
