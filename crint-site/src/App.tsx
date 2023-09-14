@@ -10,7 +10,8 @@ import AppFooter from './componentes/AppFooter';
 import Dia from './paginas/informações paginas/dia';
 import Pesquisa from './paginas/informações paginas/pesquisa';
 
-import NotFound from './paginas/outros/NotFound';
+import NotFound from './componentes/NotFound';
+
 import PageLoader from './componentes/PageLoader';
 
 

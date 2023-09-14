@@ -1,4 +1,4 @@
-import { NOTFOUND_ICON } from '../../utils/appImages';
+import { NOTFOUND_ICON } from '../utils/appImages';
 import './NotFound.scss'
 
 const NotFound = () => {

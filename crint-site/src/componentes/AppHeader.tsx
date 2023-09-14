@@ -1,6 +1,6 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL } from '../utils/appConstants';
 import { saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
