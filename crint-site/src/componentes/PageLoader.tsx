@@ -5,6 +5,7 @@ import axios from "axios";
 import TopicBanner from "./TopicBanner";
 import TopicSection from "./TopicSection";
 import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
+import './PageLoader.scss'
 
 const PageLoader = (props : {uid : string, topicoImagem : string, topicoGradiente : string}) => {
     const {userConfig} = useContext(ConfigContext);
@@ -29,7 +30,7 @@ const PageLoader = (props : {uid : string, topicoImagem : string, topicoGradient
     }, [userConfig?.lang]);
 
     return (
-        <>
+        <div className='page-body'>
             {imagemBanner &&
                 <TopicBanner topicoNome={String(langDict?.attributes.Banner_text || '')} 
                     topicoImage={STRAPI_URL + imagemBanner} 
@@ -52,7 +53,7 @@ const PageLoader = (props : {uid : string, topicoImagem : string, topicoGradient
                     );
                 })
             }
-        </>
+        </div>
     );
 }
 

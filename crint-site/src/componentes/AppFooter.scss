@@ -1,6 +1,7 @@
 @use '../Base.scss' as base;
 
 .footer {
+    position: relative;
     background-color: base.$azul-icmc;
     color: white;
 
