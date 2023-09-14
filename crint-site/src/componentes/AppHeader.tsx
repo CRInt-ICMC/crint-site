@@ -1,6 +1,6 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL } from '../utils/appConstants';
 import { saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
@@ -26,9 +26,9 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'mobilidade/aluno'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
-            <Link to={'mobilidade/professor'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
-            <Link to={'mobilidade/servidor'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
+            <Link to={'mobilidade/alunos'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
+            <Link to={'mobilidade/professores'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
+            <Link to={'mobilidade/servidores'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
         </span>
     );
 
@@ -117,7 +117,6 @@ const AppHeader = () => {
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [imagensHeader, setImagensHeader] = useState<HeaderImages>();
-    const location = useLocation();
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
@@ -137,15 +136,6 @@ const AppHeader = () => {
         })
     }, [userConfig?.lang]);
 
-    console.log(imagensHeader)
-
-    // Executa quando troca de rota
-    useEffect(()=>{
-        // Sobe para o topo caso troque de página
-        window.scrollTo(0, 0);
-    }, [location])
-
-
     // Esse bloco lida com a língua atual
     useEffect(() => {
         if (!userConfig?.lang)
@@ -157,7 +147,7 @@ const AppHeader = () => {
 
     }, [currentLang]);
 
-    // Carrega o novo dicionário de linguagem
+    // Atualiza a linguagem atual
     async function changeLang(lang : string) {
         // Impede o uso inapropriado da função
         if (!AVAILABLE_LANGUAGES.includes(lang)) {
@@ -165,7 +155,6 @@ const AppHeader = () => {
             return;
         }
 
-        // Atualiza as variáveis que dependem da língua atual
         setLang(lang)
 
         if (setUserConfig && userConfig)
@@ -183,6 +172,7 @@ const AppHeader = () => {
 
     }, [currentFontSizeMod]);
 
+    // Atualiza as modificações ao tamanho da fonte
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
         if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
@@ -192,6 +182,7 @@ const AppHeader = () => {
             setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
     }
 
+    // Marca que o usuário concordou com os termos de privacidade
     const setConsentTrue = () => { 
         if(setUserConfig && userConfig) {
             setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
@@ -199,6 +190,9 @@ const AppHeader = () => {
         }
     }
 
+{/* <a href="https://www.freepik.com/free-vector/geometric-background-vector-white-cube-patterns_17225059.htm#query=white%20background%20pattern&position=2&from_view=search&track=ais">Image by rawpixel.com</a> on Freepik */}
+
+    // Salva a configuração a cada modificação
     if (userConfig)
         saveSettings(userConfig);
 

@@ -1001,6 +1001,13 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
           localized: false;
         };
       }>;
+    Gradiente: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<'linear-gradient(90deg, rgba(197,218,237,1) 0%, rgba(255,255,255,1) 54%, rgba(236,83,86,1) 100%)'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
