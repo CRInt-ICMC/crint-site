@@ -2,27 +2,28 @@ import './homepage.scss'
 import TopicSection from '../componentes/TopicSection';
 import { useContext, useEffect, useState } from 'react';
 import { ConfigContext } from '../Context';
-import { ApiPaginaPagina, ApiSecaoSecao } from '../utils/generated/contentTypes';
+import { ApiSecaoSecao } from '../utils/generated/contentTypes';
 import axios from 'axios';
-import { DEFAULT_LANGUAGE } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, STRAPI_URL } from '../utils/appConstants';
 
 const Homepage = () => {
     const {userConfig} = useContext(ConfigContext);
-    const [langDict, setLangDict] = useState<ApiPaginaPagina>();
+    const [imagemBackground, setImagemBackground] = useState<string>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
 
     useEffect(() => {
-        axios.get(`http://localhost:1337/api/homepage?populate=secoes&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
+        axios.get(`http://localhost:1337/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
         .then((response) => {
-            setLangDict(response['data']['data'] as ApiPaginaPagina);
-            console.log(response['data']['data'])
+            setImagemBackground(response['data']['data']['attributes']['Imagem_fundo']['data']['attributes']['url']);
             setSecoes(response['data']['data']['attributes']['secoes']['data'])
         })
     }, [userConfig?.lang]);
 
+    console.log(imagemBackground)
+
     return (
         <div className='homepage-body'>
-            <section className='main-section'>
+            <section className='main-section' style={{backgroundImage: `url(${STRAPI_URL + imagemBackground})`}}>
                 <span className='searchbar-container' style={{width: '70%'}}>
                 </span>
             </section>

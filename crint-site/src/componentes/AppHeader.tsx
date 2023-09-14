@@ -1,25 +1,24 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL } from '../utils/appConstants';
 import { saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
+import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 import DropDownMenu from './DropDownMenu';
+import axios from 'axios';
+import Popup from './Popup';
 // CSS
 import './AppHeader.scss';
 // IMAGENS E ÍCONES
-import { ICMC_BRANCO, BANDEIRA_PT, BANDEIRA_EN, CRINT_BRANCO } from '../utils/appImages';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Popup from './Popup';
-import axios from 'axios';
-import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const logos = () => (
+const logos = (ICMC :string, CRINT : string) => (
     <span className='logos'>
-        <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={ICMC_BRANCO} /></a>
+        <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={STRAPI_URL + ICMC} /></a>
 
-        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={CRINT_BRANCO} /></Link>
+        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + CRINT} /></Link>
     </span>
 );
 
@@ -71,10 +70,10 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     );
 }
 
-const languages = (currentLang : string, setLang : CallableFunction) => {
+const languages = (currentLang : string, setLang : CallableFunction, bandeiras : {PT : string, EN : string}) => {
     const langDescs = [
-        {id: 'pt', alt: 'Mudar para português', flag: BANDEIRA_PT},
-        {id: 'en', alt: 'Change to English', flag: BANDEIRA_EN},
+        {id: 'pt', alt: 'Mudar para português', flag: STRAPI_URL + bandeiras.PT},
+        {id: 'en', alt: 'Change to English', flag: STRAPI_URL + bandeiras.EN},
     ];
     
     return (
@@ -101,6 +100,15 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
     </div>
 );
 
+interface HeaderImages {
+    ICMC : string,
+    CRInt : string,
+    FLAGS : {
+        PT : string,
+        EN : string,
+    },
+}
+
 const AppHeader = () => {
     // Hooks    
     const {userConfig, setUserConfig} = useContext(ConfigContext);
@@ -108,17 +116,28 @@ const AppHeader = () => {
     const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
+    const [imagensHeader, setImagensHeader] = useState<HeaderImages>();
     const location = useLocation();
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
-        axios.get('http://localhost:1337/api/header?locale=' + userConfig?.lang).then((response) => {
+        axios.get('http://localhost:1337/api/header?populate=*&locale=' + userConfig?.lang).then((response) => {
             setLangDict(response['data']['data'] as ApiHeaderHeader);
+            setImagensHeader({
+                ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes']['url'],
+                CRInt: response['data']['data']['attributes']['CRInt']['data']['attributes']['url'],
+                FLAGS: {
+                    EN: response['data']['data']['attributes']['bandeira_en']['data']['attributes']['url'],
+                    PT: response['data']['data']['attributes']['bandeira_pt']['data']['attributes']['url'],
+                },
+            });
         })
         axios.get('http://localhost:1337/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
             setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
     }, [userConfig?.lang]);
+
+    console.log(imagensHeader)
 
     // Executa quando troca de rota
     useEffect(()=>{
@@ -188,17 +207,21 @@ const AppHeader = () => {
             <nav className='navbar'>
                 {/* LOGOS */}
                 <div className='navbar-left'>
-                    {logos()}
+                    { imagensHeader?.ICMC && imagensHeader.CRInt &&
+                        logos(imagensHeader.ICMC, imagensHeader.CRInt)
+                    }
                 </div>
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
                     {langDict && topics(langDict, currentFontSizeMod)}
                 </div>
-
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
-                    {languages(currentLang, changeLang)}
+                    { imagensHeader?.FLAGS &&
+                        languages(currentLang, changeLang, imagensHeader.FLAGS)
+                    }
+
                     {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
@@ -208,14 +231,14 @@ const AppHeader = () => {
                 <Popup 
                     head={String(popupPrivacidade?.attributes.Titulo)} 
                     body={
-                        <>
-                            <p>
-                                {String(popupPrivacidade?.attributes.Corpo)} 
-                                <Link to={'privacidade'}>{String(popupPrivacidade?.attributes.Saiba_mais)}</Link>
-                            </p>
-                            <button onClick={setConsentTrue}>{String(popupPrivacidade?.attributes.Saiba_mais)}</button>
-                        </>
-                    } 
+                            <>
+                                <p>
+                                    {String(popupPrivacidade?.attributes.Corpo)} 
+                                    <Link to={'privacidade'}>{String(popupPrivacidade?.attributes.Saiba_mais)}</Link>
+                                </p>
+                                <button onClick={setConsentTrue}>{String(popupPrivacidade?.attributes.Saiba_mais)}</button>
+                            </>
+                        } 
                     />
             }
 
