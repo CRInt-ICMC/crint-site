@@ -1,9 +1,8 @@
-import { ICMC_PRETO } from '../utils/appImages';
 import { CSSProperties } from 'react';
 import './TopicBanner.scss';
 
 const TopicBanner = (props : { topicoNome : string, topicoImage? : string, style? : CSSProperties}) => {
-    const defaultImage : string = props.topicoImage || ICMC_PRETO;
+    const defaultImage : string = props.topicoImage || '';
     const defaultStyle : CSSProperties = props.style || {}
 
     return (
