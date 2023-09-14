@@ -95,6 +95,14 @@
         }
       },
       "type": "string"
+    },
+    "Politica_privacidade": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
     }
   }
 }

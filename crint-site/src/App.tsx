@@ -7,15 +7,15 @@ import Homepage from './paginas/homepage';
 import AppHeader from './componentes/AppHeader';
 import AppFooter from './componentes/AppFooter';
 
-import Aluno from './paginas/mobilidade subpaginas/alunos';
-import Professor from './paginas/mobilidade subpaginas/professores';
-import Servidor from './paginas/mobilidade subpaginas/servidores';
+import Aluno from './paginas/mobilidade paginas/alunos';
+import Professor from './paginas/mobilidade paginas/professores';
+import Servidor from './paginas/mobilidade paginas/servidores';
 
-import Guias from './paginas/estrangeiros subpaginas/guias';
+import Guias from './paginas/estrangeiros paginas/guias';
 
-import Convenios from './paginas/informação subpaginas/convenios';
-import Dia from './paginas/informação subpaginas/dia';
-import Pesquisa from './paginas/informação subpaginas/pesquisa';
+import Convenios from './paginas/informações paginas/convenios';
+import Dia from './paginas/informações paginas/dia';
+import Pesquisa from './paginas/informações paginas/pesquisa';
 
 import Creditos from './paginas/outros/credits';
 import Privacidade from './paginas/outros/privacy';

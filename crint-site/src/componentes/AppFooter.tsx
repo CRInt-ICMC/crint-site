@@ -45,7 +45,10 @@ const AppFooter = () => {
                             <a href={'tel:'+ String(langDict?.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(langDict?.attributes.Contato_numero)} </a>
                         </div>
                     </div>
-                    <div className='footer-row'><Link to={'/creditos'}>{String(langDict?.attributes.Creditos)}</Link ></div>
+                    <div className='footer-row'>
+                        <div><Link to={'/creditos'}>{String(langDict?.attributes.Creditos)}</Link ></div>
+                        <div><Link to={'/privacidade'}>{String(langDict?.attributes.Politica_privacidade)}</Link ></div>
+                    </div>
                 </nav>
             }
         </footer>
