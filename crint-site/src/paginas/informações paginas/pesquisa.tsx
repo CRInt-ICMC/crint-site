@@ -1,5 +1,5 @@
 import TopicBanner from '../../componentes/TopicBanner';
-import WIP from '../../componentes/wip';
+import WIP from '../../componentes/WIP';
 
 const Pesquisa = () => {
     return (
