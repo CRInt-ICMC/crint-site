@@ -3,27 +3,25 @@ import { useState } from 'react';
 import VLibras from '@djpfs/react-vlibras';
 import { ConfigContext, STD_CONFIG_STATE } from './Context';
 
-import Homepage from './pages/homepage';
-import AppHeader from './components/AppHeader';
-import AppFooter from './components/AppFooter';
+import Homepage from './paginas/homepage';
+import AppHeader from './componentes/AppHeader';
+import AppFooter from './componentes/AppFooter';
 
-import Mobilidade from './pages/mobilidade';
-import Aluno from './pages/mobility subpages/aluno';
-import Professor from './pages/mobility subpages/professor';
-import Servidor from './pages/mobility subpages/servidor';
+import Aluno from './paginas/mobilidade paginas/alunos';
+import Professor from './paginas/mobilidade paginas/professores';
+import Servidor from './paginas/mobilidade paginas/servidores';
 
-import Estrangeiros from './pages/estrangeiros';
-import Guias from './pages/foreigners subpages/guias';
+import Guias from './paginas/estrangeiros paginas/guias';
 
-import Informacoes from './pages/informacoes';
-import Convenios from './pages/information subpages/convenios';
-import Dia from './pages/information subpages/dia';
-import Pesquisa from './pages/information subpages/pesquisa';
+import Convenios from './paginas/informações paginas/convenios';
+import Dia from './paginas/informações paginas/dia';
+import Pesquisa from './paginas/informações paginas/pesquisa';
 
-import Creditos from './pages/credits';
-import Privacidade from './pages/privacy';
+import Creditos from './paginas/outros/credits';
+import Privacidade from './paginas/outros/privacy';
 
-import NotFound from './pages/NotFound';
+import NotFound from './paginas/outros/NotFound';
+
 
 function App() {
 	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
@@ -40,15 +38,12 @@ function App() {
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
-            <Route path='mobilidade' element={<Mobilidade />} />
             <Route path='mobilidade/aluno' element={<Aluno />} />
             <Route path='mobilidade/professor' element={<Professor />} />
             <Route path='mobilidade/servidor' element={<Servidor />} />
             
-            <Route path='estrangeiros' element={<Estrangeiros />} />
             <Route path='estrangeiros/guias' element={<Guias />} />
 
-            <Route path='informacoes' element={<Informacoes />} />
             <Route path='informacoes/convenios' element={<Convenios />} />
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />

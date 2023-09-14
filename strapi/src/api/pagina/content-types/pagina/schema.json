@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "paginas",
+  "info": {
+    "singularName": "pagina",
+    "pluralName": "paginas",
+    "displayName": "Página",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "Banner_text": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "secoes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::secao.secao"
+    },
+    "Banner_imagem": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "UID": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "required": true
+    }
+  }
+}
