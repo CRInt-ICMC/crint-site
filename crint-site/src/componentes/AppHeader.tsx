@@ -117,7 +117,6 @@ const AppHeader = () => {
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [imagensHeader, setImagensHeader] = useState<HeaderImages>();
-    const location = useLocation();
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
@@ -136,15 +135,6 @@ const AppHeader = () => {
             setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
     }, [userConfig?.lang]);
-
-    console.log(imagensHeader)
-
-    // Executa quando troca de rota
-    useEffect(()=>{
-        // Sobe para o topo caso troque de página
-        window.scrollTo(0, 0);
-    }, [location])
-
 
     // Esse bloco lida com a língua atual
     useEffect(() => {

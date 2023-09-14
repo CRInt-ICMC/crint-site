@@ -6,12 +6,14 @@ import TopicBanner from "./TopicBanner";
 import TopicSection from "./TopicSection";
 import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
 import './PageLoader.scss'
+import { useLocation } from "react-router-dom";
 
 const PageLoader = (props : {uid : string}) => {
     const {userConfig} = useContext(ConfigContext);
     const [texto, setTexto] = useState<ApiPaginaPagina>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
     const [imagemBanner, setImagemBanner] = useState<any>();
+    const location = useLocation();
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
@@ -29,7 +31,13 @@ const PageLoader = (props : {uid : string}) => {
 
             setSecoes(response['data']['data'][0]['attributes']['secoes']['data'])
         })
-    }, [userConfig?.lang]);
+    }, [userConfig?.lang, location]);
+
+    // Executa quando troca de rota
+    useEffect(()=>{
+        // Sobe para o topo caso troque de página
+        window.scrollTo(0, 0);
+    }, [location])
 
     return (
         <div className='page-body'>

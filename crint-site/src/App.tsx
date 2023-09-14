@@ -7,20 +7,11 @@ import Homepage from './paginas/homepage';
 import AppHeader from './componentes/AppHeader';
 import AppFooter from './componentes/AppFooter';
 
-import Aluno from './paginas/mobilidade paginas/alunos';
-import Professor from './paginas/mobilidade paginas/professores';
-import Servidor from './paginas/mobilidade paginas/servidores';
-
-import Guias from './paginas/estrangeiros paginas/guias';
-
-import Convenios from './paginas/informações paginas/convenios';
 import Dia from './paginas/informações paginas/dia';
 import Pesquisa from './paginas/informações paginas/pesquisa';
 
-import Creditos from './paginas/outros/credits';
-import Privacidade from './paginas/outros/privacy';
-
 import NotFound from './paginas/outros/NotFound';
+import PageLoader from './componentes/PageLoader';
 
 
 function App() {
@@ -38,18 +29,18 @@ function App() {
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
-            <Route path='mobilidade/aluno' element={<Aluno />} />
-            <Route path='mobilidade/professor' element={<Professor />} />
-            <Route path='mobilidade/servidor' element={<Servidor />} />
+            <Route path='mobilidade/aluno' element={<PageLoader uid='alunos' />} />
+            <Route path='mobilidade/professor' element={<PageLoader uid='professores' />} />
+            <Route path='mobilidade/servidor' element={<PageLoader uid='servidores' />} />
             
-            <Route path='estrangeiros/guias' element={<Guias />} />
+            <Route path='estrangeiros/guias' element={<PageLoader uid='estrangeiros' />} />
 
-            <Route path='informacoes/convenios' element={<Convenios />} />
+            <Route path='informacoes/convenios' element={<PageLoader uid='convenios' />} />
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
 
-            <Route path='creditos' element={<Creditos />} />
-            <Route path='privacidade' element={<Privacidade />} />
+            <Route path='creditos' element={<PageLoader uid='creditos' />} />
+            <Route path='privacidade' element={<PageLoader uid='politica-privacidade' />} />
           </Route>
 
           <Route path='*' element={<NotFound />} /> 
