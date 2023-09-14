@@ -7,15 +7,12 @@ import Homepage from './paginas/homepage';
 import AppHeader from './componentes/AppHeader';
 import AppFooter from './componentes/AppFooter';
 
-import Mobilidade from './paginas/mobilidade';
 import Aluno from './paginas/mobilidade subpaginas/alunos';
 import Professor from './paginas/mobilidade subpaginas/professores';
 import Servidor from './paginas/mobilidade subpaginas/servidores';
 
-import Estrangeiros from './paginas/estrangeiros';
 import Guias from './paginas/estrangeiros subpaginas/guias';
 
-import Informacoes from './paginas/informacoes';
 import Convenios from './paginas/informação subpaginas/convenios';
 import Dia from './paginas/informação subpaginas/dia';
 import Pesquisa from './paginas/informação subpaginas/pesquisa';
@@ -41,15 +38,12 @@ function App() {
         <Routes>
           <Route path='/'>
             <Route index element={<Homepage />} />
-            <Route path='mobilidade' element={<Mobilidade />} />
             <Route path='mobilidade/aluno' element={<Aluno />} />
             <Route path='mobilidade/professor' element={<Professor />} />
             <Route path='mobilidade/servidor' element={<Servidor />} />
             
-            <Route path='estrangeiros' element={<Estrangeiros />} />
             <Route path='estrangeiros/guias' element={<Guias />} />
 
-            <Route path='informacoes' element={<Informacoes />} />
             <Route path='informacoes/convenios' element={<Convenios />} />
             <Route path='informacoes/dia' element={<Dia />} />
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
