@@ -147,7 +147,7 @@ const AppHeader = () => {
 
     }, [currentLang]);
 
-    // Carrega o novo dicionário de linguagem
+    // Atualiza a linguagem atual
     async function changeLang(lang : string) {
         // Impede o uso inapropriado da função
         if (!AVAILABLE_LANGUAGES.includes(lang)) {
@@ -155,7 +155,6 @@ const AppHeader = () => {
             return;
         }
 
-        // Atualiza as variáveis que dependem da língua atual
         setLang(lang)
 
         if (setUserConfig && userConfig)
@@ -173,6 +172,7 @@ const AppHeader = () => {
 
     }, [currentFontSizeMod]);
 
+    // Atualiza as modificações ao tamanho da fonte
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
         if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
@@ -182,6 +182,7 @@ const AppHeader = () => {
             setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
     }
 
+    // Marca que o usuário concordou com os termos de privacidade
     const setConsentTrue = () => { 
         if(setUserConfig && userConfig) {
             setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
@@ -189,6 +190,9 @@ const AppHeader = () => {
         }
     }
 
+{/* <a href="https://www.freepik.com/free-vector/geometric-background-vector-white-cube-patterns_17225059.htm#query=white%20background%20pattern&position=2&from_view=search&track=ais">Image by rawpixel.com</a> on Freepik */}
+
+    // Salva a configuração a cada modificação
     if (userConfig)
         saveSettings(userConfig);
 
