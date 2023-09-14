@@ -7,7 +7,7 @@ import TopicSection from "./TopicSection";
 import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
 import './PageLoader.scss'
 
-const PageLoader = (props : {uid : string, topicoGradiente : string}) => {
+const PageLoader = (props : {uid : string}) => {
     const {userConfig} = useContext(ConfigContext);
     const [texto, setTexto] = useState<ApiPaginaPagina>();
     const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
@@ -21,7 +21,6 @@ const PageLoader = (props : {uid : string, topicoGradiente : string}) => {
             if (response.status !== 200)
                 return;
 
-            
             setTexto(response['data']['data'][0] as ApiPaginaPagina);
             setImagemBanner(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url'])
 
@@ -34,12 +33,10 @@ const PageLoader = (props : {uid : string, topicoGradiente : string}) => {
 
     return (
         <div className='page-body'>
-            {imagemBanner &&
-                <TopicBanner topicoNome={String(texto?.attributes.Banner_text || '')} 
-                    topicoImage={STRAPI_URL + imagemBanner} 
-                    style={{background: props.topicoGradiente}} 
-                    />
-            }
+            <TopicBanner topicoNome={String(texto?.attributes.Banner_text || '')} 
+                topicoImage={STRAPI_URL + imagemBanner} 
+                style={{background: String(texto?.attributes.Gradiente)}}
+                />
 
             {secoes && 
                 secoes.map((secao) => {

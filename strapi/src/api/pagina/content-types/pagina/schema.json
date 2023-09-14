@@ -53,6 +53,15 @@
       },
       "type": "string",
       "required": true
+    },
+    "Gradiente": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "default": "linear-gradient(90deg, rgba(197,218,237,1) 0%, rgba(255,255,255,1) 54%, rgba(236,83,86,1) 100%)"
     }
   }
 }
