@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { ConfigContext } from '../Context';
 import { ApiSecaoSecao } from '../utils/generated/contentTypes';
-import { DEFAULT_LANGUAGE, STRAPI_URL } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
 import TopicSection from '../componentes/TopicSection';
 import axios from 'axios';
 import './homepage.scss'
@@ -13,7 +13,7 @@ const Homepage = () => {
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
-        axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
+        axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
             setImagemBackground(response['data']['data']['attributes']['Imagem_fundo']['data']['attributes']['url']);
             setSecoes(response['data']['data']['attributes']['secoes']['data'])
