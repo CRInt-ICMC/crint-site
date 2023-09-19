@@ -13,7 +13,7 @@ const Homepage = () => {
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
-        axios.get(`http://localhost:1337/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
+        axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
         .then((response) => {
             setImagemBackground(response['data']['data']['attributes']['Imagem_fundo']['data']['attributes']['url']);
             setSecoes(response['data']['data']['attributes']['secoes']['data'])

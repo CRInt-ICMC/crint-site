@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ConfigContext } from '../Context';
 import { ApiFooterFooter } from '../utils/generated/contentTypes';
 import './AppFooter.scss'
+import { STRAPI_URL } from '../utils/appConstants';
 
 const AppFooter = () => {
     const {userConfig} = useContext(ConfigContext);
@@ -14,7 +15,7 @@ const AppFooter = () => {
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
-        axios.get('http://localhost:1337/api/footer?locale=' + userConfig?.lang).then((response) => {
+        axios.get(STRAPI_URL + '/api/footer?locale=' + userConfig?.lang).then((response) => {
             setLangDict(response['data']['data'] as ApiFooterFooter);
         })
     }, [userConfig?.lang]);
