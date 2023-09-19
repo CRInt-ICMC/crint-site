@@ -1,7 +1,7 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL } from '../utils/appConstants';
+import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
 import { saveSettings, updateUserConfig } from '../utils/utils';
 import { ConfigContext } from '../Context';
 import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
@@ -120,7 +120,8 @@ const AppHeader = () => {
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
-        axios.get('http://localhost:1337/api/header?populate=*&locale=' + userConfig?.lang).then((response) => {
+        axios.get(STRAPI_URL + '/api/header?populate=*&locale=' + userConfig?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        .then((response) => {
             setLangDict(response['data']['data'] as ApiHeaderHeader);
             setImagensHeader({
                 ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes']['url'],
@@ -131,7 +132,7 @@ const AppHeader = () => {
                 },
             });
         })
-        axios.get('http://localhost:1337/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
+        axios.get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
             setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
     }, [userConfig?.lang]);
@@ -189,8 +190,6 @@ const AppHeader = () => {
             saveSettings(userConfig);
         }
     }
-
-{/* <a href="https://www.freepik.com/free-vector/geometric-background-vector-white-cube-patterns_17225059.htm#query=white%20background%20pattern&position=2&from_view=search&track=ais">Image by rawpixel.com</a> on Freepik */}
 
     // Salva a configuração a cada modificação
     if (userConfig)

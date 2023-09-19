@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ConfigContext } from "../Context";
 import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
-import { DEFAULT_LANGUAGE, STRAPI_URL } from "../utils/appConstants";
+import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import axios from "axios";
@@ -37,7 +37,7 @@ const PageLoader = () => {
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE)
+        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
             // Verifica se a página existe
             if (response['data']['data'][0] === undefined) {
