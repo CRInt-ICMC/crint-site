@@ -31,6 +31,7 @@ function App() {
             <Route path='informacoes/pesquisa' element={<Pesquisa />} />
           </Route>
 
+          {/* Todas as páginas (exceto as anteriores) são carregadas pelo PageLoader */}
           <Route path='*' element={<PageLoader />} /> 
         </Routes>
         <VLibras />

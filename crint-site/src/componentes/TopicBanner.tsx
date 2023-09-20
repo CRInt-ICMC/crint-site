@@ -1,8 +1,8 @@
 import { CSSProperties } from 'react';
 import './TopicBanner.scss';
 
-const TopicBanner = (props : { topicoNome : string, topicoImage? : string, style? : CSSProperties}) => {
-    const defaultImage : string = props.topicoImage || '';
+const TopicBanner = (props : { topicoNome : string, topicImage? : string, style? : CSSProperties}) => {
+    const defaultImage : string = props.topicImage || '';
     const defaultStyle : CSSProperties = props.style || {}
 
     return (
