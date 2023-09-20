@@ -4,25 +4,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { ConfigContext } from '../Context';
+import { SettingsContext } from '../Contexto';
 import { ApiFooterFooter } from '../utils/generated/contentTypes';
-import './AppFooter.scss'
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
+import './AppFooter.scss'
 
 const AppFooter = () => {
-    const {userConfig} = useContext(ConfigContext);
+    const {userSettings} = useContext(SettingsContext);
     const [langDict, setLangDict] = useState<ApiFooterFooter>();
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
-        axios.get(STRAPI_URL + '/api/footer?locale=' + userConfig?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        axios.get(STRAPI_URL + '/api/footer?locale=' + userSettings?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
             setLangDict(response['data']['data'] as ApiFooterFooter);
         })
-    }, [userConfig?.lang]);
+    }, [userSettings?.lang]);
 
     return (
-        <footer style={{fontSize: (userConfig?.fontSizeMod || 1) + 'em'}}>
+        <footer style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
             {langDict &&
                 <nav className='footer'>
                     <div className='footer-row'>

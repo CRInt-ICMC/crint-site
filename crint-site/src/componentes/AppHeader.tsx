@@ -2,8 +2,8 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
-import { saveSettings, updateUserConfig } from '../utils/utils';
-import { ConfigContext } from '../Context';
+import { saveSettings, updateUserSettings } from '../utils/utils';
+import { SettingsContext } from '../Contexto';
 import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 import DropDownMenu from './DropDownMenu';
 import axios from 'axios';
@@ -102,16 +102,16 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const {userConfig, setUserConfig} = useContext(ConfigContext);
-    const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
-    const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
+    const {userSettings, setUserSettings} = useContext(SettingsContext);
+    const [currentLang, setLang] = useState(userSettings?.lang || DEFAULT_LANGUAGE);
+    const [currentFontSizeMod, setFontSizeMod] = useState(userSettings?.fontSizeMod || 1);
     const [langDict, setLangDict] = useState<ApiHeaderHeader>();
     const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [imagensHeader, setImagensHeader] = useState<HeaderImages>();
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
-        axios.get(STRAPI_URL + '/api/header?populate=*&locale=' + userConfig?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        axios.get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
             setLangDict(response['data']['data'] as ApiHeaderHeader);
             setImagensHeader({
@@ -122,18 +122,19 @@ const AppHeader = () => {
                 },
             });
         })
-        axios.get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
+        axios.get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        .then((response) => {
             setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
-    }, [userConfig?.lang]);
+    }, [userSettings?.lang]);
 
     // Esse bloco lida com a língua atual
     useEffect(() => {
-        if (!userConfig?.lang)
+        if (!userSettings?.lang)
             changeLang(DEFAULT_LANGUAGE);
 
         // Se houve mudança na língua, atualiza os valores e a página
-        else if (userConfig.lang !== currentLang)
+        else if (userSettings.lang !== currentLang)
             changeLang(currentLang);
 
     }, [currentLang]);
@@ -148,17 +149,17 @@ const AppHeader = () => {
 
         setLang(lang)
 
-        if (setUserConfig && userConfig)
-            setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
+        if (setUserSettings && userSettings)
+            setUserSettings(updateUserSettings(userSettings, {lang: lang}));            
     }
     
 
     // Esse bloco lida com o tamanho da fonte    
     useEffect(() => {
-        if (!userConfig?.fontSizeMod)
+        if (!userSettings?.fontSizeMod)
             changeFontSizeMod(1);
 
-        else if (userConfig.fontSizeMod !== currentFontSizeMod)
+        else if (userSettings.fontSizeMod !== currentFontSizeMod)
             changeFontSizeMod(currentFontSizeMod);
 
     }, [currentFontSizeMod]);
@@ -169,21 +170,21 @@ const AppHeader = () => {
         if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
             return;
 
-        if (setUserConfig && userConfig)
-            setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
+        if (setUserSettings && userSettings)
+            setUserSettings(updateUserSettings(userSettings, {fontSizeMod: fontSizeMod}));
     }
 
     // Marca que o usuário concordou com os termos de privacidade
     const setConsentTrue = () => { 
-        if(setUserConfig && userConfig) {
-            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
-            saveSettings(userConfig);
+        if(setUserSettings && userSettings) {
+            setUserSettings(updateUserSettings(userSettings, {cookieConsent: true}))
+            saveSettings(userSettings);
         }
     }
 
     // Salva a configuração a cada modificação
-    if (userConfig)
-        saveSettings(userConfig);
+    if (userSettings)
+        saveSettings(userSettings);
 
     return (
         <header className='header-root'>
@@ -212,7 +213,7 @@ const AppHeader = () => {
             </nav>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
-            { !userConfig?.cookieConsent && popupPrivacidade &&
+            { !userSettings?.cookieConsent && popupPrivacidade &&
                 <Popup 
                     head={String(popupPrivacidade?.attributes.Titulo)} 
                     body={

@@ -1,4 +1,4 @@
-import TopicBanner from '../../componentes/TopicBanner';
+import TopicBanner from '../componentes/TopicBanner';
 
 const Pesquisa = () => {
     return (

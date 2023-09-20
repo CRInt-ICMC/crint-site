@@ -1,14 +1,14 @@
 import { CSSProperties, useContext } from 'react';
-import './TopicSection.scss'
-import { ConfigContext } from '../Context';
+import { SettingsContext } from '../Contexto';
 import { Interweave } from 'interweave';
+import './TopicSection.scss'
 
 const TopicSection = (props : {title : string, body : string, style? : CSSProperties}) => {
-    const {userConfig} = useContext(ConfigContext);
+    const {userSettings} = useContext(SettingsContext);
 
     return (
         <section className='topic-section' style={props.style}>
-            <div style={{fontSize: (userConfig?.fontSizeMod || 1) + 'em'}}>
+            <div style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
                 <h1 className='topic-title'>{`${props.title}`}</h1>
                 <Interweave content={props.body} />
             </div>

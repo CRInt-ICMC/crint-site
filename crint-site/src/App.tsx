@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import { ConfigContext, STD_CONFIG_STATE } from './Context';
+import { SettingsContext, STD_SETTINGS_STATE,  } from './Contexto';
 import VLibras from '@djpfs/react-vlibras';
 
 import AppHeader from './componentes/AppHeader';
@@ -8,18 +8,18 @@ import Homepage from './paginas/homepage';
 import PageLoader from './componentes/PageLoader';
 import AppFooter from './componentes/AppFooter';
 
-import Dia from './paginas/informações paginas/dia';
-import Pesquisa from './paginas/informações paginas/pesquisa';
+import Dia from './paginas/dia';
+import Pesquisa from './paginas/pesquisa';
 
 function App() {
-	let [appConfigState, setAppConfigState] = useState(STD_CONFIG_STATE);
+	let [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
 
   return (
     <BrowserRouter>
-      <ConfigContext.Provider
+      <SettingsContext.Provider
         value={{
-          userConfig: appConfigState,
-          setUserConfig: setAppConfigState,
+          userSettings: appSettingsState,
+          setUserSettings: setAppSettingsState,
         }}
         >
         <AppHeader/>
@@ -35,7 +35,7 @@ function App() {
         </Routes>
         <VLibras />
         <AppFooter />
-      </ConfigContext.Provider>
+      </SettingsContext.Provider>
     </BrowserRouter>
   );
 }
