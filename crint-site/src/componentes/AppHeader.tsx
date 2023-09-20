@@ -18,23 +18,23 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'mobilidade/alunos'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
-            <Link to={'mobilidade/professores'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
-            <Link to={'mobilidade/servidores'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
+            <Link to={'mobilidade/alunos'}> {String(dictionary?.attributes.Alunos)} </Link>
+            <Link to={'mobilidade/professores'}> {String(dictionary?.attributes.Professores)} </Link>
+            <Link to={'mobilidade/servidores'}> {String(dictionary?.attributes.Servidores)} </Link>
         </span>
     );
 
     let estrangeirosBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'estrangeiros/guias'}> {'>'} {String(dictionary?.attributes.Guias)} </Link>
+            <Link to={'estrangeiros/guias'}> {String(dictionary?.attributes.Guias)} </Link>
         </span>
     );
 
     let informacoesBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'informacoes/convenios'}> {'>'} {String(dictionary?.attributes.Convenios)} </Link>
-            <Link to={'informacoes/dia'}> {'>'} {String(dictionary?.attributes.DIA)} </Link>
-            <Link to={'informacoes/pesquisa'}> {'>'} {String(dictionary?.attributes.Pesquisa_conduzida)} </Link>
+            <Link to={'informacoes/convenios'}> {String(dictionary?.attributes.Convenios)} </Link>
+            <Link to={'informacoes/dia'}> {String(dictionary?.attributes.DIA)} </Link>
+            <Link to={'informacoes/pesquisa'}> {String(dictionary?.attributes.Pesquisa_conduzida)} </Link>
         </span>
     );
 

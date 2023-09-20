@@ -60,7 +60,7 @@
 .topics p {
     color: white;
     font-size: base.$topico-fontsize;
-    font-weight: bolder;
+    font-weight: 400;
     text-decoration: none; 
 
     margin: 0px 0px;
@@ -69,7 +69,7 @@
 .subtopics a {
     color: white;
     font-size: base.$subtopico-fontsize;
-    font-weight: bolder;
+    font-weight: 400;
     text-decoration: none;
 
     display: flex;
