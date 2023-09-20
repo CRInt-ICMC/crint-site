@@ -14,14 +14,6 @@ import './AppHeader.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const logos = (ICMC :string, CRINT : string) => (
-    <span className='logos'>
-        <a href="https://www.icmc.usp.br/"><img className='logo-icmc' alt='Link ICMC' src={STRAPI_URL + ICMC} /></a>
-
-        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + CRINT} /></Link>
-    </span>
-);
-
 const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
@@ -77,7 +69,7 @@ const languages = (currentLang : string, setLang : CallableFunction, bandeiras :
     ];
     
     return (
-        <span className='flags'>
+        <div className='flags'>
             { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
             langDescs.map((desc) => {
                 if (desc.id !== currentLang) {
@@ -88,7 +80,7 @@ const languages = (currentLang : string, setLang : CallableFunction, bandeiras :
                     );
                 }
             })}
-        </span>
+        </div>
     );
 }
 
@@ -102,7 +94,6 @@ const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction)
 
 interface HeaderImages {
     ICMC : string,
-    CRInt : string,
     FLAGS : {
         PT : string,
         EN : string,
@@ -125,7 +116,6 @@ const AppHeader = () => {
             setLangDict(response['data']['data'] as ApiHeaderHeader);
             setImagensHeader({
                 ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes']['url'],
-                CRInt: response['data']['data']['attributes']['CRInt']['data']['attributes']['url'],
                 FLAGS: {
                     EN: response['data']['data']['attributes']['bandeira_en']['data']['attributes']['url'],
                     PT: response['data']['data']['attributes']['bandeira_pt']['data']['attributes']['url'],
@@ -200,9 +190,11 @@ const AppHeader = () => {
             <nav className='navbar'>
                 {/* LOGOS */}
                 <div className='navbar-left'>
-                    { imagensHeader?.ICMC && imagensHeader.CRInt &&
-                        logos(imagensHeader.ICMC, imagensHeader.CRInt)
-                    }
+                    <span className='logos'>
+                        { imagensHeader?.ICMC && 
+                                <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + imagensHeader?.ICMC} /></Link>
+                        }
+                    </span>
                 </div>
 
                 {/* TÓPICOS */}
