@@ -11,9 +11,9 @@ const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : nu
     return (
         <menu className="dropMenu" onMouseEnter={showMenu} onMouseLeave={hideMenu}>
             <div className="dropMenuHead">
-                {props.head}
+                { props.head }
                 <div className="dropMenuItens" style={{transform: menuScale, fontSize: props.fontSize + 'em'}}>
-                    {props.body}
+                    { props.body }
                 </div>
             </div>
         </menu>

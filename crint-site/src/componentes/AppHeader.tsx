@@ -1,9 +1,9 @@
 // COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DEFAULT_LANGUAGE, FONTE_MAXIMA, FONTE_MINIMA, AVAILABLE_LANGUAGES, STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
-import { saveSettings, updateUserConfig } from '../utils/utils';
-import { ConfigContext } from '../Context';
+import { DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT, AVAILABLE_LANGUAGES, STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
+import { saveSettings, updateUserSettings } from '../utils/utils';
+import { SettingsContext } from '../Contexto';
 import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 import DropDownMenu from './DropDownMenu';
 import axios from 'axios';
@@ -14,27 +14,27 @@ import './AppHeader.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
+const topics = (textData : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'mobilidade/alunos'}> {'>'} {String(dictionary?.attributes.Alunos)} </Link>
-            <Link to={'mobilidade/professores'}> {'>'} {String(dictionary?.attributes.Professores)} </Link>
-            <Link to={'mobilidade/servidores'}> {'>'} {String(dictionary?.attributes.Servidores)} </Link>
+            <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
+            <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
+            <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
         </span>
     );
 
     let estrangeirosBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'estrangeiros/guias'}> {'>'} {String(dictionary?.attributes.Guias)} </Link>
+            <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
         </span>
     );
 
     let informacoesBody : ReactNode = (
         <span className='subtopics'>
-            <Link to={'informacoes/convenios'}> {'>'} {String(dictionary?.attributes.Convenios)} </Link>
-            <Link to={'informacoes/dia'}> {'>'} {String(dictionary?.attributes.DIA)} </Link>
-            <Link to={'informacoes/pesquisa'}> {'>'} {String(dictionary?.attributes.Pesquisa_conduzida)} </Link>
+            <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
+            <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
+            <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
         </span>
     );
 
@@ -42,19 +42,19 @@ const topics = (dictionary : ApiHeaderHeader, fontSizeMod : number) => {
     return (
         <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
             <DropDownMenu 
-                head={<p>{String(dictionary?.attributes.Mobilidade)}</p>}
+                head={<p>{String(textData?.attributes.Mobilidade)}</p>}
                 body={mobilidadeBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<p>{String(dictionary?.attributes.Estrangeiros)}</p>} 
+                head={<p>{String(textData?.attributes.Estrangeiros)}</p>} 
                 body={estrangeirosBody} 
                 fontSize={fontSizeMod}
                 />
 
             <DropDownMenu 
-                head={<p>{String(dictionary?.attributes.Informacoes)}</p>} 
+                head={<p>{String(textData?.attributes.Informacoes)}</p>} 
                 body={informacoesBody}
                 fontSize={fontSizeMod}
                 />
@@ -87,8 +87,8 @@ const languages = (currentLang : string, setLang : CallableFunction, bandeiras :
 const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction) => (
     // Apenas mostra os botões se o tamanho não estiver em seu limite máximo ou mínimo
     <div className='options'>
-        {currentFontSizeMod < FONTE_MAXIMA && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
-        {currentFontSizeMod > FONTE_MINIMA && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
+        {currentFontSizeMod < MAX_FONT && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
+        {currentFontSizeMod > MIN_FONT && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
     </div>
 );
 
@@ -102,19 +102,19 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const {userConfig, setUserConfig} = useContext(ConfigContext);
-    const [currentLang, setLang] = useState(userConfig?.lang || DEFAULT_LANGUAGE);
-    const [currentFontSizeMod, setFontSizeMod] = useState(userConfig?.fontSizeMod || 1);
-    const [langDict, setLangDict] = useState<ApiHeaderHeader>();
-    const [popupPrivacidade, setPopupPrivacidade] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
-    const [imagensHeader, setImagensHeader] = useState<HeaderImages>();
+    const {userSettings, setUserSettings} = useContext(SettingsContext);
+    const [currentLang, setLang] = useState(userSettings?.lang || DEFAULT_LANGUAGE);
+    const [currentFontSizeMod, setFontSizeMod] = useState(userSettings?.fontSizeMod || 1);
+    const [textData, setTextData] = useState<ApiHeaderHeader>();
+    const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
+    const [headerImages, setHeaderImages] = useState<HeaderImages>();
     
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
-        axios.get(STRAPI_URL + '/api/header?populate=*&locale=' + userConfig?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        axios.get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
-            setLangDict(response['data']['data'] as ApiHeaderHeader);
-            setImagensHeader({
+            setTextData(response['data']['data'] as ApiHeaderHeader);
+            setHeaderImages({
                 ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes']['url'],
                 FLAGS: {
                     EN: response['data']['data']['attributes']['bandeira_en']['data']['attributes']['url'],
@@ -122,18 +122,19 @@ const AppHeader = () => {
                 },
             });
         })
-        axios.get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userConfig?.lang).then((response) => {
-            setPopupPrivacidade(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
+        axios.get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings?.lang, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        .then((response) => {
+            setPopupText(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
         })
-    }, [userConfig?.lang]);
+    }, [userSettings?.lang]);
 
     // Esse bloco lida com a língua atual
     useEffect(() => {
-        if (!userConfig?.lang)
+        if (!userSettings?.lang)
             changeLang(DEFAULT_LANGUAGE);
 
         // Se houve mudança na língua, atualiza os valores e a página
-        else if (userConfig.lang !== currentLang)
+        else if (userSettings.lang !== currentLang)
             changeLang(currentLang);
 
     }, [currentLang]);
@@ -148,17 +149,17 @@ const AppHeader = () => {
 
         setLang(lang)
 
-        if (setUserConfig && userConfig)
-            setUserConfig(updateUserConfig(userConfig, {lang: lang}));            
+        if (setUserSettings && userSettings)
+            setUserSettings(updateUserSettings(userSettings, {lang: lang}));            
     }
     
 
     // Esse bloco lida com o tamanho da fonte    
     useEffect(() => {
-        if (!userConfig?.fontSizeMod)
+        if (!userSettings?.fontSizeMod)
             changeFontSizeMod(1);
 
-        else if (userConfig.fontSizeMod !== currentFontSizeMod)
+        else if (userSettings.fontSizeMod !== currentFontSizeMod)
             changeFontSizeMod(currentFontSizeMod);
 
     }, [currentFontSizeMod]);
@@ -166,24 +167,24 @@ const AppHeader = () => {
     // Atualiza as modificações ao tamanho da fonte
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
-        if (fontSizeMod < FONTE_MINIMA || fontSizeMod > FONTE_MAXIMA) 
+        if (fontSizeMod < MIN_FONT || fontSizeMod > MAX_FONT) 
             return;
 
-        if (setUserConfig && userConfig)
-            setUserConfig(updateUserConfig(userConfig, {fontSizeMod: fontSizeMod}));
+        if (setUserSettings && userSettings)
+            setUserSettings(updateUserSettings(userSettings, {fontSizeMod: fontSizeMod}));
     }
 
     // Marca que o usuário concordou com os termos de privacidade
     const setConsentTrue = () => { 
-        if(setUserConfig && userConfig) {
-            setUserConfig(updateUserConfig(userConfig, {cookieConsent: true}))
-            saveSettings(userConfig);
+        if(setUserSettings && userSettings) {
+            setUserSettings(updateUserSettings(userSettings, {cookieConsent: true}))
+            saveSettings(userSettings);
         }
     }
 
     // Salva a configuração a cada modificação
-    if (userConfig)
-        saveSettings(userConfig);
+    if (userSettings)
+        saveSettings(userSettings);
 
     return (
         <header className='header-root'>
@@ -191,37 +192,35 @@ const AppHeader = () => {
                 {/* LOGOS */}
                 <div className='navbar-left'>
                     <span className='logos'>
-                        { imagensHeader?.ICMC && 
-                                <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + imagensHeader?.ICMC} /></Link>
+                        { headerImages?.ICMC && 
+                                <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + headerImages?.ICMC} /></Link>
                         }
                     </span>
                 </div>
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {langDict && topics(langDict, currentFontSizeMod)}
+                    { textData && topics(textData, currentFontSizeMod)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
-                    { imagensHeader?.FLAGS &&
-                        languages(currentLang, changeLang, imagensHeader.FLAGS)
-                    }
+                    { headerImages?.FLAGS && languages(currentLang, changeLang, headerImages.FLAGS) }
 
                     {options(currentFontSizeMod, setFontSizeMod)}
                 </div>
             </nav>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
-            { !userConfig?.cookieConsent && popupPrivacidade &&
+            { !userSettings?.cookieConsent && popupText &&
                 <Popup 
-                    head={String(popupPrivacidade?.attributes.Titulo)} 
+                    head={String(popupText?.attributes.Titulo)} 
                     body={
                             <>
                                 <p>
-                                    {String(popupPrivacidade?.attributes.Corpo)} 
-                                    <Link to={'privacidade'}>{String(popupPrivacidade?.attributes.Saiba_mais)}</Link>
+                                    {String(popupText?.attributes.Corpo)} 
+                                    <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                                 </p>
-                                <button onClick={setConsentTrue}>{String(popupPrivacidade?.attributes.Saiba_mais)}</button>
+                                <button onClick={setConsentTrue}>{String(popupText?.attributes.Saiba_mais)}</button>
                             </>
                         } 
                     />

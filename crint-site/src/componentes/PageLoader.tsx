@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ConfigContext } from "../Context";
+import { SettingsContext } from "../Contexto";
 import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
@@ -27,17 +27,17 @@ const NotFound = (
 );
 
 const PageLoader = () => {
-    const {userConfig} = useContext(ConfigContext);
-    const [texto, setTexto] = useState<ApiPaginaPagina>();
-    const [secoes, setSecoes] = useState<ApiSecaoSecao[]>();
-    const [imagemBanner, setImagemBanner] = useState<any>();
+    const {userSettings} = useContext(SettingsContext);
+    const [textData, setTextData] = useState<ApiPaginaPagina>();
+    const [sections, setSections] = useState<ApiSecaoSecao[]>();
+    const [bannerImages, setBannerImages] = useState<any>();
     const [status, setStatus] = useState<number>();
     const location = useLocation();
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userConfig?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
+        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
             // Verifica se a página existe
             if (response['data']['data'][0] === undefined) {
@@ -46,8 +46,8 @@ const PageLoader = () => {
             }
 
             // Passa o texto e a imagem do banner para seus hooks
-            setTexto(response['data']['data'][0] as ApiPaginaPagina);
-            setImagemBanner(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setTextData(response['data']['data'][0] as ApiPaginaPagina);
+            setBannerImages(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
 
             // Verifica se encontrou as seções, se não, a página está em construção
             if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
@@ -57,11 +57,11 @@ const PageLoader = () => {
             }
 
             // Passa as seções para seu hook
-            setSecoes(response['data']['data'][0]['attributes']['secoes']['data']);
+            setSections(response['data']['data'][0]['attributes']['secoes']['data']);
 
             setStatus(200);
         })
-    }, [userConfig?.lang, location]);
+    }, [userSettings?.lang, location]);
 
     // Executa quando troca de rota
     useEffect(()=>{
@@ -71,36 +71,32 @@ const PageLoader = () => {
 
     return (
         <div className='page-body'>
-            {imagemBanner &&
-                <TopicBanner topicoNome={String(texto?.attributes.Banner_text || '')} 
-                    topicoImage={STRAPI_URL + imagemBanner} 
-                    style={{background: String(texto?.attributes.Gradiente)}}
+            { bannerImages &&
+                <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')} 
+                    topicImage={STRAPI_URL + bannerImages} 
+                    style={{background: String(textData?.attributes.Gradiente)}}
                     />
             }
 
-            {secoes && 
-                secoes.map((secao) => {
+            { sections && 
+                sections.map((section) => {
                     return (
                         <TopicSection 
-                            key={String(secao.attributes.Titulo || '')} 
-                            title={String(secao.attributes.Titulo || '')}
-                            body={String(secao.attributes.Corpo || '')}
+                            key={String(section.attributes.Titulo || '')} 
+                            title={String(section.attributes.Titulo || '')}
+                            body={String(section.attributes.Corpo || '')}
                             style={{
-                                color: String(secao.attributes.Cor_texto || ''),
-                                backgroundColor: String(secao.attributes.Cor_fundo || '')
+                                color: String(section.attributes.Cor_texto || ''),
+                                backgroundColor: String(section.attributes.Cor_fundo || '')
                             }}
                             />
                     );
                 })
             }
 
-            {status === 404 &&
-                NotFound
-            }
+            { status === 404 && NotFound }
 
-            {status === 403 &&
-                WIP
-            }
+            { status === 403 && WIP }
         </div>
     );
 }
