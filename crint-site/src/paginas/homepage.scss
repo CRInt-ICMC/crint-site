@@ -6,19 +6,20 @@
 }
 
 .main-section {
-    background-repeat: no-repeat;
-    background-size:100%;
+    margin-top: base.$altura-header;
 
     display: flex;
     justify-content: center;
-
+    
+    z-index: 1;
     height: 98vh;
-    width: 100%;
 }
 
-.searchbar-container {
-    bottom: 10%;
-    position: absolute;
-
-    text-align: center;
+.carousel {
+    width: 10px;
+    border: 10px solid black;
 }
+
+// .carousel img {
+
+// }
