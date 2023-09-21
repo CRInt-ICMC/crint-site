@@ -4,7 +4,7 @@ import { ApiSecaoSecao } from '../utils/generated/contentTypes';
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
 import TopicSection from '../componentes/TopicSection';
 import axios from 'axios';
-import './homepage.scss'
+import './homepage.scss';
 
 const Homepage = () => {
     const {userSettings} = useContext(SettingsContext);
