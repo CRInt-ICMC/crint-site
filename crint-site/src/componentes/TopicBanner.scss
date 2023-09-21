@@ -3,12 +3,12 @@
 .topic-root {
     margin-top: base.$altura-header;
     background-repeat: repeat;
-    background-size: 25%;     
+    background-size: 25%;
 }
 
 .topic-banner {
     height: base.$altura-banner;
-    width: 100%;
+    padding: 0 15%;    
 
     align-items: center;
     display: flex;
