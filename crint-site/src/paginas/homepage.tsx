@@ -12,7 +12,6 @@ import './homepage.scss';
 const CreateCarousel = (carouselImages : string[]) => {
     const settings = {
         dots: true,
-        infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -20,17 +19,21 @@ const CreateCarousel = (carouselImages : string[]) => {
 
     return (
         <Slider {...settings}>
+
             { 
-                carouselImages.map((image) => {
+                carouselImages.map((imageURL : string) => {
+                    console.log(imageURL)
+                    console.log(imageURL)
 
                     return (
-                        <div className='carousel' key={String(image)}> 
-                            <img src={STRAPI_URL + String(image)} />
+                        <div className='carousel' key={String(imageURL)}> 
+                            <img src={STRAPI_URL + String(imageURL)} />
                         </div>
                     );
                 }) 
             }
         </Slider>
+
     );
 }
 
@@ -43,16 +46,25 @@ const Homepage = () => {
     useEffect(() => {
         axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
-            setCarouselImages([response['data']['data']['attributes']['Imagem_fundo']['data']['attributes']['url']]);
-            setSections(response['data']['data']['attributes']['secoes']['data'])
+            let urls : string[] = []
+            response['data']['data']['attributes']['Carrossel']['data'].map((image : any) => {
+                urls.push(image.attributes.url as string)
+            })
+            
+            setCarouselImages(urls);
+
+
+            setSections(response['data']['data']['attributes']['secoes']['data']);
         })
     }, [userSettings?.lang]);
+
+    
 
     return (
         <div className='homepage-body'>
             {/* Carrega a imagem central */}
             <section className='main-section'>
-                { carouselImages && CreateCarousel(carouselImages) }
+                    { carouselImages && CreateCarousel(carouselImages) }
             </section>
             {/* Carrega as seções */}
             { sections && 
