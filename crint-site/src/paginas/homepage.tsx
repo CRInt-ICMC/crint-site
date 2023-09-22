@@ -1,40 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../Contexto';
 import { ApiSecaoSecao } from '../utils/generated/contentTypes';
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
 import TopicSection from '../componentes/TopicSection';
-import Slider from "react-slick";
 import axios from 'axios';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import './homepage.scss';
+import Carousel from '../componentes/Carousel';
 
 const CreateCarousel = (carouselImages : string[]) => {
-    const settings = {
-        dots: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
+    let carouselBody : ReactNode[] = [];
 
-    return (
-        <Slider {...settings}>
+    carouselImages.map((imageURL : string) => {
+        carouselBody.push(
+            <img key={String(imageURL)} src={STRAPI_URL + String(imageURL)} />
+        );
+    })
 
-            { 
-                carouselImages.map((imageURL : string) => {
-                    console.log(imageURL)
-                    console.log(imageURL)
-
-                    return (
-                        <div className='carousel' key={String(imageURL)}> 
-                            <img src={STRAPI_URL + String(imageURL)} />
-                        </div>
-                    );
-                }) 
-            }
-        </Slider>
-
-    );
+    return carouselBody;
 }
 
 const Homepage = () => {
@@ -58,14 +40,14 @@ const Homepage = () => {
         })
     }, [userSettings?.lang]);
 
-    
-
     return (
         <div className='homepage-body'>
             {/* Carrega a imagem central */}
-            <section className='main-section'>
-                    { carouselImages && CreateCarousel(carouselImages) }
-            </section>
+            <div className='carousel-container'>
+                <div className='carousel'>
+                        { carouselImages && <Carousel body={CreateCarousel(carouselImages)} /> }
+                </div>
+            </div>
             {/* Carrega as seções */}
             { sections && 
                 sections.map((section) => {
