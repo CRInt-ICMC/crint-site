@@ -14,16 +14,20 @@
 
 .topic-title {
     margin: 0;
+    position: relative;
 }
 
 .topic-title button {
-    float: inline-end;
-
+    border: none;
     display: block;
 
     background-color: transparent;
-    border: none;
     color: black;
+
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
 }
 
 .topic-content {
