@@ -1,20 +1,20 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState } from 'react';
+import AnimateHeight from 'react-animate-height';
 import './DropDownMenu.scss'
 
 const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : number}) => {
-    const [menuScale, toggleMenu] = useState<any>("scaleY(0)");
+    const [display, toggleDisplay] = useState(false);
 
-    // Usa escalas para fazer o dropdown
-    const hideMenu = () => toggleMenu("scaleY(0)");
-    const showMenu = () => toggleMenu("scaleY(1)");
+    const hideMenu = () => toggleDisplay(false);
+    const showMenu = () => toggleDisplay(true);
 
     return (
-        <menu className="dropMenu" onMouseEnter={showMenu} onMouseLeave={hideMenu}>
-            <div className="dropMenuHead">
+        <menu className='dropMenu' onMouseEnter={showMenu} onMouseLeave={hideMenu}>
+            <div className='dropMenuHead'>
                 { props.head }
-                <div className="dropMenuItens" style={{transform: menuScale, fontSize: props.fontSize + 'em'}}>
+                <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens' style={{fontSize: props.fontSize + 'em'}}>
                     { props.body }
-                </div>
+                </AnimateHeight>
             </div>
         </menu>
     );

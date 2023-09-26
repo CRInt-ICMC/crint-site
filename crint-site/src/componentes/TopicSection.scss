@@ -1,7 +1,7 @@
 @use '../Base.scss' as base;
 
 .topic-section {    
-    padding: 30px 20%;
+    padding: 50px 20%;
 
     color: black;
     font-size: base.$section-fontize;
@@ -10,4 +10,26 @@
 .topic-section a, .topic-section a:link, .topic-section a:visited {
     color: inherit;
     font-weight: bolder;
+}
+
+.topic-title {
+    margin: 0;
+    position: relative;
+}
+
+.topic-title button {
+    border: none;
+    display: block;
+
+    background-color: transparent;
+    color: black;
+
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+}
+
+.topic-content {
+    width: 100%;
 }
