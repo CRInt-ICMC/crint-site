@@ -2,9 +2,9 @@ import { useContext, useState } from 'react';
 import { SettingsContext } from '../Contexto';
 import { Interweave } from 'interweave';
 import AnimateHeight from 'react-animate-height';
-import './TopicSection.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import './TopicSection.scss'
 
 const TopicSection = (props : {title : string, body : string, textColor : string, backgroundColor : string}) => {
     const {userSettings} = useContext(SettingsContext);
