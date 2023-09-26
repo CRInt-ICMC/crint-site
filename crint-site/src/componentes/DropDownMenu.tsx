@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 import './DropDownMenu.scss'
 
 const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : number}) => {
-    const [display, toggleDisplay] = useState(true);
+    const [display, toggleDisplay] = useState(false);
 
     const hideMenu = () => toggleDisplay(false);
     const showMenu = () => toggleDisplay(true);
