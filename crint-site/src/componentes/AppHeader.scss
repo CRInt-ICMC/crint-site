@@ -9,13 +9,15 @@
 
     position: fixed;
     top: 0;
+    z-index: 999;
 }
 
 .navbar {
     align-items: center;
     display: flex;
     justify-content: center;
-    width: 100%;    
+
+    padding: 0 10%;
 }
 
 .navbar-left {
@@ -47,11 +49,6 @@
     height: base.$altura-header * 0.85;
     transition: 50ms;
 }
-
-// .logos img:hover {
-//     filter: brightness(0) saturate(100%) invert(79%) sepia(22%) saturate(6448%) hue-rotate(359deg);
-//     transition: 50ms;
-// }
 
 .topics {
     display: inline-flex;

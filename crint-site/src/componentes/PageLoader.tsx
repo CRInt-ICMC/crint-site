@@ -30,7 +30,8 @@ const PageLoader = () => {
     const {userSettings} = useContext(SettingsContext);
     const [textData, setTextData] = useState<ApiPaginaPagina>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
-    const [bannerImages, setBannerImages] = useState<any>();
+    const [bannerImage, setBannerImage] = useState<string>();
+    const [gradient, setGradient] = useState<string>();
     const [status, setStatus] = useState<number>();
     const location = useLocation();
 
@@ -47,7 +48,8 @@ const PageLoader = () => {
 
             // Passa o texto e a imagem do banner para seus hooks
             setTextData(response['data']['data'][0] as ApiPaginaPagina);
-            setBannerImages(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
 
             // Verifica se encontrou as seções, se não, a página está em construção
             if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
@@ -71,10 +73,10 @@ const PageLoader = () => {
 
     return (
         <div className='page-body'>
-            { bannerImages &&
+            { bannerImage &&
                 <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')} 
-                    topicImage={STRAPI_URL + bannerImages} 
-                    style={{background: String(textData?.attributes.Gradiente)}}
+                    topicImage={STRAPI_URL + bannerImage} 
+                    style={{background: gradient || ''}}
                     />
             }
 

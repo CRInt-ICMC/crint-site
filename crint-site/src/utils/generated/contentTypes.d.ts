@@ -783,6 +783,37 @@ export interface ApiFooterFooter extends Schema.SingleType {
   };
 }
 
+export interface ApiGradienteGradiente extends Schema.CollectionType {
+  collectionName: 'gradientes';
+  info: {
+    singularName: 'gradiente';
+    pluralName: 'gradientes';
+    displayName: 'Gradiente';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    Nome: Attribute.String;
+    CSS: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::gradiente.gradiente',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::gradiente.gradiente',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiHeaderHeader extends Schema.SingleType {
   collectionName: 'headers';
   info: {
@@ -878,12 +909,6 @@ export interface ApiHeaderHeader extends Schema.SingleType {
           localized: false;
         };
       }>;
-    CRInt: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -917,7 +942,7 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -925,7 +950,7 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     };
   };
   attributes: {
-    Imagem_fundo: Attribute.Media &
+    Carrossel: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -938,7 +963,6 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::homepage.homepage',
       'oneToOne',
@@ -965,7 +989,7 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
   info: {
     singularName: 'pagina';
     pluralName: 'paginas';
-    displayName: 'P\u00E1gina';
+    displayName: 'Pagina';
     description: '';
   };
   options: {
@@ -994,20 +1018,18 @@ export interface ApiPaginaPagina extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    UID: Attribute.String &
+    URL: Attribute.String &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
         };
       }>;
-    Gradiente: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Attribute.DefaultTo<'linear-gradient(90deg, rgba(197,218,237,1) 0%, rgba(255,255,255,1) 54%, rgba(236,83,86,1) 100%)'>;
+    Gradiente: Attribute.Relation<
+      'api::pagina.pagina',
+      'oneToOne',
+      'api::gradiente.gradiente'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1102,7 +1124,7 @@ export interface ApiSecaoSecao extends Schema.CollectionType {
   info: {
     singularName: 'secao';
     pluralName: 'secaos';
-    displayName: 'Se\u00E7\u00E3o';
+    displayName: 'Secao';
     description: '';
   };
   options: {
@@ -1188,6 +1210,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::footer.footer': ApiFooterFooter;
+      'api::gradiente.gradiente': ApiGradienteGradiente;
       'api::header.header': ApiHeaderHeader;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::pagina.pagina': ApiPaginaPagina;

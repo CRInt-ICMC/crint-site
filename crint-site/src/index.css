@@ -8,7 +8,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  background-color: white;
+  background-color: lightgray;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,8 +19,4 @@
 
 body {
   margin: 0;
-  background-color: lightgray;
-  /* background-image: url('img/background/common_background.webp');
-  background-repeat: repeat;
-  background-size: 30%; */
 }

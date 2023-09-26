@@ -6,9 +6,9 @@ const TopicBanner = (props : { topicoNome : string, topicImage? : string, style?
     const defaultStyle : CSSProperties = props.style || {}
 
     return (
-        <section className="topic-root">
+        <section className='topic-root'>
             <section className='topic-banner' style={defaultStyle}>
-                <img src={defaultImage} alt="" />
+                <div className='topic-img-container'><img src={defaultImage} alt="" /></div>            
                 <h1>{props.topicoNome}</h1>
             </section>
         </section>

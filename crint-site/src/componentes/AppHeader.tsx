@@ -167,8 +167,11 @@ const AppHeader = () => {
     // Atualiza as modificações ao tamanho da fonte
     const changeFontSizeMod = (fontSizeMod : number) => {
         // Impede o uso inapropriado da função
-        if (fontSizeMod < MIN_FONT || fontSizeMod > MAX_FONT) 
-            return;
+        if (fontSizeMod < MIN_FONT) 
+            fontSizeMod = MIN_FONT;
+
+        else if (fontSizeMod > MAX_FONT) 
+            fontSizeMod = MAX_FONT;
 
         if (setUserSettings && userSettings)
             setUserSettings(updateUserSettings(userSettings, {fontSizeMod: fontSizeMod}));

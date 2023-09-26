@@ -5,20 +5,25 @@
     width: 100%;
 }
 
-.main-section {
-    background-repeat: no-repeat;
-    background-size:100%;
-
+.carousel-container {
+    margin-top: base.$altura-header;
     display: flex;
+    align-items: center;
     justify-content: center;
-
-    height: 98vh;
     width: 100%;
+
+    background-color: #C5DAED;
 }
 
-.searchbar-container {
-    bottom: 10%;
-    position: absolute;
-
+.carousel {
     text-align: center;
+    display: block;
+    width: 80vw;
+    --swiper-theme-color: black;
+        
+    z-index: 1;
 }
+
+// .carousel img {
+
+// }
