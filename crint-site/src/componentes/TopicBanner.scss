@@ -14,7 +14,12 @@
     display: flex;
 }
 
-.topic-banner img {
+.topic-img-container {
+    min-width: 30%;
+    text-align: center;
+}
+
+.topic-img-container img {
     height: base.$altura-banner * 0.75;
 
     margin-left: 5%;
