@@ -12,10 +12,9 @@ O código disponibilizado aqui é de uso livre em partes ou em sua totalidade de
 
 Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
 
-- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Footer, Seções, etc...). Todos são objetos genéricos que podem ser facilmente reutilizados e/ou dependem de props para serem funcionais.
-- `/dictionary`: é uma pasta experimental onde devem ficar localizados os arquivos de língua do site. Qualquer nova língua precisará de um novo arquivo JSON.
-- `/img`: é onde as imagens devem ser armazenadas. Nenhuma imagem deve ficar fora dessa pasta. As subpastas de `img` estão divididas em tipos de imagem, os quais devem ser respeitados integralmente. Imagens que não se adequarem a nenhum tipo podem ser deixadas na raiz de `img`.
-- `/pages`: é a pasta que contém o conteúdo de cada página. Cada nova página deve ser armazenada nesta pasta e em uma de suas subpastas quando adequado.
+- `/componentes`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Footer, Seções, etc...). Todos são objetos genéricos que podem ser facilmente reutilizados e/ou dependem de props para serem funcionais.
+- `/img`: é onde as imagens que não serão alteradas devem ser armazenadas.
+- `/paginas`: é a pasta que contém o conteúdo de cada página. Cada nova página deve ser armazenada nesta pasta e em uma de suas subpastas quando adequado.
 - `/utils`: esta é a pasta onde funções globais, constantes e *interfaces* devem ser armazenadas. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam.
 
 ### Acessibilidade
@@ -32,7 +31,7 @@ A variável deve ser utilizada através de CSS *inline* nos elementos que serão
 
 #### Sistema de Línguas
 
-O sistema atual armazena todos os textos em JSON. Os arquivos são selecionados e carregados de acordo com o valor da variável de contexto `lang`. Os valores dela são sempre válidos e indicam uma língua registrada no site (atualmente somente inglês e português).
+O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor.
 
 #### VLibras
 
