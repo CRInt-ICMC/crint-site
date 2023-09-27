@@ -28,13 +28,17 @@ As opções de acessibilidade são divididas em Linguagem e Outras Opções. A l
 
 Recebe o tópico como a cabeça do menu e os subtópicos como o corpo/menu. Este último será afetado pelo efeito de *drop-down*. O CSS é alterado dinamicamente conforme o mouse entra ou sai da área da cabeça do menu, adicionando escala '0' para esconder o menu e '1' para mostrar.
 
+#### Pageloader
+
+O *Pageloader* lê a URL atual e requisita a página ao servidor. Após receber os dados do servidor, ele carrega o banner da página e cada seção que recebeu do servidor.
+
 #### TopicBanner
 
-Recebe o nome do tópico e uma imagem que o representa para montar a *banner* da página. É modulare pode receber propriedades de CSS para aplicar ainda mais mudanças ao *banner*.
+Recebe o nome do tópico e uma imagem que o representa para montar a *banner* da página. É modular e pode receber propriedades de CSS para aplicar ainda mais mudanças ao *banner*.
 
 #### TopicSection
 
-Recebe o títula da seção e o corpo (conjunto de elementos HTML) para forma uma seção da página. Também é modular e capaz de receber propriedades de CSS diretamente. Esses são e devem ser utilizados para produzir quaisquer páginas do site.
+Recebe o título da seção, o corpo (conjunto de elementos HTML), a cor de fundo e a cor do texto para formar uma seção da página. Esses são e devem ser utilizados para produzir quaisquer páginas do site.
 
 ## Utilidades
 
@@ -56,6 +60,10 @@ Todas as interfaces que não são locais (não são reutilizadas) devem ser arma
 
 Aqui devem ser armazenadas as funções globais e somente elas, quaisquer constantes e interfaces que elas necessitem devem ser guardadas nos outros arquivos de utilidade. É mandatório que todas as funções nesse arquivo sejam globais.
 
+### generated/
+
+Os arquivos dessa pasta são gerados pelo servidor para facilitar a interação com a api do Strapi. Quando os tipos do Strapi for alterado, novos arquivos devem ser gerados.
+
 ## Páginas
 
 As páginas devem seguir formatos específicos definido a seguir:
@@ -72,6 +80,12 @@ Exceto por `/index.css`, todos os arquivos de estilo da página devem estar no f
 `/Base.scss` contém apenas as variáveis e frações de código globais do estilo do projeto e deve ser mantida dessa forma.
 
 Certos partes do site não utilizam CSS próprios, é optativo manter ou não arquivos SCSS vazios para essas frações.
+
+## Strapi
+
+O Strapi é uma ferramenta do lado do servidor que contém o conteúdo de texto e imagem do projeto. Todo o conteúdo textual do site está no servidor e é requisitado pela página. Toda página deve ser criada através do Strapi e requisitada pelo aplicativo.
+
+A conexão com o Strapi é feita com um token armazenado em um arquivo *.env*.
 
 ## Outras dúvidas
 
