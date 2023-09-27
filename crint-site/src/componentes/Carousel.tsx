@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/bundle';
 
-const Carousel = (props : {body : ReactNode[]}) => {
+const Carousel = (props : {body : ReactNode}) => {
 
     return (
         <Swiper
@@ -15,13 +15,7 @@ const Carousel = (props : {body : ReactNode[]}) => {
             navigation
             pagination={{ clickable: true }}
             >
-            {
-                props.body.map((slide) => {
-                    return(
-                        <SwiperSlide key={String(slide)}>{slide}</SwiperSlide>
-                    );
-                })
-            }
+            {props.body}
         </Swiper>
     );
 }

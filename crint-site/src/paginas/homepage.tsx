@@ -6,15 +6,18 @@ import TopicSection from '../componentes/TopicSection';
 import axios from 'axios';
 import './homepage.scss';
 import Carousel from '../componentes/Carousel';
+import { SwiperSlide } from 'swiper/react';
 
 const CreateCarousel = (carouselImages : string[]) => {
-    let carouselBody : ReactNode[] = [];
-
-    carouselImages.map((imageURL : string) => {
-        carouselBody.push(
-            <img key={String(imageURL)} src={STRAPI_URL + String(imageURL)} />
-        );
-    })
+    let carouselBody : ReactNode = (
+        <>
+            {
+                carouselImages.map((imageURL : string) => {
+                    return <SwiperSlide key={imageURL}><img src={STRAPI_URL + imageURL} /></SwiperSlide>;
+                })
+            }
+        </>
+    );
 
     return carouselBody;
 }
@@ -30,11 +33,10 @@ const Homepage = () => {
         .then((response) => {
             let urls : string[] = []
             response['data']['data']['attributes']['Carrossel']['data'].map((image : any) => {
-                urls.push(image.attributes.url as string)
+                urls.push(String(image.attributes.url))
             })
             
             setCarouselImages(urls);
-
 
             setSections(response['data']['data']['attributes']['secoes']['data']);
         })
@@ -45,9 +47,10 @@ const Homepage = () => {
             {/* Carrega a imagem central */}
             <div className='carousel-container'>
                 <div className='carousel'>
-                        { carouselImages && <Carousel body={CreateCarousel(carouselImages)} /> }
+                    { carouselImages && <Carousel body={CreateCarousel(carouselImages)} /> }
                 </div>
             </div>
+
             {/* Carrega as seções */}
             { sections && 
                 sections.map((section) => {

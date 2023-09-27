@@ -2,7 +2,8 @@
 
 .homepage-body {
     color: black;
-    width: 100%;
+    width: base.$largura-pagina;
+    margin: 0 base.$margem-pagina;  
 }
 
 .carousel-container {
@@ -15,15 +16,16 @@
     background-color: #C5DAED;
 }
 
+$borda-carrossel: 10px;
 .carousel {
     text-align: center;
     display: block;
-    width: 80vw;
+    width: 100%;
     --swiper-theme-color: black;
+
+    outline: $borda-carrossel solid black;
+    outline-offset: -$borda-carrossel;
+    background-color: white;
         
-    z-index: 1;
+    z-index: 20;
 }
-
-// .carousel img {
-
-// }

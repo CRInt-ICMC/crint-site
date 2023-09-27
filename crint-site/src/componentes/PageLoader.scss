@@ -2,6 +2,8 @@
 
 .page-body {
     min-height: 80vh;
+    width: base.$largura-pagina;
+    padding: 0 base.$margem-pagina;
 }
 
 #notfound-root {

@@ -5,7 +5,8 @@
     opacity: 0.85;
 
     height: base.$altura-header;
-    width: 100%;    
+    width: base.$largura-pagina;
+    margin: 0 base.$margem-pagina;   
 
     position: fixed;
     top: 0;
