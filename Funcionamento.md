@@ -85,6 +85,8 @@ Certos partes do site não utilizam CSS próprios, é optativo manter ou não ar
 
 O Strapi é uma ferramenta do lado do servidor que contém o conteúdo de texto e imagem do projeto. Todo o conteúdo textual do site está no servidor e é requisitado pela página. Toda página deve ser criada através do Strapi e requisitada pelo aplicativo.
 
+A conexão com o Strapi é feita com um token armazenado em um arquivo *.env*.
+
 ## Outras dúvidas
 
 Caso ainda haja dúvidas quanto ao funcionamento do site, sinta-se à vontade para abrir um issue quanto à documentação do projeto. Alternativamente, pode me enviar uma mensagem pelo Github ou [email](mailto:pedro.hvn.2018@gmail.com).
