@@ -6,7 +6,7 @@ $azul-aucani: #C5DAED;
 
 // Formato da página
 $largura-pagina: 80%;
-$margem-pagina: ((100% - $largura-pagina) / 2);
+$margem-pagina: calc((100% - $largura-pagina) / 2);
 
 // Tamanhos de elementos
 $altura-header: 128px;
