@@ -219,11 +219,11 @@ const AppHeader = () => {
                     head={String(popupText?.attributes.Titulo)} 
                     body={
                             <>
-                                <p>
+                                <p className='privacidade'>
                                     {String(popupText?.attributes.Corpo)} 
                                     <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                                 </p>
-                                <button onClick={setConsentTrue}>{String(popupText?.attributes.Saiba_mais)}</button>
+                                <button onClick={setConsentTrue}>{String(popupText?.attributes.Botao)}</button>
                             </>
                         } 
                     />
