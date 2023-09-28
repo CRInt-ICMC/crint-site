@@ -6,35 +6,48 @@ import TopicSection from '../componentes/TopicSection';
 import axios from 'axios';
 import './homepage.scss';
 import Carousel from '../componentes/Carousel';
+import { SwiperSlide } from 'swiper/react';
 
-const CreateCarousel = (carouselImages : string[]) => {
-    let carouselBody : ReactNode[] = [];
-
-    carouselImages.map((imageURL : string) => {
-        carouselBody.push(
-            <img key={String(imageURL)} src={STRAPI_URL + String(imageURL)} />
-        );
-    })
+const CreateCarousel = (carouselImages : image[]) => {
+    let carouselBody : ReactNode = (
+        <>
+            {
+                carouselImages.map((image : image) => {
+                    return (
+                        <SwiperSlide key={image.url} className='swiper-slide'>
+                            <div className='slide-caption'>{image.caption}</div>
+                            <img src={STRAPI_URL + image.url} />
+                        </SwiperSlide>
+                    );
+                })
+            }
+        </>
+    );
 
     return carouselBody;
 }
 
+interface image {
+    url : string,
+    caption : string,
+}
+
 const Homepage = () => {
     const {userSettings} = useContext(SettingsContext);
-    const [carouselImages, setCarouselImages] = useState<string[]>();
+    const [carouselImages, setCarouselImages] = useState<image[]>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
         axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
-            let urls : string[] = []
+            let images : image[] = []
             response['data']['data']['attributes']['Carrossel']['data'].map((image : any) => {
-                urls.push(image.attributes.url as string)
+                images.push({url: String(image.attributes.url), caption: String(image.attributes.caption)})
             })
-            
-            setCarouselImages(urls);
 
+            
+            setCarouselImages(images);
 
             setSections(response['data']['data']['attributes']['secoes']['data']);
         })
@@ -45,9 +58,10 @@ const Homepage = () => {
             {/* Carrega a imagem central */}
             <div className='carousel-container'>
                 <div className='carousel'>
-                        { carouselImages && <Carousel body={CreateCarousel(carouselImages)} /> }
+                    { carouselImages && <Carousel body={CreateCarousel(carouselImages)} /> }
                 </div>
             </div>
+
             {/* Carrega as seções */}
             { sections && 
                 sections.map((section) => {
