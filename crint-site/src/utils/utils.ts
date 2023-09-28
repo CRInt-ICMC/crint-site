@@ -1,31 +1,14 @@
-import en_dict from '../dictionary/en.json';
-import pt_dict from '../dictionary/pt.json';
 import { DEFAULT_LANGUAGE } from './appConstants';
 
-// Existem problemas de escalabilidade com o modelo atual, porém, serve para o projeto
-export function loadLanguage(currentLang : string) {
-    // Recebe a linguagem e retorna o JSON associado
-    switch (currentLang) {
-        case 'pt':
-            return pt_dict;
-
-        case 'en':
-            return en_dict;
-        
-        default:
-            return pt_dict;
-    }
-}
-
 // Salva as configurações
-export function saveSettings(configSettings : userConfig) {
+export function saveSettings(configSettings : userSettings) {
     localStorage.setItem('settings', JSON.stringify(configSettings));
 }
 
 // Carrega as configurações armazenadas
 export function loadSettings() {
     // Configurações padrão
-    let configSettings : userConfig = {lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: 1};
+    let configSettings : userSettings = {lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: 1};
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString : string = localStorage.getItem('settings') || '';
@@ -35,7 +18,7 @@ export function loadSettings() {
         return configSettings;
 
     // Recupera as informações em JSON e passa para a variável que será retornada
-    const savedConfig : userConfig = JSON.parse(savedConfigString);
+    const savedConfig : userSettings = JSON.parse(savedConfigString);
 
     configSettings.cookieConsent = savedConfig.cookieConsent;
     configSettings.lang = savedConfig.lang;
@@ -45,10 +28,10 @@ export function loadSettings() {
 }
 
 // Facilita a atualização do valores de configuração
-export function updateUserConfig(currentUserConfig : userConfig, newValues: {lang? : string, cookieConsent?: boolean, fontSizeMod?: number}) {
-    let definedLang : string = newValues.lang || currentUserConfig.lang;
-    let definedCookieConsent : boolean = newValues.cookieConsent || currentUserConfig.cookieConsent;
-    let definedFontSizeMod : number = newValues.fontSizeMod || currentUserConfig.fontSizeMod;
+export function updateUserSettings(currentUserSettings : userSettings, newValues: {lang? : string, cookieConsent?: boolean, fontSizeMod?: number}) {
+    let definedLang : string = newValues.lang || currentUserSettings.lang;
+    let definedCookieConsent : boolean = newValues.cookieConsent || currentUserSettings.cookieConsent;
+    let definedFontSizeMod : number = newValues.fontSizeMod || currentUserSettings.fontSizeMod;
     
-    return <userConfig>{lang: definedLang, cookieConsent: definedCookieConsent, fontSizeMod: definedFontSizeMod};
+    return <userSettings>{lang: definedLang, cookieConsent: definedCookieConsent, fontSizeMod: definedFontSizeMod};
 }
