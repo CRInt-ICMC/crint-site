@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 80vh;
 
     background-color: #C5DAED;
 }
@@ -20,12 +21,27 @@ $borda-carrossel: 10px;
 .carousel {
     text-align: center;
     display: block;
-    width: 100%;
+    max-width: 80%;
+    height: 70vh;
     --swiper-theme-color: black;
 
-    outline: $borda-carrossel solid black;
-    outline-offset: -$borda-carrossel;
+    border: $borda-carrossel solid black;
+    // outline-offset: -$borda-carrossel;
     background-color: white;
         
     z-index: 20;
+}
+
+.swiper {
+    height: 100%;
+}
+
+.swiper-slide {
+    height: 100%;
+    object-fit: fill;
+}
+
+.swiper-slide img {
+    height: 100%;
+    width: 80%;
 }

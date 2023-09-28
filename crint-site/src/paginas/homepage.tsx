@@ -8,12 +8,17 @@ import './homepage.scss';
 import Carousel from '../componentes/Carousel';
 import { SwiperSlide } from 'swiper/react';
 
-const CreateCarousel = (carouselImages : string[]) => {
+const CreateCarousel = (carouselImages : image[]) => {
     let carouselBody : ReactNode = (
         <>
             {
-                carouselImages.map((imageURL : string) => {
-                    return <SwiperSlide key={imageURL}><img src={STRAPI_URL + imageURL} /></SwiperSlide>;
+                carouselImages.map((image : image) => {
+                    return (
+                        <SwiperSlide key={image.url} className='swiper-slide'>
+                            <img src={STRAPI_URL + image.url} />
+                            <div className='slide-caption'>{image.caption}</div>
+                        </SwiperSlide>
+                    );
                 })
             }
         </>
@@ -22,21 +27,28 @@ const CreateCarousel = (carouselImages : string[]) => {
     return carouselBody;
 }
 
+interface image {
+    url : string,
+    caption : string,
+}
+
 const Homepage = () => {
     const {userSettings} = useContext(SettingsContext);
-    const [carouselImages, setCarouselImages] = useState<string[]>();
+    const [carouselImages, setCarouselImages] = useState<image[]>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
         axios.get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
         .then((response) => {
-            let urls : string[] = []
+            let images : image[] = []
             response['data']['data']['attributes']['Carrossel']['data'].map((image : any) => {
-                urls.push(String(image.attributes.url))
+                images.push({url: String(image.attributes.url), caption: String()})
+                console.log(image.attributes)
             })
+
             
-            setCarouselImages(urls);
+            setCarouselImages(images);
 
             setSections(response['data']['data']['attributes']['secoes']['data']);
         })

@@ -11,6 +11,7 @@ const Carousel = (props : {body : ReactNode}) => {
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             direction='horizontal'
             loop={true}
+            centeredSlides={true}
 
             navigation
             pagination={{ clickable: true }}
