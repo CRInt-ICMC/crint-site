@@ -70,10 +70,8 @@ const Homepage = () => {
                             key={String(section.attributes.Titulo || '')} 
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
-                            style={{
-                                color: String(section.attributes.Cor_texto || ''),
-                                backgroundColor: String(section.attributes.Cor_fundo || '')
-                            }}
+                            textColor={String(section.attributes.Cor_texto || '')}
+                            backgroundColor={String(section.attributes.Cor_fundo || '')}
                             />
                     );
                 })
