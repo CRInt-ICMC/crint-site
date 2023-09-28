@@ -15,8 +15,8 @@ const CreateCarousel = (carouselImages : image[]) => {
                 carouselImages.map((image : image) => {
                     return (
                         <SwiperSlide key={image.url} className='swiper-slide'>
-                            <img src={STRAPI_URL + image.url} />
                             <div className='slide-caption'>{image.caption}</div>
+                            <img src={STRAPI_URL + image.url} />
                         </SwiperSlide>
                     );
                 })
@@ -43,8 +43,7 @@ const Homepage = () => {
         .then((response) => {
             let images : image[] = []
             response['data']['data']['attributes']['Carrossel']['data'].map((image : any) => {
-                images.push({url: String(image.attributes.url), caption: String()})
-                console.log(image.attributes)
+                images.push({url: String(image.attributes.url), caption: String(image.attributes.caption)})
             })
 
             
