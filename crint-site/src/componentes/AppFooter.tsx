@@ -22,10 +22,10 @@ const AppFooter = () => {
     }, [userSettings?.lang]);
 
     return (
-        <footer style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
+        <footer>
             {textData &&
-                <nav className='footer'>
-                    <div className='footer-row'>
+                <nav className='footer' >
+                    <div className='footer-row' style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
                         {/* ENDEREÇO */}
                         <div className='footer-left'>
                             <h3> {String(textData?.attributes.Endereco_titulo)} </h3>
@@ -47,7 +47,7 @@ const AppFooter = () => {
                             <a href={'tel:'+ String(textData?.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData?.attributes.Contato_numero)} </a>
                         </div>
                     </div>
-                    <div className='footer-row'>
+                    <div className='footer-row' style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
                         <div><Link to={'/creditos'}>{String(textData?.attributes.Creditos)}</Link ></div>
                         <div><Link to={'/privacidade'}>{String(textData?.attributes.Politica_privacidade)}</Link ></div>
                     </div>

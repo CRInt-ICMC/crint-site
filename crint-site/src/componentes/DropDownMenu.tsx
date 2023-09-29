@@ -10,9 +10,9 @@ const DropDownMenu = (props : {head : ReactNode, body : ReactNode, fontSize : nu
 
     return (
         <menu className='dropMenu' onMouseEnter={showMenu} onMouseLeave={hideMenu}>
-            <div className='dropMenuHead'>
+            <div className='dropMenuHead' style={{fontSize: props.fontSize + 'em'}}>
                 { props.head }
-                <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens' style={{fontSize: props.fontSize + 'em'}}>
+                <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
                     { props.body }
                 </AnimateHeight>
             </div>

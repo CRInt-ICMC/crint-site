@@ -17,7 +17,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 const topics = (textData : ApiHeaderHeader, fontSizeMod : number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody : ReactNode = (
-        <span className='subtopics'>
+        <span className='subtopics' style={{fontSize: fontSizeMod + 'em'}}>
             <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
             <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
             <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
@@ -25,13 +25,13 @@ const topics = (textData : ApiHeaderHeader, fontSizeMod : number) => {
     );
 
     let estrangeirosBody : ReactNode = (
-        <span className='subtopics'>
+        <span className='subtopics' style={{fontSize: fontSizeMod + 'em'}}>
             <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
         </span>
     );
 
     let informacoesBody : ReactNode = (
-        <span className='subtopics'>
+        <span className='subtopics' style={{fontSize: fontSizeMod + 'em'}}>
             <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
             <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
             <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
@@ -40,7 +40,7 @@ const topics = (textData : ApiHeaderHeader, fontSizeMod : number) => {
 
     // Cria os tópicos e um menu dropdown para cada um deles
     return (
-        <span className='topics' style={{fontSize: fontSizeMod + 'em'}}>
+        <span className='topics'>
             <DropDownMenu 
                 head={<p>{String(textData?.attributes.Mobilidade)}</p>}
                 body={mobilidadeBody} 
@@ -86,9 +86,11 @@ const languages = (currentLang : string, setLang : CallableFunction, bandeiras :
 
 const options = (currentFontSizeMod : number, setFontSizeMod : CallableFunction) => (
     // Apenas mostra os botões se o tamanho não estiver em seu limite máximo ou mínimo
-    <div className='options'>
-        {currentFontSizeMod < MAX_FONT && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
-        {currentFontSizeMod > MIN_FONT && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
+    <div className='options-root'>
+        <div className='options-buttons'>
+            {currentFontSizeMod < MAX_FONT && <button className='increase-button' onClick={() => setFontSizeMod(currentFontSizeMod + 0.1)}><FontAwesomeIcon icon={faPlus} /></button>}
+            {currentFontSizeMod > MIN_FONT && <button className='decrease-button' onClick={() => setFontSizeMod(currentFontSizeMod - 0.1)}><FontAwesomeIcon icon={faMinus} /></button>}
+        </div>
     </div>
 );
 

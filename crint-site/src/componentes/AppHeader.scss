@@ -1,24 +1,22 @@
 @use '../Base.scss' as base;
 
 .header-root {
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+.navbar {
     background-color: base.$azul-icmc;
     opacity: 0.85;
 
     height: base.$altura-header;
     width: base.$largura-pagina;
-    margin: 0 base.$margem-pagina;   
-
-    position: fixed;
-    top: 0;
-    z-index: 999;
-}
-
-.navbar {
+    margin: 0 base.$margem-pagina;
     align-items: center;
     display: flex;
-    justify-content: center;
-
-    padding: 0 10%;
 }
 
 .navbar-left {
@@ -52,21 +50,24 @@
 }
 
 .topics {
+    font-size: base.$topico-fontsize;
     display: inline-flex;
 }
 
 .topics p {
     color: white;
-    font-size: base.$topico-fontsize;
     font-weight: 400;
-    text-decoration: none; 
+    text-decoration: none;
 
     margin: 0px 0px;
 }
 
+.subtopics {
+    font-size: base.$subtopico-fontsize;
+}
+
 .subtopics a {
     color: white;
-    font-size: base.$subtopico-fontsize;
     font-weight: 400;
     text-decoration: none;
 
@@ -93,7 +94,7 @@
     cursor: pointer;
 }
 
-.options {
+.options-root {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -103,12 +104,27 @@
     height: base.$altura-botao-fonte;
 }
 
+.options-buttons {
+    height: base.$altura-botao-fonte;
+    width: 2 * base.$largura-botao-fonte;
+
+    position: absolute;
+}
+
 .increase-button {
     height: base.$altura-botao-fonte;
     width: base.$largura-botao-fonte;
+
+    position: relative;
+
+    left: 0;
 }
 
 .decrease-button {
     height: base.$altura-botao-fonte;
     width: base.$largura-botao-fonte;
+
+    position: relative;
+
+    right: 0;
 }

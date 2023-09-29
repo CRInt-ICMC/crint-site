@@ -2,13 +2,12 @@
 
 .topic-root {
     margin-top: base.$altura-header;
-    background-repeat: repeat;
-    background-size: 25%;
 }
 
 .topic-banner {
     height: base.$altura-banner;
-    padding: 0 15%;    
+    padding: 0 15%;
+    font-size: base.$banner-fontize;
 
     align-items: center;
     display: flex;
@@ -21,13 +20,10 @@
 
 .topic-img-container img {
     height: base.$altura-banner * 0.75;
-
-    margin-left: 5%;
 }
 
 .topic-banner h1 {
     margin-left: 5%;
 
-    font-size: base.$banner-fontize;
     color: black;
 }

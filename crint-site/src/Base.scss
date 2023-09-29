@@ -17,11 +17,12 @@ $altura-botao-fonte: 25px;
 $largura-botao-fonte: 25px;
 
 // Tamanhos de fonte
-$banner-fontize: 3em;
-$footer-fontsize: 1.5em;
-$topico-fontsize: 1.8em;
-$section-fontize: 1.5em;
-$subtopico-fontsize: 1em;
+$base-fontsize: 20px;
+$banner-fontize: calc(3 * $base-fontsize);
+$footer-fontsize: calc(1.5 * $base-fontsize);
+$topico-fontsize: calc(1.8 * $base-fontsize);
+$section-fontize: calc(1.5 * $base-fontsize);
+$subtopico-fontsize: calc(1 * $base-fontsize);
 
 // Limites de mídia (por hora não representam valores reais)
 $celular-width: 4px;
