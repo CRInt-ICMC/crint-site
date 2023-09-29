@@ -17,9 +17,15 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@strapi/strapi": "^4.13.2",
+    "@types/react-slick": "^0.23.10",
+    "axios": "^1.5.0",
+    "interweave": "^13.1.0",
     "react": "^18.2.0",
+    "react-animate-height": "^3.2.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.1"
+    "react-router-dom": "^6.14.1",
+    "swiper": "^10.3.0"
   },
   "devDependencies": {
     "@types/node-sass": "^4.11.3",

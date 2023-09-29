@@ -1,49 +1,90 @@
-# Getting Started with Create React App
+# Site da CRInt
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse projeto foi desenvolvido com a finalidade de facilitar o fluxo de informações da CRInt do ICMC para os alunos da graduação, funcionários, servidores e estrangeiros.
 
-## Available Scripts
+Ele surgiu dos relatos de dificuldade para encontrar instruções quanto à realização dos processos relacionados ao intercâmbio dos membros da USP.
 
-In the project directory, you can run:
+O código disponibilizado aqui é de uso livre em partes ou em sua totalidade desde que não seja utilizado para impersonar a CRInt ou qualquer órgão relacionado à USP.
 
-### `npm start`
+## Funcionamento
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Organização
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
 
-### `npm test`
+- `/componentes`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Footer, Seções, etc...). Todos são objetos genéricos que podem ser facilmente reutilizados e/ou dependem de props para serem funcionais.
+- `/img`: é onde as imagens que não serão alteradas devem ser armazenadas.
+- `/paginas`: é a pasta que contém o conteúdo de cada página. Cada nova página deve ser armazenada nesta pasta e em uma de suas subpastas quando adequado.
+- `/utils`: esta é a pasta onde funções globais, constantes e *interfaces* devem ser armazenadas. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Acessibilidade
 
-### `npm run build`
+As funções de acessibilidade do projeto são providas por `/components/AppHeader.tsx` e guardadas num cookie através das funções em `/utils/utils.ts`. Um contexto é em `/Context.tsx` e provido por `/App.tsx` para que as mudanças sejam propagadas pelo site inteiro.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Além disso, a biblioteca `@djpfs/react-vlibras` garante o funcionamento do VLibras no site.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Mudança do Tamanho de Fonte
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Todas as partes cujos textos são relevantes são e devem ser adaptáveis. No modelo atual, a variável de contexto `fontSizeMod` utiliza a métrica `em` (relativa ao tamanho do elemento pai) para realizar as mudanças. A variável é inicializada com valor '1' e a cada clique aumenta ou diminui esse valor em '0.1' até os limites estimados.
 
-### `npm run eject`
+A variável deve ser utilizada através de CSS *inline* nos elementos que serão modificados devido às limitações do React e do próprio CSS.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Sistema de Línguas
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### VLibras
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+A implementação do VLibras é realizada segundo as instruções na [página do github do pacote](https://github.com/djpfs/react-vlibras).
 
-## Learn More
+Atenção: O VLibras não carregará normalmente na versão de produção devido a sua natureza síncrona, mas executará corretamente na build. Se precisar que ele apareça durante o desenvolvimento, adicione `forceOnload={true}` à seu elemento em `/App.tsx`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Componentes e Utilidades
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Para manter o README principal organizado e simples, essas explicações estão localizadas [aqui](Funcionamento.md).
 
-## Desenvolvido por
-- Pedro Henrique Vilela do Nascimento.
+## Pré-requisitos
+
+Não é necessário nada mais do que o NodeJS 20 para executar o projeto, pois as outras dependências serão instaladas automaticamente. Ainda assim, conhecimento básico nas seguintes áreas é recomendado para compreender o código:
+
+- React;
+- Typescript;
+- SCSS;
+- Básico de Web Development (HTML, CSS E Javascript).
+
+Vite foi usado para criar o projeto e é usado para executá-lo e construí-lo, porém não é necessário qualquer conhecimento dessa ferramenta para compreender o projeto.
+
+## Utilização
+
+Primeiramente, baixe do ZIP do repositório ou clone ele com:
+
+```
+git clone https://github.com/CRInt-ICMC/crint-site
+```
+
+Então, entre na pasta do repositório e baixe as dependências do projeto.
+
+```
+cd crint-site/crint-site
+npm install
+```
+
+Por fim, entre na pasta do site e inicialize ele com:
+
+```
+# Executa a versão de desenvolvimento
+npm run dev
+
+# Constrói o html do site
+npm run build
+
+# Exibe a versão de produção
+npm run preview
+
+# Faz o host da versão de produção na rede local na porta 8080
+npm run host
+```
+
+## Créditos
+
+- Pedro Henrique Vilela do Nascimento - Desenvolvedor do projeto

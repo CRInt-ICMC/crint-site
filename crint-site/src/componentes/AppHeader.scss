@@ -1,0 +1,114 @@
+@use '../Base.scss' as base;
+
+.header-root {
+    background-color: base.$azul-icmc;
+    opacity: 0.85;
+
+    height: base.$altura-header;
+    width: base.$largura-pagina;
+    margin: 0 base.$margem-pagina;   
+
+    position: fixed;
+    top: 0;
+    z-index: 999;
+}
+
+.navbar {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    padding: 0 10%;
+}
+
+.navbar-left {
+    float: left;
+    margin-left: 1%;
+    flex-grow: 1;
+}
+
+.navbar-center {
+    float: center;
+    text-align: center;
+
+    min-width: 70%;
+}
+
+.navbar-right {
+    float: right;
+    margin-right: 1%;
+    flex-grow: 1;
+}
+
+.logos {
+    align-items: center;
+    display: flex;
+    height: base.$altura-header;
+}
+
+.logos img {
+    height: base.$altura-header * 0.85;
+    transition: 50ms;
+}
+
+.topics {
+    display: inline-flex;
+}
+
+.topics p {
+    color: white;
+    font-size: base.$topico-fontsize;
+    font-weight: 400;
+    text-decoration: none; 
+
+    margin: 0px 0px;
+}
+
+.subtopics a {
+    color: white;
+    font-size: base.$subtopico-fontsize;
+    font-weight: 400;
+    text-decoration: none;
+
+    display: flex;
+
+    width: 100%;
+}
+
+.flags {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.flags img {
+    height: base.$altura-bandeira;
+    width: base.$largura-bandeira;
+}
+
+.flags button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.options {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    height: base.$altura-botao-fonte;
+}
+
+.increase-button {
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+}
+
+.decrease-button {
+    height: base.$altura-botao-fonte;
+    width: base.$largura-botao-fonte;
+}

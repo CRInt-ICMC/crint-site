@@ -1,0 +1,60 @@
+@use '../Base.scss' as base;
+
+.footer {
+    position: relative;
+    background-color: base.$azul-icmc;
+    color: white;
+
+    font-size: base.$footer-fontsize;
+    font-weight: bolder;
+ 
+    width: base.$largura-pagina;
+    margin: 0 base.$margem-pagina;
+}
+
+.footer h3 {
+    text-decoration: underline;
+}
+
+.footer a, .footer a:link, .footer a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.footer a:hover {
+    color: base.$laranja-usp;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: center;
+
+    padding: 25px 0;
+    width: 100%;    
+}
+
+.footer-row div {
+    padding: 0 min(50px, 5%);
+}
+
+.footer-left {
+    width: 25%;
+    float: left;
+    height: 100%;
+}
+
+.footer-center {
+    width: 30%;
+    height: 100%;
+
+    padding: 0 20px;
+
+    text-align: center;
+    float: center;
+}
+
+.footer-right {
+    width: 20%;
+    height: 100%;
+    float: right;
+}
