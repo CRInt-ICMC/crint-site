@@ -4,38 +4,36 @@
     display: flex;
     position: relative;
 
-}
+    .dropMenuHead {
+        position: relative;
+        transition: 0.5s;
+        min-width: 100%;
+    }
 
-.dropMenuHead {
-    position: relative;
-    transition: 0.5s;
-    min-width: 100%;
+    .dropMenuItens {
+        background-color: base.$azul-icmc;
 
-}
+        display: block;
+        min-width: 100%;
+        padding-right: 10px;
 
-.dropMenuItens {
-    background-color: base.$azul-icmc;
+        top: 100%;
+        position: absolute;
 
-    display: block;
-    min-width: 100%;
-    padding-right: 10px;
+        white-space: nowrap;
 
-    top: 100%;
-    position: absolute;
+        transform-origin: top center;
+    }
 
-    white-space: nowrap;
+    a {
+        width: 100%;
+        padding-left: 10px;
+        background-clip: border-box;
+        text-align: left;
+    }
 
-    transform-origin: top center;
-}
-
-.dropMenuItens a {
-    width: 100%;
-    padding-left: 10px;
-    background-clip: border-box;
-    text-align: left;
-}
-
-.dropMenuItens a:hover {
-    background-color: base.$azul-aucani;
-    color: black;
+    a:hover {
+        background-color: base.$azul-aucani;
+        color: black;
+    }
 }

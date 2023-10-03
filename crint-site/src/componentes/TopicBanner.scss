@@ -2,28 +2,28 @@
 
 .topic-root {
     margin-top: base.$altura-header;
-}
 
-.topic-banner {
-    height: base.$altura-banner;
-    padding: 0 15%;
-    font-size: base.$hd-fontsize;
-
-    align-items: center;
-    display: flex;
-}
-
-.topic-img-container {
-    min-width: 30%;
-    text-align: center;
-}
-
-.topic-img-container img {
-    height: base.$altura-banner * 0.75;
-}
-
-.topic-banner h1 {
-    margin-left: 5%;
-
-    color: black;
+    .topic-banner {
+        height: base.$altura-banner;
+        padding: 0 15%;
+        font-size: base.$hd-fontsize;
+    
+        align-items: center;
+        display: flex;
+    
+        h1 {
+            margin-left: 5%;
+        
+            color: black;
+        }
+    }
+    
+    .topic-img-container {
+        min-width: 30%;
+        text-align: center;
+    
+        img {
+            height: base.$altura-banner * 0.75;
+        }
+    }
 }

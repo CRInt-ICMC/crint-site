@@ -1,11 +1,11 @@
 @use '../Base.scss' as base;
 
 .header-root {
-    height: base.$altura-header;
-
     @media screen and (max-width: base.$tablet-width) {
         @include base.formato-pagina(100%);
         @include base.topico-fontsize(base.$celular-fontsize);
+
+        height: base.$altura-header;
     }
 
     @media screen and (min-width: calc(base.$tablet-width + 1px)) {
@@ -16,122 +16,122 @@
     position: fixed;
     top: 0;
     z-index: 2;
-}
 
-.navbar {
-    background-color: base.$azul-icmc;
-    opacity: 0.85;
+    .navbar {
+        background-color: base.$azul-icmc;
+        opacity: 0.85;
 
-    width: 100%;
-    align-items: center;
-    display: flex;
-}
+        width: 100%;
+        align-items: center;
+        display: flex;
 
-.navbar-left {
-    float: left;
-    margin-left: 1%;
-    flex-grow: 1;
-}
+        .navbar-left {
+            float: left;
+            margin-left: 1%;
+            flex-grow: 1;
 
-.navbar-center {
-    float: center;
-    text-align: center;
+            .logos {
+                align-items: center;
+                display: flex;
+                height: base.$altura-header;
 
-    min-width: 70%;
-}
+                img {
+                    height: base.$altura-header * 0.85;
+                    transition: 50ms;
+                }
+            }
+        }
 
-.navbar-right {
-    float: right;
-    margin-right: 1%;
-    flex-grow: 1;
-}
+        .navbar-center {
+            float: center;
+            text-align: center;
 
-.logos {
-    align-items: center;
-    display: flex;
-    height: base.$altura-header;
-}
+            min-width: 70%;
 
-.logos img {
-    height: base.$altura-header * 0.85;
-    transition: 50ms;
-}
+            .topics {
+                display: inline-flex;
 
-.topics {
-    display: inline-flex;
-}
+                p {
+                    color: white;
+                    font-weight: 400;
+                    text-decoration: none;
 
-.topics p {
-    color: white;
-    font-weight: 400;
-    text-decoration: none;
+                    margin: 0px 0px;
+                }
 
-    margin: 0px 0px;
-}
+                .subtopics {
 
-// .subtopics {
-//     font-size: base.$subtopico-fontsize;
-// }
+                    //     font-size: base.$subtopico-fontsize;
+                    a {
+                        color: white;
+                        font-weight: 400;
+                        text-decoration: none;
 
-.subtopics a {
-    color: white;
-    font-weight: 400;
-    text-decoration: none;
+                        display: flex;
 
-    display: flex;
+                        width: 100%;
+                    }
+                }
+            }
+        }
 
-    width: 100%;
-}
+        .navbar-right {
+            float: right;
+            margin-right: 1%;
+            flex-grow: 1;
 
-.flags {
-    width: 100%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
+            .flags {
+                width: 100%;
+                align-items: center;
+                display: flex;
+                justify-content: center;
 
-.flags img {
-    height: base.$altura-bandeira;
-    width: base.$largura-bandeira;
-}
+                img {
+                    height: base.$altura-bandeira;
+                    width: base.$largura-bandeira;
+                }
 
-.flags button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
+                button {
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
 
-.options-root {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+            .options-root {
+                align-items: center;
+                display: flex;
+                justify-content: center;
 
-    width: 100%;
+                width: 100%;
 
-    height: base.$altura-botao-fonte;
-}
+                height: base.$altura-botao-fonte;
 
-.options-buttons {
-    height: base.$altura-botao-fonte;
-    width: 2 * base.$largura-botao-fonte;
+                .options-buttons {
+                    height: base.$altura-botao-fonte;
+                    width: 2 * base.$largura-botao-fonte;
 
-    position: absolute;
-}
+                    position: absolute;
 
-.increase-button {
-    height: base.$altura-botao-fonte;
-    width: base.$largura-botao-fonte;
+                    .increase-button {
+                        height: base.$altura-botao-fonte;
+                        width: base.$largura-botao-fonte;
 
-    position: relative;
+                        position: relative;
 
-    left: 0;
-}
+                        left: 0;
+                    }
 
-.decrease-button {
-    height: base.$altura-botao-fonte;
-    width: base.$largura-botao-fonte;
+                    .decrease-button {
+                        height: base.$altura-botao-fonte;
+                        width: base.$largura-botao-fonte;
 
-    position: relative;
+                        position: relative;
 
-    right: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
 }

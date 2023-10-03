@@ -18,8 +18,8 @@ const WIP = (
 );
 
 const NotFound = (
-    <div id='notfound-root'>
-        <div id='notfound-content'>
+    <div className='notfound-root'>
+        <div className='notfound-content'>
             <h1>Página não encontrada</h1>
             <img src={NOTFOUND_ICON} alt="Erro 404: Not Found" />
         </div>

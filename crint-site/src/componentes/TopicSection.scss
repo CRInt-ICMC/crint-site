@@ -5,33 +5,33 @@
 
     color: black;
     font-size: base.$hd-fontsize;
-}
 
-.topic-section a,
-.topic-section a:link,
-.topic-section a:visited {
-    color: inherit;
-    font-weight: bolder;
-}
+    a,
+    a:link,
+    a:visited {
+        color: inherit;
+        font-weight: bolder;
+    }
 
-.topic-title {
-    margin: 0;
-    position: relative;
-}
-
-.topic-title button {
-    border: none;
-    display: block;
-
-    background-color: transparent;
-    color: black;
-
-    position: absolute;
-
-    bottom: 0;
-    right: 0;
-}
-
-.topic-content {
-    width: 100%;
+    .topic-title {
+        margin: 0;
+        position: relative;
+    
+        button {
+            border: none;
+            display: block;
+        
+            background-color: transparent;
+            color: black;
+        
+            position: absolute;
+        
+            bottom: 0;
+            right: 0;
+        }
+    }
+    
+    .topic-content {
+        width: 100%;
+    }
 }
