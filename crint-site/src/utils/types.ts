@@ -1,5 +1,5 @@
 interface userSettings {
-    cookieConsent : boolean,
-    lang : string,
-    fontSizeMod : number,
+    cookieConsent: boolean,
+    lang: string,
+    fontSizeMod: number,
 }

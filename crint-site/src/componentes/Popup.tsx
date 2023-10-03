@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import './Popup.scss'
 
-const Popup = (props : {head : string, body : ReactNode}) => {
+const Popup = (props: { head: string, body: ReactNode }) => {
 
     return (
         <div className='popup-root'>

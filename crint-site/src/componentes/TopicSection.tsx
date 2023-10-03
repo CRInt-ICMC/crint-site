@@ -6,17 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import './TopicSection.scss'
 
-const TopicSection = (props : {title : string, body : string, textColor : string, backgroundColor : string}) => {
-    const {userSettings} = useContext(SettingsContext);
+const TopicSection = (props: { title: string, body: string, textColor: string, backgroundColor: string }) => {
+    const { userSettings } = useContext(SettingsContext);
 
     const [collapse, setCollapse] = useState(false);
 
     return (
-        <section className='topic-section' style={{color: props.textColor, background: props.backgroundColor}}>
-            <div style={{fontSize: (userSettings?.fontSizeMod || 1) + 'em'}}>
+        <section className='topic-section' style={{ color: props.textColor, background: props.backgroundColor }}>
+            <div style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em' }}>
                 <h1 className='topic-title'>
-                    {`${props.title}`} 
-                    <button onClick={()=>{setCollapse(!collapse)}}> 
+                    {`${props.title}`}
+                    <button onClick={() => { setCollapse(!collapse) }}>
                         <FontAwesomeIcon icon={collapse ? faCaretDown : faCaretUp} size='2x' color={props.textColor} />
                     </button>
                 </h1>

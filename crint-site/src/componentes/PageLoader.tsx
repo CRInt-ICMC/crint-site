@@ -27,7 +27,7 @@ const NotFound = (
 );
 
 const PageLoader = () => {
-    const {userSettings} = useContext(SettingsContext);
+    const { userSettings } = useContext(SettingsContext);
     const [textData, setTextData] = useState<ApiPaginaPagina>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
@@ -38,65 +38,66 @@ const PageLoader = () => {
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-        axios.get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, {'headers': {'Authorization': STRAPI_API_TOKEN}})
-        .then((response) => {
-            // Verifica se a página existe
-            if (response['data']['data'][0] === undefined) {
-                setStatus(404);
-                return;
-            }
+        axios
+            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .then((response) => {
+                // Verifica se a página existe
+                if (response['data']['data'][0] === undefined) {
+                    setStatus(404);
+                    return;
+                }
 
-            // Passa o texto e a imagem do banner para seus hooks
-            setTextData(response['data']['data'][0] as ApiPaginaPagina);
-            setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
-            setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
+                // Passa o texto e a imagem do banner para seus hooks
+                setTextData(response['data']['data'][0] as ApiPaginaPagina);
+                setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
+                setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
 
-            // Verifica se encontrou as seções, se não, a página está em construção
-            if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
-                setStatus(403);
-                console.log("OI")
-                return;
-            }
+                // Verifica se encontrou as seções, se não, a página está em construção
+                if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
+                    setStatus(403);
+                    console.log("OI")
+                    return;
+                }
 
-            // Passa as seções para seu hook
-            setSections(response['data']['data'][0]['attributes']['secoes']['data']);
+                // Passa as seções para seu hook
+                setSections(response['data']['data'][0]['attributes']['secoes']['data']);
 
-            setStatus(200);
-        })
+                setStatus(200);
+            })
     }, [userSettings?.lang, location]);
 
     // Executa quando troca de rota
-    useEffect(()=>{
+    useEffect(() => {
         // Sobe para o topo caso troque de página
         window.scrollTo(0, 0);
     }, [location]);
 
     return (
         <div className='page-body'>
-            { bannerImage &&
-                <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')} 
-                    topicImage={STRAPI_URL + bannerImage} 
-                    style={{background: gradient || ''}}
-                    />
+            {bannerImage &&
+                <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')}
+                    topicImage={STRAPI_URL + bannerImage}
+                    style={{ background: gradient || '' }}
+                />
             }
 
-            { sections && 
+            {sections &&
                 sections.map((section) => {
                     return (
-                        <TopicSection 
-                            key={String(section.attributes.Titulo || '')} 
+                        <TopicSection
+                            key={String(section.attributes.Titulo || '')}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}
                             backgroundColor={String(section.attributes.Cor_fundo || '')}
-                            />
+                        />
                     );
                 })
             }
 
-            { status === 404 && NotFound }
+            {status === 404 && NotFound}
 
-            { status === 403 && WIP }
+            {status === 403 && WIP}
         </div>
     );
 }
