@@ -16,18 +16,39 @@ $altura-banner: 200px;
 $altura-botao-fonte: 25px;
 $largura-botao-fonte: 25px;
 
-// Tamanhos de fonte
-$base-fontsize: 20px;
-$banner-fontize: calc(3 * $base-fontsize);
-$footer-fontsize: calc(1.5 * $base-fontsize);
-$topico-fontsize: calc(1.8 * $base-fontsize);
-$section-fontize: calc(1.5 * $base-fontsize);
-$subtopico-fontsize: calc(1 * $base-fontsize);
+// Limites de mídia
+$celular-width: 480px;
+$tablet-width: 768px;
+$md-width: 1024px; // Resolução média
+$hd-width: 1200px; // Resolução alta
 
-// Limites de mídia (por hora não representam valores reais)
-$celular-width: 4px;
-$celular-height: 8px;
-$tablet-width: 8px;
-$tablet-height: 16px;
-$computador-width: 32px;
-$computador-height: 16px;
+// Tamanhos de fonte
+$celular-fontsize: 10px;
+$tablet-fontsize: 15px;
+$md-fontsize: 17.5px;
+$hd-fontsize: 20px;
+
+@mixin formato-pagina($largura-pagina) {
+    width: $largura-pagina;
+    margin: 0 calc((100% - $largura-pagina) / 2);
+}
+
+@mixin banner-fontsize($base-fontsize) {
+    font-size: calc($base-fontsize * 3);
+}
+
+@mixin footer-fontsize($base-fontsize) {
+    font-size: calc($base-fontsize * 1.5);
+}
+
+@mixin topico-fontsize($base-fontsize) {
+    font-size: calc($base-fontsize * 1.8);
+}
+
+@mixin section-fontsize($base-fontsize) {
+    font-size: calc($base-fontsize * 1.5);
+}
+
+@mixin subtopico-fontsize($base-fontsize) {
+    font-size: calc($base-fontsize * 1);
+}

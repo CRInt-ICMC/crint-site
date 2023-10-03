@@ -1,13 +1,15 @@
 @use '../Base.scss' as base;
 
-.topic-section {    
+.topic-section {
     padding: 50px 20%;
 
     color: black;
-    font-size: base.$section-fontize;
+    font-size: base.$hd-fontsize;
 }
 
-.topic-section a, .topic-section a:link, .topic-section a:visited {
+.topic-section a,
+.topic-section a:link,
+.topic-section a:visited {
     color: inherit;
     font-weight: bolder;
 }

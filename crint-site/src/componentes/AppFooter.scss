@@ -5,18 +5,26 @@
     background-color: base.$azul-icmc;
     color: white;
 
-    font-size: base.$footer-fontsize;
     font-weight: bolder;
- 
-    width: base.$largura-pagina;
-    margin: 0 base.$margem-pagina;
+
+    @media screen and (max-width: base.$tablet-width) {
+        @include base.formato-pagina(100%);
+        @include base.footer-fontsize(base.$celular-fontsize);
+    }
+
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @include base.formato-pagina(base.$largura-pagina);
+        @include base.footer-fontsize(base.$md-fontsize);
+    }
 }
 
 .footer h3 {
     text-decoration: underline;
 }
 
-.footer a, .footer a:link, .footer a:visited {
+.footer a,
+.footer a:link,
+.footer a:visited {
     text-decoration: none;
     color: inherit;
 }
@@ -30,7 +38,7 @@
     justify-content: center;
 
     padding: 25px 0;
-    width: 100%;    
+    width: 100%;
 }
 
 .footer-row div {

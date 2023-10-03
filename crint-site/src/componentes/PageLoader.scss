@@ -2,8 +2,16 @@
 
 .page-body {
     min-height: 80vh;
-    width: base.$largura-pagina;
-    padding: 0 base.$margem-pagina;
+
+    @media screen and (max-width: base.$tablet-width) {
+        @include base.formato-pagina(100%);
+        @include base.footer-fontsize(base.$celular-fontsize);
+    }
+
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @include base.formato-pagina(base.$largura-pagina);
+        @include base.footer-fontsize(base.$md-fontsize);
+    }
 }
 
 #notfound-root {
@@ -28,9 +36,9 @@
     background-image: url('/src/img/background/brickwall.jpg');
     background-repeat: repeat;
     background-size: cover;
-    
+
     padding: 2% 0 5% 0;
-    
+
     align-items: center;
     display: flex;
     justify-content: center;

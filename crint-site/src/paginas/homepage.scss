@@ -2,8 +2,14 @@
 
 .homepage-body {
     color: black;
-    width: base.$largura-pagina;
-    margin: 0 base.$margem-pagina;
+
+    @media screen and (max-width: base.$tablet-width) {
+        @include base.formato-pagina(100%);
+    }
+
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @include base.formato-pagina(base.$largura-pagina);
+    }
 }
 
 .carousel-container {
@@ -17,7 +23,6 @@
     background-color: #EEEEEE;
 }
 
-$borda-carrossel: 10px;
 .carousel {
     text-align: center;
     display: block;
@@ -28,7 +33,7 @@ $borda-carrossel: 10px;
 .swiper {
     height: 100%;
     position: relative;
-    
+
     --swiper-theme-color: white;
     --swiper-navigation-size: 88px;
     --swiper-navigation-sides-offset: 0px;
@@ -59,11 +64,13 @@ $borda-carrossel: 10px;
     z-index: 1;
 }
 
-.swiper-button-next, .swiper-button-prev {
+.swiper-button-next,
+.swiper-button-prev {
     opacity: 0.2;
     background-color: black;
 }
 
-.swiper-button-next:hover, .swiper-button-prev:hover {
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
     opacity: 1;
 }
