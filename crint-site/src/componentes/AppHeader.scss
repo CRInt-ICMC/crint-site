@@ -3,14 +3,12 @@
 .header-root {
     @media screen and (max-width: base.$tablet-width) {
         @include base.formato-pagina(100%);
-        @include base.topico-fontsize(base.$celular-fontsize);
 
         height: base.$altura-header;
     }
 
     @media screen and (min-width: calc(base.$tablet-width + 1px)) {
         @include base.formato-pagina(base.$largura-pagina);
-        @include base.topico-fontsize(base.$md-fontsize);
     }
 
     position: fixed;
@@ -51,6 +49,14 @@
             .topics {
                 display: inline-flex;
 
+                @media screen and (max-width: base.$tablet-width) {
+                    @include base.topico-fontsize(base.$celular-fontsize);
+                }
+            
+                @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                    @include base.topico-fontsize(base.$md-fontsize);
+                }
+
                 p {
                     color: white;
                     font-weight: 400;
@@ -60,8 +66,14 @@
                 }
 
                 .subtopics {
+                    @media screen and (max-width: base.$tablet-width) {
+                        @include base.subtopico-fontsize(base.$celular-fontsize);
+                    }
+                
+                    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                        @include base.subtopico-fontsize(base.$md-fontsize);
+                    }
 
-                    //     font-size: base.$subtopico-fontsize;
                     a {
                         color: white;
                         font-weight: 400;

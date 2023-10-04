@@ -1,7 +1,7 @@
 @use '../Base.scss' as base;
 
 .topic-section {
-    padding: 50px 20%;
+    padding: 0 20%;
 
     color: black;
     font-size: base.$hd-fontsize;
@@ -15,22 +15,27 @@
 
     .topic-title {
         margin: 0;
+        padding: 50px 0;
         position: relative;
-    
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: left;
+
         button {
             border: none;
             display: block;
-        
+
             background-color: transparent;
             color: black;
-        
+
             position: absolute;
-        
-            bottom: 0;
+
             right: 0;
         }
     }
-    
+
     .topic-content {
         width: 100%;
     }
