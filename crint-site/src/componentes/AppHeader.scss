@@ -102,59 +102,6 @@
             float: right;
             width: 20%;
             text-align: right;
-
-            .flags {
-                width: 100%;
-                align-items: center;
-                display: flex;
-                justify-content: center;
-
-                img {
-                    height: base.$altura-bandeira;
-                    width: base.$largura-bandeira;
-                }
-
-                button {
-                    background-color: transparent;
-                    border: none;
-                    cursor: pointer;
-                }
-            }
-
-            .options-root {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-
-                width: 100%;
-
-                height: base.$altura-botao-fonte;
-
-                .options-buttons {
-                    height: base.$altura-botao-fonte;
-                    width: 2 * base.$largura-botao-fonte;
-
-                    position: absolute;
-
-                    .increase-button {
-                        height: base.$altura-botao-fonte;
-                        width: base.$largura-botao-fonte;
-
-                        position: relative;
-
-                        left: 0;
-                    }
-
-                    .decrease-button {
-                        height: base.$altura-botao-fonte;
-                        width: base.$largura-botao-fonte;
-
-                        position: relative;
-
-                        right: 0;
-                    }
-                }
-            }
-        }
+       }
     }
 }
