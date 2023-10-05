@@ -13,6 +13,7 @@ import './AppHeader.scss';
 // IMAGENS E ÍCONES
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useMediaPredicate } from 'react-media-hook';
 
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
     // Subtópicos de cada tópico
@@ -96,6 +97,7 @@ const options = (currentFontSizeMod: number, setFontSizeMod: CallableFunction) =
 
 interface HeaderImages {
     ICMC: string,
+    ICMC_mini: string,
     FLAGS: {
         PT: string,
         EN: string,
@@ -110,6 +112,7 @@ const AppHeader = () => {
     const [textData, setTextData] = useState<ApiHeaderHeader>();
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
+    const mobile = useMediaPredicate("(max-width: 768px)");
 
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
@@ -119,6 +122,7 @@ const AppHeader = () => {
                 setTextData(response['data']['data'] as ApiHeaderHeader);
                 setHeaderImages({
                     ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes']['url'],
+                    ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes']['url'],
                     FLAGS: {
                         EN: response['data']['data']['attributes']['bandeira_en']['data']['attributes']['url'],
                         PT: response['data']['data']['attributes']['bandeira_pt']['data']['attributes']['url'],
@@ -133,6 +137,7 @@ const AppHeader = () => {
             })
     }, [userSettings?.lang]);
 
+
     // Esse bloco lida com a língua atual
     useEffect(() => {
         if (!userSettings?.lang)
@@ -145,7 +150,7 @@ const AppHeader = () => {
     }, [currentLang]);
 
     // Atualiza a linguagem atual
-    async function changeLang(lang: string) {
+    function changeLang(lang: string) {
         // Impede o uso inapropriado da função
         if (!AVAILABLE_LANGUAGES.includes(lang)) {
             changeLang(DEFAULT_LANGUAGE);
@@ -201,7 +206,7 @@ const AppHeader = () => {
                 <div className='navbar-left'>
                     <span className='logos'>
                         {headerImages?.ICMC &&
-                            <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + headerImages?.ICMC} /></Link>
+                            <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages?.ICMC_mini : headerImages?.ICMC)} /></Link>
                         }
                     </span>
                 </div>

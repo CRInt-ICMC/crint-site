@@ -13,13 +13,20 @@
 
     .carousel-container {
         aspect-ratio: 1.9 / 1;
-        margin-top: base.$altura-header;
         display: flex;
         align-items: center;
         justify-content: center;
         max-width: 100%;
 
         background-color: #EEEEEE;
+
+        @media screen and (max-width: base.$tablet-width) {
+            margin-top: base.$header-mobile;
+        }
+    
+        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+            margin-top: base.$header-computador;
+        }
 
         .carousel {
             text-align: center;
