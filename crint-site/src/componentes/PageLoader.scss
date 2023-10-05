@@ -2,6 +2,7 @@
 
 .page-body {
     min-height: 80vh;
+    z-index: 0;
 
     @media screen and (max-width: base.$tablet-width) {
         @include base.formato-pagina(100%);
