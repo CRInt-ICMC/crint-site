@@ -891,19 +891,13 @@ export interface ApiHeaderHeader extends Schema.SingleType {
           localized: true;
         };
       }>;
-    bandeira_pt: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    bandeira_en: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
     ICMC: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    ICMC_mini: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -981,6 +975,37 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
       'api::homepage.homepage'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiLinguaLingua extends Schema.CollectionType {
+  collectionName: 'linguas';
+  info: {
+    singularName: 'lingua';
+    pluralName: 'linguas';
+    displayName: 'Lingua';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Bandeira: Attribute.Media;
+    Sigla: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::lingua.lingua',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::lingua.lingua',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1213,6 +1238,7 @@ declare module '@strapi/strapi' {
       'api::gradiente.gradiente': ApiGradienteGradiente;
       'api::header.header': ApiHeaderHeader;
       'api::homepage.homepage': ApiHomepageHomepage;
+      'api::lingua.lingua': ApiLinguaLingua;
       'api::pagina.pagina': ApiPaginaPagina;
       'api::popup-de-privacidade.popup-de-privacidade': ApiPopupDePrivacidadePopupDePrivacidade;
       'api::secao.secao': ApiSecaoSecao;

@@ -1,7 +1,8 @@
 @use '../Base.scss' as base;
 
 .page-body {
-    min-height: 80vh;
+    min-height: 60vh;
+    z-index: 0;
 
     @media screen and (max-width: base.$tablet-width) {
         @include base.formato-pagina(100%);
@@ -14,10 +15,7 @@
     }
 
     .notfound-root {
-        margin-top: base.$altura-header;
-    
         padding: 2% 0 5% 0;
-    
     
         align-items: center;
         display: flex;

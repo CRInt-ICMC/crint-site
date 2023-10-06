@@ -1,24 +1,32 @@
 @use '../Base.scss' as base;
 
 .header-root {
-    @media screen and (max-width: base.$tablet-width) {
-        @include base.formato-pagina(100%);
-
-        height: base.$altura-header;
-    }
-
-    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
-        @include base.formato-pagina(base.$largura-pagina);
-    }
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
 
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 100;
+    overflow: visible;
 
     .navbar {
+        @media screen and (max-width: base.$tablet-width) {
+            @include base.formato-pagina(100%);
+    
+            height: base.$header-mobile;
+        }
+    
+        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+            @include base.formato-pagina(base.$largura-pagina);
+    
+            height: base.$header-computador;
+        }
+
         background-color: base.$azul-icmc;
         opacity: 0.85;
 
+        height: 100%;
         width: 100%;
         align-items: center;
         display: flex;
@@ -26,28 +34,39 @@
         .navbar-left {
             float: left;
             margin-left: 1%;
-            flex-grow: 1;
+
+            height: 100%;
 
             .logos {
-                align-items: center;
-                display: flex;
-                height: base.$altura-header;
+                a {
+                    align-items: center;
+                    display: flex;
+                    height: 100%;
 
-                img {
-                    height: base.$altura-header * 0.85;
-                    transition: 50ms;
+                    img {
+                        height: 85%;
+                        transition: 50ms;
+                    }
                 }
             }
         }
 
         .navbar-center {
             float: center;
+            max-width: 100%;
+            flex-grow: 1;
             text-align: center;
 
-            min-width: 70%;
-
             .topics {
-                display: inline-flex;
+                @media screen and (max-width: calc(base.$tablet-width)) {
+                    display: none;
+                }
+
+                @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                    display: inline-flex;
+                }
+
+                width: 100%;
 
                 @media screen and (max-width: base.$tablet-width) {
                     @include base.topico-fontsize(base.$celular-fontsize);
@@ -89,61 +108,8 @@
 
         .navbar-right {
             float: right;
-            margin-right: 1%;
-            flex-grow: 1;
-
-            .flags {
-                width: 100%;
-                align-items: center;
-                display: flex;
-                justify-content: center;
-
-                img {
-                    height: base.$altura-bandeira;
-                    width: base.$largura-bandeira;
-                }
-
-                button {
-                    background-color: transparent;
-                    border: none;
-                    cursor: pointer;
-                }
-            }
-
-            .options-root {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-
-                width: 100%;
-
-                height: base.$altura-botao-fonte;
-
-                .options-buttons {
-                    height: base.$altura-botao-fonte;
-                    width: 2 * base.$largura-botao-fonte;
-
-                    position: absolute;
-
-                    .increase-button {
-                        height: base.$altura-botao-fonte;
-                        width: base.$largura-botao-fonte;
-
-                        position: relative;
-
-                        left: 0;
-                    }
-
-                    .decrease-button {
-                        height: base.$altura-botao-fonte;
-                        width: base.$largura-botao-fonte;
-
-                        position: relative;
-
-                        right: 0;
-                    }
-                }
-            }
-        }
+            width: 20%;
+            text-align: right;
+       }
     }
 }
