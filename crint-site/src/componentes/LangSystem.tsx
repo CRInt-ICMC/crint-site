@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { SettingsContext } from "../Contexto";
-import { saveSettings, updateUserSettings } from "../utils/utils";
+import { updateUserSettings } from "../utils/utils";
 import { ApiLinguaLingua } from "../utils/generated/contentTypes";
 import axios from "axios";
 import './LangSystem.scss';
@@ -26,8 +26,7 @@ const LangSystem = () => {
 
     const changeLang = (lang: string) => {
         if (setUserSettings && userSettings) {
-            setUserSettings(updateUserSettings(userSettings, { lang: lang }))
-            saveSettings(userSettings)
+            updateUserSettings({ lang: lang });
         }
     }
 

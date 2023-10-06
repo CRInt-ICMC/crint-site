@@ -5,7 +5,7 @@
     width: 100%;
     overflow: hidden;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 100;
     overflow: visible;
@@ -58,7 +58,14 @@
             text-align: center;
 
             .topics {
-                display: inline-flex;
+                @media screen and (max-width: calc(base.$tablet-width)) {
+                    display: none;
+                }
+
+                @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                    display: inline-flex;
+                }
+
                 width: 100%;
 
                 @media screen and (max-width: base.$tablet-width) {

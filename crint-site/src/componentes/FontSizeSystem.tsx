@@ -3,17 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MAX_FONT, MIN_FONT } from "../utils/appConstants";
 import { SettingsContext } from "../Contexto";
 import { useContext } from "react";
-import { saveSettings, updateUserSettings } from "../utils/utils";
+import { updateUserSettings } from "../utils/utils";
 import './FontSizeSystem.scss';
 
 const FontSizeSystem = () => {
-    const { userSettings, setUserSettings } = useContext(SettingsContext);
+    const { userSettings } = useContext(SettingsContext);
     
     const setFontSizeMod = (offset : number) => {
-        if (userSettings && setUserSettings) {
-            setUserSettings(updateUserSettings(userSettings, {fontSizeMod: userSettings?.fontSizeMod + offset}));
-            saveSettings(userSettings);
-        }
+        updateUserSettings({fontSizeMod: (userSettings?.fontSizeMod || 1) + offset});
     }
 
     return (

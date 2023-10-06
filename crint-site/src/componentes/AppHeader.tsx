@@ -2,18 +2,17 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
-import { saveSettings, updateUserSettings } from '../utils/utils';
+import { updateUserSettings } from '../utils/utils';
 import { SettingsContext } from '../Contexto';
 import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
-import DropDownMenu from './DropDownMenu';
-import axios from 'axios';
-import Popup from './Popup';
-// CSS
-import './AppHeader.scss';
-// IMAGENS E ÍCONES
 import { useMediaPredicate } from 'react-media-hook';
+import axios from 'axios';
+import DropDownMenu from './DropDownMenu';
+import Popup from './Popup';
 import LangSystem from './LangSystem';
-import FontSizeSystem from './FontSizeSystem';
+import FontSizeSystem from './FontSizeSystem';// CSS
+import './AppHeader.scss';
+
 
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
     // Subtópicos de cada tópico
@@ -70,7 +69,7 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const { userSettings, setUserSettings } = useContext(SettingsContext);
+    const { userSettings } = useContext(SettingsContext);
     const [textData, setTextData] = useState<ApiHeaderHeader>();
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
@@ -82,7 +81,7 @@ const AppHeader = () => {
             .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings?.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 setTextData(response['data']['data'] as ApiHeaderHeader);
-                
+
                 setHeaderImages({
                     ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
                     ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
@@ -95,18 +94,6 @@ const AppHeader = () => {
                 setPopupText(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
             })
     }, [userSettings?.lang]);
-
-    // Marca que o usuário concordou com os termos de privacidade
-    const setConsentTrue = () => {
-        if (setUserSettings && userSettings) {
-            setUserSettings(updateUserSettings(userSettings, { cookieConsent: true }))
-            saveSettings(userSettings);
-        }
-    }
-
-    // Salva a configuração a cada modificação
-    if (userSettings)
-        saveSettings(userSettings);
 
     return (
         <header className='header-root'>
@@ -141,7 +128,7 @@ const AppHeader = () => {
                                 {String(popupText?.attributes.Corpo)}
                                 <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                             </p>
-                            <button onClick={setConsentTrue}>{String(popupText?.attributes.Botao)}</button>
+                            <button onClick={() => updateUserSettings({ cookieConsent: true })}>{String(popupText?.attributes.Botao)}</button>
                         </>
                     }
                 />
