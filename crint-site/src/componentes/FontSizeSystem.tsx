@@ -7,10 +7,11 @@ import { updateUserSettings } from "../utils/utils";
 import './FontSizeSystem.scss';
 
 const FontSizeSystem = () => {
-    const { userSettings } = useContext(SettingsContext);
-    
-    const setFontSizeMod = (offset : number) => {
-        updateUserSettings({fontSizeMod: (userSettings?.fontSizeMod || 1) + offset});
+    const context = useContext(SettingsContext);
+    const { userSettings } = context;
+
+    const setFontSizeMod = (offset: number) => {
+        updateUserSettings(context, { fontSizeMod: (userSettings?.fontSizeMod || 1) + offset });
     }
 
     return (

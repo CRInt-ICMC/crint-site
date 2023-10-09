@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { SettingsContext } from '../Contexto';
+import { UserSettingsState } from '../Contexto';
 import { DEFAULT_LANGUAGE } from './appConstants';
 
 // Carrega as configurações armazenadas
@@ -25,8 +24,8 @@ export function loadSettings() {
 }
 
 // Facilita a atualização do valores de configuração
-export const updateUserSettings = (newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
-    const { userSettings, setUserSettings } = useContext(SettingsContext);
+export const updateUserSettings = (context: UserSettingsState, newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
+    const { userSettings, setUserSettings } = context;
 
     if (!userSettings || !setUserSettings)
         return;

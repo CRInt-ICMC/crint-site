@@ -120,7 +120,8 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const { userSettings, setUserSettings } = useContext(SettingsContext);
+    const context = useContext(SettingsContext);
+    const { userSettings } = context;
     const [textData, setTextData] = useState<ApiHeaderHeader>();
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
@@ -181,7 +182,7 @@ const AppHeader = () => {
                                 {String(popupText?.attributes.Corpo)}
                                 <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                             </p>
-                            <button onClick={() => {if(setUserSettings) setUserSettings({lang: 'pt', cookieConsent: true, fontSizeMod: 1 })}}> {String(popupText?.attributes.Botao)}</button>
+                            <button onClick={() => updateUserSettings(context, { cookieConsent: true })}> {String(popupText?.attributes.Botao)}</button>
                         </>
                     }
                 />

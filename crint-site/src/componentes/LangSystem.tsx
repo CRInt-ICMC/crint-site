@@ -7,7 +7,8 @@ import axios from "axios";
 import './LangSystem.scss';
 
 const LangSystem = () => {
-    const { userSettings, setUserSettings } = useContext(SettingsContext);
+    const context = useContext(SettingsContext)
+    const { userSettings } = context;
     const [langs, setLangs] = useState<ApiLinguaLingua[]>();
 
     useEffect(() => {
@@ -25,9 +26,7 @@ const LangSystem = () => {
     }, []);
 
     const changeLang = (lang: string) => {
-        if (setUserSettings && userSettings) {
-            updateUserSettings({ lang: lang });
-        }
+        updateUserSettings(context, { lang: lang });
     }
 
     return (
