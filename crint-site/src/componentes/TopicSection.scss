@@ -1,35 +1,44 @@
 @use '../Base.scss' as base;
 
-.topic-section {    
-    padding: 50px 20%;
+.topic-section {
+    padding: 0 15%;
 
     color: black;
-    font-size: base.$section-fontize;
-}
+    font-size: base.$hd-fontsize;
 
-.topic-section a, .topic-section a:link, .topic-section a:visited {
-    color: inherit;
-    font-weight: bolder;
-}
+    a,
+    a:link,
+    a:visited {
+        color: inherit;
+        font-weight: bolder;
+    }
 
-.topic-title {
-    margin: 0;
-    position: relative;
-}
+    .topic-title {
+        margin: 0;
+        padding: 50px 0;
+        position: relative;
+        cursor: pointer;
 
-.topic-title button {
-    border: none;
-    display: block;
+        display: flex;
+        align-items: center;
+        justify-content: left;
 
-    background-color: transparent;
-    color: black;
+        button {
+            border: none;
+            display: block;
 
-    position: absolute;
+            background-color: transparent;
+            color: black;
 
-    bottom: 0;
-    right: 0;
-}
+            position: absolute;
 
-.topic-content {
-    width: 100%;
+            right: 0;
+        }
+    }
+
+    .topic-content {
+        margin-top: 0;
+        padding-top: 0;
+        width: 100%;
+    }
 }

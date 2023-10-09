@@ -1,0 +1,19 @@
+@use '../Base.scss' as base;
+
+.flags {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+
+        img {
+            height: base.$altura-bandeira;
+            width: base.$largura-bandeira;
+        }
+    }
+}

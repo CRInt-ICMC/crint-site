@@ -1,33 +1,35 @@
 @use '../Base.scss' as base;
 
 .topic-root {
-    margin-top: base.$altura-header;
-    background-repeat: repeat;
-    background-size: 25%;
-}
+    @media screen and (max-width: base.$tablet-width) {
+        margin-top: base.$header-mobile;
+    }
 
-.topic-banner {
-    height: base.$altura-banner;
-    padding: 0 15%;    
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        margin-top: base.$header-computador;
+    }
 
-    align-items: center;
-    display: flex;
-}
-
-.topic-img-container {
-    min-width: 30%;
-    text-align: center;
-}
-
-.topic-img-container img {
-    height: base.$altura-banner * 0.75;
-
-    margin-left: 5%;
-}
-
-.topic-banner h1 {
-    margin-left: 5%;
-
-    font-size: base.$banner-fontize;
-    color: black;
+    .topic-banner {
+        height: base.$altura-banner;
+        padding: 0 10%;
+        font-size: base.$hd-fontsize;
+    
+        align-items: center;
+        display: flex;
+    
+        h1 {
+            margin-left: 5%;
+        
+            color: black;
+        }
+    }
+    
+    .topic-img-container {
+        min-width: 30%;
+        text-align: center;
+    
+        img {
+            height: base.$altura-banner * 0.75;
+        }
+    }
 }

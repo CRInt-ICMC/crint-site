@@ -2,68 +2,97 @@
 
 .homepage-body {
     color: black;
-    width: base.$largura-pagina;
-    margin: 0 base.$margem-pagina;
-}
 
-.carousel-container {
-    margin-top: base.$altura-header;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-    height: 600px;
+    @media screen and (max-width: base.$tablet-width) {
+        @include base.formato-pagina(100%);
+    }
 
-    background-color: #EEEEEE;
-}
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @include base.formato-pagina(base.$largura-pagina);
+    }
 
-$borda-carrossel: 10px;
-.carousel {
-    text-align: center;
-    display: block;
-    max-width: 100%;
-    height: 100%;
-}
-
-.swiper {
-    height: 100%;
-    position: relative;
+    .carousel-container {
+        @media screen and (max-width: base.$tablet-width) {
+            aspect-ratio: 2 / 1;
+        }
     
-    --swiper-theme-color: white;
-    --swiper-navigation-size: 88px;
-    --swiper-navigation-sides-offset: 0px;
-    --swiper-pagination-top: 2px;
-    --swiper-pagination-bottom: auto;
-}
+        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+            aspect-ratio: 2.5 / 1;
+        }
 
-.swiper-slide {
-    height: 100%;
-    object-fit: fill;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
 
-.swiper-slide img {
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-}
+        background-color: #EEEEEE;
 
-.slide-caption {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    width: 100%;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.623);
-    font-size: 2em;
-    z-index: 1;
-}
+        @media screen and (max-width: base.$tablet-width) {
+            margin-top: base.$header-mobile;
+        }
+    
+        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+            margin-top: base.$header-computador;
+        }
 
-.swiper-button-next, .swiper-button-prev {
-    opacity: 0.2;
-    background-color: black;
-}
+        .carousel {
+            text-align: center;
+            display: block;
+            max-width: 100%;
+            height: 100%;
+        }
 
-.swiper-button-next:hover, .swiper-button-prev:hover {
-    opacity: 1;
+        .swiper {
+            height: 100%;
+            position: relative;
+
+            
+
+            @media screen and (max-width: base.$tablet-width) {
+                --swiper-navigation-size: 0;
+            }
+        
+            @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                --swiper-navigation-size: 88px;
+                --swiper-navigation-sides-offset: 0px;
+                --swiper-theme-color: white;
+                --swiper-pagination-top: 2px;
+                --swiper-pagination-bottom: auto;
+            }
+        }
+
+        .swiper-slide {
+            height: 100%;
+            object-fit: fill;
+
+            img {
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.623);
+            font-size: 2em;
+            z-index: 1;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            opacity: 0.2;
+            background-color: black;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            opacity: 1;
+        }
+    }
 }

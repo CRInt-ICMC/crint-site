@@ -4,7 +4,7 @@ import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/bundle';
 
-const Carousel = (props : {body : ReactNode}) => {
+const Carousel = (props: { body: ReactNode }) => {
 
     return (
         <Swiper
@@ -13,19 +13,19 @@ const Carousel = (props : {body : ReactNode}) => {
             direction='horizontal'
             centeredSlides={true}
             loop={true}
-            
+
             speed={500}
             effect="fade"
-            fadeEffect={{crossFade: true}}
-            
+            fadeEffect={{ crossFade: true }}
+
             autoplay={{
                 delay: 5000,
-                disableOnInteraction: false,  
+                disableOnInteraction: false,
             }}
 
             pagination={{ clickable: true }}
             navigation
-            >
+        >
             {props.body}
         </Swiper>
     );
