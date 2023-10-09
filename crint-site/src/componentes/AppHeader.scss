@@ -53,20 +53,47 @@
 
         .navbar-center {
             float: center;
+            align-items: center;
+            justify-content: center;
+            display: flex;
             max-width: 100%;
             flex-grow: 1;
-            text-align: center;
 
             .topics {
+                width: 100%;
+
                 @media screen and (max-width: calc(base.$tablet-width)) {
-                    display: none;
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    text-align: left;
+
+                    font-weight: bolder;
+
+                    max-width: 60%;
+                    height: 100%;
+
+                    padding-top: auto;
+
+                    div {
+                        padding-left: 3px;
+                        background-color: #061e3d;
+                        z-index: 1000;
+                    }                    
+
+
+                    button {
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        border: 0;
+                        background-color: #061e3d;
+                    }
                 }
 
                 @media screen and (min-width: calc(base.$tablet-width + 1px)) {
                     display: inline-flex;
                 }
-
-                width: 100%;
 
                 @media screen and (max-width: base.$tablet-width) {
                     @include base.topico-fontsize(base.$celular-fontsize);
@@ -87,20 +114,32 @@
                 .subtopics {
                     @media screen and (max-width: base.$tablet-width) {
                         @include base.subtopico-fontsize(base.$celular-fontsize);
+                        a {
+                            padding-left: 20px;
+                            font-weight: bold;
+
+                            color: white;
+
+                            text-decoration: none;
+    
+                            display: flex;
+    
+                            width: 100%;
+                        }
                     }
                 
                     @media screen and (min-width: calc(base.$tablet-width + 1px)) {
                         @include base.subtopico-fontsize(base.$md-fontsize);
-                    }
-
-                    a {
-                        color: white;
-                        font-weight: 400;
-                        text-decoration: none;
-
-                        display: flex;
-
-                        width: 100%;
+                    
+                        a {
+                            color: white;
+                            font-weight: 400;
+                            text-decoration: none;
+    
+                            display: flex;
+    
+                            width: 100%;
+                        }
                     }
                 }
             }

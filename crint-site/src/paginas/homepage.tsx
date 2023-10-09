@@ -47,7 +47,6 @@ const Homepage = () => {
                     images.push({ url: String(image.attributes.url), caption: String(image.attributes.caption) })
                 })
 
-
                 setCarouselImages(images);
 
                 setSections(response['data']['data']['attributes']['secoes']['data']);

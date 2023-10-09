@@ -12,6 +12,9 @@ import Popup from './Popup';
 import LangSystem from './LangSystem';
 import FontSizeSystem from './FontSizeSystem';// CSS
 import './AppHeader.scss';
+import AnimateHeight from 'react-animate-height';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 
 
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
@@ -62,6 +65,54 @@ const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
     );
 }
 
+const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => {
+    // Subtópicos de cada tópico
+    let mobilidadeBody: ReactNode = (
+        <div>
+            <span>{String(textData?.attributes.Mobilidade)}</span>
+            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+                <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
+                <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
+                <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
+            </span>
+        </div>
+    );
+
+    let estrangeirosBody: ReactNode = (
+        <div>
+            <span>{String(textData?.attributes.Estrangeiros)}</span>
+            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+                <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
+            </span>
+        </div>
+    );
+
+    let informacoesBody: ReactNode = (
+        <div>
+            <span>{String(textData?.attributes.Informacoes)}</span>
+            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+                <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
+                <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
+                <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
+            </span>
+        </div>
+    );
+
+    console.log(display)
+
+    // Cria os tópicos e um menu dropdown para cada um deles
+    return (
+        <div className='topics'>
+            <button onClick={() => setDisplay(!display)}><FontAwesomeIcon icon={faAngleDoubleDown} /></button>
+            <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
+                {mobilidadeBody}
+                {estrangeirosBody}
+                {informacoesBody}
+            </AnimateHeight>
+        </div>
+    );
+}
+
 interface HeaderImages {
     ICMC: strapiImageData,
     ICMC_mini: strapiImageData,
@@ -69,10 +120,11 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const { userSettings } = useContext(SettingsContext);
+    const { userSettings, setUserSettings } = useContext(SettingsContext);
     const [textData, setTextData] = useState<ApiHeaderHeader>();
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
+    const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(max-width: 768px)");
 
     // Executa apenas uma vez quando a linguagem é alterada
@@ -109,7 +161,8 @@ const AppHeader = () => {
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {textData && topics(textData, userSettings?.fontSizeMod || 1)}
+                    {textData && !mobile && topics(textData, userSettings?.fontSizeMod || 1)}
+                    {textData && mobile && topicsMobile(textData, userSettings?.fontSizeMod || 1, display, setDisplay)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
@@ -128,7 +181,7 @@ const AppHeader = () => {
                                 {String(popupText?.attributes.Corpo)}
                                 <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                             </p>
-                            <button onClick={() => updateUserSettings({ cookieConsent: true })}>{String(popupText?.attributes.Botao)}</button>
+                            <button onClick={() => {if(setUserSettings) setUserSettings({lang: 'pt', cookieConsent: true, fontSizeMod: 1 })}}> {String(popupText?.attributes.Botao)}</button>
                         </>
                     }
                 />

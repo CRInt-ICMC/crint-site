@@ -12,7 +12,14 @@
     }
 
     .carousel-container {
-        aspect-ratio: 1.9 / 1;
+        @media screen and (max-width: base.$tablet-width) {
+            aspect-ratio: 2 / 1;
+        }
+    
+        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+            aspect-ratio: 2.5 / 1;
+        }
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -39,11 +46,19 @@
             height: 100%;
             position: relative;
 
-            --swiper-theme-color: white;
-            --swiper-navigation-size: 88px;
-            --swiper-navigation-sides-offset: 0px;
-            --swiper-pagination-top: 2px;
-            --swiper-pagination-bottom: auto;
+            
+
+            @media screen and (max-width: base.$tablet-width) {
+                --swiper-navigation-size: 0;
+            }
+        
+            @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                --swiper-navigation-size: 88px;
+                --swiper-navigation-sides-offset: 0px;
+                --swiper-theme-color: white;
+                --swiper-pagination-top: 2px;
+                --swiper-pagination-bottom: auto;
+            }
         }
 
         .swiper-slide {

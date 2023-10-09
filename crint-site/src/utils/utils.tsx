@@ -25,7 +25,7 @@ export function loadSettings() {
 }
 
 // Facilita a atualização do valores de configuração
-export function updateUserSettings(newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) {
+export const updateUserSettings = (newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
     const { userSettings, setUserSettings } = useContext(SettingsContext);
 
     if (!userSettings || !setUserSettings)
