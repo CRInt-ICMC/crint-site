@@ -5,56 +5,64 @@
     background-color: base.$azul-icmc;
     color: white;
 
-    font-size: base.$footer-fontsize;
     font-weight: bolder;
- 
-    width: base.$largura-pagina;
-    margin: 0 base.$margem-pagina;
-}
 
-.footer h3 {
-    text-decoration: underline;
-}
+    @media screen and (max-width: base.$tablet-width) {
+        @include base.formato-pagina(100%);
+        @include base.footer-fontsize(base.$celular-fontsize);
+    }
 
-.footer a, .footer a:link, .footer a:visited {
-    text-decoration: none;
-    color: inherit;
-}
+    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @include base.formato-pagina(base.$largura-pagina);
+        @include base.footer-fontsize(base.$md-fontsize);
+    }
 
-.footer a:hover {
-    color: base.$laranja-usp;
-}
+    h3 {
+        text-decoration: underline;
+    }
 
-.footer-row {
-    display: flex;
-    justify-content: center;
+    a,
+    a:link,
+    a:visited {
+        text-decoration: none;
+        color: inherit;
+    }
 
-    padding: 25px 0;
-    width: 100%;    
-}
+    a:hover {
+        color: base.$laranja-usp;
+    }
 
-.footer-row div {
-    padding: 0 min(50px, 5%);
-}
+    .footer-row {
+        display: flex;
+        justify-content: center;
 
-.footer-left {
-    width: 25%;
-    float: left;
-    height: 100%;
-}
+        padding: 25px 0;
+        width: 100%;
 
-.footer-center {
-    width: 30%;
-    height: 100%;
+        div {
+            padding: 0 min(50px, 5%);
+        }
 
-    padding: 0 20px;
+        .footer-left {
+            width: 25%;
+            float: left;
+            height: 100%;
+        }
 
-    text-align: center;
-    float: center;
-}
+        .footer-center {
+            width: 30%;
+            height: 100%;
 
-.footer-right {
-    width: 20%;
-    height: 100%;
-    float: right;
+            padding: 0 20px;
+
+            text-align: center;
+            float: center;
+        }
+
+        .footer-right {
+            width: 20%;
+            height: 100%;
+            float: right;
+        }
+    }
 }
