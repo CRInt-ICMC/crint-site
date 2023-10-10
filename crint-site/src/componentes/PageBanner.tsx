@@ -1,22 +1,22 @@
 import { useContext } from 'react';
 import { SettingsContext } from '../Contexto';
-import './TopicBanner.scss';
+import './PageBanner.scss';
 
-const TopicBanner = (props: { topicoNome: string, topicImage?: string, bannerGradient?: string }) => {
+const PageBanner = (props: { pageName: string, topicImage?: string, bannerGradient?: string }) => {
     const defaultImage: string = props.topicImage || '';
     const defaultBannerGradient: string = props.bannerGradient || ''
 
     const { userSettings } = useContext(SettingsContext);
 
     return (
-        <section className='topic-root'>
-            <section className='topic-banner' style={{background: defaultBannerGradient}}>
-                <div className='topic-img-container'><img src={defaultImage}/></div>
-                <h1 style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em' }}>{props.topicoNome}</h1>
-                <div className='topic-summary'></div>
+        <section className='page-root'>
+            <section className='page-banner' style={{background: defaultBannerGradient}}>
+                <div className='page-img-container'><img src={defaultImage}/></div>
+                <h1 style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em' }}>{props.pageName}</h1>
+                <div className='page-summary'></div>
             </section>
         </section>
     );
 }
 
-export default TopicBanner;
+export default PageBanner;

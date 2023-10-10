@@ -75,7 +75,7 @@ const PageLoader = () => {
     return (
         <div className='page-body'>
             {bannerImage &&
-                <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')}
+                <TopicBanner pageName={String(textData?.attributes.Banner_text || '')}
                     topicImage={STRAPI_URL + bannerImage}
                     bannerGradient={String(gradient || '')}
                 />

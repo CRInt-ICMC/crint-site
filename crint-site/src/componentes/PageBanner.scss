@@ -1,6 +1,6 @@
 @use '../Base.scss' as base;
 
-.topic-root {
+.page-root {
     @media screen and (orientation: portrait) {
         margin-top: base.$header-mobile;
     }
@@ -9,7 +9,7 @@
         margin-top: base.$header-computador;
     }
 
-    .topic-banner {
+    .page-banner {
         height: base.$altura-banner;
         padding: 0 10%;
         font-size: base.$hd-fontsize;
@@ -24,7 +24,7 @@
         }
     }
     
-    .topic-img-container {
+    .page-img-container {
         min-width: 30%;
         text-align: center;
     
