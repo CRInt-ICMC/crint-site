@@ -2,7 +2,7 @@ import { ReactNode, useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../Contexto';
 import { ApiSecaoSecao } from '../utils/generated/contentTypes';
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
-import TopicSection from '../componentes/TopicSection';
+import TopicSection from '../componentes/PageSection';
 import axios from 'axios';
 import './homepage.scss';
 import Carousel from '../componentes/Carousel';

@@ -5,8 +5,8 @@ import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appCons
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import axios from "axios";
-import TopicBanner from "./TopicBanner";
-import TopicSection from "./TopicSection";
+import TopicBanner from "./PageBanner";
+import TopicSection from "./PageSection";
 import './PageLoader.scss'
 
 const WIP = (
@@ -77,7 +77,7 @@ const PageLoader = () => {
             {bannerImage &&
                 <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')}
                     topicImage={STRAPI_URL + bannerImage}
-                    style={{ background: gradient || '' }}
+                    bannerGradient={String(gradient || '')}
                 />
             }
 

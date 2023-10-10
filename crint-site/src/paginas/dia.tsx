@@ -1,4 +1,4 @@
-import TopicBanner from '../componentes/TopicBanner';
+import TopicBanner from '../componentes/PageBanner';
 
 const Dia = () => {
     return (
