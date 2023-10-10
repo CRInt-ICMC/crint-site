@@ -126,7 +126,7 @@ const AppHeader = () => {
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [display, setDisplay] = useState(false);
-    const mobile = useMediaPredicate("(max-width: 768px)");
+    const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {

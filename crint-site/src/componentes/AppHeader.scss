@@ -62,7 +62,7 @@
             .topics {
                 width: 100%;
 
-                @media screen and (max-width: calc(base.$tablet-width)) {
+                @media screen and (orientation: portrait) {
                     display: block;
                     position: absolute;
                     top: 0;
