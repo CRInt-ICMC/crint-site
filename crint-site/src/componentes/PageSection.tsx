@@ -6,12 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import './PageSection.scss'
 
-const PageSection = (props: { title: string, body: string, textColor: string, backgroundColor: string }) => {
+const PageSection = (props: { id: string, title: string, body: string, textColor: string, backgroundColor: string }) => {
     const { userSettings } = useContext(SettingsContext);
     const [collapse, setCollapse] = useState(false);
 
     return (
-        <section className='page-section' style={{ color: props.textColor, background: props.backgroundColor }}>
+        <section id={props.id} className='page-section' style={{ color: props.textColor, background: props.backgroundColor }}>
             <div style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em', paddingBottom: collapse ? '0' : '50px' }}>
                 <h1 className='page-title' onClick={() => { setCollapse(!collapse) }}>
                     {`${props.title}`}

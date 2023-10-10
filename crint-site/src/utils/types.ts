@@ -30,3 +30,8 @@ interface strapiImageData extends strapiImageFormat {
         thumbnail: strapiImageFormat,
     }
 }
+
+interface sectionLink {
+    name: string,
+    id: string,
+}

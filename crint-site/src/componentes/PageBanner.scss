@@ -16,20 +16,35 @@
     
         align-items: center;
         display: flex;
-    
-        h1 {
-            margin-left: 5%;
+
+        .page-img-container {
+            min-width: 30%;
+            text-align: center;
         
-            color: black;
+            img {
+                height: base.$altura-banner * 0.75;
+            }
         }
-    }
     
-    .page-img-container {
-        min-width: 30%;
-        text-align: center;
-    
-        img {
-            height: base.$altura-banner * 0.75;
+        .page-title {
+            flex-grow: 1;
+            display: block;
+
+            h1 {
+                margin-left: 5%;
+            
+                color: black;
+            }
+
+            .page-summary {
+                display: flex;
+
+                a {
+                    padding: 0 10px;
+                    text-decoration: none;
+                    color: black;
+                }
+            }
         }
     }
 }
