@@ -7,12 +7,12 @@
 
     font-weight: bolder;
 
-    @media screen and (max-width: base.$tablet-width) {
+    @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
         @include base.footer-fontsize(base.$celular-fontsize);
     }
 
-    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+    @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
         @include base.footer-fontsize(base.$md-fontsize);
     }
