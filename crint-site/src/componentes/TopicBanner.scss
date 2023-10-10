@@ -1,11 +1,11 @@
 @use '../Base.scss' as base;
 
 .topic-root {
-    @media screen and (max-width: base.$tablet-width) {
+    @media screen and (orientation: portrait) {
         margin-top: base.$header-mobile;
     }
 
-    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+    @media screen and (orientation: landscape) {
         margin-top: base.$header-computador;
     }
 

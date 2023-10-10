@@ -11,13 +11,13 @@
     overflow: visible;
 
     .navbar {
-        @media screen and (max-width: base.$tablet-width) {
+        @media screen and (orientation: portrait) {
             @include base.formato-pagina(100%);
     
             height: base.$header-mobile;
         }
     
-        @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+        @media screen and (orientation: landscape) {
             @include base.formato-pagina(base.$largura-pagina);
     
             height: base.$header-computador;
@@ -91,15 +91,15 @@
                     }
                 }
 
-                @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                @media screen and (orientation: landscape) {
                     display: inline-flex;
                 }
 
-                @media screen and (max-width: base.$tablet-width) {
+                @media screen and (orientation: portrait) {
                     @include base.topico-fontsize(base.$celular-fontsize);
                 }
             
-                @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                @media screen and (orientation: landscape) {
                     @include base.topico-fontsize(base.$md-fontsize);
                 }
 
@@ -112,7 +112,7 @@
                 }
 
                 .subtopics {
-                    @media screen and (max-width: base.$tablet-width) {
+                    @media screen and (orientation: portrait) {
                         @include base.subtopico-fontsize(base.$celular-fontsize);
                         a {
                             padding-left: 20px;
@@ -128,7 +128,7 @@
                         }
                     }
                 
-                    @media screen and (min-width: calc(base.$tablet-width + 1px)) {
+                    @media screen and (orientation: landscape) {
                         @include base.subtopico-fontsize(base.$md-fontsize);
                     
                         a {
