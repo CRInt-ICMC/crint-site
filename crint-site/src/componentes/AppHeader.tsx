@@ -1,4 +1,3 @@
-// COMPONENTES
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
@@ -10,11 +9,11 @@ import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
 import Popup from './Popup';
 import LangSystem from './LangSystem';
-import FontSizeSystem from './FontSizeSystem';// CSS
-import './AppHeader.scss';
+import FontSizeSystem from './FontSizeSystem';
 import AnimateHeight from 'react-animate-height';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+import './AppHeader.scss';
 
 
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
