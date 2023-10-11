@@ -20,7 +20,7 @@ const PageSection = (props: { id: string, title: string, body: string, textColor
                     </button>
                 </h1>
                 <AnimateHeight height={collapse ? 0 : 'auto'} duration={500}>
-                    <Interweave content={props.body} />
+                    <Interweave content={props.body} allowElements />
                 </AnimateHeight>
             </div>
         </section>
