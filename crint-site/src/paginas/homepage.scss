@@ -15,7 +15,7 @@
         @media screen and (orientation: portrait) {
             aspect-ratio: 2 / 1;
         }
-    
+
         @media screen and (orientation: landscape) {
             aspect-ratio: 2.5 / 1;
         }
@@ -30,7 +30,7 @@
         @media screen and (orientation: portrait) {
             margin-top: base.$header-mobile;
         }
-    
+
         @media screen and (orientation: landscape) {
             margin-top: base.$header-computador;
         }
@@ -46,12 +46,12 @@
             height: 100%;
             position: relative;
 
-            
+
 
             @media screen and (orientation: portrait) {
                 --swiper-navigation-size: 0;
             }
-        
+
             @media screen and (orientation: landscape) {
                 --swiper-navigation-size: 88px;
                 --swiper-navigation-sides-offset: 0px;
