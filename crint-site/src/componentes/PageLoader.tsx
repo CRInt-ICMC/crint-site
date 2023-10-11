@@ -26,13 +26,13 @@ const NotFound = (
     </div>
 );
 
-const getLinks = (sections : ApiSecaoSecao[]) => {
-    let sectionLinks : sectionLink[] = [];
+const getLinks = (sections: ApiSecaoSecao[]) => {
+    let sectionLinks: sectionLink[] = [];
 
-    sections.map((section)=>{
+    sections.map((section) => {
         sectionLinks.push({
-            name: String(section.attributes.Titulo), 
-            id: String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim,"").replace(/\s/g, "").trim(),
+            name: String(section.attributes.Titulo),
+            id: String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim(),
         } as sectionLink)
     })
 
@@ -85,12 +85,12 @@ const PageLoader = () => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
-    const sectionLinks : sectionLink[] = getLinks(sections || []);
+    const sectionLinks: sectionLink[] = getLinks(sections || []);
 
     return (
         <div className='page-body'>
             {bannerImage &&
-                <TopicBanner 
+                <TopicBanner
                     pageName={String(textData?.attributes.Banner_text || '')}
                     pageSections={sectionLinks}
                     bannerImage={STRAPI_URL + bannerImage}
@@ -103,7 +103,7 @@ const PageLoader = () => {
                     return (
                         <TopicSection
                             key={String(section.attributes.Titulo || '')}
-                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim,"").replace(/\s/g, "").trim()}
+                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}

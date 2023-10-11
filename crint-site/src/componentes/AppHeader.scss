@@ -13,13 +13,13 @@
     .navbar {
         @media screen and (orientation: portrait) {
             @include base.formato-pagina(100%);
-    
+
             height: base.$header-mobile;
         }
-    
+
         @media screen and (orientation: landscape) {
             @include base.formato-pagina(base.$largura-pagina);
-    
+
             height: base.$header-computador;
         }
 
@@ -79,7 +79,7 @@
                         padding-left: 3px;
                         background-color: #061e3d;
                         z-index: 1000;
-                    }                    
+                    }
 
 
                     button {
@@ -98,7 +98,7 @@
                 @media screen and (orientation: portrait) {
                     @include base.topico-fontsize(base.$celular-fontsize);
                 }
-            
+
                 @media screen and (orientation: landscape) {
                     @include base.topico-fontsize(base.$md-fontsize);
                 }
@@ -114,6 +114,7 @@
                 .subtopics {
                     @media screen and (orientation: portrait) {
                         @include base.subtopico-fontsize(base.$celular-fontsize);
+
                         a {
                             padding-left: 20px;
                             font-weight: bold;
@@ -121,23 +122,23 @@
                             color: white;
 
                             text-decoration: none;
-    
+
                             display: flex;
-    
+
                             width: 100%;
                         }
                     }
-                
+
                     @media screen and (orientation: landscape) {
                         @include base.subtopico-fontsize(base.$md-fontsize);
-                    
+
                         a {
                             color: white;
                             font-weight: 400;
                             text-decoration: none;
-    
+
                             display: flex;
-    
+
                             width: 100%;
                         }
                     }
@@ -149,6 +150,6 @@
             float: right;
             width: 20%;
             text-align: right;
-       }
+        }
     }
 }

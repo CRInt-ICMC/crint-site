@@ -48,9 +48,9 @@ const Homepage = () => {
                 let images: image[] = []
                 response['data']['data']['attributes']['Carrossel']['data'].map((image: any) => {
                     console.log(image);
-                    images.push({ 
-                        url: String(image.attributes.url), 
-                        caption: String(image.attributes.caption), 
+                    images.push({
+                        url: String(image.attributes.url),
+                        caption: String(image.attributes.caption),
                         link: String(image.attributes.alternativeText),
                     })
                 })

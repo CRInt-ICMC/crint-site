@@ -24,7 +24,7 @@ const PageBanner = (props: { pageName: string, pageSections: sectionLink[], bann
                     <div className='page-summary'>
                         {props.pageSections && props.pageSections.map((section) => {
                             return (
-                                <div onClick={()=>{scrollToElement(section.id)}}>
+                                <div onClick={() => { scrollToElement(section.id) }}>
                                     <FontAwesomeIcon key={section.name} icon={faArrowRight} />
                                     <span>{section.name}</span>
                                 </div>
