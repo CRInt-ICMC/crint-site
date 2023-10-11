@@ -2,7 +2,7 @@ import { ReactNode, useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../Contexto';
 import { ApiSecaoSecao } from '../utils/generated/contentTypes';
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
-import TopicSection from '../componentes/TopicSection';
+import TopicSection from '../componentes/PageSection';
 import axios from 'axios';
 import './homepage.scss';
 import Carousel from '../componentes/Carousel';
@@ -68,6 +68,7 @@ const Homepage = () => {
                     return (
                         <TopicSection
                             key={String(section.attributes.Titulo || '')}
+                            id={String(section.attributes.Titulo || '')}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}
