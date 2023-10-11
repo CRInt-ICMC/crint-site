@@ -68,6 +68,7 @@ const Homepage = () => {
                     return (
                         <TopicSection
                             key={String(section.attributes.Titulo || '')}
+                            id={String(section.attributes.Titulo || '')}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}
