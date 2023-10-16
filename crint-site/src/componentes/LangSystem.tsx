@@ -1,13 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
-import { SettingsContext } from "../Contexto";
-import { updateUserSettings } from "../utils/utils";
+import { updateUserSettings, useSettings } from "../utils/utils";
 import { ApiLinguaLingua } from "../utils/generated/contentTypes";
 import axios from "axios";
 import './LangSystem.scss';
 
 const LangSystem = () => {
-    const context = useContext(SettingsContext)
+    const context = useSettings();
     const { userSettings } = context;
     const [langs, setLangs] = useState<ApiLinguaLingua[]>();
 
@@ -25,9 +24,7 @@ const LangSystem = () => {
             })
     }, []);
 
-    const changeLang = (lang: string) => {
-        updateUserSettings(context, { lang: lang });
-    }
+    const changeLang = (lang: string) => updateUserSettings(context, { lang: lang });
 
     return (
         <div className='flags'>
@@ -37,7 +34,7 @@ const LangSystem = () => {
                     const sigla = String(lang.attributes.Sigla);
                     const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;
 
-                    if (sigla !== userSettings?.lang) {
+                    if (sigla !== userSettings.lang) {
                         return (
                             <button key={sigla} onClick={() => changeLang(sigla)}>
                                 <img alt={bandeira.caption} src={STRAPI_URL + bandeira.url} />

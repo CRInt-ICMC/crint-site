@@ -87,7 +87,12 @@
                         height: 100%;
                         top: 0;
                         border: 0;
-                        background-color: #061e3d;
+                        font-size: larger;
+                        font-weight: bolder;
+
+                        div {
+                            background-color: transparent;
+                        }
                     }
                 }
 
