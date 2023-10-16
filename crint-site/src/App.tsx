@@ -4,7 +4,7 @@ import { SettingsContext, STD_SETTINGS_STATE, } from './Context';
 import VLibras from '@djpfs/react-vlibras';
 
 import AppHeader from './componentes/AppHeader';
-import Homepage from './paginas/homepage';
+import Homepage from './homepage';
 import PageLoader from './componentes/PageLoader';
 import AppFooter from './componentes/AppFooter';
 
