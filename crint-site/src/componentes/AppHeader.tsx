@@ -14,7 +14,7 @@ import FontSizeSystem from './FontSizeSystem';// CSS
 import './AppHeader.scss';
 import AnimateHeight from 'react-animate-height';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
@@ -67,7 +67,7 @@ const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
 
 const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => {
     // Subtópicos de cada tópico
-    let mobilidadeBody: ReactNode = (
+    const mobilidadeBody: ReactNode = (
         <div>
             <span>{String(textData?.attributes.Mobilidade)}</span>
             <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
@@ -78,7 +78,7 @@ const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: b
         </div>
     );
 
-    let estrangeirosBody: ReactNode = (
+    const estrangeirosBody: ReactNode = (
         <div>
             <span>{String(textData?.attributes.Estrangeiros)}</span>
             <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
@@ -87,7 +87,7 @@ const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: b
         </div>
     );
 
-    let informacoesBody: ReactNode = (
+    const informacoesBody: ReactNode = (
         <div>
             <span>{String(textData?.attributes.Informacoes)}</span>
             <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
@@ -98,12 +98,13 @@ const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: b
         </div>
     );
 
-    console.log(display)
-
     // Cria os tópicos e um menu dropdown para cada um deles
     return (
         <div className='topics'>
-            <button onClick={() => setDisplay(!display)}><FontAwesomeIcon icon={faAngleDoubleDown} /></button>
+            <button onClick={() => setDisplay(!display)} style={{backgroundColor: display ? '#061e3d' : 'transparent'}}>
+                <div>Menu</div> 
+                <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
+            </button>
             <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
                 {mobilidadeBody}
                 {estrangeirosBody}
