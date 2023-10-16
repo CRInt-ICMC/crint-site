@@ -1,32 +1,32 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { SettingsContext } from '../Contexto';
 import { ApiFooterFooter } from '../utils/generated/contentTypes';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
 import './AppFooter.scss'
+import { useSettings } from '../utils/utils';
 
 const AppFooter = () => {
-    const { userSettings } = useContext(SettingsContext);
+    const { userSettings } = useSettings();
     const [textData, setTextData] = useState<ApiFooterFooter>();
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
         axios
-            .get(STRAPI_URL + '/api/footer?locale=' + userSettings?.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 setTextData(response['data']['data'] as ApiFooterFooter);
             })
-    }, [userSettings?.lang]);
+    }, [userSettings.lang]);
 
     return (
         <footer>
             {textData &&
                 <nav className='footer' >
-                    <div className='footer-row' style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em' }}>
+                    <div className='footer-row' style={{ fontSize: (userSettings.fontSizeMod || 1) + 'em' }}>
                         {/* ENDEREÇO */}
                         <div className='footer-left'>
                             <h3> {String(textData?.attributes.Endereco_titulo)} </h3>
@@ -48,7 +48,7 @@ const AppFooter = () => {
                             <a href={'tel:' + String(textData?.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData?.attributes.Contato_numero)} </a>
                         </div>
                     </div>
-                    <div className='footer-row' style={{ fontSize: (userSettings?.fontSizeMod || 1) + 'em' }}>
+                    <div className='footer-row' style={{ fontSize: (userSettings.fontSizeMod || 1) + 'em' }}>
                         <div><Link to={'/creditos'}>{String(textData?.attributes.Creditos)}</Link ></div>
                         <div><Link to={'/privacidade'}>{String(textData?.attributes.Politica_privacidade)}</Link ></div>
                     </div>

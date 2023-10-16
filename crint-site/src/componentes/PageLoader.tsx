@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { SettingsContext } from "../Contexto";
+import { useEffect, useState } from "react";
 import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
+import { useSettings } from "../utils/utils";
 import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
@@ -40,7 +40,7 @@ const getLinks = (sections: ApiSecaoSecao[]) => {
 }
 
 const PageLoader = () => {
-    const { userSettings } = useContext(SettingsContext);
+    const { userSettings } = useSettings();
     const [textData, setTextData] = useState<ApiPaginaPagina>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
@@ -52,7 +52,7 @@ const PageLoader = () => {
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
         axios
-            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 // Verifica se a página existe
                 if (response['data']['data'][0] === undefined) {
@@ -77,7 +77,7 @@ const PageLoader = () => {
 
                 setStatus(200);
             })
-    }, [userSettings?.lang, location]);
+    }, [userSettings.lang, location]);
 
     // Executa quando troca de rota
     useEffect(() => {

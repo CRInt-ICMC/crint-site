@@ -1,9 +1,8 @@
 // COMPONENTES
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
-import { updateUserSettings } from '../utils/utils';
-import { SettingsContext } from '../Contexto';
+import { updateUserSettings, useSettings } from '../utils/utils';
 import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 import { useMediaPredicate } from 'react-media-hook';
 import axios from 'axios';
@@ -121,7 +120,7 @@ interface HeaderImages {
 
 const AppHeader = () => {
     // Hooks    
-    const context = useContext(SettingsContext);
+    const context = useSettings();
     const { userSettings } = context;
     const [textData, setTextData] = useState<ApiHeaderHeader>();
     const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
@@ -132,7 +131,7 @@ const AppHeader = () => {
     // Executa apenas uma vez quando a linguagem é alterada
     useEffect(() => {
         axios
-            .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings?.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 setTextData(response['data']['data'] as ApiHeaderHeader);
 
@@ -143,11 +142,11 @@ const AppHeader = () => {
             })
 
         axios
-            .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings?.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 setPopupText(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
             })
-    }, [userSettings?.lang]);
+    }, [userSettings.lang]);
 
     return (
         <header className='header-root'>
@@ -163,8 +162,8 @@ const AppHeader = () => {
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {textData && !mobile && topics(textData, userSettings?.fontSizeMod || 1)}
-                    {textData && mobile && topicsMobile(textData, userSettings?.fontSizeMod || 1, display, setDisplay)}
+                    {textData && !mobile && topics(textData, userSettings.fontSizeMod || 1)}
+                    {textData && mobile && topicsMobile(textData, userSettings.fontSizeMod || 1, display, setDisplay)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
@@ -174,7 +173,7 @@ const AppHeader = () => {
             </nav>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
-            {!userSettings?.cookieConsent && popupText &&
+            {!userSettings.cookieConsent && popupText &&
                 <Popup
                     head={String(popupText?.attributes.Titulo)}
                     body={

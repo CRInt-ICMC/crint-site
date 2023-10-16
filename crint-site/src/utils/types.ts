@@ -4,6 +4,17 @@ interface userSettings {
     fontSizeMod: number,
 }
 
+// Interface que será utilizada pela aplicação
+interface UserSettingsState {
+    userSettings?: userSettings,
+    setUserSettings?: (userOptions: userSettings) => void,
+}
+
+interface initializedSettings {
+    userSettings: userSettings,
+    setUserSettings: (userOptions: userSettings) => void,    
+}
+
 // Informações da imagem
 interface strapiImageFormat {
     name: string,
