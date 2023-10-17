@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { SettingsContext } from "../Contexto";
+import { useEffect, useState } from "react";
 import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
+import { useSettings } from "../utils/utils";
 import axios from "axios";
-import TopicBanner from "./TopicBanner";
-import TopicSection from "./TopicSection";
+import TopicBanner from "./PageBanner";
+import TopicSection from "./PageSection";
 import './PageLoader.scss'
 
 const WIP = (
@@ -26,8 +26,21 @@ const NotFound = (
     </div>
 );
 
+const getLinks = (sections: ApiSecaoSecao[]) => {
+    let sectionLinks: sectionLink[] = [];
+
+    sections.map((section) => {
+        sectionLinks.push({
+            name: String(section.attributes.Titulo),
+            id: String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim(),
+        } as sectionLink)
+    })
+
+    return sectionLinks;
+}
+
 const PageLoader = () => {
-    const { userSettings } = useContext(SettingsContext);
+    const { userSettings } = useSettings();
     const [textData, setTextData] = useState<ApiPaginaPagina>();
     const [sections, setSections] = useState<ApiSecaoSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
@@ -39,7 +52,7 @@ const PageLoader = () => {
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
         axios
-            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 // Verifica se a página existe
                 if (response['data']['data'][0] === undefined) {
@@ -64,20 +77,24 @@ const PageLoader = () => {
 
                 setStatus(200);
             })
-    }, [userSettings?.lang, location]);
+    }, [userSettings.lang, location]);
 
     // Executa quando troca de rota
     useEffect(() => {
         // Sobe para o topo caso troque de página
         window.scrollTo(0, 0);
-    }, [location]);
+    }, [location.pathname]);
+
+    const sectionLinks: sectionLink[] = getLinks(sections || []);
 
     return (
         <div className='page-body'>
             {bannerImage &&
-                <TopicBanner topicoNome={String(textData?.attributes.Banner_text || '')}
-                    topicImage={STRAPI_URL + bannerImage}
-                    style={{ background: gradient || '' }}
+                <TopicBanner
+                    pageName={String(textData?.attributes.Banner_text || '')}
+                    pageSections={sectionLinks}
+                    bannerImage={STRAPI_URL + bannerImage}
+                    bannerGradient={String(gradient || '')}
                 />
             }
 
@@ -86,6 +103,7 @@ const PageLoader = () => {
                     return (
                         <TopicSection
                             key={String(section.attributes.Titulo || '')}
+                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}

@@ -1,4 +1,5 @@
-import { UserSettingsState } from '../Contexto';
+import React from 'react';
+import { SettingsContext } from '../Context';
 import { DEFAULT_LANGUAGE } from './appConstants';
 
 // Carrega as configurações armazenadas
@@ -24,11 +25,8 @@ export function loadSettings() {
 }
 
 // Facilita a atualização do valores de configuração
-export const updateUserSettings = (context: UserSettingsState, newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
+export const updateUserSettings = (context: initializedSettings, newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
     const { userSettings, setUserSettings } = context;
-
-    if (!userSettings || !setUserSettings)
-        return;
 
     // Passa o valores alterados
     const definedLang: string = newValues.lang || userSettings.lang;
@@ -41,4 +39,13 @@ export const updateUserSettings = (context: UserSettingsState, newValues: { lang
     // Salva as atualizações em disco ou RAM
     localStorage.setItem('settings', JSON.stringify(newSettings));
     setUserSettings(newSettings);
+}
+
+export const useSettings = () => {
+    const context = React.useContext(SettingsContext);
+    
+    if (context === undefined)
+        throw new Error('useCount must be used within a CountProvider')
+    
+    return context as initializedSettings;
 }
