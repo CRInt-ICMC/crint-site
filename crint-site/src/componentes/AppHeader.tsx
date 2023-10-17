@@ -19,7 +19,7 @@ import './AppHeader.scss';
 const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
     // Subtópicos de cada tópico
     let mobilidadeBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
             <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
             <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
             <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
@@ -27,13 +27,13 @@ const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
     );
 
     let estrangeirosBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
             <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
         </span>
     );
 
     let informacoesBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
+        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
             <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
             <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
             <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
