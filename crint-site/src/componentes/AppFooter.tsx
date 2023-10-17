@@ -4,21 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { ApiFooterFooter } from '../utils/generated/contentTypes';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
-import './AppFooter.scss'
 import { useSettings } from '../utils/utils';
+import { ApiFooter } from '../utils/types';
+import './AppFooter.scss'
 
 const AppFooter = () => {
     const { userSettings } = useSettings();
-    const [textData, setTextData] = useState<ApiFooterFooter>();
+    const [textData, setTextData] = useState<ApiFooter>();
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
         axios
             .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
-                setTextData(response['data']['data'] as ApiFooterFooter);
+                setTextData(response['data']['data'] as ApiFooter);
             })
     }, [userSettings.lang]);
 
