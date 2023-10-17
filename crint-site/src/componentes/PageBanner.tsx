@@ -21,14 +21,12 @@ const PageBanner = (props: { pageName: string, pageSections: sectionLink[], bann
                 <div className='page-title'>
                     <h1 style={{ fontSize: (userSettings.fontSizeMod || 1) + 'em' }}>{props.pageName}</h1>
                     <div className='page-summary'>
-                        {props.pageSections && props.pageSections.map((section) => {
-                            return (
-                                <div key={section.name} onClick={() => scrollToElement(section.id)}>
-                                    <FontAwesomeIcon icon={faArrowRight} />
-                                    <span>{section.name}</span>
-                                </div>
-                            )
-                        })}
+                        {props.pageSections && props.pageSections.map((section) => (
+                            <div key={section.name} onClick={() => scrollToElement(section.id)}>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                                <span>{section.name}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

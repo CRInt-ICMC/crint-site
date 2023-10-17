@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
@@ -8,6 +7,7 @@ import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
+import { ApiPagina, ApiSecao } from "../utils/types";
 
 const WIP = (
     <div className="wip-root">
@@ -26,7 +26,7 @@ const NotFound = (
     </div>
 );
 
-const getLinks = (sections: ApiSecaoSecao[]) => {
+const getLinks = (sections: ApiSecao[]) => {
     let sectionLinks: sectionLink[] = [];
 
     sections.map((section) => {
@@ -41,8 +41,8 @@ const getLinks = (sections: ApiSecaoSecao[]) => {
 
 const PageLoader = () => {
     const { userSettings } = useSettings();
-    const [textData, setTextData] = useState<ApiPaginaPagina>();
-    const [sections, setSections] = useState<ApiSecaoSecao[]>();
+    const [textData, setTextData] = useState<ApiPagina>();
+    const [sections, setSections] = useState<ApiSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
     const [status, setStatus] = useState<number>();
@@ -61,7 +61,7 @@ const PageLoader = () => {
                 }
 
                 // Passa o texto e a imagem do banner para seus hooks
-                setTextData(response['data']['data'][0] as ApiPaginaPagina);
+                setTextData(response['data']['data'][0] as ApiPagina);
                 setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
                 setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
 

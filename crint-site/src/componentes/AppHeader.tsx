@@ -1,8 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
 import { updateUserSettings, useSettings } from '../utils/utils';
-import { ApiHeaderHeader, ApiPopupDePrivacidadePopupDePrivacidade } from '../utils/generated/contentTypes';
 import { useMediaPredicate } from 'react-media-hook';
 import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
@@ -12,106 +11,65 @@ import FontSizeSystem from './FontSizeSystem';
 import AnimateHeight from 'react-animate-height';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
 import './AppHeader.scss';
 
-
-
-const topics = (textData: ApiHeaderHeader, fontSizeMod: number) => {
-    // Subtópicos de cada tópico
-    let mobilidadeBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
-            <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
-            <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
-            <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
-        </span>
-    );
-
-    let estrangeirosBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
-            <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
-        </span>
-    );
-
-    let informacoesBody: ReactNode = (
-        <span className='subtopics' style={{ fontSize: (fontSizeMod / 2 ) + 'em' }}>
-            <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
-            <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
-            <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
-        </span>
-    );
-
-    // Cria os tópicos e um menu dropdown para cada um deles
-    return (
-        <span className='topics'>
-            <DropDownMenu
-                head={<p>{String(textData?.attributes.Mobilidade)}</p>}
-                body={mobilidadeBody}
+const topics = (topicos: ApiTopico[], fontSizeMod: number) => (
+    <div className='topics'>
+        {
+            topicos.map((topico) => (<DropDownMenu
+                key={String(topico.attributes.Nome)}
+                head={<p>{String(topico.attributes.Nome)}</p>}
+                body={<span className='subtopics' style={{ fontSize: (fontSizeMod / 2) + 'em' }}>
+                    {
+                        (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                            <Link
+                                key={String(pagina.attributes.Titulo)}
+                                to={String(pagina.attributes.URL)}
+                            >
+                                {String(pagina.attributes.Titulo)}
+                            </Link>
+                        ))
+                    }
+                </span>
+                }
                 fontSize={fontSizeMod}
             />
+            ))
+        }
+    </div>
+)
 
-            <DropDownMenu
-                head={<p>{String(textData?.attributes.Estrangeiros)}</p>}
-                body={estrangeirosBody}
-                fontSize={fontSizeMod}
-            />
+const topicsMobile = (topicos: ApiTopico[], fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => (
+    <div className='topics'>
+        <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
+            <div>Menu</div>
+            <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
+        </button>
+        <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
+            {
+                topicos.map((topico) => (
+                    <div key={String(topico.attributes.Nome)}>
+                        <span>{String(topico.attributes.Nome)}</span>
+                        <span className='subtopics' style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }}>
+                            {
+                                (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                                    <Link
+                                        key={String(pagina.attributes.Titulo)}
+                                        to={String(pagina.attributes.URL)}
+                                    >
+                                        {String(pagina.attributes.Titulo)}
+                                    </Link>
+                                ))
+                            }
+                        </span>
+                    </div>
+                ))
+            }
+        </AnimateHeight>
+    </div>
+)
 
-            <DropDownMenu
-                head={<p>{String(textData?.attributes.Informacoes)}</p>}
-                body={informacoesBody}
-                fontSize={fontSizeMod}
-            />
-        </span>
-    );
-}
-
-const topicsMobile = (textData: ApiHeaderHeader, fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => {
-    // Subtópicos de cada tópico
-    const mobilidadeBody: ReactNode = (
-        <div>
-            <span>{String(textData?.attributes.Mobilidade)}</span>
-            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
-                <Link to={'mobilidade/alunos'}> {String(textData?.attributes.Alunos)} </Link>
-                <Link to={'mobilidade/professores'}> {String(textData?.attributes.Professores)} </Link>
-                <Link to={'mobilidade/servidores'}> {String(textData?.attributes.Servidores)} </Link>
-            </span>
-        </div>
-    );
-
-    const estrangeirosBody: ReactNode = (
-        <div>
-            <span>{String(textData?.attributes.Estrangeiros)}</span>
-            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
-                <Link to={'estrangeiros/guias'}> {String(textData?.attributes.Guias)} </Link>
-            </span>
-        </div>
-    );
-
-    const informacoesBody: ReactNode = (
-        <div>
-            <span>{String(textData?.attributes.Informacoes)}</span>
-            <span className='subtopics' style={{ fontSize: fontSizeMod + 'em' }}>
-                <Link to={'informacoes/convenios'}> {String(textData?.attributes.Convenios)} </Link>
-                <Link to={'informacoes/dia'}> {String(textData?.attributes.DIA)} </Link>
-                <Link to={'informacoes/pesquisa'}> {String(textData?.attributes.Pesquisa_conduzida)} </Link>
-            </span>
-        </div>
-    );
-
-    // Cria os tópicos e um menu dropdown para cada um deles
-    return (
-        <div className='topics'>
-            <button onClick={() => setDisplay(!display)} style={{backgroundColor: display ? '#061e3d' : 'transparent'}}>
-                <div>Menu</div> 
-                <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
-            </button>
-            <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
-                {mobilidadeBody}
-                {estrangeirosBody}
-                {informacoesBody}
-            </AnimateHeight>
-        </div>
-    );
-}
 
 interface HeaderImages {
     ICMC: strapiImageData,
@@ -122,9 +80,9 @@ const AppHeader = () => {
     // Hooks    
     const context = useSettings();
     const { userSettings } = context;
-    const [textData, setTextData] = useState<ApiHeaderHeader>();
-    const [popupText, setPopupText] = useState<ApiPopupDePrivacidadePopupDePrivacidade>();
+    const [popupText, setPopupText] = useState<ApiPopup>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
+    const [topicos, setTopicos] = useState<ApiTopico[]>();
     const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(orientation: portrait)");
 
@@ -133,8 +91,6 @@ const AppHeader = () => {
         axios
             .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
-                setTextData(response['data']['data'] as ApiHeaderHeader);
-
                 setHeaderImages({
                     ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
                     ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
@@ -144,9 +100,22 @@ const AppHeader = () => {
         axios
             .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
-                setPopupText(response['data']['data'] as ApiPopupDePrivacidadePopupDePrivacidade);
+                setPopupText(response['data']['data'] as ApiPopup);
+            })
+
+        axios
+            .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .then((response) => {
+                let holder: ApiTopico[] = [];
+                response['data']['data'].map((topico: ApiTopico) => {
+                    holder.push(topico);
+                })
+
+                setTopicos(holder);
             })
     }, [userSettings.lang]);
+
+    console.log(topicos)
 
     return (
         <header className='header-root'>
@@ -162,8 +131,8 @@ const AppHeader = () => {
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {textData && !mobile && topics(textData, userSettings.fontSizeMod || 1)}
-                    {textData && mobile && topicsMobile(textData, userSettings.fontSizeMod || 1, display, setDisplay)}
+                    {topicos && !mobile && topics(topicos, userSettings.fontSizeMod || 1)}
+                    {topicos && mobile && topicsMobile(topicos, userSettings.fontSizeMod || 1, display, setDisplay)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
