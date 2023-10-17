@@ -68,7 +68,6 @@ const PageLoader = () => {
                 // Verifica se encontrou as seções, se não, a página está em construção
                 if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
                     setStatus(403);
-                    console.log("OI")
                     return;
                 }
 
@@ -99,19 +98,16 @@ const PageLoader = () => {
             }
 
             {status === 200 && sections &&
-                sections.map((section) => {
-                    console.log(section.attributes.Corpo)
-                    return (
-                        <TopicSection
-                            key={String(section.attributes.Titulo || '')}
-                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
-                            title={String(section.attributes.Titulo || '')}
-                            body={String(section.attributes.Corpo || '')}
-                            textColor={String(section.attributes.Cor_texto || '')}
-                            backgroundColor={String(section.attributes.Cor_fundo || '')}
-                        />
-                    );
-                })
+                sections.map((section) => (
+                    <TopicSection
+                        key={String(section.attributes.Titulo || '')}
+                        id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
+                        title={String(section.attributes.Titulo || '')}
+                        body={String(section.attributes.Corpo || '')}
+                        textColor={String(section.attributes.Cor_texto || '')}
+                        backgroundColor={String(section.attributes.Cor_fundo || '')}
+                    />
+                ))
             }
 
             {status === 404 && NotFound}
