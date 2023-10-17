@@ -17,65 +17,58 @@ import './AppHeader.scss';
 const topics = (topicos: ApiTopico[], fontSizeMod: number) => (
     <div className='topics'>
         {
-            topicos.map((topico) => {
-                return <DropDownMenu
-                    key={String(topico.attributes.Nome)}
-                    head={<p>{String(topico.attributes.Nome)}</p>}
-                    body={<span className='subtopics' style={{ fontSize: (fontSizeMod / 2) + 'em' }}>
-                        {
-                            (topico.attributes.paginas as any)['data'].map((pagina : ApiPagina) => {
-                                return (
-                                    <Link
-                                        key={String(pagina.attributes.Titulo)}
-                                        to={String(pagina.attributes.URL)}
-                                    >
-                                        {String(pagina.attributes.Titulo)}
-                                    </Link>
-                                )
-                            })
-                        }
-                    </span>
+            topicos.map((topico) => (<DropDownMenu
+                key={String(topico.attributes.Nome)}
+                head={<p>{String(topico.attributes.Nome)}</p>}
+                body={<span className='subtopics' style={{ fontSize: (fontSizeMod / 2) + 'em' }}>
+                    {
+                        (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                            <Link
+                                key={String(pagina.attributes.Titulo)}
+                                to={String(pagina.attributes.URL)}
+                            >
+                                {String(pagina.attributes.Titulo)}
+                            </Link>
+                        ))
                     }
-                    fontSize={fontSizeMod}
-                />
-            })
+                </span>
+                }
+                fontSize={fontSizeMod}
+            />
+            ))
         }
     </div>
 )
 
 const topicsMobile = (topicos: ApiTopico[], fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => (
     <div className='topics'>
-        <button onClick={() => setDisplay(!display)} style={{backgroundColor: display ? '#061e3d' : 'transparent'}}>
-            <div>Menu</div> 
+        <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
+            <div>Menu</div>
             <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
         </button>
         <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
             {
-                topicos.map((topico) => {
-                    return (
-                        <div key={String(topico.attributes.Nome)}>
-                            <span>{String(topico.attributes.Nome)}</span>
-                            <span className='subtopics' style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }}>
-                                {
-                                    (topico.attributes.paginas as any)['data'].map((pagina : ApiPagina) => {
-                                        return (
-                                            <Link
-                                                key={String(pagina.attributes.Titulo)}
-                                                to={String(pagina.attributes.URL)}
-                                            >
-                                                {String(pagina.attributes.Titulo)}
-                                            </Link>
-                                        )
-                                    })
-                                }
-                            </span>
-                        </div>
-                    )
-                })
+                topicos.map((topico) => (
+                    <div key={String(topico.attributes.Nome)}>
+                        <span>{String(topico.attributes.Nome)}</span>
+                        <span className='subtopics' style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }}>
+                            {
+                                (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                                    <Link
+                                        key={String(pagina.attributes.Titulo)}
+                                        to={String(pagina.attributes.URL)}
+                                    >
+                                        {String(pagina.attributes.Titulo)}
+                                    </Link>
+                                ))
+                            }
+                        </span>
+                    </div>
+                ))
             }
         </AnimateHeight>
     </div>
-)   
+)
 
 
 interface HeaderImages {

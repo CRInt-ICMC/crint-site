@@ -12,7 +12,7 @@ interface UserSettingsState {
 
 interface initializedSettings {
     userSettings: userSettings,
-    setUserSettings: (userOptions: userSettings) => void,    
+    setUserSettings: (userOptions: userSettings) => void,
 }
 
 // Informações da imagem
@@ -27,7 +27,7 @@ interface strapiImageFormat {
 
     url: string,
     hash: string,
-    
+
     mime: string,
     ext: string,
 }
