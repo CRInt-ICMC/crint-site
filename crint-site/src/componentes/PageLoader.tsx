@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { SettingsContext } from "../Contexto";
-import { ApiPaginaPagina, ApiSecaoSecao } from "../utils/generated/contentTypes";
+import { useEffect, useState } from "react";
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
+import { useSettings } from "../utils/utils";
 import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
+import { ApiPagina, ApiSecao } from "../utils/types";
 
 const WIP = (
     <div className="wip-root">
@@ -26,13 +26,13 @@ const NotFound = (
     </div>
 );
 
-const getLinks = (sections : ApiSecaoSecao[]) => {
-    let sectionLinks : sectionLink[] = [];
+const getLinks = (sections: ApiSecao[]) => {
+    let sectionLinks: sectionLink[] = [];
 
-    sections.map((section)=>{
+    sections.map((section) => {
         sectionLinks.push({
-            name: String(section.attributes.Titulo), 
-            id: String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim,"").replace(/\s/g, "").trim(),
+            name: String(section.attributes.Titulo),
+            id: String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim(),
         } as sectionLink)
     })
 
@@ -40,9 +40,9 @@ const getLinks = (sections : ApiSecaoSecao[]) => {
 }
 
 const PageLoader = () => {
-    const { userSettings } = useContext(SettingsContext);
-    const [textData, setTextData] = useState<ApiPaginaPagina>();
-    const [sections, setSections] = useState<ApiSecaoSecao[]>();
+    const { userSettings } = useSettings();
+    const [textData, setTextData] = useState<ApiPagina>();
+    const [sections, setSections] = useState<ApiSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
     const [status, setStatus] = useState<number>();
@@ -52,7 +52,7 @@ const PageLoader = () => {
     useEffect(() => {
         // Strapi + Chamada de página filtrada por UID + Idioma selecionado
         axios
-            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings?.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
                 // Verifica se a página existe
                 if (response['data']['data'][0] === undefined) {
@@ -61,7 +61,7 @@ const PageLoader = () => {
                 }
 
                 // Passa o texto e a imagem do banner para seus hooks
-                setTextData(response['data']['data'][0] as ApiPaginaPagina);
+                setTextData(response['data']['data'][0] as ApiPagina);
                 setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
                 setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
 
@@ -77,7 +77,7 @@ const PageLoader = () => {
 
                 setStatus(200);
             })
-    }, [userSettings?.lang, location]);
+    }, [userSettings.lang, location]);
 
     // Executa quando troca de rota
     useEffect(() => {
@@ -85,12 +85,12 @@ const PageLoader = () => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
-    const sectionLinks : sectionLink[] = getLinks(sections || []);
+    const sectionLinks: sectionLink[] = getLinks(sections || []);
 
     return (
         <div className='page-body'>
             {bannerImage &&
-                <TopicBanner 
+                <TopicBanner
                     pageName={String(textData?.attributes.Banner_text || '')}
                     pageSections={sectionLinks}
                     bannerImage={STRAPI_URL + bannerImage}
@@ -104,7 +104,7 @@ const PageLoader = () => {
                     return (
                         <TopicSection
                             key={String(section.attributes.Titulo || '')}
-                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim,"").replace(/\s/g, "").trim()}
+                            id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
                             title={String(section.attributes.Titulo || '')}
                             body={String(section.attributes.Corpo || '')}
                             textColor={String(section.attributes.Cor_texto || '')}
