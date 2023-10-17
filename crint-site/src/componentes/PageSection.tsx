@@ -19,8 +19,8 @@ const PageSection = (props: { id: string, title: string, body: string, textColor
                         <FontAwesomeIcon icon={collapse ? faCaretDown : faCaretUp} size='2x' color={props.textColor} />
                     </button>
                 </h1>
-                <AnimateHeight height={collapse ? 0 : 'auto'} duration={500} className='page-content'>
-                    <Interweave content={props.body} />
+                <AnimateHeight height={collapse ? 0 : 'auto'} duration={500}>
+                    <Interweave content={props.body} allowElements />
                 </AnimateHeight>
             </div>
         </section>
