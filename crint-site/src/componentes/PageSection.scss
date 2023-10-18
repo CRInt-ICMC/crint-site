@@ -1,6 +1,6 @@
 @use '../Base.scss' as base;
 
-.topic-section {
+.page-section {
     padding: 0 15%;
 
     color: black;
@@ -13,7 +13,7 @@
         font-weight: bolder;
     }
 
-    .topic-title {
+    .page-title {
         margin: 0;
         padding: 50px 0;
         position: relative;
@@ -36,9 +36,13 @@
         }
     }
 
-    .topic-content {
+    .page-content {
         margin-top: 0;
         padding-top: 0;
         width: 100%;
+
+        img {
+            width: 100%;
+        }
     }
 }

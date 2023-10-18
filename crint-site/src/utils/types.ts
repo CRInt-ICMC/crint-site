@@ -1,32 +1,10 @@
-interface userSettings {
-    cookieConsent: boolean,
-    lang: string,
-    fontSizeMod: number,
-}
+import { ApiFooterFooter, ApiGradienteGradiente, ApiHeaderHeader, ApiLinguaLingua, ApiPaginaPagina, ApiPopupDePrivacidadePopupDePrivacidade, ApiSecaoSecao, ApiTopicoTopico } from "./generated/contentTypes";
 
-// Informações da imagem
-interface strapiImageFormat {
-    name: string,
-    caption: string,
-    alternativeText: string,
-
-    height: number,
-    width: number,
-    size: number,
-
-    url: string,
-    hash: string,
-    
-    mime: string,
-    ext: string,
-}
-
-// Pacote recebido do strapi
-interface strapiImageData extends strapiImageFormat {
-    formats: {
-        large: strapiImageFormat,
-        medium: strapiImageFormat,
-        small: strapiImageFormat,
-        thumbnail: strapiImageFormat,
-    }
-}
+export type ApiHeader = ApiHeaderHeader;
+export type ApiPopup = ApiPopupDePrivacidadePopupDePrivacidade;
+export type ApiTopico = ApiTopicoTopico;
+export type ApiFooter = ApiFooterFooter;
+export type ApiGradient = ApiGradienteGradiente;
+export type ApiLingua = ApiLinguaLingua;
+export type ApiPagina = ApiPaginaPagina;
+export type ApiSecao = ApiSecaoSecao;
