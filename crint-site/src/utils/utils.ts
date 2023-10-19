@@ -55,11 +55,12 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
     setUserSettings(newSettings);
 }
 
+// Garante que o contexto foi inicializado
 export const useSettings = () => {
     const context = React.useContext(SettingsContext);
     
     if (context === undefined)
-        throw new Error('useCount must be used within a CountProvider')
+        throw new Error('useSettings está fora de contexto')
     
     return context as initializedSettings;
 }
