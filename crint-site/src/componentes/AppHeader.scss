@@ -96,16 +96,13 @@
                     }
                 }
 
-                @media screen and (orientation: landscape) {
-                    display: inline-flex;
-                }
-
                 @media screen and (orientation: portrait) {
-                    @include base.topico-fontsize(base.$celular-fontsize);
+                    font-size: base.$topico-fontsize;
                 }
 
                 @media screen and (orientation: landscape) {
-                    @include base.topico-fontsize(base.$md-fontsize);
+                    font-size: base.$topico-fontsize;
+                    display: inline-flex;
                 }
 
                 p {
@@ -118,9 +115,11 @@
 
                 .subtopics {
                     @media screen and (orientation: portrait) {
-                        @include base.subtopico-fontsize(base.$celular-fontsize);
+                        font-size: base.$subtopico-fontsize;
 
                         a {
+                            font-size: inherit;
+
                             padding-left: 20px;
                             font-weight: bold;
 
@@ -135,9 +134,11 @@
                     }
 
                     @media screen and (orientation: landscape) {
-                        @include base.subtopico-fontsize(base.$md-fontsize);
+                        font-size: base.$subtopico-fontsize;
 
                         a {
+                            font-size: inherit;
+                            
                             color: white;
                             font-weight: 400;
                             text-decoration: none;
