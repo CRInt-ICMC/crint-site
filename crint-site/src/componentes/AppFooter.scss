@@ -9,12 +9,12 @@
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
-        @include base.footer-fontsize(base.$celular-fontsize);
+        font-size: base.$footer-fontsize;
     }
 
     @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
-        @include base.footer-fontsize(base.$md-fontsize);
+        font-size: base.$footer-fontsize;
     }
 
     h3 {

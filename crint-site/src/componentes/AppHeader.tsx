@@ -14,13 +14,13 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
 import './AppHeader.scss';
 
-const topics = (topicos: ApiTopico[], fontSizeMod: number) => (
+const topics = (topicos: ApiTopico[]) => (
     <div className='topics'>
         {
             topicos.map((topico) => (<DropDownMenu
                 key={String(topico.attributes.Nome)}
                 head={<p>{String(topico.attributes.Nome)}</p>}
-                body={<span className='subtopics' style={{ fontSize: (fontSizeMod / 2) + 'em' }}>
+                body={<span className='subtopics' >
                     {
                         (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
                             <Link
@@ -33,14 +33,13 @@ const topics = (topicos: ApiTopico[], fontSizeMod: number) => (
                     }
                 </span>
                 }
-                fontSize={fontSizeMod}
             />
             ))
         }
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], fontSizeMod: number, display: boolean, setDisplay: CallableFunction) => (
+const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -51,7 +50,7 @@ const topicsMobile = (topicos: ApiTopico[], fontSizeMod: number, display: boolea
                 topicos.map((topico) => (
                     <div key={String(topico.attributes.Nome)}>
                         <span>{String(topico.attributes.Nome)}</span>
-                        <span className='subtopics' style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }}>
+                        <span className='subtopics' /* style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }} */>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
                                     <Link
@@ -131,8 +130,8 @@ const AppHeader = () => {
 
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
-                    {topicos && !mobile && topics(topicos, userSettings.fontSizeMod || 1)}
-                    {topicos && mobile && topicsMobile(topicos, userSettings.fontSizeMod || 1, display, setDisplay)}
+                    {topicos && !mobile && topics(topicos)}
+                    {topicos && mobile && topicsMobile(topicos, display, setDisplay)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>

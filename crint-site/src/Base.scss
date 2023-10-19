@@ -35,22 +35,8 @@ $hd-fontsize: 20px;
     margin: 0 calc((100% - $largura-pagina) / 2);
 }
 
-@mixin banner-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 3);
-}
-
-@mixin footer-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.5);
-}
-
-@mixin topico-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.8);
-}
-
-@mixin section-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.5);
-}
-
-@mixin subtopico-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1);
-}
+$banner-fontsize: 3em;
+$footer-fontsize: 1.5em;
+$topico-fontsize: 1.8em;
+$section-fontsize: 1.5em;
+$subtopico-fontsize: 1em;
