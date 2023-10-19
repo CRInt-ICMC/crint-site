@@ -30,27 +30,14 @@ $tablet-fontsize: 15px;
 $md-fontsize: 17.5px;
 $hd-fontsize: 20px;
 
+$banner-fontsize: 1.3em;
+$summary-fontsize: 0.7em;
+$footer-fontsize: 1.5em;
+$topico-fontsize: 1.8em;
+$section-fontsize: 1.1em;
+$subtopico-fontsize: 0.6em;
+
 @mixin formato-pagina($largura-pagina) {
     width: $largura-pagina;
     margin: 0 calc((100% - $largura-pagina) / 2);
-}
-
-@mixin banner-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 3);
-}
-
-@mixin footer-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.5);
-}
-
-@mixin topico-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.8);
-}
-
-@mixin section-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1.5);
-}
-
-@mixin subtopico-fontsize($base-fontsize) {
-    font-size: calc($base-fontsize * 1);
 }
