@@ -134,7 +134,6 @@ const AppHeader = () => {
 
                     setTopicos(holder);
                     setCache('topicos' + userSettings.lang, holder);
-                    console.log("Masuq?")
                 })
     }, [userSettings.lang]);
 

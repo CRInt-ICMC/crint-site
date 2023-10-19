@@ -68,7 +68,6 @@ const PageLoader = () => {
                 // Verifica se encontrou as seções, se não, a página está em construção
                 if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
                     setStatus(403);
-                    console.log("OI")
                     return;
                 }
 
@@ -98,7 +97,7 @@ const PageLoader = () => {
                 />
             }
 
-            {sections &&
+            {status === 200 && sections &&
                 sections.map((section) => {
                     return (
                         <TopicSection
