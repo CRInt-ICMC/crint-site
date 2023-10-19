@@ -10,27 +10,26 @@
     height: base.$altura-botao-fonte;
 
     .options-buttons {
-        height: base.$altura-botao-fonte;
         width: 2 * base.$largura-botao-fonte;
 
-        position: absolute;
+        position: relative;
 
         .increase-button {
             height: base.$altura-botao-fonte;
             width: base.$largura-botao-fonte;
 
-            position: relative;
+            position: absolute;
 
-            left: 0;
+            right: 0;
         }
 
         .decrease-button {
             height: base.$altura-botao-fonte;
             width: base.$largura-botao-fonte;
 
-            position: relative;
+            position: absolute;
 
-            right: 0;
+            left: 0;
         }
     }
 }
