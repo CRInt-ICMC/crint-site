@@ -10,8 +10,8 @@
     }
 
     .page-banner {
-        height: base.$altura-banner;
         font-size: base.$hd-fontsize;
+        overflow: auto;
 
         align-items: center;
         display: flex;
@@ -26,7 +26,6 @@
 
         .page-img-container {
             min-width: 30%;
-            height: 100%;
             text-align: center;
 
             display: flex;
@@ -34,9 +33,9 @@
             justify-content: center;
 
             img {
-
                 max-width: 100%;
-                max-height: 80%;
+                max-height: base.$altura-banner;
+                padding: 5% 0;
             }
         }
 

@@ -6,12 +6,10 @@
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
-        font-size: base.$section-fontsize;
     }
 
     @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
-        font-size: base.$section-fontsize;
     }
 
     .notfound-root {

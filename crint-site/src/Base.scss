@@ -30,13 +30,13 @@ $tablet-fontsize: 15px;
 $md-fontsize: 17.5px;
 $hd-fontsize: 20px;
 
+$banner-fontsize: 1.5em;
+$footer-fontsize: 1.5em;
+$topico-fontsize: 1.8em;
+$section-fontsize: 1.1em;
+$subtopico-fontsize: 0.6em;
+
 @mixin formato-pagina($largura-pagina) {
     width: $largura-pagina;
     margin: 0 calc((100% - $largura-pagina) / 2);
 }
-
-$banner-fontsize: 3em;
-$footer-fontsize: 1.5em;
-$topico-fontsize: 1.8em;
-$section-fontsize: 1.5em;
-$subtopico-fontsize: 1em;

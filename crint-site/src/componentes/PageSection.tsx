@@ -10,7 +10,7 @@ const PageSection = (props: { id: string, title: string, body: string, textColor
 
     return (
         <section id={props.id} className='page-section' style={{ color: props.textColor, background: props.backgroundColor }}>
-            <div style={{ /* fontSize: (userSettings.fontSizeMod || 1) + 'em', */ paddingBottom: collapse ? '0' : '50px' }}>
+            <div style={{ paddingBottom: collapse ? '0' : '50px' }}>
                 <h1 className='page-title' onClick={() => { setCollapse(!collapse) }}>
                     {`${props.title}`}
                     <button>

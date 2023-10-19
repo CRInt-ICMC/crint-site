@@ -145,7 +145,7 @@ const AppHeader = () => {
                     body={
                         <>
                             <p className='privacidade'>
-                                {String(popupText?.attributes.Corpo)}
+                                {String(popupText?.attributes.Corpo) + ' '}
                                 <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
                             </p>
                             <button onClick={() => updateUserSettings(context, { cookieConsent: true })}> {String(popupText?.attributes.Botao)}</button>
