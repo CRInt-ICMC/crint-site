@@ -50,7 +50,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                 topicos.map((topico) => (
                     <div key={String(topico.attributes.Nome)}>
                         <span>{String(topico.attributes.Nome)}</span>
-                        <span className='subtopics' /* style={{ fontSize: (fontSizeMod * 3 / 4) + 'em' }} */>
+                        <span className='subtopics'>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
                                     <Link
@@ -113,8 +113,6 @@ const AppHeader = () => {
                 setTopicos(holder);
             })
     }, [userSettings.lang]);
-
-    console.log(topicos)
 
     return (
         <header className='header-root'>
