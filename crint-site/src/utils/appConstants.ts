@@ -11,8 +11,5 @@ export const TOPIC_FONT_MULTIPLIER = 1.8;
 export const SUBTOPIC_FONT_MULTIPLIER = 1;
 export const SECTION_FONT_MULTIPLIER = 1.5;
 
-// export const MIN_FONT = BASE_FONTSIZE * 0.5;
-// export const MAX_FONT = BASE_FONTSIZE * 1.4;
-
-export const MIN_FONT = 0.5;
-export const MAX_FONT = 1.4;
+export const MIN_FONT = BASE_FONTSIZE * 0.8;
+export const MAX_FONT = BASE_FONTSIZE * 1.3;
