@@ -1,5 +1,5 @@
 import React from 'react';
-import { SettingsContext } from '../Context';
+import { SettingsContext } from '../Settings';
 import { DEFAULT_LANGUAGE } from './appConstants';
 
 // Carrega as configurações armazenadas
