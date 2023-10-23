@@ -9,12 +9,12 @@ import { ApiSecao, ApiSlide } from '../utils/types';
 import './Homepage.scss';
 import { readCache, setCache } from '../Caching';
 
-const CreateSlides = (carouselImages: ApiSlide[]) => (
+const CreateSlides = (carouselSlides: ApiSlide[]) => (
     <>
-        {carouselImages.map((slide: ApiSlide) => {
-            const key = String(slide.attributes.createdAt);
+        {carouselSlides.map((slide: ApiSlide) => {
             const link = String(slide.attributes.Link);
             const caption = String(slide.attributes.Texto);
+            const key = link + caption;
             const image = (slide.attributes.Imagem as any)['data']['attributes'] as strapiImageData;
 
             return (
@@ -39,29 +39,27 @@ const Homepage = () => {
         const cacheHomepage = readCache('homepage' + userSettings.lang);
         const cacheCarousel = readCache('carousel' + userSettings.lang);
 
-        if (cacheHomepage)
+        if (cacheHomepage && cacheCarousel) {
             setSections(cacheHomepage);
+            setCarouselImages(cacheCarousel);
+        }
 
         else
             axios
-                .get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .get(STRAPI_URL + `/api/homepage?populate[secoes]=*&populate[slides][populate][0]=Imagem&locale=` + userSettings.lang,
+                    { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data']['attributes']['secoes']['data'];
-                    setSections(data);
-                    setCache('homepage' + userSettings.lang, data);
-                })
+                    const data = response['data']['data']['attributes'];
 
-                if (cacheCarousel)
-                    setCarouselImages(cacheCarousel);
-        
-                else
-                    axios
-                        .get(STRAPI_URL + `/api/slides?populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-                        .then((response) => {
-                            const slidesData: ApiSlide[] = response['data']['data'];
-                            setCarouselImages(slidesData);
-                            setCache('carousel' + userSettings.lang, slidesData);
-                        })
+                    const sectionsData = data['secoes']['data'];
+                    setSections(sectionsData);
+                    setCache('homepage' + userSettings.lang, sectionsData);
+
+                    const slidesData = data['slides']['data'];
+
+                    setCarouselImages(slidesData);
+                    setCache('carousel' + userSettings.lang, slidesData);
+                })
     }, [userSettings.lang]);
 
     return (

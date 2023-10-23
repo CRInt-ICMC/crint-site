@@ -884,16 +884,15 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     };
   };
   attributes: {
-    Carrossel: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
     secoes: Attribute.Relation<
       'api::homepage.homepage',
       'oneToMany',
       'api::secao.secao'
+    >;
+    slides: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToMany',
+      'api::slide.slide'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
