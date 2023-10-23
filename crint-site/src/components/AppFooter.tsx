@@ -3,12 +3,12 @@ import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useSettings } from '../utils/utils';
 import { ApiFooter } from '../utils/types';
-import './AppFooter.scss'
 import { readCache, setCache } from '../Caching';
+import axios from 'axios';
+import './AppFooter.scss'
 
 const AppFooter = () => {
     const { userSettings } = useSettings();
@@ -25,7 +25,7 @@ const AppFooter = () => {
             axios
                 .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let data = response['data']['data'] as ApiFooter;
+                    const data = response['data']['data'] as ApiFooter;
                     setFooterText(response['data']['data'] as ApiFooter);
                     setCache('footer' + '-' + userSettings.lang, data);
                 })

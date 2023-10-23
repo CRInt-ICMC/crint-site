@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { NOTFOUND_ICON, STRAPI_API_TOKEN, STRAPI_URL, WIP_ICON } from "../utils/constants";
 import { useLocation } from "react-router-dom";
 import { useSettings } from "../utils/utils";
+import { ApiPagina, ApiSecao } from "../utils/types";
+import { readCache, setCache } from "../Caching";
 import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
-import { ApiPagina, ApiSecao } from "../utils/types";
-import { readCache, setCache } from "../Caching";
 
 const WIP = (
     <div className="wip-root">
@@ -27,7 +27,7 @@ const NotFound = (
 );
 
 const getLinks = (sections: ApiSecao[]) => {
-    let sectionLinks: sectionLink[] = [];
+    const sectionLinks: sectionLink[] = [];
 
     sections.map((section) => {
         sectionLinks.push({

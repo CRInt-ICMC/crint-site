@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
-import TopicSection from './PageSection';
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
+import TopicSection from './PageSection';
+import axios from 'axios';
 import './Homepage.scss';
 import 'swiper/css';
 import 'swiper/css/bundle';

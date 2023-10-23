@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Interweave } from 'interweave';
-import AnimateHeight from 'react-animate-height';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import AnimateHeight from 'react-animate-height';
 import './PageSection.scss'
 
 const PageSection = (props: { id: string, title: string, body: string, textColor: string, backgroundColor: string }) => {

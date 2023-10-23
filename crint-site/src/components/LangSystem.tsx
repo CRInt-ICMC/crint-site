@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
+import { ApiLingua } from "../utils/types";
 import axios from "axios";
 import './LangSystem.scss';
-import { ApiLingua } from "../utils/types";
 
 const LangSystem = () => {
     const context = useSettings();
@@ -14,7 +14,7 @@ const LangSystem = () => {
         axios
             .get(STRAPI_URL + '/api/linguas?populate=*', { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
             .then((response) => {
-                let data: ApiLingua[] = [];
+                const data: ApiLingua[] = [];
 
                 response['data']['data'].map((lang: ApiLingua) => {
                     data.push(lang);

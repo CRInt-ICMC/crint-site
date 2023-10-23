@@ -27,7 +27,6 @@ const FontSizeSystem = () => {
         else if (newFontSize < MIN_FONT)
             newFontSize = MIN_FONT;
 
-
         updateUserSettings(context, { fontSize: newFontSize });
     }
 
@@ -35,7 +34,7 @@ const FontSizeSystem = () => {
         <div className='options-root'>
             <div className='options-body'>
                 {userSettings.fontSize > MIN_FONT && <button className='decrease button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>}
-                {userSettings.fontSize < MAX_FONT && <button className='increase button' onClick={() => setFontSize( 2)}><FontAwesomeIcon icon={faPlus} /></button>}
+                {userSettings.fontSize < MAX_FONT && <button className='increase button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>}
             </div>
         </div>
     );

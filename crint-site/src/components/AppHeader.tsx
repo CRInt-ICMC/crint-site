@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
 import { updateUserSettings, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
+import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
 import LangSystem from './LangSystem';
 import FontSizeSystem from './FontSizeSystem';
 import AnimateHeight from 'react-animate-height';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
 import './AppHeader.scss';
-import { readCache, setCache } from '../Caching';
 
 const topics = (topicos: ApiTopico[]) => (
     <div className='topics'>
@@ -68,7 +68,6 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
         </AnimateHeight>
     </div>
 )
-
 
 interface HeaderImages {
     ICMC: strapiImageData,
