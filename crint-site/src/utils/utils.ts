@@ -3,7 +3,7 @@ import { SettingsContext } from '../Settings';
 import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './constants';
 
 // Carrega as configurações armazenadas
-export function loadSettings() {
+export const loadSettings = () => {
     // Configurações padrão
     let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
 
