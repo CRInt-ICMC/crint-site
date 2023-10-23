@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
+import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import { useSettings } from "../utils/utils";
@@ -57,22 +57,22 @@ const PageLoader = () => {
             setTextData(pageCache as ApiPagina);
             setBannerImage(pageCache['attributes']['Banner_imagem']['data']['attributes']['url']);
             setGradient(pageCache['attributes']['Gradiente']['data']['attributes']['CSS'])
-            
-            if (pageCache['attributes']['secoes']['data'].length === 0){
+
+            if (pageCache['attributes']['secoes']['data'].length === 0) {
                 setStatus(403);
                 setSections(undefined);
                 return;
             }
 
             setSections(pageCache['attributes']['secoes']['data']);
-            
+
             setStatus(200);
         }
 
         else
             axios
                 // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-                .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     let data = response['data']['data'][0];
 
