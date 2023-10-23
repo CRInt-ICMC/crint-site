@@ -1,11 +1,11 @@
 import React from 'react';
 import { SettingsContext } from '../Context';
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './appConstants';
+import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './appConstants';
 
 // Carrega as configurações armazenadas
 export function loadSettings() {
     // Configurações padrão
-    let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: 1 };
+    let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: BASE_FONTSIZE };
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString: string = localStorage.getItem('settings') || '';
