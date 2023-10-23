@@ -57,15 +57,15 @@ const PageLoader = () => {
             setTextData(pageCache as ApiPagina);
             setBannerImage(pageCache['attributes']['Banner_imagem']['data']['attributes']['url']);
             setGradient(pageCache['attributes']['Gradiente']['data']['attributes']['CSS'])
-            
-            if (pageCache['attributes']['secoes']['data'].length === 0){
+
+            if (pageCache['attributes']['secoes']['data'].length === 0) {
                 setStatus(403);
                 setSections(undefined);
                 return;
             }
 
             setSections(pageCache['attributes']['secoes']['data']);
-            
+
             setStatus(200);
         }
 

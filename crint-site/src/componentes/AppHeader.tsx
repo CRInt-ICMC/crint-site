@@ -92,8 +92,8 @@ const AppHeader = () => {
         const cachePopupText = readCache('popup' + userSettings.lang);
         const cacheTopicos = readCache('topicos' + userSettings.lang);
 
-        if (cacheHeaderImages) 
-            setHeaderImages(cacheHeaderImages); 
+        if (cacheHeaderImages)
+            setHeaderImages(cacheHeaderImages);
 
         else
             axios

@@ -39,12 +39,12 @@ const Homepage = () => {
     useEffect(() => {
         const cacheHomepage = readCache('homepage' + userSettings.lang);
         const cacheCarousel = readCache('carousel' + userSettings.lang);
-        
+
         if (cacheHomepage && cacheCarousel) {
             setSections(cacheHomepage);
             setCarouselImages(cacheCarousel);
         }
-        
+
         else
             axios
                 .get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
