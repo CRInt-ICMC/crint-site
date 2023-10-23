@@ -1,6 +1,6 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
-import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './appConstants';
+import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './constants';
 
 // Carrega as configurações armazenadas
 export function loadSettings() {

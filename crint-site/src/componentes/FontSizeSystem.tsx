@@ -1,6 +1,6 @@
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MAX_FONT, MIN_FONT } from "../utils/appConstants";
+import { MAX_FONT, MIN_FONT } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import { useEffect } from "react";
 import './FontSizeSystem.scss';

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
+import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import TopicSection from './PageSection';
 import axios from 'axios';
 import Carousel from './Carousel';

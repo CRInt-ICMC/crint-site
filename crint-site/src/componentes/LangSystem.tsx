@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import axios from "axios";
 import './LangSystem.scss';

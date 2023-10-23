@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/appConstants';
+import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
 import { updateUserSettings, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import axios from 'axios';

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
+import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useSettings } from '../utils/utils';
 import { ApiFooter } from '../utils/types';
 import './AppFooter.scss'

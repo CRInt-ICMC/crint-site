@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
+import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import { useSettings } from "../utils/utils";
