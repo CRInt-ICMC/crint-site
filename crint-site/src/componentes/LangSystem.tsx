@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import axios from "axios";
 import './LangSystem.scss';
@@ -24,7 +24,15 @@ const LangSystem = () => {
             })
     }, []);
 
-    const changeLang = (lang: string) => updateUserSettings(context, { lang: lang });
+    const changeLang = (lang: string) => {
+        let newLang = lang;
+
+        // Previne que uma opção de linguagem não existente seja inserida no sistema
+        if (!AVAILABLE_LANGUAGES.includes(newLang))
+            newLang = DEFAULT_LANGUAGE;
+
+        updateUserSettings(context, { lang: newLang })
+    };
 
     return (
         <div className='flags'>

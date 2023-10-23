@@ -1,6 +1,6 @@
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BASE_FONTSIZE, MAX_FONT, MIN_FONT } from "../utils/appConstants";
+import { MAX_FONT, MIN_FONT } from "../utils/appConstants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import { useEffect } from "react";
 import './FontSizeSystem.scss';
@@ -19,7 +19,16 @@ const FontSizeSystem = () => {
     }, [userSettings.fontSizeMod])
 
     const setFontSizeMod = (offset: number) => {
-        updateUserSettings(context, { fontSizeMod: (userSettings.fontSizeMod || BASE_FONTSIZE) + offset });
+        let newFontSize = userSettings.fontSizeMod + offset
+
+        // Garante a integridade das fontes do site
+        if (newFontSize > MAX_FONT)
+            newFontSize = MAX_FONT;
+        else if (newFontSize < MIN_FONT)
+            newFontSize = MIN_FONT;
+
+
+        updateUserSettings(context, { fontSizeMod: newFontSize });
     }
 
     return (
