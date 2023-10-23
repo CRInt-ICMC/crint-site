@@ -831,66 +831,6 @@ export interface ApiHeaderHeader extends Schema.SingleType {
     };
   };
   attributes: {
-    Mobilidade: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Estrangeiros: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Informacoes: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Alunos: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Professores: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Servidores: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Guias: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Convenios: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    DIA: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Pesquisa_conduzida: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     ICMC: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -944,16 +884,15 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     };
   };
   attributes: {
-    Carrossel: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
     secoes: Attribute.Relation<
       'api::homepage.homepage',
       'oneToMany',
       'api::secao.secao'
+    >;
+    slides: Attribute.Relation<
+      'api::homepage.homepage',
+      'oneToMany',
+      'api::slide.slide'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1224,6 +1163,65 @@ export interface ApiSecaoSecao extends Schema.CollectionType {
   };
 }
 
+export interface ApiSlideSlide extends Schema.CollectionType {
+  collectionName: 'slides';
+  info: {
+    singularName: 'slide';
+    pluralName: 'slides';
+    displayName: 'Slide';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Imagem: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    Texto: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Link: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::slide.slide',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::slide.slide',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::slide.slide',
+      'oneToMany',
+      'api::slide.slide'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiTopicoTopico extends Schema.CollectionType {
   collectionName: 'topicos';
   info: {
@@ -1299,6 +1297,7 @@ declare module '@strapi/strapi' {
       'api::pagina.pagina': ApiPaginaPagina;
       'api::popup-de-privacidade.popup-de-privacidade': ApiPopupDePrivacidadePopupDePrivacidade;
       'api::secao.secao': ApiSecaoSecao;
+      'api::slide.slide': ApiSlideSlide;
       'api::topico.topico': ApiTopicoTopico;
     }
   }

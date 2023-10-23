@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
+import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/appConstants";
 import { useLocation } from "react-router-dom";
 import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import { useSettings } from "../utils/utils";
@@ -8,6 +8,7 @@ import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
 import { ApiPagina, ApiSecao } from "../utils/types";
+import { readCache, setCache } from "../Caching";
 
 const WIP = (
     <div className="wip-root">
@@ -50,32 +51,56 @@ const PageLoader = () => {
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        // Strapi + Chamada de página filtrada por UID + Idioma selecionado
-        axios
-            .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-            .then((response) => {
-                // Verifica se a página existe
-                if (response['data']['data'][0] === undefined) {
-                    setStatus(404);
-                    return;
-                }
+        const pageCache = readCache(location.pathname + userSettings.lang);
 
-                // Passa o texto e a imagem do banner para seus hooks
-                setTextData(response['data']['data'][0] as ApiPagina);
-                setBannerImage(response['data']['data'][0]['attributes']['Banner_imagem']['data']['attributes']['url']);
-                setGradient(response['data']['data'][0]['attributes']['Gradiente']['data']['attributes']['CSS'])
+        if (pageCache) {
+            setTextData(pageCache as ApiPagina);
+            setBannerImage(pageCache['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setGradient(pageCache['attributes']['Gradiente']['data']['attributes']['CSS'])
 
-                // Verifica se encontrou as seções, se não, a página está em construção
-                if (response['data']['data'][0]['attributes']['secoes']['data'].length === 0) {
-                    setStatus(403);
-                    return;
-                }
+            if (pageCache['attributes']['secoes']['data'].length === 0) {
+                setStatus(403);
+                setSections(undefined);
+                return;
+            }
 
-                // Passa as seções para seu hook
-                setSections(response['data']['data'][0]['attributes']['secoes']['data']);
+            setSections(pageCache['attributes']['secoes']['data']);
 
-                setStatus(200);
-            })
+            setStatus(200);
+        }
+
+        else
+            axios
+                // Strapi + Chamada de página filtrada por UID + Idioma selecionado
+                .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .then((response) => {
+                    let data = response['data']['data'][0];
+
+                    // Verifica se a página existe
+                    if (data === undefined) {
+                        setStatus(404);
+                        return;
+                    }
+
+                    // Passa o texto e a imagem do banner para seus hooks
+                    setTextData(data as ApiPagina);
+                    setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
+                    setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
+
+                    setCache(location.pathname + userSettings.lang, data);
+
+                    // Verifica se encontrou as seções, se não, a página está em construção
+                    if (data['attributes']['secoes']['data'].length === 0) {
+                        setStatus(403);
+                        setSections(undefined);
+                        return;
+                    }
+
+                    // Passa as seções para seu hook
+                    setSections(data['attributes']['secoes']['data']);
+
+                    setStatus(200);
+                })
     }, [userSettings.lang, location]);
 
     // Executa quando troca de rota

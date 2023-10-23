@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import { SettingsContext, STD_SETTINGS_STATE, } from './Context';
+import { SettingsContext, STD_SETTINGS_STATE, } from './Settings';
 import VLibras from '@djpfs/react-vlibras';
 
 import AppHeader from './componentes/AppHeader';
-import Homepage from './homepage';
+import Homepage from './componentes/Homepage';
 import PageLoader from './componentes/PageLoader';
 import AppFooter from './componentes/AppFooter';
 
