@@ -87,7 +87,9 @@ Exceto por `/index.css`, todos os arquivos de estilo da página devem estar no f
 
 `/Base.scss` contém apenas as variáveis e frações de código globais do estilo do projeto e deve ser mantida dessa forma.
 
-Certos partes do site não utilizam CSS próprios, é optativo manter ou não arquivos SCSS vazios para essas frações.
+Certas partes do site não utilizam CSS próprios, é optativo manter ou não arquivos SCSS vazios para essas frações.
+
+A responsividade é atingida através de media queries que avaliam se o dispositivo esta na forma paisagem ou retrato ao invés de utilizar as dimensões do dispositivo. É mandatório que todas as páginas sejam responsivas.
 
 ## Strapi
 
@@ -97,4 +99,4 @@ A conexão com o Strapi é feita com um token armazenado em um arquivo *.env*.
 
 ## Outras dúvidas
 
-Caso ainda haja dúvidas quanto ao funcionamento do site, sinta-se à vontade para abrir um issue quanto à documentação do projeto. Alternativamente, pode me enviar uma mensagem pelo Github ou [email](mailto:pedro.hvn.2018@gmail.com).
+Caso ainda haja dúvidas quanto ao funcionamento do site, sinta-se à vontade para abrir um issue quanto à documentação do projeto. Alternativamente, sinta-se à vontade para me enviar uma mensagem pelo Github ou [email](mailto:pedro.hvn.2018@gmail.com).
