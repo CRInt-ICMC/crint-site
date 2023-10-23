@@ -1,11 +1,11 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
-import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './appConstants';
+import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './constants';
 
 // Carrega as configurações armazenadas
-export function loadSettings() {
+export const loadSettings = () => {
     // Configurações padrão
-    let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSizeMod: BASE_FONTSIZE };
+    let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString: string = localStorage.getItem('settings') || '';
@@ -24,33 +24,35 @@ export function loadSettings() {
         storedLang = DEFAULT_LANGUAGE;
 
     // Garante que é um tamanho válido
-    let storedFontSize = savedConfig.fontSizeMod;
+    let storedFontSize = savedConfig.fontSize;
     if (storedFontSize > MAX_FONT)
         storedFontSize = MAX_FONT;
     else if (storedFontSize < MIN_FONT)
         storedFontSize = MIN_FONT;
+    else if (isNaN(storedFontSize))
+        storedFontSize = BASE_FONTSIZE;
 
     // Carrega os valores para o contexto
     userSettings.cookieConsent = savedConfig.cookieConsent;
     userSettings.lang = storedLang;
-    userSettings.fontSizeMod = storedFontSize;
+    userSettings.fontSize = storedFontSize;
 
     return userSettings;
 }
 
 // Facilita a atualização do valores de configuração
-export const updateUserSettings = (context: initializedSettings, newValues: { lang?: string, cookieConsent?: boolean, fontSizeMod?: number }) => {
+export const updateUserSettings = (context: initializedSettings, newValues: { lang?: string, cookieConsent?: boolean, fontSize?: number }) => {
     const { userSettings, setUserSettings } = context;
 
-    // Passa o valores alterados
+    // Passa o valores originais quando não há alterações
     const definedLang: string = newValues.lang || userSettings.lang;
     const definedCookieConsent: boolean = newValues.cookieConsent || userSettings.cookieConsent;
-    const definedFontSizeMod: number = newValues.fontSizeMod || userSettings.fontSizeMod;
+    const definedFontSize: number = newValues.fontSize || userSettings.fontSize;
 
     // Cria um novo conjunto se configurações
-    const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSizeMod: definedFontSizeMod };
+    const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
 
-    // Salva as atualizações em disco ou RAM
+    // Salva as atualizações em disco e sobreescreve o contexto atual
     localStorage.setItem('settings', JSON.stringify(newSettings));
     setUserSettings(newSettings);
 }
@@ -58,9 +60,9 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
 // Garante que o contexto foi inicializado
 export const useSettings = () => {
     const context = React.useContext(SettingsContext);
-    
+
     if (context === undefined)
         throw new Error('useSettings está fora de contexto')
-    
+
     return context as initializedSettings;
 }

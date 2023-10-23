@@ -25,7 +25,7 @@ const PageBanner = (props: { pageName: string, pageSections: sectionLink[], bann
                 <div className='page-img-container'><img src={props.bannerImage || ''} /></div>
                 <div className='page-title'>
                     <h1>{props.pageName}</h1>
-                    { summary }
+                    {summary}
                 </div>
             </div>
         </section>

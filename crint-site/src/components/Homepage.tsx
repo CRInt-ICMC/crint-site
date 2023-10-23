@@ -1,16 +1,36 @@
 import { useEffect, useState } from 'react';
-import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/appConstants';
-import TopicSection from './PageSection';
-import axios from 'axios';
-import Carousel from './Carousel';
-import { SwiperSlide } from 'swiper/react';
+import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
-import './Homepage.scss';
 import { readCache, setCache } from '../Caching';
+import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
+import TopicSection from './PageSection';
+import axios from 'axios';
+import './Homepage.scss';
+import 'swiper/css';
+import 'swiper/css/bundle';
 
-const CreateSlides = (carouselSlides: ApiSlide[]) => (
-    <>
+const CreateCarousel = (carouselSlides: ApiSlide[]) => (
+    <Swiper
+        modules={[Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation]}
+
+        direction='horizontal'
+        centeredSlides={true}
+        loop={true}
+
+        speed={500}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+
+        autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+        }}
+
+        pagination={{ clickable: true }}
+        navigation
+    >
         {carouselSlides.map((slide: ApiSlide) => {
             const link = String(slide.attributes.Link);
             const caption = String(slide.attributes.Texto);
@@ -26,7 +46,7 @@ const CreateSlides = (carouselSlides: ApiSlide[]) => (
                 </SwiperSlide>
             );
         })}
-    </>
+    </Swiper>
 );
 
 const Homepage = () => {
@@ -36,8 +56,8 @@ const Homepage = () => {
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
-        const cacheHomepage = readCache('homepage' + userSettings.lang);
-        const cacheCarousel = readCache('carousel' + userSettings.lang);
+        const cacheHomepage = readCache('homepage' + '-' + userSettings.lang);
+        const cacheCarousel = readCache('carousel' + '-' + userSettings.lang);
 
         if (cacheHomepage && cacheCarousel) {
             setSections(cacheHomepage);
@@ -53,12 +73,12 @@ const Homepage = () => {
 
                     const sectionsData = data['secoes']['data'];
                     setSections(sectionsData);
-                    setCache('homepage' + userSettings.lang, sectionsData);
+                    setCache('homepage' + '-' + userSettings.lang, sectionsData);
 
                     const slidesData = data['slides']['data'];
 
                     setCarouselImages(slidesData);
-                    setCache('carousel' + userSettings.lang, slidesData);
+                    setCache('carousel' + '-' + userSettings.lang, slidesData);
                 })
     }, [userSettings.lang]);
 
@@ -67,7 +87,7 @@ const Homepage = () => {
             {/* Carrega a imagem central */}
             <div className='carousel-container'>
                 <div className='carousel'>
-                    {carouselImages && <Carousel body={CreateSlides(carouselImages)} />}
+                    {carouselImages && CreateCarousel(carouselImages)}
                 </div>
             </div>
 
