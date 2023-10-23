@@ -139,13 +139,11 @@ const AppHeader = () => {
     return (
         <header className='header-root'>
             <nav className='navbar'>
-                {/* LOGOS */}
+                {/* LOGO */}
                 <div className='navbar-left'>
-                    <span className='logos'>
-                        {headerImages?.ICMC &&
-                            <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages?.ICMC_mini.url : headerImages?.ICMC.url)} /></Link>
-                        }
-                    </span>
+                    {headerImages &&
+                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.ICMC_mini.url : headerImages.ICMC.url)} /></Link>
+                    }
                 </div>
 
                 {/* TÓPICOS */}
@@ -167,7 +165,7 @@ const AppHeader = () => {
 
                     <p>
                         {String(popupText.attributes.Corpo)}
-                        <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
+                        <Link to={'privacidade'}>{String(popupText.attributes.Saiba_mais)}</Link>
                     </p>
 
                     <button onClick={() => updateUserSettings(context, { cookieConsent: true })}>

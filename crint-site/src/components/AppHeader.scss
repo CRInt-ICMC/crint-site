@@ -36,16 +36,14 @@
 
             height: 100%;
 
-            .logos {
-                a {
-                    align-items: center;
-                    display: flex;
-                    height: 100%;
+            a {
+                align-items: center;
+                display: flex;
+                height: 100%;
 
-                    img {
-                        height: 85%;
-                        transition: 50ms;
-                    }
+                img {
+                    height: 85%;
+                    transition: 50ms;
                 }
             }
         }

@@ -73,7 +73,7 @@ const PageLoader = () => {
                 // Strapi + Chamada de página filtrada por UID + Idioma selecionado
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let data = response['data']['data'][0];
+                    const data = response['data']['data'][0];
 
                     // Verifica se a página existe
                     if (data === undefined) {
@@ -108,14 +108,12 @@ const PageLoader = () => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
-    const sectionLinks: sectionLink[] = getLinks(sections || []);
-
     return (
         <div className='page-body'>
-            {bannerImage &&
+            {textData && bannerImage &&
                 <TopicBanner
-                    pageName={String(textData?.attributes.Banner_text || '')}
-                    pageSections={sectionLinks}
+                    pageName={String(textData?.attributes.Banner_text)}
+                    pageSections={getLinks(sections || [])}
                     bannerImage={STRAPI_URL + bannerImage}
                     bannerGradient={String(gradient || '')}
                 />
@@ -124,12 +122,12 @@ const PageLoader = () => {
             {status === 200 && sections &&
                 sections.map((section) => (
                     <TopicSection
-                        key={String(section.attributes.Titulo || '')}
+                        key={String(section.attributes.Titulo)}
                         id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
-                        title={String(section.attributes.Titulo || '')}
-                        body={String(section.attributes.Corpo || '')}
-                        textColor={String(section.attributes.Cor_texto || '')}
-                        backgroundColor={String(section.attributes.Cor_fundo || '')}
+                        title={String(section.attributes.Titulo)}
+                        body={String(section.attributes.Corpo)}
+                        textColor={String(section.attributes.Cor_texto)}
+                        backgroundColor={String(section.attributes.Cor_fundo)}
                     />
                 ))
             }
