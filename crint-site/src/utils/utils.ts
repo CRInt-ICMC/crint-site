@@ -29,6 +29,8 @@ export function loadSettings() {
         storedFontSize = MAX_FONT;
     else if (storedFontSize < MIN_FONT)
         storedFontSize = MIN_FONT;
+    else if (isNaN(storedFontSize))
+        storedFontSize = BASE_FONTSIZE;
 
     // Carrega os valores para o contexto
     userSettings.cookieConsent = savedConfig.cookieConsent;
@@ -58,9 +60,9 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
 // Garante que o contexto foi inicializado
 export const useSettings = () => {
     const context = React.useContext(SettingsContext);
-    
+
     if (context === undefined)
         throw new Error('useSettings está fora de contexto')
-    
+
     return context as initializedSettings;
 }
