@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
+import { NOTFOUND_ICON, STRAPI_API_TOKEN, STRAPI_URL, WIP_ICON } from "../utils/constants";
 import { useLocation } from "react-router-dom";
-import { NOTFOUND_ICON, WIP_ICON } from "../utils/appImages";
 import { useSettings } from "../utils/utils";
 import axios from "axios";
 import TopicBanner from "./PageBanner";
