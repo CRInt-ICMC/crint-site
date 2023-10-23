@@ -80,8 +80,8 @@ const AppHeader = () => {
     // Hooks    
     const context = useSettings();
     const { userSettings } = context;
-    const [popupText, setPopupText] = useState<ApiPopup>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
+    const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopico[]>();
     const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(orientation: portrait)");
