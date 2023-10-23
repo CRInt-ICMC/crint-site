@@ -33,9 +33,9 @@ const FontSizeSystem = () => {
 
     return (
         <div className='options-root'>
-            <div className='options-buttons'>
-                {userSettings.fontSize > MIN_FONT && <button className='decrease-button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>}
-                {userSettings.fontSize < MAX_FONT && <button className='increase-button' onClick={() => setFontSize( 2)}><FontAwesomeIcon icon={faPlus} /></button>}
+            <div className='options-body'>
+                {userSettings.fontSize > MIN_FONT && <button className='decrease button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>}
+                {userSettings.fontSize < MAX_FONT && <button className='increase button' onClick={() => setFontSize( 2)}><FontAwesomeIcon icon={faPlus} /></button>}
             </div>
         </div>
     );
