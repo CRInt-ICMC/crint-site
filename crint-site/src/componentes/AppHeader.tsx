@@ -99,13 +99,13 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let holder = {
+                    let dataImages = {
                         ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
                         ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
                     };
 
-                    setHeaderImages(holder);
-                    setCache('headerImages', holder);
+                    setHeaderImages(dataImages);
+                    setCache('headerImages', dataImages);
                 })
 
         if (cachePopupText)
@@ -115,9 +115,9 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let holder = response['data']['data'] as ApiPopup;
-                    setPopupText(holder);
-                    setCache('popup' + userSettings.lang, holder);
+                    let dataPopup = response['data']['data'] as ApiPopup;
+                    setPopupText(dataPopup);
+                    setCache('popup' + userSettings.lang, dataPopup);
                 })
 
         if (cacheTopicos)
@@ -127,13 +127,13 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let holder: ApiTopico[] = [];
+                    let dataTopicos: ApiTopico[] = [];
                     response['data']['data'].map((topico: ApiTopico) => {
-                        holder.push(topico);
+                        dataTopicos.push(topico);
                     })
 
-                    setTopicos(holder);
-                    setCache('topicos' + userSettings.lang, holder);
+                    setTopicos(dataTopicos);
+                    setCache('topicos' + userSettings.lang, dataTopicos);
                 })
     }, [userSettings.lang]);
 

@@ -25,9 +25,9 @@ const AppFooter = () => {
             axios
                 .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let holder = response['data']['data'] as ApiFooter;
+                    let data = response['data']['data'] as ApiFooter;
                     setFooterText(response['data']['data'] as ApiFooter);
-                    setCache('footer' + userSettings.lang, holder);
+                    setCache('footer' + userSettings.lang, data);
                 })
     }, [userSettings.lang]);
 

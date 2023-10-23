@@ -49,22 +49,23 @@ const Homepage = () => {
             axios
                 .get(STRAPI_URL + `/api/homepage?populate=*&locale=` + userSettings.lang || DEFAULT_LANGUAGE, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
+                    let data = response['data']['data']['attributes'];
 
-                    let images: image[] = []
-                    response['data']['data']['attributes']['Carrossel']['data'].map((image: any) => {
-                        images.push({
+                    let imagesData: image[] = []
+                    data['Carrossel']['data'].map((image: any) => {
+                        imagesData.push({
                             url: String(image.attributes.url),
                             caption: String(image.attributes.caption),
                             link: String(image.attributes.alternativeText),
                         })
                     })
 
-                    setCarouselImages(images);
-                    setCache('carousel' + userSettings.lang, images);
+                    setCarouselImages(imagesData);
+                    setCache('carousel' + userSettings.lang, imagesData);
 
-                    let holder = response['data']['data']['attributes']['secoes']['data'];
-                    setSections(holder);
-                    setCache('homepage' + userSettings.lang, holder);
+                    let sectionData = data['secoes']['data'];
+                    setSections(sectionData);
+                    setCache('homepage' + userSettings.lang, sectionData);
                 })
     }, [userSettings.lang]);
 
