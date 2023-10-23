@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { SettingsContext, STD_SETTINGS_STATE, } from './Settings';
 import VLibras from '@djpfs/react-vlibras';
 
-import AppHeader from './componentes/AppHeader';
-import Homepage from './componentes/Homepage';
-import PageLoader from './componentes/PageLoader';
-import AppFooter from './componentes/AppFooter';
+import AppHeader from './components/AppHeader';
+import Homepage from './components/Homepage';
+import PageLoader from './components/PageLoader';
+import AppFooter from './components/AppFooter';
 
 function App() {
   const [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
