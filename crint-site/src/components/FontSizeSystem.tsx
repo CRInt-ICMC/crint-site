@@ -31,8 +31,6 @@ const FontSizeSystem = () => {
         updateUserSettings(context, { fontSize: newFontSize });
     }
 
-    console.log(userSettings.fontSize)
-
     return (
         <div className='options-root'>
             <div className='options-buttons'>

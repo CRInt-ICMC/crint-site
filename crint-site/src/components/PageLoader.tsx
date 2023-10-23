@@ -50,7 +50,7 @@ const PageLoader = () => {
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        const pageCache = readCache(location.pathname + userSettings.lang);
+        const pageCache = readCache('secao/' + location.pathname + '-' + userSettings.lang);
 
         if (pageCache) {
             setTextData(pageCache as ApiPagina);
@@ -86,7 +86,7 @@ const PageLoader = () => {
                     setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
 
-                    setCache(location.pathname + userSettings.lang, data);
+                    setCache('secao/' + location.pathname + '-' + userSettings.lang, data);
 
                     // Verifica se encontrou as seções, se não, a página está em construção
                     if (data['attributes']['secoes']['data'].length === 0) {

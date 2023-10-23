@@ -88,8 +88,8 @@ const AppHeader = () => {
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
         const cacheHeaderImages = readCache('headerImages');
-        const cachePopupText = readCache('popup' + userSettings.lang);
-        const cacheTopicos = readCache('topicos' + userSettings.lang);
+        const cachePopupText = readCache('popup' + '-' + userSettings.lang);
+        const cacheTopicos = readCache('topicos' + '-' + userSettings.lang);
 
         if (cacheHeaderImages)
             setHeaderImages(cacheHeaderImages);
@@ -116,7 +116,7 @@ const AppHeader = () => {
                 .then((response) => {
                     const dataPopup = response['data']['data'] as ApiPopup;
                     setPopupText(dataPopup);
-                    setCache('popup' + userSettings.lang, dataPopup);
+                    setCache('popup' + '-' + userSettings.lang, dataPopup);
                 })
 
         if (cacheTopicos)
@@ -132,7 +132,7 @@ const AppHeader = () => {
                     })
 
                     setTopicos(dataTopicos);
-                    setCache('topicos' + userSettings.lang, dataTopicos);
+                    setCache('topicos' + '-' + userSettings.lang, dataTopicos);
                 })
     }, [userSettings.lang]);
 

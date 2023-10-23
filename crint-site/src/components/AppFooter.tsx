@@ -16,7 +16,7 @@ const AppFooter = () => {
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
-        const cacheFooter = readCache('footer' + userSettings.lang);
+        const cacheFooter = readCache('footer' + '-' + userSettings.lang);
 
         if (cacheFooter)
             setFooterText(cacheFooter);
@@ -27,7 +27,7 @@ const AppFooter = () => {
                 .then((response) => {
                     let data = response['data']['data'] as ApiFooter;
                     setFooterText(response['data']['data'] as ApiFooter);
-                    setCache('footer' + userSettings.lang, data);
+                    setCache('footer' + '-' + userSettings.lang, data);
                 })
     }, [userSettings.lang]);
 

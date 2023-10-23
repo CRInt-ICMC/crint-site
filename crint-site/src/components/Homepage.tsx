@@ -56,8 +56,8 @@ const Homepage = () => {
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
-        const cacheHomepage = readCache('homepage' + userSettings.lang);
-        const cacheCarousel = readCache('carousel' + userSettings.lang);
+        const cacheHomepage = readCache('homepage' + '-' + userSettings.lang);
+        const cacheCarousel = readCache('carousel' + '-' + userSettings.lang);
 
         if (cacheHomepage && cacheCarousel) {
             setSections(cacheHomepage);
@@ -73,12 +73,12 @@ const Homepage = () => {
 
                     const sectionsData = data['secoes']['data'];
                     setSections(sectionsData);
-                    setCache('homepage' + userSettings.lang, sectionsData);
+                    setCache('homepage' + '-' + userSettings.lang, sectionsData);
 
                     const slidesData = data['slides']['data'];
 
                     setCarouselImages(slidesData);
-                    setCache('carousel' + userSettings.lang, slidesData);
+                    setCache('carousel' + '-' + userSettings.lang, slidesData);
                 })
     }, [userSettings.lang]);
 
