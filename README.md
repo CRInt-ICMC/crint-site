@@ -12,10 +12,9 @@ O código disponibilizado aqui é de uso livre em partes ou em sua totalidade de
 
 Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
 
-- `/componentes`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Footer, Seções, etc...). Todos são objetos genéricos que podem ser facilmente reutilizados e/ou dependem de props para serem funcionais.
-- `/img`: é onde as imagens que não serão alteradas devem ser armazenadas.
-- `/paginas`: é a pasta que contém o conteúdo de cada página. Cada nova página deve ser armazenada nesta pasta e em uma de suas subpastas quando adequado.
-- `/utils`: esta é a pasta onde funções globais, constantes e *interfaces* devem ser armazenadas. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam.
+- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...). Todos são visíveis de uma ou mais páginas.
+- `/img`: é onde as imagens que não serão alteradas devem ser armazenadas. Todas as imagens que podem demandar atualização devem ser armazenadas no strapi e requisitadas pela API.
+- `/utils`: esta é a pasta onde funções globais, constantes, interfaces e tipos devem ser armazenados. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam, i.e., todas as constantes devem estar num arquivo próprio, assim como todas as funções globais, interfaces e tipos.
 
 ### Acessibilidade
 
@@ -31,7 +30,7 @@ A variável deve ser utilizada através de CSS *inline* nos elementos que serão
 
 #### Sistema de Línguas
 
-O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor.
+O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor. Porém, existe a constante AVAILABLE_LANGUAGES deve ser atualizada no código para que o novo idioma seja adicionado
 
 #### VLibras
 
@@ -84,6 +83,11 @@ npm run preview
 # Faz o host da versão de produção na rede local na porta 8080
 npm run host
 ```
+Porém, sem um token válido em `/crint-site/.env` as requisições vão ser recusadas pelo servidor e o site não carregará.
+
+## Desenvolvimento e Manutenção
+
+Para os interessados em continuar o desenvolvimento e a manutenção desse site, foi escrito um manual com as práticas de desenvolvimento e documentação aqui aplicadas. Este [manual](Recomendacoes.md) descreve as regras e ideias que formaram esse site, assim como o porquê de certas decisões de projeto.
 
 ## Créditos
 

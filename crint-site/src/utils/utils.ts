@@ -52,7 +52,7 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
     // Cria um novo conjunto se configurações
     const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
 
-    // Salva as atualizações em disco ou RAM
+    // Salva as atualizações em disco e sobreescreve o contexto atual
     localStorage.setItem('settings', JSON.stringify(newSettings));
     setUserSettings(newSettings);
 }

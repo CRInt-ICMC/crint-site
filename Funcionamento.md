@@ -6,55 +6,57 @@ Serão descritos a seguir os componentes mais complexos, todos os outros são si
 
 ### AppHeader
 
-O *Header* utiliza uma série de Hooks para garantir que os botões e seus efeitos sejam sempre aplicados. Primeiramente ele recebe o contexto e suas variáveis, após isso carrega esses valores nos *hooks* de `lang` e `fontSizeMod`, e o dicionário de linguagem que será utilizado para o texto no próprio *Header*.
+O *Header* é composto por uma barra de navegação que é dividida em três partes:
 
-Em seguida ele declara o *hook* `useEffect` que atualiza de acordo com as mudanças de estado da linguagem e a função `changeLang` que garante a validez da opção de linguagem e atualiza o `useState` e o dicionário de linguagem. Além disso, essa função atualiza as variáveis de contexto.
-
-Os *hooks* que controlam o tamanho da fonte operam de forma semelhante, `changeFontSizeMod` garante que o tamanho da fonte sempre estará num intervalo aceitável e atualiza as variáveis de estado e contexto.
-
-Em seguida, após os *hooks*, o contexto é salvo em um cookie para ser carregado na próxima função.
-
-Abaixo, está a barra de navegação. Ela é dividida em três partes:
-
-- Esquerda: Aqui fica o logo do ICMC e o logo da CRInt.
-- Central: Aqui ficam os tópicos e subtópicos.
-- Direira: Aqui ficam as opções de acessibilidade.
+- Esquerda: Contém o logo ICMC.
+- Central: Contém os tópicos e subtópicos.
+- Direira: Contém as opções de acessibilidade.
 
 Os tópicos de subtópicos são organizados em elementos `DropDownMenu`. Isso será explorado na próxima seção.
 
-As opções de acessibilidade são divididas em Linguagem e Outras Opções. A linguagem usa um sistema dinâmico de mapeamento para facilitar a adição de quaisquer novas linguagens. As outras opções são completamente *hard-coded* e devem ser adapatadas manualmente. Ambas as categorias recebem os estados e funções necessárias para interagirem com o contexto.
+O funcionamento das opções de acessibilidade é tercerizado para *FontSizeSystem* e *LangSystem*.
+
+### FontSizeSystem
+
+É responsável pelo tamanho das fontes do projeto. Quando o botão de acrescentar ou de decrescer é pressionado, o sistema passa a mudança para o contexto e salva as alterações em disco. Alterações além dos limites definidos em `/utils/constants.ts` serão corrigidos para a borda do limite.
+
+As alterações são aplicadas no tamanho base da fonte, e são propagadas através do CSS, pois os tamanhos locais de fonte são definidos em medidas relativas ao tamanho base.
+
+### LangSystem
+
+É responsável pelas linguagens disponíveis do projeto. Quando algum botão que representa uma língua é clicado, o sistema verifica se a língua está disponível no projeto e atualiza o contexto, forçando novas requisições no idioma selecionado. Caso a opção por alguma razão nao esteja disponível, a língua padrão será selecionada.
 
 #### DropDownMenu
 
-Recebe o tópico como a cabeça do menu e os subtópicos como o corpo/menu. Este último será afetado pelo efeito de *drop-down*. O CSS é alterado dinamicamente conforme o mouse entra ou sai da área da cabeça do menu, adicionando escala '0' para esconder o menu e '1' para mostrar.
+Recebe o tópico como a cabeça do menu e os subtópicos como o corpo/menu. Este último será afetado pelo efeito de *drop-down* do pacote AnimateHeight.
 
 #### Pageloader
 
-O *Pageloader* lê a URL atual e requisita a página ao servidor. Após receber os dados do servidor, ele carrega o banner da página e cada seção que recebeu do servidor.
+O *Pageloader* lê a URL atual e requisita a página ao servidor. Após receber os dados do servidor, ele carrega o banner da página e cada seção que recebeu do servidor. Caso a página não exista, ele mostra uma mensagem indicando isso. Caso a página exista, mas não tenha nenhuma seção, ela mostra outra mensagem indicando essa situação.
 
-#### TopicBanner
+#### PageBanner
 
-Recebe o nome do tópico e uma imagem que o representa para montar a *banner* da página. É modular e pode receber propriedades de CSS para aplicar ainda mais mudanças ao *banner*.
+Recebe o nome do tópico, os ids das seções da página, uma imagem e um gradiente. Com isso, é montado um banner contendo um sumário que leva a cada seção da página.
 
-#### TopicSection
+#### PageSection
 
 Recebe o título da seção, o corpo (conjunto de elementos HTML), a cor de fundo e a cor do texto para formar uma seção da página. Esses são e devem ser utilizados para produzir quaisquer páginas do site.
 
 ## Utilidades
 
-### appConstants
+### constants
 
 Esses são valores constantes que serão reutilizados multiplas vezes pelo código. Funcionam como constantes globais que são importadas caso necessário. Imagens e quaisquer outros arquivos não devem ser armazenados aqui.
 
 Aqui também podem ser armazenados valores que, apesar de não serem reutilizados, são constantes e seriam mais fáceis de modificar caso estivessem isolados.
 
-### appImages
+### interfaces
 
-Aqui são armazenadas as importações de imagens. Isso é feito para melhorar a legibilidade do código, especialmente das importações, e facilitar a reutilização e substituição das imagens caso seja necessário.
+Todas as interfaces que não são locais (não são reutilizadas) devem ser armazenadas aqui, assim as mudanças se propagam mais facilmente através do projeto e as interfaces podem realmente atual como tipos.
 
 ### types
 
-Todas as interfaces que não são locais (não são reutilizadas) devem ser armazenadas aqui, assim as mudanças se propagam mais facilmente através do projeto e as interfaces podem realmente atual como tipos.
+Todos os tipos são armazenados aqui, sendo seu principal propósito renomear os tipos produzidos pelo Strapi para melhorar a legibilidade do código.
 
 ### utils
 
@@ -72,6 +74,12 @@ As páginas devem seguir formatos específicos definido a seguir:
 - Todos os assuntos das páginas devem ser divididos em tópicos;
 - A diferenças de coloração entre o texto e a cor de fundo deve sempre seguir as regras de contraste da web (4.5:1);
 - Todo conteúdo informativo e as áreas de link devem aumentar ou diminuir dinamicamente para auxiliar o usuário.
+
+## Caching
+
+O caching é aplicado para evitar que múltiplas hajam requisições desnecessárias durante uma mesma seção. Quando a página é recarregada, o caching é perdido e deve ser mantido dessa forma para facilitar os testes com o Strapi.
+
+O caching utiliza um dicionário para armazenar e retornar os valores de cada requisição. As requisições que dependem do idioma selecionado são salva com o sufixo '-{idioma}' para facilmente diferenciar entre as versões de cada língua.
 
 ## CSS
 
