@@ -1,7 +1,7 @@
 @use '../Base.scss' as base;
 
 .page-body {
-    min-height: 60vh;
+    min-height: 40vh;
     z-index: 0;
 
     @media screen and (orientation: portrait) {
@@ -13,7 +13,7 @@
     }
 
     .notfound-root {
-        padding: 2% 0 5% 0;
+        padding: 5% 0 5% 0;
 
         align-items: center;
         display: flex;

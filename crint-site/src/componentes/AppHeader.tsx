@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
 import './AppHeader.scss';
+import { readCache, setCache } from '../Caching';
 
 const topics = (topicos: ApiTopico[]) => (
     <div className='topics'>
@@ -85,33 +86,55 @@ const AppHeader = () => {
     const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(orientation: portrait)");
 
-    // Executa apenas uma vez quando a linguagem é alterada
+    // Executa apenas quando a linguagem é alterada
     useEffect(() => {
-        axios
-            .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-            .then((response) => {
-                setHeaderImages({
-                    ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
-                    ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
-                });
-            })
+        const cacheHeaderImages = readCache('headerImages');
+        const cachePopupText = readCache('popup' + userSettings.lang);
+        const cacheTopicos = readCache('topicos' + userSettings.lang);
 
-        axios
-            .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-            .then((response) => {
-                setPopupText(response['data']['data'] as ApiPopup);
-            })
+        if (cacheHeaderImages) 
+            setHeaderImages(cacheHeaderImages); 
 
-        axios
-            .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-            .then((response) => {
-                let holder: ApiTopico[] = [];
-                response['data']['data'].map((topico: ApiTopico) => {
-                    holder.push(topico);
+        else
+            axios
+                .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .then((response) => {
+                    let dataImages = {
+                        ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
+                        ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
+                    };
+
+                    setHeaderImages(dataImages);
+                    setCache('headerImages', dataImages);
                 })
 
-                setTopicos(holder);
-            })
+        if (cachePopupText)
+            setPopupText(cacheHeaderImages);
+
+        else
+            axios
+                .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .then((response) => {
+                    let dataPopup = response['data']['data'] as ApiPopup;
+                    setPopupText(dataPopup);
+                    setCache('popup' + userSettings.lang, dataPopup);
+                })
+
+        if (cacheTopicos)
+            setTopicos(cacheTopicos);
+
+        else
+            axios
+                .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .then((response) => {
+                    let dataTopicos: ApiTopico[] = [];
+                    response['data']['data'].map((topico: ApiTopico) => {
+                        dataTopicos.push(topico);
+                    })
+
+                    setTopicos(dataTopicos);
+                    setCache('topicos' + userSettings.lang, dataTopicos);
+                })
     }, [userSettings.lang]);
 
     return (
