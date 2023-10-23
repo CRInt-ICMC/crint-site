@@ -2,15 +2,35 @@ import { useEffect, useState } from 'react';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import TopicSection from './PageSection';
 import axios from 'axios';
-import Carousel from './Carousel';
-import { SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
-import './Homepage.scss';
 import { readCache, setCache } from '../Caching';
+import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
+import './Homepage.scss';
+import 'swiper/css';
+import 'swiper/css/bundle';
 
-const CreateSlides = (carouselSlides: ApiSlide[]) => (
-    <>
+const CreateCarousel = (carouselSlides: ApiSlide[]) => (
+    <Swiper
+        modules={[Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation]}
+
+        direction='horizontal'
+        centeredSlides={true}
+        loop={true}
+
+        speed={500}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+
+        autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+        }}
+
+        pagination={{ clickable: true }}
+        navigation
+    >
         {carouselSlides.map((slide: ApiSlide) => {
             const link = String(slide.attributes.Link);
             const caption = String(slide.attributes.Texto);
@@ -26,7 +46,7 @@ const CreateSlides = (carouselSlides: ApiSlide[]) => (
                 </SwiperSlide>
             );
         })}
-    </>
+    </Swiper>
 );
 
 const Homepage = () => {
@@ -67,7 +87,7 @@ const Homepage = () => {
             {/* Carrega a imagem central */}
             <div className='carousel-container'>
                 <div className='carousel'>
-                    {carouselImages && <Carousel body={CreateSlides(carouselImages)} />}
+                    {carouselImages && CreateCarousel(carouselImages)}
                 </div>
             </div>
 

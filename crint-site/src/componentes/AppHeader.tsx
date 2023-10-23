@@ -5,7 +5,6 @@ import { updateUserSettings, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
-import Popup from './Popup';
 import LangSystem from './LangSystem';
 import FontSizeSystem from './FontSizeSystem';
 import AnimateHeight from 'react-animate-height';
@@ -99,7 +98,7 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let dataImages = {
+                    const dataImages = {
                         ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
                         ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
                     };
@@ -109,13 +108,13 @@ const AppHeader = () => {
                 })
 
         if (cachePopupText)
-            setPopupText(cacheHeaderImages);
+            setPopupText(cachePopupText);
 
         else
             axios
                 .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let dataPopup = response['data']['data'] as ApiPopup;
+                    const dataPopup = response['data']['data'] as ApiPopup;
                     setPopupText(dataPopup);
                     setCache('popup' + userSettings.lang, dataPopup);
                 })
@@ -127,7 +126,7 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    let dataTopicos: ApiTopico[] = [];
+                    const dataTopicos: ApiTopico[] = [];
                     response['data']['data'].map((topico: ApiTopico) => {
                         dataTopicos.push(topico);
                     })
@@ -163,18 +162,18 @@ const AppHeader = () => {
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
             {!userSettings.cookieConsent && popupText &&
-                <Popup
-                    head={String(popupText?.attributes.Titulo)}
-                    body={
-                        <>
-                            <p className='privacidade'>
-                                {String(popupText?.attributes.Corpo) + ' '}
-                                <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
-                            </p>
-                            <button onClick={() => updateUserSettings(context, { cookieConsent: true })}> {String(popupText?.attributes.Botao)}</button>
-                        </>
-                    }
-                />
+                <div className='popup-root'>
+                    <h3> {String(popupText.attributes.Titulo)} </h3>
+
+                    <p>
+                        {String(popupText.attributes.Corpo)}
+                        <Link to={'privacidade'}>{String(popupText?.attributes.Saiba_mais)}</Link>
+                    </p>
+
+                    <button onClick={() => updateUserSettings(context, { cookieConsent: true })}>
+                        {String(popupText.attributes.Botao)}
+                    </button>
+                </div>
             }
 
         </header>
