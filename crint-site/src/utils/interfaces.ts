@@ -1,7 +1,7 @@
 interface userSettings {
     cookieConsent: boolean,
     lang: string,
-    fontSizeMod: number,
+    fontSize: number,
 }
 
 // Interface que será utilizada pela aplicação

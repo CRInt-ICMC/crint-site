@@ -1,6 +1,6 @@
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MAX_FONT, MIN_FONT } from "../utils/appConstants";
+import { MAX_FONT, MIN_FONT } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import { useEffect } from "react";
 import './FontSizeSystem.scss';
@@ -14,12 +14,12 @@ const FontSizeSystem = () => {
         const root = document.documentElement;
         root.style.setProperty(
             '--base-font-size',
-            String(userSettings.fontSizeMod) + 'px'
+            String(userSettings.fontSize) + 'px'
         );
-    }, [userSettings.fontSizeMod])
+    }, [userSettings.fontSize])
 
-    const setFontSizeMod = (offset: number) => {
-        let newFontSize = userSettings.fontSizeMod + offset
+    const setFontSize = (offset: number) => {
+        let newFontSize = userSettings.fontSize + offset
 
         // Garante a integridade das fontes do site
         if (newFontSize > MAX_FONT)
@@ -27,15 +27,14 @@ const FontSizeSystem = () => {
         else if (newFontSize < MIN_FONT)
             newFontSize = MIN_FONT;
 
-
-        updateUserSettings(context, { fontSizeMod: newFontSize });
+        updateUserSettings(context, { fontSize: newFontSize });
     }
 
     return (
         <div className='options-root'>
-            <div className='options-buttons'>
-                {(userSettings.fontSizeMod || 1) > MIN_FONT && <button className='decrease-button' onClick={() => setFontSizeMod(-2)}><FontAwesomeIcon icon={faMinus} /></button>}
-                {(userSettings.fontSizeMod || 1) < MAX_FONT && <button className='increase-button' onClick={() => setFontSizeMod( 2)}><FontAwesomeIcon icon={faPlus} /></button>}
+            <div className='options-body'>
+                {userSettings.fontSize > MIN_FONT && <button className='decrease button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>}
+                {userSettings.fontSize < MAX_FONT && <button className='increase button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>}
             </div>
         </div>
     );
