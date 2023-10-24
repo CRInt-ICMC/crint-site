@@ -1,4 +1,4 @@
-.loader-container {
+.loader-root {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,6 +13,11 @@
     z-index: 1000;
 
     background-color: white;
+
+    span {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
 }
 
 .showing {
@@ -20,5 +25,5 @@
 }
 
 .hidden {
-    opacity: 0.05;
+    opacity: 0;
 }

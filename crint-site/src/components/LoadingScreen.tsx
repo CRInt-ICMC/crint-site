@@ -9,7 +9,7 @@ const LoadingScreen = () => {
     const [display, setDisplay] = useState(true);
     const [animate, setAnimate] = useState(false);
 
-    const time = display ? 300 : 0;
+    const time = display ? 1150 : 0;
 
     useEffect(() => {
         if (loadingCoins <= 0) {
@@ -25,17 +25,19 @@ const LoadingScreen = () => {
 
     return (
         <div
-            className={'loader-container ' + (animate ? 'hidden' : 'showing')}
+            className={'loader-root ' + (animate ? 'hidden' : 'showing')}
             style={{
                 display: display ? 'flex' : 'none',
                 transitionDuration: String(time) + 'ms',
             }}
         >
+            
             <DotSpinner
                 size={40}
                 speed={0.9}
                 color="black"
             />
+            <span style={{paddingLeft: '25px', color: "black"}}>Requisitando conteúdo</span>
         </div>
     );
 }
