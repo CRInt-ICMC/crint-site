@@ -51,7 +51,7 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
 
 const Homepage = () => {
     const { userSettings } = useSettings();
-    const { addLoadingCoins, subLoadingCoins } = useLoading();
+    const { addLoadingCoins, subLoadingCoins } = useLoading()
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
     const [sections, setSections] = useState<ApiSecao[]>();
 

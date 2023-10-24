@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SettingsContext, STD_SETTINGS_STATE, } from './Settings';
 import VLibras from '@djpfs/react-vlibras';
 
@@ -14,8 +14,6 @@ function App() {
   const [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
   const [appLoadingState, setAppLoadingState] = useState(STD_COINS_STATE);
 
-  const [loaded, setLoaded] = useState<boolean>(false)
-
   const coins: number[] = []
 
   const addCoin = () => {
@@ -27,15 +25,6 @@ function App() {
     coins.pop();
     setAppLoadingState(coins.length);
   }
-
-  useEffect(() => {
-    if (appLoadingState > 0)
-      setLoaded(false);
-    else
-      setLoaded(true);
-
-    console.log(appLoadingState);
-  }, [appLoadingState]);
 
   return (
     <BrowserRouter>
@@ -52,7 +41,7 @@ function App() {
             subLoadingCoins: subCoin,
           }}
         >
-          <LoadingScreen loaded={loaded} />
+          <LoadingScreen />
           <AppHeader />
           <Routes>
             <Route index element={<Homepage />} />

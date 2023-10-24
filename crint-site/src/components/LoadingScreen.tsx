@@ -1,23 +1,34 @@
 import { DotSpinner } from "@uiball/loaders";
 import { useEffect, useState } from "react";
+import { useLoading } from "../utils/utils";
 import './LoadingScreen.scss'
 
-const LoadingScreen = (props: { loaded: boolean }) => {
-    const [display, setDisplay] = useState(true);
+const LoadingScreen = () => {
+    const { loadingCoins } = useLoading();
 
-    const time = 1000;
+    const [display, setDisplay] = useState(true);
+    const [animate, setAnimate] = useState(false);
+
+    const time = display ? 300 : 0;
 
     useEffect(() => {
-        setTimeout(() => setDisplay(!props.loaded), time);
-    }, [props.loaded]);
+        if (loadingCoins <= 0) {
+            setAnimate(true);
+            setTimeout(() => setDisplay(false), time);
+        }
+
+        else {
+            setAnimate(false);
+            setDisplay(true);
+        }
+    }, [loadingCoins]);
 
     return (
         <div
-            className='loader-container'
+            className={'loader-container ' + (animate ? 'hidden' : 'showing')}
             style={{
-                opacity: props.loaded ? '0' : '1',
                 display: display ? 'flex' : 'none',
-                transitionDuration: String(time) + 'ms'
+                transitionDuration: String(time) + 'ms',
             }}
         >
             <DotSpinner
