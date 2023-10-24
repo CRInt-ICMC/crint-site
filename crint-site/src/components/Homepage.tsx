@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSettings } from '../utils/utils';
+import { useLoading, useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
@@ -51,6 +51,7 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
 
 const Homepage = () => {
     const { userSettings } = useSettings();
+    const { addLoadingCoins, subLoadingCoins } = useLoading();
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
     const [sections, setSections] = useState<ApiSecao[]>();
 
@@ -64,7 +65,9 @@ const Homepage = () => {
             setCarouselImages(cacheCarousel);
         }
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + `/api/homepage?populate[secoes]=*&populate[slides][populate][0]=Imagem&locale=` + userSettings.lang,
                     { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -79,7 +82,9 @@ const Homepage = () => {
 
                     setCarouselImages(slidesData);
                     setCache('carousel' + '-' + userSettings.lang, slidesData);
+                    subLoadingCoins();
                 })
+        }
     }, [userSettings.lang]);
 
     return (
@@ -106,6 +111,7 @@ const Homepage = () => {
                     );
                 })
             }
+
         </div>
     )
 }

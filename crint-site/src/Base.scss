@@ -7,6 +7,7 @@ $azul-aucani: #C5DAED;
 // Formato da página
 $largura-pagina: 80%;
 $margem-pagina: calc((100% - $largura-pagina) / 2);
+$altura-minima: 80vh;
 
 // Tamanhos de elementos
 $header-mobile: 64px;
@@ -25,11 +26,6 @@ $md-width: 1024px; // Resolução média
 $hd-width: 1200px; // Resolução alta
 
 // Tamanhos de fonte
-$celular-fontsize: 10px;
-$tablet-fontsize: 15px;
-$md-fontsize: 17.5px;
-$hd-fontsize: 20px;
-
 $banner-fontsize: 1.3em;
 $summary-fontsize: 0.7em;
 $footer-fontsize: 1.5em;

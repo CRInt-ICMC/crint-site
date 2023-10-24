@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
-import { updateUserSettings, useSettings } from '../utils/utils';
+import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
@@ -78,6 +78,7 @@ const AppHeader = () => {
     // Hooks    
     const context = useSettings();
     const { userSettings } = context;
+    const { addLoadingCoins, subLoadingCoins } = useLoading();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopico[]>();
@@ -93,7 +94,9 @@ const AppHeader = () => {
         if (cacheHeaderImages)
             setHeaderImages(cacheHeaderImages);
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -104,24 +107,33 @@ const AppHeader = () => {
 
                     setHeaderImages(dataImages);
                     setCache('headerImages', dataImages);
+                    subLoadingCoins();
                 })
+        }
 
-        if (cachePopupText)
+        if (cachePopupText) {
             setPopupText(cachePopupText);
+        }
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const dataPopup = response['data']['data'] as ApiPopup;
                     setPopupText(dataPopup);
                     setCache('popup' + '-' + userSettings.lang, dataPopup);
+                    subLoadingCoins();
                 })
+        }
 
         if (cacheTopicos)
             setTopicos(cacheTopicos);
 
-        else
+        else {
+            addLoadingCoins();
+       
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -132,7 +144,9 @@ const AppHeader = () => {
 
                     setTopicos(dataTopicos);
                     setCache('topicos' + '-' + userSettings.lang, dataTopicos);
+                    subLoadingCoins();
                 })
+        }
     }, [userSettings.lang]);
 
     return (

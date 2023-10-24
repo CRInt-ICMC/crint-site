@@ -1,6 +1,7 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
 import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './constants';
+import { LoadingContext } from '../Loading';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
@@ -65,4 +66,14 @@ export const useSettings = () => {
         throw new Error('useSettings está fora de contexto')
 
     return context as initializedSettings;
+}
+
+// Garante que o contexto foi inicializado
+export const useLoading = () => {
+    const context = React.useContext(LoadingContext);
+
+    if (context === undefined)
+        throw new Error('useLoading está fora de contexto')
+
+    return context as initializedLoadingState;
 }
