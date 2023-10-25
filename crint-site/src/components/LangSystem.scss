@@ -1,18 +1,20 @@
 @use '../Base.scss' as base;
 
 .flags {
+    height: 100%;
     width: 100%;
     align-items: center;
     display: flex;
     justify-content: center;
 
     button {
+        width: 40%;
         background-color: transparent;
         border: none;
         cursor: pointer;
 
         img {
-            height: base.$altura-bandeira;
+            aspect-ratio: 5 / 3;
             width: base.$largura-bandeira;
         }
     }

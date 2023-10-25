@@ -151,7 +151,13 @@
 
         .navbar-right {
             float: right;
+
+            height: 80%;
             width: 20%;
+
+            display: grid;
+            grid-template-rows: auto auto;
+            
             text-align: right;
         }
     }
