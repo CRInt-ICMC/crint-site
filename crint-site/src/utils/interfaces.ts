@@ -54,5 +54,5 @@ interface diaData {
     Inicio: string,
     Termino: string,
     Comparativo: string,
-    GastoMedio?: number,
+    GastoMedio: number,
 }

@@ -13,7 +13,10 @@
         @include base.formato-pagina(base.$largura-pagina);
     }
 
-    .dia-section {
+    .dia-chart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         padding: 0 15%;
 
         color: black;

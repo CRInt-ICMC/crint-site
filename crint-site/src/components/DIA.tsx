@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import './DIA.scss'
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import PageBanner from './PageBanner';
@@ -18,13 +18,14 @@ const ProcessData = (CSV: string) => {
     lines.map((line) => {
         const columns = line.split(',');
 
-        const dataLine : diaData = {
+        const dataLine: diaData = {
             CursoICMC: columns[0],
             Universidade: columns[1],
             Pais: columns[2],
             Inicio: columns[3],
             Termino: columns[4],
             Comparativo: columns[5],
+            GastoMedio: -1,
         }
 
         if (columns[6] !== 'null')
@@ -36,6 +37,66 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
+const SumByUniversity = (data: diaData[], crescente: number) => {
+    const summedData: { [key: string]: diaData } = {};
+    const summedNum: { [key: string]: number } = {};
+
+    data.map((line) => {
+        const universityData = summedData[line.Universidade]
+
+        if (line.GastoMedio > 0) {
+            if (universityData && universityData.GastoMedio) {
+                universityData.GastoMedio = line.GastoMedio + universityData.GastoMedio;
+                summedNum[line.Universidade] += 1;
+            }
+
+            else {
+                summedData[line.Universidade] = line;
+                summedNum[line.Universidade] = 1;
+            }
+        }
+    })
+
+    let finalData: diaData[] = Object.values(summedData);
+    finalData.map((entry) => {
+        entry.GastoMedio = Number(((entry.GastoMedio || 0) / summedNum[entry.Universidade]).toFixed(2));
+    })
+
+    finalData = finalData.sort((a, b) => (b.GastoMedio - a.GastoMedio) * crescente);
+
+    return finalData;
+}
+
+const SumByCountry = (data: diaData[], crescente: number) => {
+    const summedData: { [key: string]: diaData } = {};
+    const summedNum: { [key: string]: number } = {};
+
+    data.map((line) => {
+        const countryData = summedData[line.Pais]
+
+        if (line.GastoMedio > 0) {
+            if (countryData && countryData.GastoMedio) {
+                countryData.GastoMedio = line.GastoMedio + countryData.GastoMedio;
+                summedNum[line.Pais] += 1;
+            }
+
+            else {
+                summedData[line.Pais] = line;
+                summedNum[line.Pais] = 1;
+            }
+        }
+    })
+
+    let finalData: diaData[] = Object.values(summedData);
+    finalData.map((entry) => {
+        entry.GastoMedio = Number(((entry.GastoMedio || 0) / summedNum[entry.Pais]).toFixed(2));
+    })
+
+    finalData = finalData.sort((a, b) => (b.GastoMedio - a.GastoMedio) * crescente);
+
+    return finalData;
+}
+
 const DIA = () => {
     const { userSettings } = useSettings();
     const [textData, setTextData] = useState<ApiPagina>();
@@ -44,14 +105,6 @@ const DIA = () => {
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>();
-
-    // const data = [
-    //     { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
-    //     { name: 'Page B', uv: 300, pv: 2400, amt: 2400 },
-    //     { name: 'Page C', uv: 200, pv: 2400, amt: 2400 },
-    //     { name: 'Page D', uv: 100, pv: 2400, amt: 2400 },
-    //     { name: 'Page E', uv: 20, pv: 2400, amt: 2400 },
-    // ];
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
@@ -108,11 +161,11 @@ const DIA = () => {
     }, [dataURL])
 
     useEffect(() => {
-        if (dataCSV)
-            setData(ProcessData(dataCSV));
+        if (dataCSV) {
+            const processedData = ProcessData(dataCSV);
+            setData(processedData);
+        }
     }, [dataCSV])
-
-    console.log(data)
 
     return (
         <div className='dia-body'>
@@ -123,15 +176,57 @@ const DIA = () => {
                 bannerGradient={String(gradient || '')}
             />
 
-            <div className='dia-section'>
-                <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                    <Line type="monotone" dataKey="GastoMedio" stroke="#8884d8" />
-                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                </LineChart>
-            </div>
+            {data &&
+                <div className='dia-chart' style={{ paddingTop: '100px' }}>
+                    <h1>Gasto mensal em cada universidade</h1>
+                    <ResponsiveContainer width="100%" maxHeight={window.innerHeight * 3} aspect={1.0 / 1.0}>
+                        <BarChart
+                            data={SumByUniversity(data, 1)}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                            style={{ overflow: 'visible' }}
+                            layout='vertical'
+                        >
+
+                            <XAxis type='number' />
+                            <YAxis
+                                type='category'
+                                dataKey="Universidade"
+                                tick={{ fontSize: 20 }}
+                                interval={0}
+                                width={180}
+                            />
+                            <Legend />
+                            <Tooltip />
+
+                            <Bar type='number' dataKey="GastoMedio" fill="#8884d8" />
+                        </BarChart>
+                    </ResponsiveContainer>
+
+                    <h1>Gasto mensal em cada país</h1>
+                    <ResponsiveContainer width="100%" maxHeight={window.innerHeight * 3} aspect={1.0 / 1.0}>
+                        <BarChart
+                            data={SumByCountry(data, 1)}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                            style={{ overflow: 'visible' }}
+                            layout='vertical'
+                        >
+
+                            <XAxis type='number' />
+                            <YAxis
+                                type='category'
+                                dataKey="Pais"
+                                tick={{ fontSize: 20 }}
+                                interval={0}
+                                width={180}
+                            />
+                            <Legend />
+                            <Tooltip />
+
+                            <Bar type='number' dataKey="GastoMedio" fill="#8884d8" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            }
         </div>
 
     );
