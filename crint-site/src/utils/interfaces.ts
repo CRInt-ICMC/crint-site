@@ -46,3 +46,13 @@ interface sectionLink {
     name: string,
     id: string,
 }
+
+interface diaData {
+    CursoICMC: string,
+    Universidade: string,
+    Pais: string,
+    Inicio: string,
+    Termino: string,
+    Comparativo: string,
+    GastoMedio?: number,
+}

@@ -1,0 +1,63 @@
+@use '../Base.scss' as base;
+
+.dia-body {
+    min-height: 40vh;
+    z-index: 0;
+    background-color: white;
+
+    @media screen and (orientation: portrait) {
+        @include base.formato-pagina(100%);
+    }
+
+    @media screen and (orientation: landscape) {
+        @include base.formato-pagina(base.$largura-pagina);
+    }
+
+    .dia-section {
+        padding: 0 15%;
+
+        color: black;
+        font-size: base.$section-fontsize;
+
+        a,
+        a:link,
+        a:visited {
+            color: inherit;
+            font-weight: bolder;
+        }
+
+        .dia-title {
+            margin: 0;
+            padding: 50px 0;
+            position: relative;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: left;
+
+            button {
+                border: none;
+                display: block;
+                cursor: pointer;
+
+                background-color: transparent;
+                color: black;
+
+                position: absolute;
+
+                right: 0;
+            }
+        }
+
+        .dia-content {
+            margin-top: 0;
+            padding-top: 0;
+            width: 100%;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
