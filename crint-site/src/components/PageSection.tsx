@@ -5,7 +5,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import AnimateHeight from 'react-animate-height';
 import './PageSection.scss'
 
-const PageSection = (props: { id: string, title: string, body: string, textColor: string, backgroundColor: string }) => {
+const PageSection = (props: { id: string, title: string, body: string, textColor: string, backgroundColor: string, api? : boolean }) => {
     const [collapse, setCollapse] = useState(false);
 
     return (
@@ -18,7 +18,7 @@ const PageSection = (props: { id: string, title: string, body: string, textColor
                     </button>
                 </h1>
                 <AnimateHeight height={collapse ? 0 : 'auto'} duration={500} className='page-content'>
-                    <Interweave content={props.body} allowElements />
+                    { props.api ? <Interweave content={props.body} allowElements /> : props.body}
                 </AnimateHeight>
             </div>
         </section>
