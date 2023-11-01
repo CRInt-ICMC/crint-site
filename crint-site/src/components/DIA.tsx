@@ -1,4 +1,4 @@
-import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import './DIA.scss'
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import PageBanner from './PageBanner';
@@ -7,6 +7,7 @@ import { useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import { ApiDia, ApiPagina } from '../utils/types';
+import PageSection from './PageSection';
 
 const ProcessData = (CSV: string) => {
     const data: diaData[] = [];
@@ -24,12 +25,17 @@ const ProcessData = (CSV: string) => {
             Pais: columns[2],
             Inicio: columns[3],
             Termino: columns[4],
-            Comparativo: columns[5],
-            GastoMedio: -1,
+            Comparativo: Number(columns[5]),
+            Moradia: -1,
+            Alimentacao: -1,
+            Transporte: -1,
         }
 
-        if (columns[6] !== 'null')
-            dataLine.GastoMedio = Number(columns[6]);
+        if (columns[6] !== 'null') {
+            dataLine.Moradia = Number(columns[6]);
+            dataLine.Alimentacao = Number(columns[7]);
+            dataLine.Transporte = Number(columns[8]);
+        }
 
         data.push(dataLine);
     })
@@ -37,16 +43,18 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const SumByUniversity = (data: diaData[], crescente: number) => {
+const CostByUniversity = (data: diaData[], ascending: number) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
         const universityData = summedData[line.Universidade]
 
-        if (line.GastoMedio > 0) {
-            if (universityData && universityData.GastoMedio) {
-                universityData.GastoMedio = line.GastoMedio + universityData.GastoMedio;
+        if (line.Moradia > 0) {
+            if (universityData && universityData.Moradia) {
+                universityData.Moradia = line.Moradia + universityData.Moradia;
+                universityData.Alimentacao = line.Alimentacao + universityData.Alimentacao;
+                universityData.Transporte = line.Transporte + universityData.Transporte;
                 summedNum[line.Universidade] += 1;
             }
 
@@ -57,26 +65,57 @@ const SumByUniversity = (data: diaData[], crescente: number) => {
         }
     })
 
-    let finalData: diaData[] = Object.values(summedData);
+    const finalData: diaData[] = Object.values(summedData);
     finalData.map((entry) => {
-        entry.GastoMedio = Number(((entry.GastoMedio || 0) / summedNum[entry.Universidade]).toFixed(2));
+        entry.Moradia = Number(((entry.Moradia || 0) / summedNum[entry.Universidade]).toFixed(2));
+        entry.Alimentacao = Number(((entry.Alimentacao || 0) / summedNum[entry.Universidade]).toFixed(2));
+        entry.Transporte = Number(((entry.Transporte || 0) / summedNum[entry.Universidade]).toFixed(2));
     })
 
-    finalData = finalData.sort((a, b) => (b.GastoMedio - a.GastoMedio) * crescente);
+    finalData.sort((a, b) => (a.Moradia - b.Moradia) * ascending);
 
-    return finalData;
+    console.log(finalData)
+
+    return (
+        <ResponsiveContainer width="100%" aspect={1.0 / 1.0}>
+            <BarChart
+                data={finalData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
+
+                <XAxis type='number' />
+                <YAxis
+                    type='category'
+                    dataKey="Universidade"
+                    tick={{ fontSize: 20 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend />
+                <Tooltip />
+
+                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+            </BarChart>
+        </ResponsiveContainer>
+    );
 }
 
-const SumByCountry = (data: diaData[], crescente: number) => {
+const CostByCountry = (data: diaData[], ascending: number) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
         const countryData = summedData[line.Pais]
 
-        if (line.GastoMedio > 0) {
-            if (countryData && countryData.GastoMedio) {
-                countryData.GastoMedio = line.GastoMedio + countryData.GastoMedio;
+        if (line.Moradia > 0) {
+            if (countryData && countryData.Moradia) {
+                countryData.Moradia = line.Moradia + countryData.Moradia;
+                countryData.Alimentacao = line.Alimentacao + countryData.Alimentacao;
+                countryData.Transporte = line.Transporte + countryData.Transporte;
                 summedNum[line.Pais] += 1;
             }
 
@@ -87,14 +126,93 @@ const SumByCountry = (data: diaData[], crescente: number) => {
         }
     })
 
-    let finalData: diaData[] = Object.values(summedData);
+    const finalData: diaData[] = Object.values(summedData);
     finalData.map((entry) => {
-        entry.GastoMedio = Number(((entry.GastoMedio || 0) / summedNum[entry.Pais]).toFixed(2));
+        entry.Moradia = Number(((entry.Moradia || 0) / summedNum[entry.Pais]).toFixed(2));
+        entry.Alimentacao = Number(((entry.Alimentacao || 0) / summedNum[entry.Pais]).toFixed(2));
+        entry.Transporte = Number(((entry.Transporte || 0) / summedNum[entry.Pais]).toFixed(2));
     })
 
-    finalData = finalData.sort((a, b) => (b.GastoMedio - a.GastoMedio) * crescente);
+    finalData.sort((a, b) => (a.Moradia - b.Moradia) * ascending);
 
-    return finalData;
+    return (
+        <ResponsiveContainer width="100%" aspect={1.0 / 1.0}>
+            <BarChart
+                data={finalData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
+
+                <XAxis type='number' />
+                <YAxis
+                    type='category'
+                    dataKey="Pais"
+                    tick={{ fontSize: 20 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend />
+                <Tooltip />
+
+                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+            </BarChart>
+        </ResponsiveContainer>
+    );
+}
+
+const UniversityComparation = (data: diaData[], ascending: number) => {
+    const summedData: { [key: string]: diaData } = {};
+    const summedNum: { [key: string]: number } = {};
+
+    data.map((line) => {
+        const universityData = summedData[line.Universidade]
+
+        if (universityData && universityData.Comparativo) {
+            universityData.Comparativo = (line.Comparativo - 5) + universityData.Comparativo;
+            summedNum[line.Universidade] += 1;
+        }
+
+        else {
+            summedData[line.Universidade] = line;
+            summedNum[line.Universidade] = 1;
+        }
+    })
+
+    const finalData: diaData[] = Object.values(summedData);
+    finalData.map((entry) => {
+        entry.Comparativo = ((entry.Comparativo || 0) / summedNum[entry.Universidade]);
+    })
+
+    finalData.sort((a, b) => (a.Comparativo - b.Comparativo) * ascending);
+
+    return (
+        <ResponsiveContainer width="100%" aspect={1.0 / 3.0}>
+            <BarChart
+                data={finalData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
+
+                <XAxis type='number' />
+                <YAxis
+                    type='category'
+                    dataKey="Universidade"
+                    tick={{ fontSize: 14 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend />Moradia
+                <ReferenceLine x={0} stroke="#000" />
+                <Tooltip />
+
+                <Bar type='number' dataKey="Comparativo" fill="#FF8C00" stackId="a" />
+            </BarChart>
+        </ResponsiveContainer>
+    );
 }
 
 const DIA = () => {
@@ -156,7 +274,6 @@ const DIA = () => {
                     const data = response['data'];
                     setDataCSV(data);
                     setCache('dataCache', data);
-                    // console.log(data);
                 });
     }, [dataURL])
 
@@ -167,64 +284,40 @@ const DIA = () => {
         }
     }, [dataCSV])
 
+    const ids: sectionLink[] = [
+        { name: 'Gasto mensal em cada universidade', id: 'GastoMedioPorUniversidade' },
+        { name: 'Gasto mensal em cada país', id: 'GastoMedioPorPais' },
+        { name: 'Comparação de universidades estrangeiras em relação à USP', id: 'ComparacaodeuniversidadesestrangeirasemrelacaoaUSP' },
+    ]
+
     return (
         <div className='dia-body'>
-            <PageBanner
-                pageName={String(textData?.attributes.Banner_text)}
-                pageSections={[]}
-                bannerImage={STRAPI_URL + bannerImage}
-                bannerGradient={String(gradient || '')}
-            />
+            {textData &&
+                <PageBanner
+                    pageName={String(textData?.attributes.Banner_text)}
+                    pageSections={ids}
+                    bannerImage={STRAPI_URL + bannerImage}
+                    bannerGradient={String(gradient || '')}
+                />
+            }
 
             {data &&
-                <div className='dia-chart' style={{ paddingTop: '100px' }}>
-                    <h1>Gasto mensal em cada universidade</h1>
-                    <ResponsiveContainer width="100%" maxHeight={window.innerHeight * 3} aspect={1.0 / 1.0}>
-                        <BarChart
-                            data={SumByUniversity(data, 1)}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                            style={{ overflow: 'visible' }}
-                            layout='vertical'
-                        >
-
-                            <XAxis type='number' />
-                            <YAxis
-                                type='category'
-                                dataKey="Universidade"
-                                tick={{ fontSize: 20 }}
-                                interval={0}
-                                width={180}
-                            />
-                            <Legend />
-                            <Tooltip />
-
-                            <Bar type='number' dataKey="GastoMedio" fill="#8884d8" />
-                        </BarChart>
-                    </ResponsiveContainer>
-
-                    <h1>Gasto mensal em cada país</h1>
-                    <ResponsiveContainer width="100%" maxHeight={window.innerHeight * 3} aspect={1.0 / 1.0}>
-                        <BarChart
-                            data={SumByCountry(data, 1)}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                            style={{ overflow: 'visible' }}
-                            layout='vertical'
-                        >
-
-                            <XAxis type='number' />
-                            <YAxis
-                                type='category'
-                                dataKey="Pais"
-                                tick={{ fontSize: 20 }}
-                                interval={0}
-                                width={180}
-                            />
-                            <Legend />
-                            <Tooltip />
-
-                            <Bar type='number' dataKey="GastoMedio" fill="#8884d8" />
-                        </BarChart>
-                    </ResponsiveContainer>
+                <div className='dia-chart'>
+                    <PageSection
+                        id={ids[0].id}
+                        title={ids[0].name}
+                        body={CostByUniversity(data, 1)}
+                    />
+                    <PageSection
+                        id={ids[1].id}
+                        title={ids[1].name}
+                        body={CostByCountry(data, 1)}
+                    />
+                    <PageSection
+                        id={ids[2].id}
+                        title={ids[2].name}
+                        body={UniversityComparation(data, 1)}
+                    />
                 </div>
             }
         </div>
