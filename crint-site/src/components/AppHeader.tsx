@@ -49,8 +49,8 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
             {
                 topicos.map((topico) => (
                     <div key={String(topico.attributes.Nome)}>
-                        <span>{String(topico.attributes.Nome)}</span>
                         <span className='subtopics'>
+                            <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
                                     <Link
