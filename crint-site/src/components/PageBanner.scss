@@ -43,7 +43,14 @@
         }
 
         .page-title {
-            font-size: base.$banner-fontsize;
+            @media screen and (orientation: portrait) {
+                font-size: base.$banner-fontsize * 1.25;
+            }
+    
+            @media screen and (orientation: landscape) {
+                font-size: base.$banner-fontsize;
+            }
+
             flex-grow: 1;
             display: block;
 
