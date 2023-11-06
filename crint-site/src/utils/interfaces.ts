@@ -46,8 +46,6 @@ interface sectionLink {
     name: string,
     id: string,
 }
-<<<<<<< Updated upstream
-=======
 
 interface diaData {
     CursoICMC: string,
@@ -60,4 +58,3 @@ interface diaData {
     Alimentacao: number,
     Transporte: number,
 }
->>>>>>> Stashed changes
