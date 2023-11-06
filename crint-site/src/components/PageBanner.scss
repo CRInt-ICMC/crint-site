@@ -24,13 +24,17 @@
         }
 
         .page-img-container {
-            min-width: 30%;
             text-align: center;
+            min-width: 30%;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
+            @media screen and (orientation: portrait) {
+                max-width: 30%;
+            }
+    
             img {
                 max-width: 100%;
                 max-height: base.$altura-banner;
@@ -39,7 +43,14 @@
         }
 
         .page-title {
-            font-size: base.$banner-fontsize;
+            @media screen and (orientation: portrait) {
+                font-size: base.$banner-fontsize * 1.25;
+            }
+    
+            @media screen and (orientation: landscape) {
+                font-size: base.$banner-fontsize;
+            }
+
             flex-grow: 1;
             display: block;
 
