@@ -10,6 +10,14 @@
     overflow: visible;
 
     .navbar {
+        background-color: base.$azul-icmc;
+        opacity: 0.85;
+
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        display: flex;
+
         @media screen and (orientation: portrait) {
             @include base.formato-pagina(100%);
             height: base.$header-mobile;
@@ -19,14 +27,6 @@
             @include base.formato-pagina(base.$largura-pagina);
             height: base.$header-computador;
         }
-
-        background-color: base.$azul-icmc;
-        opacity: 0.85;
-
-        height: 100%;
-        width: 100%;
-        align-items: center;
-        display: flex;
 
         .navbar-left {
             float: left;
@@ -56,7 +56,7 @@
 
             .topics {
                 @media screen and (orientation: portrait) {
-                    max-width: 100%;
+                    width: 100%;
                     display: block;
                     position: absolute;
                     top: 0;
@@ -70,24 +70,28 @@
 
                     padding-top: auto;
 
-                    div {
-                        padding-left: 3px;
-                        background-color: #061e3d;
-                        z-index: 1000;
-                    }
-
                     button {
                         width: 100%;
-                        height: 100%;
-                        top: 0;
+                        max-height: 100%;
                         border: 0;
-                        font-size: larger;
+
+                        font-size: 1.5em;
                         font-weight: bolder;
 
                         div {
                             background-color: transparent;
                         }
                     }
+
+                    div {
+                        position: relative;
+                        padding-left: 3px;
+                        background-color: #061e3d;
+                        z-index: 1000;
+                    }
+
+                    padding-bottom: 0;
+                    margin-bottom: 0;
                 }
 
                 @media screen and (orientation: landscape) {
@@ -108,23 +112,20 @@
                     @media screen and (orientation: portrait) {
                         font-size: base.$subtopico-fontsize * 2;
 
-                        .title {
-                            font-size: 1.2em;
-                        }
-
                         a {
                             font-size: inherit;
-
-                            padding-left: 20px;
                             font-weight: bold;
-
                             color: white;
-
                             text-decoration: none;
 
                             display: flex;
+                            padding-left: 20px;
 
                             width: 100%;
+                        }
+
+                        .title {
+                            font-size: 1.25em;
                         }
                     }
 
@@ -133,7 +134,6 @@
 
                         a {
                             font-size: inherit;
-
                             color: white;
                             font-weight: 400;
                             text-decoration: none;
