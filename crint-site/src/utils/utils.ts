@@ -80,7 +80,7 @@ export const getBaseFontSize = () => {
     else if (windowWidth <= 768)
         return 12;
 
-    else if (windowWidth <= 1024)
+    else if (windowWidth <= 1366)
         return 15;
 
     else
