@@ -1,11 +1,14 @@
 @use '../Base.scss' as base;
 
 .flags {
-    height: 100%;
     width: 100%;
     align-items: center;
     display: flex;
     justify-content: center;
+
+    @media screen and (orientation: landscape) {
+        padding-bottom: 10px;
+    }
 
     button {
         width: 40%;
@@ -15,7 +18,13 @@
 
         img {
             aspect-ratio: 5 / 3;
-            width: base.$largura-bandeira;
+            @media screen and (orientation: portrait) {
+                width: base.$largura-bandeira * 0.8;
+            }
+    
+            @media screen and (orientation: landscape) {
+                width: base.$largura-bandeira;
+            }
         }
     }
 }

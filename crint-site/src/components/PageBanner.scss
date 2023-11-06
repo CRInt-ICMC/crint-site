@@ -24,13 +24,17 @@
         }
 
         .page-img-container {
-            min-width: 30%;
             text-align: center;
+            min-width: 30%;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
+            @media screen and (orientation: portrait) {
+                max-width: 30%;
+            }
+    
             img {
                 max-width: 100%;
                 max-height: base.$altura-banner;
