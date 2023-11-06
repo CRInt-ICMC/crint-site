@@ -13,7 +13,7 @@
         font-weight: bolder;
     }
 
-    .page-title {
+    .section-title {
         margin: 0;
         padding: 50px 0;
         position: relative;
@@ -22,6 +22,10 @@
         display: flex;
         align-items: center;
         justify-content: left;
+
+        div {
+            margin-right: 20px;
+        }
 
         button {
             border: none;
@@ -37,7 +41,7 @@
         }
     }
 
-    .page-content {
+    .section-content {
         margin-top: 0;
         padding-top: 0;
         width: 100%;
