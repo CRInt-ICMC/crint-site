@@ -8,13 +8,13 @@
     width: 100%;
 
     .options-body {
-        width: 2 * base.$largura-botao-fonte;
+        width: calc(base.$largura-botao-fonte * 2);
 
         position: relative;
 
         .button {
             @media screen and (orientation: portrait) {
-                height: base.$altura-botao-fonte * 2 / 3;
+                height: calc(base.$altura-botao-fonte * 2 / 3);
                 width: base.$largura-botao-fonte;
                 font-size: 9px;
             }

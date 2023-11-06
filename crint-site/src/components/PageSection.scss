@@ -6,7 +6,7 @@
     color: black;
 
     @media screen and (orientation: portrait) {
-        font-size: base.$section-fontsize * 1.5;
+        font-size: calc(base.$section-fontsize * 1.5);
     }
 
     @media screen and (orientation: landscape) {

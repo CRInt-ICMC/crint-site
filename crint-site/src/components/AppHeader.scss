@@ -110,7 +110,7 @@
 
                 .subtopics {
                     @media screen and (orientation: portrait) {
-                        font-size: base.$subtopico-fontsize * 2;
+                        font-size: calc(base.$subtopico-fontsize * 2);
 
                         a {
                             font-size: inherit;

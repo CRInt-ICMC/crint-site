@@ -44,7 +44,7 @@
 
         .page-title {
             @media screen and (orientation: portrait) {
-                font-size: base.$banner-fontsize * 1.25;
+                font-size: calc(base.$banner-fontsize * 1.25);
             }
     
             @media screen and (orientation: landscape) {
