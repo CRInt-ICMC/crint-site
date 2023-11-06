@@ -9,7 +9,7 @@
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
-        font-size: base.$footer-fontsize;
+        font-size: base.$footer-fontsize * 1.5;
     }
 
     @media screen and (orientation: landscape) {
@@ -44,7 +44,14 @@
         }
 
         .footer-left {
-            width: 25%;
+            @media screen and (orientation: portrait) {
+                width: 50%;
+            }
+        
+            @media screen and (orientation: landscape) {
+                width: 25%;
+            }
+
             float: left;
             height: 100%;
         }
@@ -60,7 +67,14 @@
         }
 
         .footer-right {
-            width: 20%;
+            @media screen and (orientation: portrait) {
+                width: 50%;
+            }
+        
+            @media screen and (orientation: landscape) {
+                width: 25%;
+            }
+            
             height: 100%;
             float: right;
         }
