@@ -49,5 +49,18 @@
         img {
             width: 100%;
         }
+
+        .video {
+            aspect-ratio: 560 / 315;
+
+            @media screen and (orientation: portrait) {
+                width: 100%;
+            }
+        
+            @media screen and (orientation: landscape) {
+                width: 80%;
+                margin-left: 10%;
+            }
+        }
     }
 }
