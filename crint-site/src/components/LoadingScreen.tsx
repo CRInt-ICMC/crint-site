@@ -9,7 +9,7 @@ const LoadingScreen = () => {
     const [display, setDisplay] = useState(true);
     const [animate, setAnimate] = useState(false);
 
-    const time = display ? 1150 : 0;
+    const time = 700;
 
     useEffect(() => {
         if (loadingCoins <= 0) {
