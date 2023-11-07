@@ -9,7 +9,7 @@
 
     .options-body {
         @media screen and (orientation: portrait) {
-            width: 2 * base.$largura-botao-fonte * 4;
+            width: clamp(20%, base.$largura-botao-fonte * 8, 100px);
         }
 
         @media screen and (orientation: landscape) {
@@ -20,7 +20,7 @@
 
         .button {
             @media screen and (orientation: portrait) {
-                width: base.$largura-botao-fonte * 4;
+                width: clamp(10%, base.$largura-botao-fonte * 4, 50px);
                 aspect-ratio: 3 / 2;
 
                 font-size: 9px;
