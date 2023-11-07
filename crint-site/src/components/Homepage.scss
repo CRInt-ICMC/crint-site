@@ -2,6 +2,9 @@
 
 .homepage-body {
     color: black;
+    min-height: base.$altura-minima;
+    background-color: white;
+    overflow: visible;
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);

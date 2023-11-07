@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
-import { useSettings } from '../utils/utils';
+import { useLoading, useSettings } from '../utils/utils';
 import { ApiFooter } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { useMediaPredicate } from 'react-media-hook';
@@ -13,6 +13,7 @@ import './AppFooter.scss'
 
 const AppFooter = () => {
     const { userSettings } = useSettings();
+    const { addLoadingCoins, subLoadingCoins } = useLoading();
     const [textData, setFooterText] = useState<ApiFooter>();
     const mobile = useMediaPredicate("(orientation: portrait)");
 
@@ -23,14 +24,18 @@ const AppFooter = () => {
         if (cacheFooter)
             setFooterText(cacheFooter);
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = response['data']['data'] as ApiFooter;
                     setFooterText(response['data']['data'] as ApiFooter);
                     setCache('footer' + '-' + userSettings.lang, data);
+                    subLoadingCoins();
                 })
+        }
     }, [userSettings.lang]);
 
     return (
@@ -69,7 +74,7 @@ const AppFooter = () => {
                                     {/* ENDEREÇO */}
                                     <div>
                                         <h3> {String(textData.attributes.Endereco_titulo)} </h3>
-                                        <p> {String(textData.attributes.Endereco_texto)} </p>
+                                        <p className='text'> {String(textData.attributes.Endereco_texto)} </p>
                                     </div>
                                 </div>
 
@@ -77,16 +82,16 @@ const AppFooter = () => {
                                     {/* REDES SOCIAIS */}
                                     <div className='footer-left' role='navigation'>
                                         <h3> {String(textData.attributes.Redes_sociais)} </h3>
-                                        <a href={String(textData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
-                                        <a href={String(textData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
-                                        <a href={String(textData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
+                                        <a className='text' href={String(textData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
+                                        <a className='text' href={String(textData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
+                                        <a className='text' href={String(textData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
                                     </div>
 
                                     {/* CONTATO */}
                                     <div className='footer-right'>
                                         <h3> {String(textData.attributes.Contato_titulo)} </h3>
-                                        <a href={'mailto:' + String(textData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(textData.attributes.Contato_email)} </a> <br />
-                                        <a href={'tel:' + String(textData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData.attributes.Contato_numero)} </a>
+                                        <a className='text' href={'mailto:' + String(textData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(textData.attributes.Contato_email)} </a> <br />
+                                        <a className='text' href={'tel:' + String(textData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData.attributes.Contato_numero)} </a>
                                     </div>
                                 </div>
                             </>

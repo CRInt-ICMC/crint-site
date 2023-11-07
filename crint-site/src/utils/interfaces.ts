@@ -4,15 +4,27 @@ interface userSettings {
     fontSize: number,
 }
 
-// Interface que será utilizada pela aplicação
 interface UserSettingsState {
     userSettings?: userSettings,
     setUserSettings?: (userOptions: userSettings) => void,
 }
 
+// Interface que será utilizada pela aplicação
 interface initializedSettings {
     userSettings: userSettings,
     setUserSettings: (userOptions: userSettings) => void,
+}
+
+interface AppLoadingState {
+    loadingCoins?: number,
+    addLoadingCoins?: () => void,
+    subLoadingCoins?: () => void,
+}
+
+interface initializedLoadingState {
+    loadingCoins: number,
+    addLoadingCoins: () => void,
+    subLoadingCoins: () => void,
 }
 
 // Informações da imagem

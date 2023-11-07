@@ -1,6 +1,7 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
+import { LoadingContext } from '../Loading';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
@@ -69,10 +70,18 @@ export const useSettings = () => {
     return context as initializedSettings;
 }
 
+// Garante que o contexto foi inicializado
+export const useLoading = () => {
+    const context = React.useContext(LoadingContext);
+
+    if (context === undefined)
+        throw new Error('useLoading está fora de contexto')
+
+    return context as initializedLoadingState;
+}
+
 export const getBaseFontSize = () => {
     const windowWidth = window.innerWidth;
-
-    console.log(windowWidth);
 
     if (windowWidth <= 480)
         return 8;
