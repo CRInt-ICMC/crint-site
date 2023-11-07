@@ -10,7 +10,6 @@ const FontSizeSystem = () => {
     const { userSettings } = context;
 
     const BASE_FONTSIZE = getBaseFontSize()
-    console.log(BASE_FONTSIZE);
 
     // Atualiza a fonte global do site
     useEffect(() => {

@@ -83,8 +83,6 @@ export const useLoading = () => {
 export const getBaseFontSize = () => {
     const windowWidth = window.innerWidth;
 
-    console.log(windowWidth);
-
     if (windowWidth <= 480)
         return 8;
 

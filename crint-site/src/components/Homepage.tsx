@@ -10,6 +10,7 @@ import axios from 'axios';
 import './Homepage.scss';
 import 'swiper/css';
 import 'swiper/css/bundle';
+import { useMediaPredicate } from 'react-media-hook';
 
 const CreateCarousel = (carouselSlides: ApiSlide[]) => (
     <Swiper
@@ -54,6 +55,7 @@ const Homepage = () => {
     const { addLoadingCoins, subLoadingCoins } = useLoading()
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
     const [sections, setSections] = useState<ApiSecao[]>();
+    const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
@@ -107,6 +109,7 @@ const Homepage = () => {
                             body={String(section.attributes.Corpo)}
                             textColor={String(section.attributes.Cor_texto)}
                             backgroundColor={String(section.attributes.Cor_fundo)}
+                            mobile={mobile}
                             api
                         />
                     );

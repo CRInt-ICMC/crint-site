@@ -10,6 +10,10 @@
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
         font-size: base.$footer-fontsize * 1.5;
+
+        .text {
+            font-size: 0.75em;
+        }
     }
 
     @media screen and (orientation: landscape) {

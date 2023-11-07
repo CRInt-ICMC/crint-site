@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
 import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
@@ -39,7 +39,7 @@ const topics = (topicos: ApiTopico[]) => (
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction) => (
+const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentURL: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -53,7 +53,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                             <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
-                                    <Link
+                                    <Link className={(currentURL === String(pagina.attributes.URL)) ? 'highlight' : ''}
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
@@ -84,6 +84,11 @@ const AppHeader = () => {
     const [topicos, setTopicos] = useState<ApiTopico[]>();
     const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(orientation: portrait)");
+    const location = useLocation();
+
+    useEffect(() => {
+        setDisplay(false);
+    }, [location.pathname])
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
@@ -162,7 +167,7 @@ const AppHeader = () => {
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
                     {topicos && !mobile && topics(topicos)}
-                    {topicos && mobile && topicsMobile(topicos, display, setDisplay)}
+                    {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>

@@ -8,6 +8,7 @@ import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
+import { useMediaPredicate } from "react-media-hook";
 
 const WIP = (
     <div className="wip-root">
@@ -47,6 +48,7 @@ const PageLoader = () => {
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
     const [status, setStatus] = useState<number>();
+    const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
 
     // Recebe o texto e as imagens do Strapi
@@ -133,6 +135,7 @@ const PageLoader = () => {
                         body={String(section.attributes.Corpo)}
                         textColor={String(section.attributes.Cor_texto)}
                         backgroundColor={String(section.attributes.Cor_fundo)}
+                        mobile={mobile}
                         api
                     />
                 ))
