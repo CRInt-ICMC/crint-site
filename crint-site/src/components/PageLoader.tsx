@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { NOTFOUND_ICON, STRAPI_API_TOKEN, STRAPI_URL, WIP_ICON } from "../utils/constants";
 import { useLocation } from "react-router-dom";
-import { useSettings } from "../utils/utils";
+import { useLoading, useSettings } from "../utils/utils";
 import { ApiPagina, ApiSecao } from "../utils/types";
 import { readCache, setCache } from "../Caching";
 import axios from "axios";
 import TopicBanner from "./PageBanner";
 import TopicSection from "./PageSection";
 import './PageLoader.scss'
+import { useMediaPredicate } from "react-media-hook";
 
 const WIP = (
     <div className="wip-root">
@@ -41,11 +42,13 @@ const getLinks = (sections: ApiSecao[]) => {
 
 const PageLoader = () => {
     const { userSettings } = useSettings();
+    const { addLoadingCoins, subLoadingCoins } = useLoading();
     const [textData, setTextData] = useState<ApiPagina>();
     const [sections, setSections] = useState<ApiSecao[]>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
     const [status, setStatus] = useState<number>();
+    const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
 
     // Recebe o texto e as imagens do Strapi
@@ -68,7 +71,9 @@ const PageLoader = () => {
             setStatus(200);
         }
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 // Strapi + Chamada de página filtrada por UID + Idioma selecionado
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -87,6 +92,7 @@ const PageLoader = () => {
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
 
                     setCache('secao/' + location.pathname + '-' + userSettings.lang, data);
+                    subLoadingCoins();
 
                     // Verifica se encontrou as seções, se não, a página está em construção
                     if (data['attributes']['secoes']['data'].length === 0) {
@@ -100,6 +106,7 @@ const PageLoader = () => {
 
                     setStatus(200);
                 })
+        }
     }, [userSettings.lang, location]);
 
     // Executa quando troca de rota
@@ -128,6 +135,7 @@ const PageLoader = () => {
                         body={String(section.attributes.Corpo)}
                         textColor={String(section.attributes.Cor_texto)}
                         backgroundColor={String(section.attributes.Cor_fundo)}
+                        mobile={mobile}
                         api
                     />
                 ))

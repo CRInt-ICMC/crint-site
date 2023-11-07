@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
-import { updateUserSettings, useSettings } from '../utils/utils';
+import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
@@ -39,7 +39,7 @@ const topics = (topicos: ApiTopico[]) => (
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction) => (
+const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentURL: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -53,7 +53,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                             <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
-                                    <Link
+                                    <Link className={(currentURL === String(pagina.attributes.URL)) ? 'highlight' : ''}
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
@@ -78,11 +78,17 @@ const AppHeader = () => {
     // Hooks    
     const context = useSettings();
     const { userSettings } = context;
+    const { addLoadingCoins, subLoadingCoins } = useLoading();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopico[]>();
     const [display, setDisplay] = useState(false);
     const mobile = useMediaPredicate("(orientation: portrait)");
+    const location = useLocation();
+
+    useEffect(() => {
+        setDisplay(false);
+    }, [location.pathname])
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
@@ -93,7 +99,9 @@ const AppHeader = () => {
         if (cacheHeaderImages)
             setHeaderImages(cacheHeaderImages);
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -104,24 +112,33 @@ const AppHeader = () => {
 
                     setHeaderImages(dataImages);
                     setCache('headerImages', dataImages);
+                    subLoadingCoins();
                 })
+        }
 
-        if (cachePopupText)
+        if (cachePopupText) {
             setPopupText(cachePopupText);
+        }
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const dataPopup = response['data']['data'] as ApiPopup;
                     setPopupText(dataPopup);
                     setCache('popup' + '-' + userSettings.lang, dataPopup);
+                    subLoadingCoins();
                 })
+        }
 
         if (cacheTopicos)
             setTopicos(cacheTopicos);
 
-        else
+        else {
+            addLoadingCoins();
+       
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -132,7 +149,9 @@ const AppHeader = () => {
 
                     setTopicos(dataTopicos);
                     setCache('topicos' + '-' + userSettings.lang, dataTopicos);
+                    subLoadingCoins();
                 })
+        }
     }, [userSettings.lang]);
 
     return (
@@ -148,7 +167,7 @@ const AppHeader = () => {
                 {/* TÓPICOS */}
                 <div className='navbar-center' role='navigation'>
                     {topicos && !mobile && topics(topicos)}
-                    {topicos && mobile && topicsMobile(topicos, display, setDisplay)}
+                    {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
                 </div>
                 {/* OPÇÕES */}
                 <div className='navbar-right'>

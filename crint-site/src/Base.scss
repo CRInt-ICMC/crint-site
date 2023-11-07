@@ -7,29 +7,17 @@ $azul-aucani: #C5DAED;
 // Formato da página
 $largura-pagina: 80%;
 $margem-pagina: calc((100% - $largura-pagina) / 2);
+$altura-minima: 80vh;
 
 // Tamanhos de elementos
-$header-mobile: 64px;
+$header-mobile: 8vh;
 $header-computador: 128px;
 
-$altura-bandeira: 24px;
-$largura-bandeira: 40px;
+$largura-bandeira: 3vw;
 $altura-banner: 200px;
-$altura-botao-fonte: 25px;
-$largura-botao-fonte: 25px;
-
-// Limites de mídia
-$celular-width: 480px;
-$tablet-width: 768px;
-$md-width: 1024px; // Resolução média
-$hd-width: 1200px; // Resolução alta
+$largura-botao-fonte: 1.75vw;
 
 // Tamanhos de fonte
-$celular-fontsize: 10px;
-$tablet-fontsize: 15px;
-$md-fontsize: 17.5px;
-$hd-fontsize: 20px;
-
 $banner-fontsize: 1.3em;
 $summary-fontsize: 0.7em;
 $footer-fontsize: 1.5em;
