@@ -8,20 +8,29 @@
     width: 100%;
 
     .options-body {
-        width: 2 * base.$largura-botao-fonte;
+        @media screen and (orientation: portrait) {
+            width: 2 * base.$largura-botao-fonte * 4;
+        }
+
+        @media screen and (orientation: landscape) {
+            width: 2 * base.$largura-botao-fonte;
+        }
 
         position: relative;
 
         .button {
             @media screen and (orientation: portrait) {
-                height: base.$altura-botao-fonte * 2 / 3;
-                width: base.$largura-botao-fonte;
+                width: base.$largura-botao-fonte * 4;
+                aspect-ratio: 3 / 2;
+
                 font-size: 9px;
             }
 
             @media screen and (orientation: landscape) {
-                height: base.$altura-botao-fonte;
+                height: base.$largura-botao-fonte;
                 width: base.$largura-botao-fonte;
+             
+                font-size: 12px;
             }
 
             position: absolute;

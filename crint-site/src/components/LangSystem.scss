@@ -20,8 +20,7 @@
             aspect-ratio: 5 / 3;
 
             @media screen and (orientation: portrait) {
-                max-width: base.$largura-bandeira;
-                width: 100%;
+                width: max(100%, base.$largura-bandeira * 2);
             }
     
             @media screen and (orientation: landscape) {

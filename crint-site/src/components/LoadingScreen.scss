@@ -3,6 +3,10 @@
     align-items: center;
     justify-content: center;
 
+    @media screen and (orientation: portrait) {
+        flex-direction: column;
+    }
+
     position: fixed;
 
     height: 100vh;
