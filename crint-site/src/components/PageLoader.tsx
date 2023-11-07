@@ -133,6 +133,7 @@ const PageLoader = () => {
                         body={String(section.attributes.Corpo)}
                         textColor={String(section.attributes.Cor_texto)}
                         backgroundColor={String(section.attributes.Cor_fundo)}
+                        api
                     />
                 ))
             }

@@ -6,14 +6,27 @@
     display: flex;
     justify-content: center;
 
+    @media screen and (orientation: landscape) {
+        padding-bottom: 10px;
+    }
+
     button {
+        width: 50%;
         background-color: transparent;
         border: none;
         cursor: pointer;
 
         img {
-            height: base.$altura-bandeira;
-            width: base.$largura-bandeira;
+            aspect-ratio: 5 / 3;
+
+            @media screen and (orientation: portrait) {
+                max-width: base.$largura-bandeira;
+                width: 100%;
+            }
+    
+            @media screen and (orientation: landscape) {
+                width: base.$largura-bandeira;
+            }
         }
     }
 }

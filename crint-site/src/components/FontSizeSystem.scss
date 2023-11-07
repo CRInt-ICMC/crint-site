@@ -7,16 +7,22 @@
 
     width: 100%;
 
-    height: base.$altura-botao-fonte;
-
     .options-body {
         width: 2 * base.$largura-botao-fonte;
 
         position: relative;
 
         .button {
-            height: base.$altura-botao-fonte;
-            width: base.$largura-botao-fonte;
+            @media screen and (orientation: portrait) {
+                height: base.$altura-botao-fonte * 2 / 3;
+                width: base.$largura-botao-fonte;
+                font-size: 9px;
+            }
+
+            @media screen and (orientation: landscape) {
+                height: base.$altura-botao-fonte;
+                width: base.$largura-botao-fonte;
+            }
 
             position: absolute;
         }

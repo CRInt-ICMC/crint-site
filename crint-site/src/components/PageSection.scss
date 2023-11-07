@@ -4,7 +4,17 @@
     padding: 0 15%;
 
     color: black;
-    font-size: base.$section-fontsize;
+
+    @media screen and (orientation: portrait) {
+        font-size: base.$section-fontsize * 1.5;
+    }
+
+    @media screen and (orientation: landscape) {
+        font-size: base.$section-fontsize;
+    }
+
+    border-bottom: 2px black solid;
+    border-collapse: collapse;
 
     a,
     a:link,
@@ -13,7 +23,7 @@
         font-weight: bolder;
     }
 
-    .page-title {
+    .section-title {
         margin: 0;
         padding: 50px 0;
         padding-right: 25px;
@@ -23,6 +33,10 @@
         display: flex;
         align-items: center;
         justify-content: left;
+
+        div {
+            margin-right: 20px;
+        }
 
         button {
             border: none;
@@ -38,13 +52,26 @@
         }
     }
 
-    .page-content {
+    .section-content {
         margin-top: 0;
         padding-top: 0;
         width: 100%;
 
         img {
             width: 100%;
+        }
+
+        .video {
+            aspect-ratio: 560 / 315;
+
+            @media screen and (orientation: portrait) {
+                width: 100%;
+            }
+        
+            @media screen and (orientation: landscape) {
+                width: 80%;
+                margin-left: 10%;
+            }
         }
     }
 }

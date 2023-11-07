@@ -1,10 +1,12 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
-import { AVAILABLE_LANGUAGES, BASE_FONTSIZE, DEFAULT_LANGUAGE, MAX_FONT, MIN_FONT } from './constants';
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
 import { LoadingContext } from '../Loading';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
+    const BASE_FONTSIZE = getBaseFontSize();
+
     // Configurações padrão
     let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
 
@@ -26,10 +28,10 @@ export const loadSettings = () => {
 
     // Garante que é um tamanho válido
     let storedFontSize = savedConfig.fontSize;
-    if (storedFontSize > MAX_FONT)
-        storedFontSize = MAX_FONT;
-    else if (storedFontSize < MIN_FONT)
-        storedFontSize = MIN_FONT;
+    if (storedFontSize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
+        storedFontSize = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
+    else if (storedFontSize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
+        storedFontSize = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
     else if (isNaN(storedFontSize))
         storedFontSize = BASE_FONTSIZE;
 
@@ -76,4 +78,22 @@ export const useLoading = () => {
         throw new Error('useLoading está fora de contexto')
 
     return context as initializedLoadingState;
+}
+
+export const getBaseFontSize = () => {
+    const windowWidth = window.innerWidth;
+
+    console.log(windowWidth);
+
+    if (windowWidth <= 480)
+        return 8;
+
+    else if (windowWidth <= 768)
+        return 12;
+
+    else if (windowWidth <= 1366)
+        return 15;
+
+    else
+        return 20;
 }
