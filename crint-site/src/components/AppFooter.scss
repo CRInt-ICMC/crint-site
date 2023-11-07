@@ -5,6 +5,8 @@
     background-color: base.$azul-icmc;
     color: white;
 
+    padding: 3vh 0;
+
     font-weight: bolder;
 
     @media screen and (orientation: portrait) {
@@ -22,6 +24,7 @@
     }
 
     h3 {
+        margin-top: 0;
         text-decoration: underline;
     }
 
