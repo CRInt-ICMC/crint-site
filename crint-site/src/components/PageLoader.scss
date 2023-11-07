@@ -3,6 +3,7 @@
 .page-body {
     min-height: 40vh;
     z-index: 0;
+    background-color: white;
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSettings } from '../utils/utils';
+import { useLoading, useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import './Homepage.scss';
 import 'swiper/css';
 import 'swiper/css/bundle';
+import { useMediaPredicate } from 'react-media-hook';
 
 const CreateCarousel = (carouselSlides: ApiSlide[]) => (
     <Swiper
@@ -51,8 +52,10 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
 
 const Homepage = () => {
     const { userSettings } = useSettings();
+    const { addLoadingCoins, subLoadingCoins } = useLoading()
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
     const [sections, setSections] = useState<ApiSecao[]>();
+    const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Recebe a imagem de fundo e as seções
     useEffect(() => {
@@ -64,7 +67,9 @@ const Homepage = () => {
             setCarouselImages(cacheCarousel);
         }
 
-        else
+        else {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + `/api/homepage?populate[secoes]=*&populate[slides][populate][0]=Imagem&locale=` + userSettings.lang,
                     { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -79,7 +84,9 @@ const Homepage = () => {
 
                     setCarouselImages(slidesData);
                     setCache('carousel' + '-' + userSettings.lang, slidesData);
+                    subLoadingCoins();
                 })
+        }
     }, [userSettings.lang]);
 
     return (
@@ -102,11 +109,13 @@ const Homepage = () => {
                             body={String(section.attributes.Corpo)}
                             textColor={String(section.attributes.Cor_texto)}
                             backgroundColor={String(section.attributes.Cor_fundo)}
+                            mobile={mobile}
                             api
                         />
                     );
                 })
             }
+
         </div>
     )
 }

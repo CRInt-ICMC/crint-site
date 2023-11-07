@@ -8,9 +8,24 @@ import Homepage from './components/Homepage';
 import PageLoader from './components/PageLoader';
 import DIA from './components/DIA';
 import AppFooter from './components/AppFooter';
+import { LoadingContext, STD_COINS_STATE } from './Loading';
+import LoadingScreen from './components/LoadingScreen';
 
 function App() {
   const [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
+  const [appLoadingState, setAppLoadingState] = useState(STD_COINS_STATE);
+
+  const coins: number[] = []
+
+  const addCoin = () => {
+    coins.push(1);
+    setAppLoadingState(coins.length);
+  }
+
+  const subCoin = () => {
+    coins.pop();
+    setAppLoadingState(coins.length);
+  }
 
   return (
     <BrowserRouter>
@@ -20,19 +35,25 @@ function App() {
           setUserSettings: setAppSettingsState,
         }}
       >
-        <AppHeader />
-        <Routes>
-          <Route path='/'>
+        <LoadingContext.Provider
+          value={{
+            loadingCoins: appLoadingState,
+            addLoadingCoins: addCoin,
+            subLoadingCoins: subCoin,
+          }}
+        >
+          <LoadingScreen />
+          <AppHeader />
+          <Routes>
             <Route index element={<Homepage />} />
-            <Route path='/informacoes/dia' element={<DIA />} />
-          </Route>
 
-          {/* Todas as páginas (exceto as anteriores) são carregadas pelo PageLoader */}
-          <Route path='*' element={<PageLoader />} />
-        </Routes>
-        <VLibras />
-        <AppFooter />
+            {/* Todas as páginas (exceto as anteriores) são carregadas pelo PageLoader */}
+            <Route path='*' element={<PageLoader />} />
+          </Routes>
+          <AppFooter />
+        </LoadingContext.Provider>
       </SettingsContext.Provider>
+      <VLibras />
     </BrowserRouter>
   );
 }
