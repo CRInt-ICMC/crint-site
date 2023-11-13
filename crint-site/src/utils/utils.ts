@@ -27,13 +27,7 @@ export const loadSettings = () => {
         storedLang = DEFAULT_LANGUAGE;
 
     // Garante que é um tamanho válido
-    let storedFontSize = savedConfig.fontSize;
-    if (storedFontSize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
-        storedFontSize = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
-    else if (storedFontSize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
-        storedFontSize = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
-    else if (isNaN(storedFontSize))
-        storedFontSize = BASE_FONTSIZE;
+    const storedFontSize = clampFontSize(savedConfig.fontSize);
 
     // Carrega os valores para o contexto
     userSettings.cookieConsent = savedConfig.cookieConsent;
@@ -94,4 +88,18 @@ export const getBaseFontSize = () => {
 
     else
         return 20;
+}
+
+// Mantém a fonte dentro dos limites
+export const clampFontSize = (fontsize: number) => {
+    const BASE_FONTSIZE = getBaseFontSize();
+
+    if (isNaN(fontsize))
+        fontsize = BASE_FONTSIZE;
+    else if (fontsize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
+        fontsize = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
+    else if (fontsize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
+        fontsize = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
+
+    return fontsize;
 }
