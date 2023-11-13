@@ -8,7 +8,7 @@ export const loadSettings = () => {
     const BASE_FONTSIZE = getBaseFontSize();
 
     // Configurações padrão
-    let userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
+    const userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString: string = localStorage.getItem('settings') || '';
@@ -20,17 +20,14 @@ export const loadSettings = () => {
     // Recupera as informações em JSON e passa para a variável que será retornada
     const savedConfig: userSettings = JSON.parse(savedConfigString);
 
-
     // Garante que é uma língua válida
-    let storedLang = savedConfig.lang
-    if (!AVAILABLE_LANGUAGES.includes(storedLang))
-        storedLang = DEFAULT_LANGUAGE;
+    const storedLang = AVAILABLE_LANGUAGES.includes(savedConfig.lang) ? savedConfig.lang : DEFAULT_LANGUAGE
 
     // Garante que é um tamanho válido
     const storedFontSize = clampFontSize(savedConfig.fontSize);
 
     // Carrega os valores para o contexto
-    userSettings.cookieConsent = savedConfig.cookieConsent;
+    userSettings.cookieConsent = savedConfig.cookieConsent || false;
     userSettings.lang = storedLang;
     userSettings.fontSize = storedFontSize;
 
@@ -94,12 +91,18 @@ export const getBaseFontSize = () => {
 export const clampFontSize = (fontsize: number) => {
     const BASE_FONTSIZE = getBaseFontSize();
 
+    // Checa se realmente é um número
     if (isNaN(fontsize))
-        fontsize = BASE_FONTSIZE;
-    else if (fontsize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
-        fontsize = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
-    else if (fontsize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
-        fontsize = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
+        return BASE_FONTSIZE;
 
+    // Limita superiormente a fonte
+    if (fontsize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
+        return MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
+
+    // Limita inferiormente a fonte
+    if (fontsize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
+        return MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
+
+    // Retorna a fonte sem alterações
     return fontsize;
 }
