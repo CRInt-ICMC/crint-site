@@ -85,7 +85,10 @@ const CostByUniversity = (data: diaData[], ascending: number) => {
                 layout='vertical'
             >
 
-                <XAxis type='number' />
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
                 <YAxis
                     type='category'
                     dataKey="Universidade"
@@ -93,7 +96,7 @@ const CostByUniversity = (data: diaData[], ascending: number) => {
                     interval={0}
                     width={180}
                 />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "25px" }} />
                 <Tooltip />
 
                 <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
@@ -144,7 +147,10 @@ const CostByCountry = (data: diaData[], ascending: number) => {
                 layout='vertical'
             >
 
-                <XAxis type='number' />
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
                 <YAxis
                     type='category'
                     dataKey="Pais"
@@ -152,7 +158,7 @@ const CostByCountry = (data: diaData[], ascending: number) => {
                     interval={0}
                     width={180}
                 />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "20px" }} />
                 <Tooltip />
 
                 <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
@@ -197,7 +203,10 @@ const UniversityComparation = (data: diaData[], ascending: number) => {
                 layout='vertical'
             >
 
-                <XAxis type='number' />
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
                 <YAxis
                     type='category'
                     dataKey="Universidade"
@@ -205,7 +214,7 @@ const UniversityComparation = (data: diaData[], ascending: number) => {
                     interval={0}
                     width={180}
                 />
-                <Legend />Moradia
+                <Legend wrapperStyle={{ fontSize: "20px" }} />Moradia
                 <ReferenceLine x={0} stroke="#000" />
                 <Tooltip />
 
