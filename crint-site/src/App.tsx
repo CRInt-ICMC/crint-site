@@ -46,6 +46,7 @@ function App() {
           <AppHeader />
           <Routes>
             <Route index element={<Homepage />} />
+            <Route path='/informacoes/dia' element={<DIA />} />
 
             {/* Todas as páginas (exceto as anteriores) são carregadas pelo PageLoader */}
             <Route path='*' element={<PageLoader />} />
