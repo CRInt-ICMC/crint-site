@@ -1,7 +1,7 @@
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from "../utils/constants";
-import { getBaseFontSize, updateUserSettings, useSettings } from "../utils/utils";
+import { clampFontSize, getBaseFontSize, updateUserSettings, useSettings } from "../utils/utils";
 import { useEffect } from "react";
 import './FontSizeSystem.scss';
 
@@ -16,19 +16,17 @@ const FontSizeSystem = () => {
         const root = document.documentElement;
         root.style.setProperty(
             '--base-font-size',
-            String(userSettings.fontSize) + 'px'
+            String(clampFontSize(userSettings.fontSize)) + 'px'
         );
-    }, [userSettings.fontSize])
+    }, [userSettings.fontSize]);
+
+    // Atualiza a fonte caso haja uma mudança repentina
+    useEffect(() => {
+        setFontSize(userSettings.fontSize);
+    }, [BASE_FONTSIZE]);
 
     const setFontSize = (offset: number) => {
-        let newFontSize = userSettings.fontSize + offset
-
-        // Garante a integridade das fontes do site
-        if (newFontSize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
-            newFontSize = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
-        else if (newFontSize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
-            newFontSize = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
-
+        const newFontSize = clampFontSize(userSettings.fontSize + offset);
         updateUserSettings(context, { fontSize: newFontSize });
     }
 
