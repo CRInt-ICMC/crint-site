@@ -97,7 +97,7 @@ const CostByUniversity = (data: diaData[], ascending: number) => {
                     width={180}
                 />
                 <Legend wrapperStyle={{ fontSize: "25px" }} />
-                <Tooltip />
+                <Tooltip wrapperStyle={{ fontSize: "25px"}} />
 
                 <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
                 <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
