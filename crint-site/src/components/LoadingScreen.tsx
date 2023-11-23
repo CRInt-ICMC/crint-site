@@ -31,13 +31,13 @@ const LoadingScreen = () => {
                 transitionDuration: String(time) + 'ms',
             }}
         >
-            
+
             <DotSpinner
                 size={40}
                 speed={0.9}
                 color="black"
             />
-            <span style={{paddingLeft: '25px', color: "black"}}>Requisitando conteúdo</span>
+            <span className='loader-text'>Requisitando conteúdo</span>
         </div>
     );
 }
