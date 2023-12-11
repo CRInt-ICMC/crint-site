@@ -1,13 +1,13 @@
 import { Bar, BarChart, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import './DIA.scss'
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
-import PageBanner from './PageBanner';
 import { useEffect, useState } from 'react';
-import { useSettings } from '../utils/utils';
+import { sortDIAData, useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
-import axios from 'axios';
 import { ApiDia, ApiPagina } from '../utils/types';
+import PageBanner from './PageBanner';
+import axios from 'axios';
 import PageSection from './PageSection';
+import './DIA.scss'
 
 const ProcessData = (CSV: string) => {
     const data: diaData[] = [];
@@ -43,7 +43,11 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const CostByUniversity = (data: diaData[], ascending: number) => {
+const CostByUniversity = (data: diaData[], options: { ascending?: boolean, mincost?: number, maxcost?: number }) => {
+    const ascending = options.ascending ?? true;
+    const mincost = options.mincost ?? 0;
+    const maxcost = options.maxcost ?? Infinity;
+
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -65,21 +69,27 @@ const CostByUniversity = (data: diaData[], ascending: number) => {
         }
     })
 
-    const finalData: diaData[] = Object.values(summedData);
-    finalData.map((entry) => {
-        entry.Moradia = Number(((entry.Moradia || 0) / summedNum[entry.Universidade]).toFixed(2));
-        entry.Alimentacao = Number(((entry.Alimentacao || 0) / summedNum[entry.Universidade]).toFixed(2));
-        entry.Transporte = Number(((entry.Transporte || 0) / summedNum[entry.Universidade]).toFixed(2));
+    const temporaryData: diaData[] = Object.values(summedData);
+    const processedData: diaData[] = [];
+
+    temporaryData.map((entry) => {
+        const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
+
+        if (cost >= mincost && cost <= maxcost) {
+            entry.Moradia = Number((entry.Moradia / summedNum[entry.Universidade]).toFixed(2));
+            entry.Alimentacao = Number((entry.Alimentacao / summedNum[entry.Universidade]).toFixed(2));
+            entry.Transporte = Number((entry.Transporte / summedNum[entry.Universidade]).toFixed(2));
+
+            processedData.push(entry);
+        }
     })
 
-    finalData.sort((a, b) => (a.Moradia - b.Moradia) * ascending);
-
-    console.log(finalData)
+    const sortedData = sortDIAData(processedData, 'cost', ascending);
 
     return (
-        <ResponsiveContainer width="100%" aspect={1.0 / 1.0}>
+        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
             <BarChart
-                data={finalData}
+                data={sortedData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 style={{ overflow: 'visible' }}
                 layout='vertical'
@@ -92,22 +102,23 @@ const CostByUniversity = (data: diaData[], ascending: number) => {
                 <YAxis
                     type='category'
                     dataKey="Universidade"
-                    tick={{ fontSize: 20 }}
+                    tick={{ fontSize: 14 }}
                     interval={0}
                     width={180}
                 />
                 <Legend wrapperStyle={{ fontSize: "25px" }} />
-                <Tooltip wrapperStyle={{ fontSize: "25px"}} />
+                <Tooltip wrapperStyle={{ fontSize: "25px" }} />
 
                 <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
                 <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
                 <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
             </BarChart>
+
         </ResponsiveContainer>
     );
 }
 
-const CostByCountry = (data: diaData[], ascending: number) => {
+const CostByCountry = (data: diaData[], ascending: boolean) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -129,47 +140,55 @@ const CostByCountry = (data: diaData[], ascending: number) => {
         }
     })
 
-    const finalData: diaData[] = Object.values(summedData);
-    finalData.map((entry) => {
+    const processedData: diaData[] = Object.values(summedData);
+    processedData.map((entry) => {
+        const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
+
+        // if (cost < )
+
         entry.Moradia = Number(((entry.Moradia || 0) / summedNum[entry.Pais]).toFixed(2));
         entry.Alimentacao = Number(((entry.Alimentacao || 0) / summedNum[entry.Pais]).toFixed(2));
         entry.Transporte = Number(((entry.Transporte || 0) / summedNum[entry.Pais]).toFixed(2));
     })
 
-    finalData.sort((a, b) => (a.Moradia - b.Moradia) * ascending);
+    const sortedData: diaData[] = sortDIAData(processedData, 'cost', ascending);
 
     return (
-        <ResponsiveContainer width="100%" aspect={1.0 / 1.0}>
-            <BarChart
-                data={finalData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
+        <div className='dia-chart'>
+            <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+                <BarChart
+                    data={sortedData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    style={{ overflow: 'visible' }}
+                    layout='vertical'
+                >
 
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Pais"
-                    tick={{ fontSize: 20 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "20px" }} />
-                <Tooltip />
+                    <XAxis
+                        type='number'
+                        tick={{ fontSize: 20 }}
+                    />
+                    <YAxis
+                        type='category'
+                        dataKey="Pais"
+                        tick={{ fontSize: 20 }}
+                        interval={0}
+                        width={180}
+                    />
+                    <Legend wrapperStyle={{ fontSize: "20px" }} />
+                    <Tooltip />
 
-                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-            </BarChart>
-        </ResponsiveContainer>
+                    <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                    <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                    <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                </BarChart>
+            </ResponsiveContainer>
+
+            <div className='dia-options'>sdaSDADASD</div>
+        </div>
     );
 }
 
-const UniversityComparation = (data: diaData[], ascending: number) => {
+const UniversityComparation = (data: diaData[], ascending: boolean) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -187,40 +206,46 @@ const UniversityComparation = (data: diaData[], ascending: number) => {
         }
     })
 
-    const finalData: diaData[] = Object.values(summedData);
-    finalData.map((entry) => {
+    const processedData: diaData[] = Object.values(summedData);
+    processedData.map((entry) => {
         entry.Comparativo = ((entry.Comparativo || 0) / summedNum[entry.Universidade]);
     })
 
-    finalData.sort((a, b) => (a.Comparativo - b.Comparativo) * ascending);
+    const sortedData: diaData[] = sortDIAData(processedData, 'comparative', ascending);
 
     return (
-        <ResponsiveContainer width="100%" aspect={1.0 / 3.0}>
-            <BarChart
-                data={finalData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
+        <div className='dia-chart'>
+            <ResponsiveContainer width="70%" aspect={1.0 / 3.0}>
+                <BarChart
+                    data={sortedData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    style={{ overflow: 'visible' }}
+                    layout='vertical'
+                >
 
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Universidade"
-                    tick={{ fontSize: 14 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "20px" }} />Moradia
-                <ReferenceLine x={0} stroke="#000" />
-                <Tooltip />
+                    <XAxis
+                        type='number'
+                        tick={{ fontSize: 20 }}
+                    />
+                    <YAxis
+                        type='category'
+                        dataKey="Universidade"
+                        tick={{ fontSize: 14 }}
+                        interval={0}
+                        width={180}
+                    />
+                    <Legend wrapperStyle={{ fontSize: "20px" }} />
+                    <ReferenceLine x={0} stroke="#000" />
+                    <Tooltip />
 
-                <Bar type='number' dataKey="Comparativo" fill="#FF8C00" stackId="a" />
-            </BarChart>
-        </ResponsiveContainer>
+                    <Bar type='number' dataKey="Comparativo" fill="#FF8C00" stackId="a" />
+                </BarChart>
+            </ResponsiveContainer>
+
+            <div className='dia-options'>
+                sdasdksads
+            </div>
+        </div>
     );
 }
 
@@ -232,6 +257,8 @@ const DIA = () => {
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>();
+    const [CostByUniversityOptions, setCostByUniversityOptions] =
+        useState<{ ascending?: boolean, mincost?: number, maxcost?: number }>({ ascending: true, mincost: 0, maxcost: Infinity });
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
@@ -299,6 +326,8 @@ const DIA = () => {
         { name: 'Comparação de universidades estrangeiras em relação à USP', id: 'ComparacaodeuniversidadesestrangeirasemrelacaoaUSP' },
     ]
 
+    console.log(CostByUniversityOptions)
+
     return (
         <div className='dia-body'>
             {textData &&
@@ -311,21 +340,71 @@ const DIA = () => {
             }
 
             {data &&
-                <div className='dia-chart'>
+                <div>
                     <PageSection
                         id={ids[0].id}
                         title={ids[0].name}
-                        body={CostByUniversity(data, 1)}
+                        body={
+                            <div className='dia-chart'>
+                                {CostByUniversity(data, CostByUniversityOptions)}
+
+                                <div className='dia-options'>
+                                    <div className='dia-options-title'>Opções de visualização:</div>
+
+                                    <form>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='ascending'>Ordem crescente:</label>
+                                            <input type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='mincost'>Custo mínimo:</label>
+                                            <input type='number' id='mincost' name='mincost' defaultValue={0} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='maxcost'>Custo máximo:</label>
+                                            <input type='number' id='maxcost' name='maxcost' defaultValue={Infinity} />
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        }
                     />
+
                     <PageSection
                         id={ids[1].id}
                         title={ids[1].name}
-                        body={CostByCountry(data, 1)}
+                        body={
+                            <div className='dia-chart'>
+                                {CostByCountry(data, true)}
+
+                                <div className='dia-options'>
+                                    dasdasd dasdasdasdasd
+                                    dasdasd dasdasdasdasd
+                                </div>
+                            </div>
+                        }
                     />
+
                     <PageSection
                         id={ids[2].id}
                         title={ids[2].name}
-                        body={UniversityComparation(data, 1)}
+                        body={
+                            <div className='dia-chart'>
+                                {UniversityComparation(data, true)}
+
+                                <div className='dia-options'>
+                                    dasdasd dasdasdasdasd
+                                    dasdasd dasdasdasdasd
+                                    dasdasd dasdasdasdasd
+                                    dasdasd dasdasdasdasd
+                                    dasdasd dasdasdasdasd sdadsdsdasd
+                                </div>
+                            </div>
+                        }
                     />
                 </div>
             }

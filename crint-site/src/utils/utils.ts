@@ -39,9 +39,9 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
     const { userSettings, setUserSettings } = context;
 
     // Passa o valores originais quando não há alterações
-    const definedLang: string = newValues.lang || userSettings.lang;
-    const definedCookieConsent: boolean = newValues.cookieConsent || userSettings.cookieConsent;
-    const definedFontSize: number = newValues.fontSize || userSettings.fontSize;
+    const definedLang: string = newValues.lang ?? userSettings.lang;
+    const definedCookieConsent: boolean = newValues.cookieConsent ?? userSettings.cookieConsent;
+    const definedFontSize: number = newValues.fontSize ?? userSettings.fontSize;
 
     // Cria um novo conjunto se configurações
     const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
@@ -105,4 +105,71 @@ export const clampFontSize = (fontsize: number) => {
 
     // Retorna a fonte sem alterações
     return fontsize;
+}
+
+export const sortDIAData = (data: diaData[], sortKey: string, ascending: boolean) => {
+    const sortedData = [...data];
+
+    // Ordena os dados
+    if (sortKey === 'country') {
+        sortedData.sort((a, b) => {
+            if (a.Pais < b.Pais)
+                return ascending ? -1 : 1;
+
+            if (a.Pais > b.Pais)
+                return ascending ? 1 : -1;
+
+            return 0;
+        })
+    }
+
+    else if (sortKey === 'university') {
+        sortedData.sort((a, b) => {
+            if (a.Universidade < b.Universidade)
+                return ascending ? -1 : 1;
+
+            if (a.Universidade > b.Universidade)
+                return ascending ? 1 : -1;
+
+            return 0;
+        })
+    }
+
+    else if (sortKey === 'course') {
+        sortedData.sort((a, b) => {
+            if (a.CursoICMC < b.CursoICMC)
+                return ascending ? -1 : 1;
+
+            if (a.CursoICMC > b.CursoICMC)
+                return ascending ? 1 : -1;
+
+            return 0;
+        })
+    }
+
+    else if (sortKey === 'cost') {
+        sortedData.sort((a, b) => {
+            let sum_a : number = a.Moradia + a.Alimentacao + a.Transporte;
+            let sum_b : number = b.Moradia + b.Alimentacao + b.Transporte;
+
+            return (sum_a - sum_b) * (ascending ? 1 : -1);
+        })
+    }
+
+    else if (sortKey === 'comparative') {
+        sortedData.sort((a, b) => {
+            if (a.Comparativo < b.Comparativo)
+                return ascending ? -1 : 1;
+
+            if (a.Comparativo > b.Comparativo)
+                return ascending ? 1 : -1;
+
+            return 0;
+        })
+    }
+
+    else
+        console.error('Chave de ordenação inválida');
+
+    return sortedData;
 }

@@ -13,7 +13,27 @@
         @include base.formato-pagina(base.$largura-pagina);
     }
 
-    // .dia-chart {
-    //     padding-top: 100px;
-    // }
+    .dia-chart {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+
+        .dia-options {
+            max-width: 30%;
+            
+            word-wrap: break-word;
+            text-wrap: normal;
+
+            .dia-options-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+
+            .dia-options-item {
+                margin-bottom: 1rem;
+            }
+        }
+    }
 }
