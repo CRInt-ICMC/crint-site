@@ -149,8 +149,8 @@ export const sortDIAData = (data: diaData[], sortKey: string, ascending: boolean
 
     else if (sortKey === 'cost') {
         sortedData.sort((a, b) => {
-            let sum_a : number = a.Moradia + a.Alimentacao + a.Transporte;
-            let sum_b : number = b.Moradia + b.Alimentacao + b.Transporte;
+            const sum_a : number = a.Moradia + a.Alimentacao + a.Transporte;
+            const sum_b : number = b.Moradia + b.Alimentacao + b.Transporte;
 
             return (sum_a - sum_b) * (ascending ? 1 : -1);
         })
