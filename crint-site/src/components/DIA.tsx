@@ -351,7 +351,7 @@ const DIA = () => {
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form>
+                                    {/* <form className='dia-options-form' onChange={}
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
@@ -366,7 +366,7 @@ const DIA = () => {
                                             <label htmlFor='maxcost'>Custo máximo:</label>
                                             <input type='number' id='maxcost' name='maxcost' defaultValue={Infinity} />
                                         </div>
-                                    </form>
+                                    </form> */}
 
                                 </div>
                             </div>
