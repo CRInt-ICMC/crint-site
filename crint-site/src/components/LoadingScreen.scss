@@ -3,10 +3,6 @@
     align-items: center;
     justify-content: center;
 
-    @media screen and (orientation: portrait) {
-        flex-direction: column;
-    }
-
     position: fixed;
 
     height: 100vh;
@@ -18,11 +14,23 @@
 
     background-color: white;
 
-    span {
+    @media screen and (orientation: portrait) {
+        flex-direction: column;
+    }
+
+    .loader-text {
+        color: black;
+
         font-size: 25px;
         font-weight: bold;
 
-        padding-bottom: 10vh;
+        @media screen and (orientation: landscape) {
+            padding-left: 25px; 
+        }
+
+        @media screen and (orientation: portrait) {
+            padding-bottom: 10vh;
+        }
     }
 }
 
