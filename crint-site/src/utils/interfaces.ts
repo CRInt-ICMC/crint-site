@@ -69,5 +69,5 @@ interface diaData {
     Moradia: number,
     Alimentacao: number,
     Transporte: number,
-    // Soma: number,
+    Soma: number,
 }

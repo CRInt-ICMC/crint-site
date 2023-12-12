@@ -30,7 +30,7 @@ const ProcessData = (CSV: string) => {
             Moradia: -1,
             Alimentacao: -1,
             Transporte: -1,
-            // Soma: -1,
+            Soma: -1,
         }
 
         if (columns[6] !== 'null') {
@@ -69,14 +69,10 @@ const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, 
 
     const sortedData = sortDIAData(processedData, 'cost', ascending);
 
-    console.log('sorted:', sortedData);
-    console.log('processed:', processedData);
-    console.log('data:', data);
-
     return (
         <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
             <BarChart
-                data={data}
+                data={sortedData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 style={{ overflow: 'visible' }}
                 layout='vertical'
@@ -105,75 +101,53 @@ const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, 
     );
 }
 
-// const CostByCountry = (data: diaData[], ascending: boolean) => {
-//     const summedData: { [key: string]: diaData } = {};
-//     const summedNum: { [key: string]: number } = {};
+const CostByCountryGraph = (data: diaData[]) => {
+    const processedData: diaData[] = []
+    data.map((entry) => {
+        // const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
 
-    // data.map((line) => {
-    //     const countryData = summedData[line.Pais]
+        // if (cost < )
+        processedData.push(entry);
+    })
 
-    //     if (line.Moradia > 0) {
-    //         if (countryData && countryData.Moradia) {
-    //             countryData.Moradia = line.Moradia + countryData.Moradia;
-    //             countryData.Alimentacao = line.Alimentacao + countryData.Alimentacao;
-    //             countryData.Transporte = line.Transporte + countryData.Transporte;
-    //             summedNum[line.Pais] += 1;
-    //         }
+    console.log('country', processedData)
 
-    //         else {
-    //             summedData[line.Pais] = line;
-    //             summedNum[line.Pais] = 1;
-    //         }
-    //     }
-    // })
+    const sortedData: diaData[] = sortDIAData(processedData, 'cost', true);
 
-    // const processedData: diaData[] = Object.values(summedData);
-//     processedData.map((entry) => {
-//         // const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
+    return (
+        <div className='dia-chart'>
+            <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+                <BarChart
+                    data={sortedData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    style={{ overflow: 'visible' }}
+                    layout='vertical'
+                >
 
-//         // if (cost < )
+                    <XAxis
+                        type='number'
+                        tick={{ fontSize: 20 }}
+                    />
+                    <YAxis
+                        type='category'
+                        dataKey="Pais"
+                        tick={{ fontSize: 20 }}
+                        interval={0}
+                        width={180}
+                    />
+                    <Legend wrapperStyle={{ fontSize: "20px" }} />
+                    <Tooltip />
 
-//         entry.Moradia = Number(((entry.Moradia || 0) / summedNum[entry.Pais]).toFixed(2));
-//         entry.Alimentacao = Number(((entry.Alimentacao || 0) / summedNum[entry.Pais]).toFixed(2));
-//         entry.Transporte = Number(((entry.Transporte || 0) / summedNum[entry.Pais]).toFixed(2));
-//     })
+                    <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                    <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                    <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                </BarChart>
+            </ResponsiveContainer>
 
-//     const sortedData: diaData[] = sortDIAData(processedData, 'cost', ascending);
-
-//     return (
-//         <div className='dia-chart'>
-//             <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
-//                 <BarChart
-//                     data={sortedData}
-//                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//                     style={{ overflow: 'visible' }}
-//                     layout='vertical'
-//                 >
-
-//                     <XAxis
-//                         type='number'
-//                         tick={{ fontSize: 20 }}
-//                     />
-//                     <YAxis
-//                         type='category'
-//                         dataKey="Pais"
-//                         tick={{ fontSize: 20 }}
-//                         interval={0}
-//                         width={180}
-//                     />
-//                     <Legend wrapperStyle={{ fontSize: "20px" }} />
-//                     <Tooltip />
-
-//                     <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-//                     <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-//                     <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-//                 </BarChart>
-//             </ResponsiveContainer>
-
-//             <div className='dia-options'>sdaSDADASD</div>
-//         </div>
-//     );
-// }
+            <div className='dia-options'>sdaSDADASD</div>
+        </div>
+    );
+}
 
 // const UniversityComparation = (data: diaData[], ascending: boolean) => {
 //     const summedData: { [key: string]: diaData } = {};
@@ -291,17 +265,16 @@ const CostByCountry = (data: diaData[]) => {
     const processedData: diaData[] = Object.values(summedData);
 
     processedData.map((entry) => {
-        entry.Moradia = Number((entry.Moradia / summedNum[entry.Universidade]).toFixed(2));
-        entry.Alimentacao = Number((entry.Alimentacao / summedNum[entry.Universidade]).toFixed(2));
-        entry.Transporte = Number((entry.Transporte / summedNum[entry.Universidade]).toFixed(2));
-        // entry.Soma = Number((entry.Moradia + entry.Alimentacao + entry.Transporte).toFixed(2));
+        entry.Moradia = Number((entry.Moradia / summedNum[entry.Pais]).toFixed(2));
+        entry.Alimentacao = Number((entry.Alimentacao / summedNum[entry.Pais]).toFixed(2));
+        entry.Transporte = Number((entry.Transporte / summedNum[entry.Pais]).toFixed(2));
+        entry.Soma = Number((entry.Moradia + entry.Alimentacao + entry.Transporte).toFixed(2));
     });
 
     return processedData;
 }
 
-
-interface UniversityOptionsForm {
+interface CostOptionsForm {
     ascending: boolean,
     mincost: number,
     maxcost: number,
@@ -315,8 +288,8 @@ const DIA = () => {
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
-    const { register, handleSubmit } = useForm<UniversityOptionsForm>();
-    const onSubmit: SubmitHandler<UniversityOptionsForm> = (input) => setCostByUniversityOptions(input);
+    const { register, handleSubmit } = useForm<CostOptionsForm>();
+    const onSubmit: SubmitHandler<CostOptionsForm> = (input) => setCostByUniversityOptions(input);
     const [CostByUniversityOptions, setCostByUniversityOptions] =
         useState<{ ascending?: boolean, mincost?: number, maxcost?: number }>({ ascending: true, mincost: 0, maxcost: 1000000 });
 
@@ -390,7 +363,7 @@ const DIA = () => {
 
     const [CostByUniversityData, setCostByUniversityData] = useState<diaData[]>([]);
     const [CostByCountryData, setCostByCountryData] = useState<diaData[]>([]);
-    const [UniversityComparationData, setUniversityComparationData] = useState<diaData[]>([]);
+    // const [UniversityComparationData, setUniversityComparationData] = useState<diaData[]>([]);
     useEffect(() => {
         setCostByUniversityData(CostByUniversity(structuredClone(data)));
         setCostByCountryData(CostByCountry(structuredClone(data)));
@@ -398,7 +371,7 @@ const DIA = () => {
 
     }, [data])
 
-    console.log(CostByUniversityData);
+    console.log(CostByUniversityOptions);
 
     return (
         <div className='dia-body'>
@@ -414,7 +387,8 @@ const DIA = () => {
             {data &&
                 <div>
                     <PageSection
-                        id={ids[0].id}
+                        id={ids[0].id}    
+
                         title={ids[0].name}
                         body={
                             <div className='dia-chart'>
@@ -455,7 +429,7 @@ const DIA = () => {
                         title={ids[1].name}
                         body={
                             <div className='dia-chart'>
-                                {/* {CostByCountryGraph(CostByCountryData)} */}
+                                {CostByCountryGraph(CostByCountryData)}
 
                                 <div className='dia-options'>
                                     dasdasd dasdasdasdasd
