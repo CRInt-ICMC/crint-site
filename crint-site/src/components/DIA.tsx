@@ -45,10 +45,10 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, mincost?: number, maxcost?: number }) => {
+const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, min?: number, max?: number }) => {
     const ascending = options.ascending ?? true;
-    const mincost = options.mincost ?? 0;
-    const maxcost = options.maxcost ?? Infinity;
+    const min = options.min ?? 0;
+    const max = options.max ?? Infinity;
 
     /* 
     * Existem erros durante a filtragem
@@ -63,7 +63,7 @@ const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, 
     data.map((entry) => {
         const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
 
-        if (cost >= mincost && cost <= maxcost) 
+        if (cost >= min && cost <= max) 
             processedData.push(entry);
     })
 
@@ -274,10 +274,10 @@ const CostByCountry = (data: diaData[]) => {
     return processedData;
 }
 
-interface CostOptionsForm {
+interface OptionsForm {
     ascending: boolean,
-    mincost: number,
-    maxcost: number,
+    min: number,
+    max: number,
 }
 
 const DIA = () => {
@@ -288,10 +288,10 @@ const DIA = () => {
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
-    const { register, handleSubmit } = useForm<CostOptionsForm>();
-    const onSubmit: SubmitHandler<CostOptionsForm> = (input) => setCostByUniversityOptions(input);
+    const { register, handleSubmit } = useForm<OptionsForm>();
+    const onSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniversityOptions(input);
     const [CostByUniversityOptions, setCostByUniversityOptions] =
-        useState<{ ascending?: boolean, mincost?: number, maxcost?: number }>({ ascending: true, mincost: 0, maxcost: 1000000 });
+        useState<{ ascending?: boolean, min?: number, max?: number }>({ ascending: true, min: 0, max: 1000000 });
 
 
     // Recebe o texto e as imagens do Strapi
@@ -404,13 +404,13 @@ const DIA = () => {
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <label htmlFor='mincost'>Custo mínimo:</label>
-                                            <input {...register('mincost')} type='number' id='mincost' name='mincost' defaultValue={0} />
+                                            <label htmlFor='min'>Custo mínimo:</label>
+                                            <input {...register('min')} type='number' id='min' name='min' defaultValue={0} />
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <label htmlFor='maxcost'>Custo máximo:</label>
-                                            <input {...register('maxcost')} type='number' id='maxcost' name='maxcost' defaultValue={100000} />
+                                            <label htmlFor='max'>Custo máximo:</label>
+                                            <input {...register('max')} type='number' id='max' name='max' defaultValue={100000} />
                                         </div>
 
                                         <input type='submit' value='Aplicar' />
