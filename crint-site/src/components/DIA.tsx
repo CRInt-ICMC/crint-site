@@ -1,4 +1,4 @@
-import { Bar, BarChart, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Cell, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
 import { sortDIAData, useSettings } from '../utils/utils';
@@ -26,7 +26,7 @@ const ProcessData = (CSV: string) => {
             Pais: columns[2],
             Inicio: columns[3],
             Termino: columns[4],
-            Comparativo: Number(columns[5]),
+            Comparativo: Number(columns[5]) - 5,
             Moradia: -1,
             Alimentacao: -1,
             Transporte: -1,
@@ -56,7 +56,7 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
     const sortedData = sortDIAData(processedData, 'cost', options.ascending);
 
     return (
-        <ResponsiveContainer width="70%">
+        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
             <BarChart
                 data={sortedData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -95,12 +95,10 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
             processedData.push(entry);
     })
 
-    console.log('country', options)
-
     const sortedData: diaData[] = sortDIAData(processedData, 'cost', options.ascending);
 
     return (
-        <ResponsiveContainer width="70%" >
+        <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
             <BarChart
                 data={sortedData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -130,62 +128,57 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
     );
 }
 
-// const UniversityComparisonGraph = (data: diaData[], ascending: boolean) => {
-//     const summedData: { [key: string]: diaData } = {};
-//     const summedNum: { [key: string]: number } = {};
+const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
+    const processedData: diaData[] = [];
+    data.map((entry) => {
+        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max)
+            processedData.push(entry);
+    });
 
-//     data.map((line) => {
-//         const universityData = summedData[line.Universidade]
+    const sortedData: diaData[] = sortDIAData(processedData, 'comparative', options.ascending);
+    console.log(sortedData)
 
-//         if (universityData && universityData.Comparativo) {
-//             universityData.Comparativo = (line.Comparativo - 5) + universityData.Comparativo;
-//             summedNum[line.Universidade] += 1;
-//         }
+    return (
+        <div className='dia-chart'>
+            <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
+                <BarChart
+                    data={sortedData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    style={{ overflow: 'visible' }}
+                    layout='vertical'
+                >
 
-//         else {
-//             summedData[line.Universidade] = line;
-//             summedNum[line.Universidade] = 1;
-//         }
-//     })
+                    <XAxis
+                        type='number'
+                        tick={{ fontSize: 20 }}
+                        domain={[-5, 5]}
+                    />
+                    <YAxis
+                        type='category'
+                        dataKey="Universidade"
+                        tick={{ fontSize: 11 }}
+                        interval={0}
+                        width={180}
+                    />
+                    <Legend wrapperStyle={{ fontSize: "20px" }} />
+                    <ReferenceLine x={0} stroke="#000" />
+                    <Tooltip />
 
-//     const processedData: diaData[] = Object.values(summedData);
-//     processedData.map((entry) => {
-//         entry.Comparativo = ((entry.Comparativo || 0) / summedNum[entry.Universidade]);
-//     })
+                    <Bar type='number' dataKey="Comparativo" stackId='a' >
+                        {
+                            sortedData.map((entry, index) => {
+                                console.log(index, entry.Comparativo, entry.Universidade)
 
-//     const sortedData: diaData[] = sortDIAData(processedData, 'comparative', ascending);
+                                return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
 
-//     return (
-//         <div className='dia-chart'>
-//             <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
-//                 <BarChart
-//                     data={sortedData}
-//                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//                     style={{ overflow: 'visible' }}
-//                     layout='vertical'
-//                 >
-
-//                     <XAxis
-//                         type='number'
-//                         tick={{ fontSize: 20 }}
-//                     />
-//                     <YAxis
-//                         type='category'
-//                         dataKey="Universidade"
-//                         tick={{ fontSize: 11 }}
-//                         interval={0}
-//                         width={180}
-//                     />
-//                     <Legend wrapperStyle={{ fontSize: "20px" }} />
-//                     <ReferenceLine x={0} stroke="#000" />
-//                     <Tooltip />
-
-//                     <Bar type='number' dataKey="Comparativo" fill="#FF8C00" stackId="a" />
-//                 </BarChart>
-//             </ResponsiveContainer>
-//         </div>
-//     );
-// }
+                            })
+                        }
+                    </Bar>
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
+    );
+}
 
 const CostByUniversity = (data: diaData[]) => {
     const summedData: { [key: string]: diaData } = {};
@@ -263,7 +256,7 @@ const UniversityComparison = (data: diaData[]) => {
         const universityData = summedData[line.Universidade];
 
         if (universityData && universityData.Comparativo) {
-            universityData.Comparativo = (line.Comparativo - 5) + universityData.Comparativo;
+            universityData.Comparativo = universityData.Comparativo;
             summedNum[line.Universidade] += 1;
         }
 
@@ -273,9 +266,19 @@ const UniversityComparison = (data: diaData[]) => {
         }
     });
 
-    const processedData: diaData[] = Object.values(summedData);
-    processedData.map((entry) => {
-        entry.Comparativo = ((entry.Comparativo || 0) / summedNum[entry.Universidade]);
+    const correctedData: diaData[] = Object.values(summedData);
+    correctedData.map((entry) => {
+        const div = (summedNum[entry.Universidade] < 3 ? 3 : summedNum[entry.Universidade]);
+
+        console.log(entry.Universidade, entry.Comparativo, div)
+
+        entry.Comparativo = ((entry.Comparativo || 0) / div);
+    });
+
+    const processedData: diaData[] = [];
+    correctedData.map((entry) => {
+        if (entry.Comparativo && entry.Comparativo !== 0)
+            processedData.push(entry);
     });
 
     return processedData;
@@ -283,23 +286,26 @@ const UniversityComparison = (data: diaData[]) => {
 
 const DIA = () => {
     const { userSettings } = useSettings();
+
     const [textData, setTextData] = useState<ApiPagina>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
+
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
 
     const { register: registerUni, handleSubmit: handleSubmitUni } = useForm<OptionsForm>();
+    const onUniSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniOptions(input);
+    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+
     const { register: registerCt, handleSubmit: handleSubmitCt } = useForm<OptionsForm>();
-    const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniversityOptions(input);
-    const [CostByUniversityOptions, setCostByUniversityOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCtOptions(input);
+    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
 
-    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCountryOptions(input);
-    const [CostByCountryOptions, setCostByCountryOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
-
-    const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityComparisonOptions(input);
-    const [UniversityComparisonOptions, setUniversityComparisonOptions] = useState<OptionsForm>({ ascending: true, min: -100, max: 100 });
+    const { register: registerComp, handleSubmit: handleSubmitComp } = useForm<OptionsForm>();
+    const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityCompOptions(input);
+    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, min: -5, max: 5 });
 
 
     // Recebe o texto e as imagens do Strapi
@@ -365,21 +371,17 @@ const DIA = () => {
     const ids: sectionLink[] = [
         { name: 'Gasto mensal em cada universidade', id: 'GastoMedioPorUniversidade' },
         { name: 'Gasto mensal em cada país', id: 'GastoMedioPorPais' },
-        { name: 'Comparação de universidades estrangeiras em relação à USP', id: 'ComparacaodeuniversidadesestrangeirasemrelacaoaUSP' },
+        { name: 'Comparação de universidades estrangeiras em relação à USP', id: 'ComparacaodeUniversidadesEstrangeirasEmRelacaoAUSP' },
     ]
-
 
     const [CostByUniversityData, setCostByUniversityData] = useState<diaData[]>([]);
     const [CostByCountryData, setCostByCountryData] = useState<diaData[]>([]);
-    // const [UniversityComparisonData, setUniversityComparisonData] = useState<diaData[]>([]);
+    const [UniversityComparisonData, setUniversityCompData] = useState<diaData[]>([]);
     useEffect(() => {
         setCostByUniversityData(CostByUniversity(structuredClone(data)));
         setCostByCountryData(CostByCountry(structuredClone(data)));
-        // setUniversityComparisonData(UniversityComparison(data));
-
+        setUniversityCompData(UniversityComparison(data));
     }, [data])
-
-    console.log(CostByUniversityOptions);
 
     return (
         <div className='dia-body'>
@@ -396,7 +398,6 @@ const DIA = () => {
                 <div>
                     <PageSection
                         id={ids[0].id}
-
                         title={ids[0].name}
                         body={
                             <div className='dia-chart'>
@@ -405,7 +406,7 @@ const DIA = () => {
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form className='dia-options-form' onSubmit={handleSubmitUni(onUniversitySubmit)}>
+                                    <form className='dia-options-form' onSubmit={handleSubmitUni(onUniSubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input
@@ -448,7 +449,10 @@ const DIA = () => {
                                     <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
-                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <input
+                                                {...registerCt('ascending')}
+                                                type='checkbox' id='ascending' name='ascending' defaultChecked={true}
+                                            />
                                         </div>
 
                                         <div className='dia-options-item'>
@@ -473,23 +477,25 @@ const DIA = () => {
                         title={ids[2].name}
                         body={
                             <div className='dia-chart'>
-                                {/* {UniversityComparisonGraph(UniversityComparisonData)} */}
+                                {UniversityComparisonGraph(UniversityComparisonData, UniversityCompOptions)}
 
                                 <div className='dia-options'>
-                                    <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                    <div className='dia-options-title'>Opções de visualização:</div>
+
+                                    <form className='dia-options-form' onSubmit={handleSubmitComp(onComparisonSubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
-                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <label htmlFor='min'>Custo mínimo:</label>
-                                            <input {...registerCt('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
+                                            <label htmlFor='min'>Avaliação mínima:</label>
+                                            <input {...registerComp('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={-10} min={-10} />
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <label htmlFor='max'>Custo máximo:</label>
-                                            <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
+                                            <label htmlFor='max'>Avaliação máxima:</label>
+                                            <input {...registerComp('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={10} max={10} />
                                         </div>
 
                                         <input type='submit' value='Aplicar' />
