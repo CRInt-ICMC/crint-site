@@ -71,3 +71,9 @@ interface diaData {
     Transporte: number,
     Soma: number,
 }
+
+interface OptionsForm {
+    ascending: boolean,
+    min: number,
+    max: number,
+}

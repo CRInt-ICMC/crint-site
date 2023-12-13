@@ -45,32 +45,18 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, min?: number, max?: number }) => {
-    const ascending = options.ascending ?? true;
-    const min = options.min ?? 0;
-    const max = options.max ?? Infinity;
-
-    /* 
-    * Existem erros durante a filtragem
-    * Por exemplo, se o usuário selecionar um custo mínimo de 0 e máximo de 100000,
-    * o resultado não é determinístico e alguns dos valores não condizem com o esperado
-    * 
-    * Salvar o código força a página a recarregar e aparecer os valores corretos...
-    */
-    
+const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = [];
 
     data.map((entry) => {
-        const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
-
-        if (cost >= min && cost <= max) 
+        if (entry.Soma >= options.min && entry.Soma <= options.max)
             processedData.push(entry);
     })
 
-    const sortedData = sortDIAData(processedData, 'cost', ascending);
+    const sortedData = sortDIAData(processedData, 'cost', options.ascending);
 
     return (
-        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+        <ResponsiveContainer width="70%">
             <BarChart
                 data={sortedData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -101,55 +87,50 @@ const CostByUniversityGraph = (data: diaData[], options: { ascending?: boolean, 
     );
 }
 
-const CostByCountryGraph = (data: diaData[]) => {
+const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = []
-    data.map((entry) => {
-        // const cost = entry.Moradia + entry.Alimentacao + entry.Transporte;
 
-        // if (cost < )
-        processedData.push(entry);
+    data.map((entry) => {
+        if (entry.Soma >= options.min && entry.Soma <= options.max)
+            processedData.push(entry);
     })
 
-    console.log('country', processedData)
+    console.log('country', options)
 
-    const sortedData: diaData[] = sortDIAData(processedData, 'cost', true);
+    const sortedData: diaData[] = sortDIAData(processedData, 'cost', options.ascending);
 
     return (
-        <div className='dia-chart'>
-            <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
-                <BarChart
-                    data={sortedData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    style={{ overflow: 'visible' }}
-                    layout='vertical'
-                >
+        <ResponsiveContainer width="70%" >
+            <BarChart
+                data={sortedData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
 
-                    <XAxis
-                        type='number'
-                        tick={{ fontSize: 20 }}
-                    />
-                    <YAxis
-                        type='category'
-                        dataKey="Pais"
-                        tick={{ fontSize: 20 }}
-                        interval={0}
-                        width={180}
-                    />
-                    <Legend wrapperStyle={{ fontSize: "20px" }} />
-                    <Tooltip />
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
+                <YAxis
+                    type='category'
+                    dataKey="Pais"
+                    tick={{ fontSize: 20 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend wrapperStyle={{ fontSize: "20px" }} />
+                <Tooltip />
 
-                    <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                    <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                    <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-                </BarChart>
-            </ResponsiveContainer>
-
-            <div className='dia-options'>sdaSDADASD</div>
-        </div>
+                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+            </BarChart>
+        </ResponsiveContainer>
     );
 }
 
-// const UniversityComparation = (data: diaData[], ascending: boolean) => {
+// const UniversityComparisonGraph = (data: diaData[], ascending: boolean) => {
 //     const summedData: { [key: string]: diaData } = {};
 //     const summedNum: { [key: string]: number } = {};
 
@@ -211,7 +192,7 @@ const CostByUniversity = (data: diaData[]) => {
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
-        const universityData = summedData[line.Universidade]
+        const universityData = summedData[line.Universidade];
 
         if (line.Moradia > 0) {
             if (universityData && universityData.Moradia) {
@@ -226,7 +207,7 @@ const CostByUniversity = (data: diaData[]) => {
                 summedNum[line.Universidade] = 1;
             }
         }
-    })
+    });
 
     const processedData: diaData[] = Object.values(summedData);
 
@@ -234,8 +215,8 @@ const CostByUniversity = (data: diaData[]) => {
         entry.Moradia = Number((entry.Moradia / summedNum[entry.Universidade]).toFixed(2));
         entry.Alimentacao = Number((entry.Alimentacao / summedNum[entry.Universidade]).toFixed(2));
         entry.Transporte = Number((entry.Transporte / summedNum[entry.Universidade]).toFixed(2));
-        // entry.Soma = Number((entry.Moradia + entry.Alimentacao + entry.Transporte).toFixed(2));
-    })
+        entry.Soma = Number((entry.Moradia + entry.Alimentacao + entry.Transporte).toFixed(2));
+    });
 
     return processedData;
 }
@@ -245,7 +226,7 @@ const CostByCountry = (data: diaData[]) => {
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
-        const countryData = summedData[line.Pais]
+        const countryData = summedData[line.Pais];
 
         if (line.Moradia > 0) {
             if (countryData && countryData.Moradia) {
@@ -274,10 +255,30 @@ const CostByCountry = (data: diaData[]) => {
     return processedData;
 }
 
-interface OptionsForm {
-    ascending: boolean,
-    min: number,
-    max: number,
+const UniversityComparison = (data: diaData[]) => {
+    const summedData: { [key: string]: diaData } = {};
+    const summedNum: { [key: string]: number } = {};
+
+    data.map((line) => {
+        const universityData = summedData[line.Universidade];
+
+        if (universityData && universityData.Comparativo) {
+            universityData.Comparativo = (line.Comparativo - 5) + universityData.Comparativo;
+            summedNum[line.Universidade] += 1;
+        }
+
+        else {
+            summedData[line.Universidade] = line;
+            summedNum[line.Universidade] = 1;
+        }
+    });
+
+    const processedData: diaData[] = Object.values(summedData);
+    processedData.map((entry) => {
+        entry.Comparativo = ((entry.Comparativo || 0) / summedNum[entry.Universidade]);
+    });
+
+    return processedData;
 }
 
 const DIA = () => {
@@ -288,10 +289,17 @@ const DIA = () => {
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
-    const { register, handleSubmit } = useForm<OptionsForm>();
-    const onSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniversityOptions(input);
-    const [CostByUniversityOptions, setCostByUniversityOptions] =
-        useState<{ ascending?: boolean, min?: number, max?: number }>({ ascending: true, min: 0, max: 1000000 });
+
+    const { register: registerUni, handleSubmit: handleSubmitUni } = useForm<OptionsForm>();
+    const { register: registerCt, handleSubmit: handleSubmitCt } = useForm<OptionsForm>();
+    const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniversityOptions(input);
+    const [CostByUniversityOptions, setCostByUniversityOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+
+    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCountryOptions(input);
+    const [CostByCountryOptions, setCostByCountryOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+
+    const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityComparisonOptions(input);
+    const [UniversityComparisonOptions, setUniversityComparisonOptions] = useState<OptionsForm>({ ascending: true, min: -100, max: 100 });
 
 
     // Recebe o texto e as imagens do Strapi
@@ -363,11 +371,11 @@ const DIA = () => {
 
     const [CostByUniversityData, setCostByUniversityData] = useState<diaData[]>([]);
     const [CostByCountryData, setCostByCountryData] = useState<diaData[]>([]);
-    // const [UniversityComparationData, setUniversityComparationData] = useState<diaData[]>([]);
+    // const [UniversityComparisonData, setUniversityComparisonData] = useState<diaData[]>([]);
     useEffect(() => {
         setCostByUniversityData(CostByUniversity(structuredClone(data)));
         setCostByCountryData(CostByCountry(structuredClone(data)));
-        // setUniversityComparationData(UniversityComparation(data));
+        // setUniversityComparisonData(UniversityComparison(data));
 
     }, [data])
 
@@ -387,7 +395,7 @@ const DIA = () => {
             {data &&
                 <div>
                     <PageSection
-                        id={ids[0].id}    
+                        id={ids[0].id}
 
                         title={ids[0].name}
                         body={
@@ -397,20 +405,23 @@ const DIA = () => {
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form className='dia-options-form' onSubmit={handleSubmit(onSubmit)}>
+                                    <form className='dia-options-form' onSubmit={handleSubmitUni(onUniversitySubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
-                                            <input {...register('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <input
+                                                {...registerUni('ascending')}
+                                                type='checkbox' id='ascending' name='ascending' defaultChecked={true}
+                                            />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='min'>Custo mínimo:</label>
-                                            <input {...register('min')} type='number' id='min' name='min' defaultValue={0} />
+                                            <input {...registerUni('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='max'>Custo máximo:</label>
-                                            <input {...register('max')} type='number' id='max' name='max' defaultValue={100000} />
+                                            <input {...registerUni('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
                                         <input type='submit' value='Aplicar' />
@@ -429,11 +440,29 @@ const DIA = () => {
                         title={ids[1].name}
                         body={
                             <div className='dia-chart'>
-                                {CostByCountryGraph(CostByCountryData)}
+                                {CostByCountryGraph(CostByCountryData, CostByCountryOptions)}
 
                                 <div className='dia-options'>
-                                    dasdasd dasdasdasdasd
-                                    dasdasd dasdasdasdasd
+                                    <div className='dia-options-title'>Opções de visualização:</div>
+
+                                    <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='ascending'>Ordem crescente:</label>
+                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='min'>Custo mínimo:</label>
+                                            <input {...registerCt('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='max'>Custo máximo:</label>
+                                            <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
+                                        </div>
+
+                                        <input type='submit' value='Aplicar' />
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -444,14 +473,27 @@ const DIA = () => {
                         title={ids[2].name}
                         body={
                             <div className='dia-chart'>
-                                {/* {UniversityComparationGraph(UniversityComparationData)} */}
+                                {/* {UniversityComparisonGraph(UniversityComparisonData)} */}
 
                                 <div className='dia-options'>
-                                    dasdasd dasdasdasdasd
-                                    dasdasd dasdasdasdasd
-                                    dasdasd dasdasdasdasd
-                                    dasdasd dasdasdasdasd
-                                    dasdasd dasdasdasdasd sdadsdsdasd
+                                    <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='ascending'>Ordem crescente:</label>
+                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='min'>Custo mínimo:</label>
+                                            <input {...registerCt('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
+                                        </div>
+
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='max'>Custo máximo:</label>
+                                            <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
+                                        </div>
+
+                                        <input type='submit' value='Aplicar' />
+                                    </form>
                                 </div>
                             </div>
                         }
