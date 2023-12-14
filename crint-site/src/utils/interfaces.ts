@@ -76,4 +76,5 @@ interface OptionsForm {
     ascending: boolean,
     min: number,
     max: number,
+    name: string,
 }

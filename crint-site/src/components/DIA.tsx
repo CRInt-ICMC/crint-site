@@ -297,15 +297,15 @@ const DIA = () => {
 
     const { register: registerUni, handleSubmit: handleSubmitUni } = useForm<OptionsForm>();
     const onUniSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniOptions(input);
-    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000, name: '' });
 
     const { register: registerCt, handleSubmit: handleSubmitCt } = useForm<OptionsForm>();
     const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCtOptions(input);
-    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000 });
+    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000, name: '' });
 
     const { register: registerComp, handleSubmit: handleSubmitComp } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityCompOptions(input);
-    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, min: -5, max: 5 });
+    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, min: -5, max: 5, name: '' });
 
 
     // Recebe o texto e as imagens do Strapi
@@ -449,10 +449,7 @@ const DIA = () => {
                                     <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
-                                            <input
-                                                {...registerCt('ascending')}
-                                                type='checkbox' id='ascending' name='ascending' defaultChecked={true}
-                                            />
+                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                         </div>
 
                                         <div className='dia-options-item'>
@@ -490,12 +487,12 @@ const DIA = () => {
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='min'>Avaliação mínima:</label>
-                                            <input {...registerComp('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={-10} min={-10} />
+                                            <input {...registerComp('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={-5} min={-5} max={5} />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='max'>Avaliação máxima:</label>
-                                            <input {...registerComp('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={10} max={10} />
+                                            <input {...registerComp('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={5} min={-5} max={5} />
                                         </div>
 
                                         <input type='submit' value='Aplicar' />
