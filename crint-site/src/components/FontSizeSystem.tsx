@@ -9,7 +9,7 @@ const FontSizeSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
 
-    const BASE_FONTSIZE = getBaseFontSize()
+    const BASE_FONTSIZE = getBaseFontSize();
 
     // Atualiza a fonte global do site
     useEffect(() => {
@@ -21,14 +21,26 @@ const FontSizeSystem = () => {
     }, [userSettings.fontSize]);
 
     // Atualiza a fonte caso haja uma mudança repentina
+
+    /*
+    * Causa um erro que ao carregar o site pela primeira vez, ele sobrescreve o valor do usuário 
+    * 
+    * Talvez seja necessário remover a atualização dinâmica. Porém, é possível que uma atualização
+    * no modelo atual seja o bastante para resolver o problema.
+    * 
+    * Essa atualização partiria da função que atualiza o tamanho base da fonte.
+    * 
+    */
     useEffect(() => {
-        setFontSize(userSettings.fontSize);
+        updateUserSettings(context, { fontSize: BASE_FONTSIZE });
     }, [BASE_FONTSIZE]);
 
     const setFontSize = (offset: number) => {
         const newFontSize = clampFontSize(userSettings.fontSize + offset);
         updateUserSettings(context, { fontSize: newFontSize });
     }
+
+    console.log('Font size: ', userSettings.fontSize);
 
     return (
         <div className='options-root'>
