@@ -45,141 +45,6 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
-    const processedData: diaData[] = [];
-
-    data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max)
-            processedData.push(entry);
-    })
-
-    const sortedData = sortDIAData(processedData, 'cost', options.ascending);
-
-    return (
-        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
-            <BarChart
-                data={sortedData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
-
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Universidade"
-                    tick={{ fontSize: 14 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "25px" }} />
-                <Tooltip wrapperStyle={{ fontSize: "25px" }} />
-
-                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-            </BarChart>
-
-        </ResponsiveContainer>
-    );
-}
-
-const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
-    const processedData: diaData[] = []
-
-    data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max)
-            processedData.push(entry);
-    })
-
-    const sortedData: diaData[] = sortDIAData(processedData, 'cost', options.ascending);
-
-    return (
-        <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
-            <BarChart
-                data={sortedData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
-
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Pais"
-                    tick={{ fontSize: 20 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "20px" }} />
-                <Tooltip />
-
-                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-            </BarChart>
-        </ResponsiveContainer>
-    );
-}
-
-const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
-    const processedData: diaData[] = [];
-    data.map((entry) => {
-        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max)
-            processedData.push(entry);
-    });
-
-    const sortedData: diaData[] = sortDIAData(processedData, 'comparative', options.ascending);
-    console.log(sortedData)
-
-    return (
-        <div className='dia-chart'>
-            <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
-                <BarChart
-                    data={sortedData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    style={{ overflow: 'visible' }}
-                    layout='vertical'
-                >
-
-                    <XAxis
-                        type='number'
-                        tick={{ fontSize: 20 }}
-                        domain={[-5, 5]}
-                    />
-                    <YAxis
-                        type='category'
-                        dataKey="Universidade"
-                        tick={{ fontSize: 11 }}
-                        interval={0}
-                        width={180}
-                    />
-                    <Legend wrapperStyle={{ fontSize: "20px" }} />
-                    <ReferenceLine x={0} stroke="#000" />
-                    <Tooltip />
-
-                    <Bar type='number' dataKey="Comparativo" stackId='a' >
-                        {
-                            sortedData.map((entry, index) => {
-                                console.log(index, entry.Comparativo, entry.Universidade)
-
-                                return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
-
-                            })
-                        }
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    );
-}
-
 const CostByUniversity = (data: diaData[]) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
@@ -284,6 +149,149 @@ const UniversityComparison = (data: diaData[]) => {
     return processedData;
 }
 
+const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
+    let processedData: diaData[] = [];
+
+    data.map((entry) => {
+        if (entry.Soma >= options.min && entry.Soma <= options.max)
+            processedData.push(entry);
+    })
+
+    if (options.name !== '')
+        processedData = processedData.filter((entry) => entry.Universidade.includes(options.name));
+
+    const sortedData = sortDIAData(processedData, 'cost', options.ascending);
+
+    return (
+        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+            <BarChart
+                data={sortedData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
+
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
+                <YAxis
+                    type='category'
+                    dataKey="Universidade"
+                    tick={{ fontSize: 14 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend wrapperStyle={{ fontSize: "25px" }} />
+                <Tooltip wrapperStyle={{ fontSize: "25px" }} />
+
+                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+            </BarChart>
+
+        </ResponsiveContainer>
+    );
+}
+
+const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
+    let processedData: diaData[] = []
+
+    data.map((entry) => {
+        if (entry.Soma >= options.min && entry.Soma <= options.max)
+            processedData.push(entry);
+    })
+
+    if (options.name !== '')
+        processedData = processedData.filter((entry) => entry.Pais.includes(options.name));
+
+    const sortedData: diaData[] = sortDIAData(processedData, 'cost', options.ascending);
+
+    return (
+        <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
+            <BarChart
+                data={sortedData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                style={{ overflow: 'visible' }}
+                layout='vertical'
+            >
+
+                <XAxis
+                    type='number'
+                    tick={{ fontSize: 20 }}
+                />
+                <YAxis
+                    type='category'
+                    dataKey="Pais"
+                    tick={{ fontSize: 20 }}
+                    interval={0}
+                    width={180}
+                />
+                <Legend wrapperStyle={{ fontSize: "20px" }} />
+                <Tooltip />
+
+                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+            </BarChart>
+        </ResponsiveContainer>
+    );
+}
+
+const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
+    let processedData: diaData[] = [];
+
+    data.map((entry) => {
+        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max)
+            processedData.push(entry);
+    });
+
+    if (options.name !== '')
+        processedData = processedData.filter((entry) => entry.Universidade.includes(options.name));
+
+    const sortedData: diaData[] = sortDIAData(processedData, 'comparative', options.ascending);
+
+    return (
+        <div className='dia-chart'>
+            <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
+                <BarChart
+                    data={sortedData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    style={{ overflow: 'visible' }}
+                    layout='vertical'
+                >
+
+                    <XAxis
+                        type='number'
+                        tick={{ fontSize: 20 }}
+                        domain={[-5, 5]}
+                    />
+                    <YAxis
+                        type='category'
+                        dataKey="Universidade"
+                        tick={{ fontSize: 11 }}
+                        interval={0}
+                        width={180}
+                    />
+                    <ReferenceLine x={0} stroke="#000" />
+                    <Tooltip />
+
+                    <Bar type='number' dataKey="Comparativo" stackId='a' >
+                        {
+                            sortedData.map((entry, index) => {
+                                console.log(index, entry.Comparativo, entry.Universidade)
+
+                                return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
+
+                            })
+                        }
+                    </Bar>
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
+    );
+}
+
 const DIA = () => {
     const { userSettings } = useSettings();
 
@@ -295,15 +303,15 @@ const DIA = () => {
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
 
-    const { register: registerUni, handleSubmit: handleSubmitUni } = useForm<OptionsForm>();
+    const { register: registerUni, handleSubmit: handleSubmitUni, reset: resetUni } = useForm<OptionsForm>();
     const onUniSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniOptions(input);
     const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000, name: '' });
 
-    const { register: registerCt, handleSubmit: handleSubmitCt } = useForm<OptionsForm>();
+    const { register: registerCt, handleSubmit: handleSubmitCt, reset: resetCt } = useForm<OptionsForm>();
     const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCtOptions(input);
     const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, min: 0, max: 1000000, name: '' });
 
-    const { register: registerComp, handleSubmit: handleSubmitComp } = useForm<OptionsForm>();
+    const { register: registerComp, handleSubmit: handleSubmitComp, reset: resetComp } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityCompOptions(input);
     const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, min: -5, max: 5, name: '' });
 
@@ -425,11 +433,16 @@ const DIA = () => {
                                             <input {...registerUni('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
-                                        <input type='submit' value='Aplicar' />
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome da universidade:</label>
+                                            <input {...registerUni('name')} type='text' id='name' name='name' />
+                                        </div>
+
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' />
+                                            <input type="button" onClick={() => resetUni()} value="Resetar" />
+                                        </div>
                                     </form>
-
-
-
                                 </div>
                             </div>
 
@@ -462,7 +475,15 @@ const DIA = () => {
                                             <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
-                                        <input type='submit' value='Aplicar' />
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome do país:</label>
+                                            <input {...registerCt('name')} type='text' id='name' name='name' />
+                                        </div>
+
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' />
+                                            <input type="button" onClick={() => resetCt()} value="Resetar" />
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -495,7 +516,15 @@ const DIA = () => {
                                             <input {...registerComp('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={5} min={-5} max={5} />
                                         </div>
 
-                                        <input type='submit' value='Aplicar' />
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome da universidade:</label>
+                                            <input {...registerComp('name')} type='text' id='name' name='name' />
+                                        </div>
+
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' />
+                                            <input type="button" onClick={() => resetComp()} value="Resetar" />
+                                        </div>
                                     </form>
                                 </div>
                             </div>
