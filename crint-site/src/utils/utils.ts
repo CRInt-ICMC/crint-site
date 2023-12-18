@@ -1,6 +1,6 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
+import { DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
 import { LoadingContext } from '../Loading';
 
 // Carrega as configurações armazenadas
@@ -20,16 +20,10 @@ export const loadSettings = () => {
     // Recupera as informações em JSON e passa para a variável que será retornada
     const savedConfig: userSettings = JSON.parse(savedConfigString);
 
-    // Garante que é uma língua válida
-    const storedLang = AVAILABLE_LANGUAGES.includes(savedConfig.lang) ? savedConfig.lang : DEFAULT_LANGUAGE
-
-    // Garante que é um tamanho válido
-    const storedFontSize = clampFontSize(savedConfig.fontSize);
-
-    // Carrega os valores para o contexto
-    userSettings.cookieConsent = savedConfig.cookieConsent || false;
-    userSettings.lang = storedLang;
-    userSettings.fontSize = storedFontSize;
+    // Carrega os valores para o contexto garantindo que não sejam nulos e que estejam dentro dos limites
+    userSettings.cookieConsent = savedConfig.cookieConsent ?? false;
+    userSettings.lang = savedConfig.lang ?? DEFAULT_LANGUAGE;
+    userSettings.fontSize = clampFontSize(savedConfig.fontSize)
 
     return userSettings;
 }
@@ -39,9 +33,9 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
     const { userSettings, setUserSettings } = context;
 
     // Passa o valores originais quando não há alterações
-    const definedLang: string = newValues.lang || userSettings.lang;
-    const definedCookieConsent: boolean = newValues.cookieConsent || userSettings.cookieConsent;
-    const definedFontSize: number = newValues.fontSize || userSettings.fontSize;
+    const definedLang: string = newValues.lang ?? userSettings.lang;
+    const definedCookieConsent: boolean = newValues.cookieConsent ?? userSettings.cookieConsent;
+    const definedFontSize: number = newValues.fontSize ?? userSettings.fontSize;
 
     // Cria um novo conjunto se configurações
     const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };

@@ -58,3 +58,9 @@ interface sectionLink {
     name: string,
     id: string,
 }
+
+interface langIcon {
+    value: string,
+    label: any,
+    icon: string,
+}
