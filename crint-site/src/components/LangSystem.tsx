@@ -25,7 +25,7 @@ const LangSystem = () => {
                 const optionsData = data.map((lang) => {
                     const sigla = String(lang.attributes.Sigla);
                     const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;
-            
+
                     return {
                         value: sigla,
                         label: <img src={STRAPI_URL + bandeira.url} height='30px' width='45px'></img>,
@@ -55,10 +55,10 @@ const LangSystem = () => {
     const selectStyles = {
         control: (base: any) => ({
             ...base,
-            border: 0,
             background: 'transparent',
-            boxShadow: 'none',
             fontsize: '14px',
+            color: 'white',
+            border: 0,
             margin: 0,
 
             '&:hover': {
@@ -66,13 +66,29 @@ const LangSystem = () => {
                 boxShadow: 'none',
             }
         }),
+
+        // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
+        option: (styles: any, { isDisabled, isFocused, isSelected }) => {
+            return {
+                ...styles,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            };
+        },
     };
 
     return (
         <div className='flags'>
             { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
                 selectedLang &&
-                    <Select defaultValue={selectedLang} options={options} styles={selectStyles} onChange={(e) => changeLang(e ? e.value : DEFAULT_LANGUAGE)} />
+                <Select
+                    defaultValue={selectedLang}
+                    options={options.filter((option) => option.value !== selectedLang.value)}
+                    styles={selectStyles}
+                    onChange={(e) => changeLang(e ? e.value : DEFAULT_LANGUAGE)}
+                    isSearchable={false}
+                />
             }
         </div>
     );
