@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
+import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import { ApiLingua } from "../utils/types";
 import Select from 'react-select';
@@ -42,14 +42,8 @@ const LangSystem = () => {
     }, [options]);
 
     const changeLang = (lang: string) => {
-        let newLang = lang;
-
-        // Previne que uma opção de linguagem não existente seja inserida no sistema
-        if (!AVAILABLE_LANGUAGES.includes(newLang))
-            newLang = DEFAULT_LANGUAGE;
-
-        updateUserSettings(context, { lang: newLang })
-        setSelectedLang(options?.find((option) => option.value === newLang));
+        updateUserSettings(context, { lang: lang })
+        setSelectedLang(options?.find((option) => option.value === lang));
     };
 
     const selectStyles = {
