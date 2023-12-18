@@ -58,6 +58,9 @@ const LangSystem = () => {
             border: 0,
             background: 'transparent',
             boxShadow: 'none',
+            fontsize: '14px',
+            margin: 0,
+
             '&:hover': {
                 border: 0,
                 boxShadow: 'none',
