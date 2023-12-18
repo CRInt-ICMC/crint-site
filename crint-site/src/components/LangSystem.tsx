@@ -22,6 +22,10 @@ const LangSystem = () => {
                     data.push(lang);
                 });
 
+                // Caso a linguagem do usuário não exista, define a linguagem padrão
+                if (data.filter((lang) => String(lang.attributes.Sigla) === userSettings.lang).length === 0)
+                    updateUserSettings(context, { lang: DEFAULT_LANGUAGE });
+
                 const optionsData = data.map((lang) => {
                     const sigla = String(lang.attributes.Sigla);
                     const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;

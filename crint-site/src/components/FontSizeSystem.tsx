@@ -53,13 +53,13 @@ const FontSizeSystem = () => {
             <div className='fontsize-body'>
                 {
                     userSettings.fontSize > MIN_FONT_SIZE
-                    ? <button className='enabled button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>
-                    : <button className='disabled button'><FontAwesomeIcon icon={faMinus} /></button>
+                        ? <button className='enabled button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>
+                        : <button className='disabled button'><FontAwesomeIcon icon={faMinus} /></button>
                 }
                 {
                     userSettings.fontSize < MAX_FONT_SIZE
-                    ? <button className='enabled button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>
-                    : <button className='disabled button'><FontAwesomeIcon icon={faPlus} /></button>
+                        ? <button className='enabled button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>
+                        : <button className='disabled button'><FontAwesomeIcon icon={faPlus} /></button>
                 }
             </div>
         </div>
