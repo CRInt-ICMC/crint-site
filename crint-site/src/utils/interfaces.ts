@@ -78,3 +78,9 @@ interface OptionsForm {
     max: number,
     name: string,
 }
+
+interface langIcon {
+    value: string,
+    label: any,
+    icon: string,
+}

@@ -1,13 +1,24 @@
 @use '../Base.scss' as base;
 
-.options-root {
+.fontsize-root {
     align-items: center;
     display: flex;
     justify-content: center;
 
+    margin: 0;
+    padding: 0;
+
     width: 100%;
 
-    .options-body {
+    @media screen and (orientation: portrait) {
+        font-size: 9px;
+    }
+
+    @media screen and (orientation: landscape) {
+        font-size: 12px;
+    }
+
+    .fontsize-body {
         @media screen and (orientation: portrait) {
             width: clamp(20%, base.$largura-botao-fonte * 8, 100px);
         }
@@ -16,9 +27,11 @@
             width: calc(2 * base.$largura-botao-fonte);
         }
 
-        position: relative;
-
         .button {
+            color: black;
+
+            border-radius: 10px;
+
             @media screen and (orientation: portrait) {
                 width: clamp(10%, base.$largura-botao-fonte * 4, 50px);
                 aspect-ratio: 3 / 2;
@@ -29,19 +42,17 @@
             @media screen and (orientation: landscape) {
                 height: base.$largura-botao-fonte;
                 width: base.$largura-botao-fonte;
-             
+
                 font-size: 12px;
             }
-
-            position: absolute;
         }
 
-        .increase {
-            right: 0;
+        .enabled {
+            background-color: white;
         }
 
-        .decrease {
-            left: 0;
+        .disabled {
+            background-color: gray;
         }
     }
 }
