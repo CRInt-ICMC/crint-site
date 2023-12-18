@@ -1,7 +1,7 @@
 import { Bar, BarChart, Cell, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
-import { sortDIAData, useSettings } from '../utils/utils';
+import { useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
 import { ApiDia, ApiPagina } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -150,146 +150,147 @@ const UniversityComparison = (data: diaData[]) => {
 }
 
 const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
-    let processedData: diaData[] = [];
+    const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max)
+        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Universidade.includes(options.name))
             processedData.push(entry);
     })
 
-    if (options.name !== '')
-        processedData = processedData.filter((entry) => entry.Universidade.includes(options.name));
+    processedData.sort((a, b) =>  (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
-    const sortedData = sortDIAData(processedData, 'cost', options.ascending);
+    return <>
+        {
+            processedData.length !== 0
+                ? <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+                    <BarChart
+                        data={processedData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        style={{ overflow: 'visible' }}
+                        layout='vertical'
+                    >
 
-    return (
-        <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
-            <BarChart
-                data={sortedData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
+                        <XAxis
+                            type='number'
+                            tick={{ fontSize: 20 }}
+                        />
+                        <YAxis
+                            type='category'
+                            dataKey="Universidade"
+                            tick={{ fontSize: 14 }}
+                            interval={0}
+                            width={180}
+                        />
+                        <Legend wrapperStyle={{ fontSize: "25px" }} />
+                        <Tooltip wrapperStyle={{ fontSize: "25px" }} />
 
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Universidade"
-                    tick={{ fontSize: 14 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "25px" }} />
-                <Tooltip wrapperStyle={{ fontSize: "25px" }} />
+                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                    </BarChart>
 
-                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-            </BarChart>
-
-        </ResponsiveContainer>
-    );
+                </ResponsiveContainer>
+                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+        }
+    </>
 }
 
 const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
-    let processedData: diaData[] = []
+    const processedData: diaData[] = []
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max)
+        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Pais.includes(options.name))
             processedData.push(entry);
     })
 
-    if (options.name !== '')
-        processedData = processedData.filter((entry) => entry.Pais.includes(options.name));
+    processedData.sort((a, b) =>  (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
-    const sortedData: diaData[] = sortDIAData(processedData, 'cost', options.ascending);
+    return <>
+        {
+            processedData.length !== 0
+                ? <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
+                    <BarChart
+                        data={processedData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        style={{ overflow: 'visible' }}
+                        layout='vertical'
+                    >
 
-    return (
-        <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
-            <BarChart
-                data={sortedData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                style={{ overflow: 'visible' }}
-                layout='vertical'
-            >
+                        <XAxis
+                            type='number'
+                            tick={{ fontSize: 20 }}
+                        />
+                        <YAxis
+                            type='category'
+                            dataKey="Pais"
+                            tick={{ fontSize: 20 }}
+                            interval={0}
+                            width={180}
+                        />
+                        <Legend wrapperStyle={{ fontSize: "20px" }} />
+                        <Tooltip />
 
-                <XAxis
-                    type='number'
-                    tick={{ fontSize: 20 }}
-                />
-                <YAxis
-                    type='category'
-                    dataKey="Pais"
-                    tick={{ fontSize: 20 }}
-                    interval={0}
-                    width={180}
-                />
-                <Legend wrapperStyle={{ fontSize: "20px" }} />
-                <Tooltip />
-
-                <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
-            </BarChart>
-        </ResponsiveContainer>
-    );
+                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
+                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
+                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                    </BarChart>
+                </ResponsiveContainer>
+                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+        }
+    </>
 }
 
 const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
-    let processedData: diaData[] = [];
+    const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max)
+        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max && entry.Universidade.includes(options.name))
             processedData.push(entry);
     });
 
-    if (options.name !== '')
-        processedData = processedData.filter((entry) => entry.Universidade.includes(options.name));
+    processedData.sort((a, b) =>  (a.Comparativo - b.Comparativo) * (options.ascending ? 1 : -1));
 
-    const sortedData: diaData[] = sortDIAData(processedData, 'comparative', options.ascending);
+    return <>
+        {
+            processedData.length !== 0
+                ? <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
+                    <BarChart
+                        data={processedData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        style={{ overflow: 'visible' }}
+                        layout='vertical'
+                    >
 
-    return (
-        <div className='dia-chart'>
-            <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
-                <BarChart
-                    data={sortedData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    style={{ overflow: 'visible' }}
-                    layout='vertical'
-                >
+                        <XAxis
+                            type='number'
+                            tick={{ fontSize: 20 }}
+                            domain={[-5, 5]}
+                        />
+                        <YAxis
+                            type='category'
+                            dataKey="Universidade"
+                            tick={{ fontSize: 11 }}
+                            interval={0}
+                            width={180}
+                        />
+                        <ReferenceLine x={0} stroke="#000" />
+                        <Tooltip />
 
-                    <XAxis
-                        type='number'
-                        tick={{ fontSize: 20 }}
-                        domain={[-5, 5]}
-                    />
-                    <YAxis
-                        type='category'
-                        dataKey="Universidade"
-                        tick={{ fontSize: 11 }}
-                        interval={0}
-                        width={180}
-                    />
-                    <ReferenceLine x={0} stroke="#000" />
-                    <Tooltip />
+                        <Bar type='number' dataKey="Comparativo" stackId='a' >
+                            {
+                                processedData.map((entry, index) => {
+                                    console.log(index, entry.Comparativo, entry.Universidade)
 
-                    <Bar type='number' dataKey="Comparativo" stackId='a' >
-                        {
-                            sortedData.map((entry, index) => {
-                                console.log(index, entry.Comparativo, entry.Universidade)
+                                    return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
 
-                                return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
-
-                            })
-                        }
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    );
+                                })
+                            }
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+        }
+    </>;
 }
 
 const DIA = () => {
@@ -440,7 +441,7 @@ const DIA = () => {
 
                                         <div className='dia-options-buttons'>
                                             <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => resetUni()} value="Resetar" />
+                                            <input type="button" onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, min: 0, max: 1000000, name: '' }) }} value="Resetar" />
                                         </div>
                                     </form>
                                 </div>
@@ -482,7 +483,7 @@ const DIA = () => {
 
                                         <div className='dia-options-buttons'>
                                             <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => resetCt()} value="Resetar" />
+                                            <input type="button" onClick={() => { resetCt(); setCostByCtOptions({ ascending: true, min: 0, max: 1000000, name: '' }) }} value="Resetar" />
                                         </div>
                                     </form>
                                 </div>
@@ -523,7 +524,7 @@ const DIA = () => {
 
                                         <div className='dia-options-buttons'>
                                             <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => resetComp()} value="Resetar" />
+                                            <input type="button" onClick={() => { resetComp(); setUniversityCompOptions({ ascending: true, min: -5, max: 5, name: '' }) }} value="Resetar" />
                                         </div>
                                     </form>
                                 </div>
