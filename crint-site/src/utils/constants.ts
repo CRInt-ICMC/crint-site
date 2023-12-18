@@ -1,5 +1,4 @@
 // Language System
-export const AVAILABLE_LANGUAGES = ['pt', 'en'];
 export const DEFAULT_LANGUAGE = 'pt';
 
 // Strapi

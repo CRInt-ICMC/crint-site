@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
+import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from "../utils/constants";
 import { updateUserSettings, useSettings } from "../utils/utils";
 import { ApiLingua } from "../utils/types";
+import Select from 'react-select';
 import axios from "axios";
 import './LangSystem.scss';
 
 const LangSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
-    const [langs, setLangs] = useState<ApiLingua[]>();
+    const [options, setOptions] = useState<langIcon[]>([]);
+    const [selectedLang, setSelectedLang] = useState<langIcon>();
 
     useEffect(() => {
         axios
@@ -20,36 +22,71 @@ const LangSystem = () => {
                     data.push(lang);
                 });
 
-                setLangs(data);
+                // Caso a linguagem do usuário não exista, define a linguagem padrão
+                if (data.filter((lang) => String(lang.attributes.Sigla) === userSettings.lang).length === 0)
+                    updateUserSettings(context, { lang: DEFAULT_LANGUAGE });
+
+                const optionsData = data.map((lang) => {
+                    const sigla = String(lang.attributes.Sigla);
+                    const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;
+
+                    return {
+                        value: sigla,
+                        label: <img src={STRAPI_URL + bandeira.url} height='30px' width='45px'></img>,
+                        icon: STRAPI_URL + bandeira.url,
+                    } as langIcon;
+                });
+
+                setOptions(optionsData);
             })
     }, []);
 
+    useEffect(() => {
+        setSelectedLang(options.find((option) => option.value === userSettings.lang));
+    }, [options]);
+
     const changeLang = (lang: string) => {
-        let newLang = lang;
+        updateUserSettings(context, { lang: lang })
+        setSelectedLang(options?.find((option) => option.value === lang));
+    };
 
-        // Previne que uma opção de linguagem não existente seja inserida no sistema
-        if (!AVAILABLE_LANGUAGES.includes(newLang))
-            newLang = DEFAULT_LANGUAGE;
+    const selectStyles = {
+        control: (base: any) => ({
+            ...base,
+            background: 'transparent',
+            fontsize: '14px',
+            color: 'white',
+            border: 0,
+            margin: 0,
 
-        updateUserSettings(context, { lang: newLang })
+            '&:hover': {
+                border: 0,
+                boxShadow: 'none',
+            }
+        }),
+
+        // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
+        option: (styles: any, { isDisabled, isFocused, isSelected }) => {
+            return {
+                ...styles,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            };
+        },
     };
 
     return (
         <div className='flags'>
             { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
-                langs &&
-                langs.map((lang) => {
-                    const sigla = String(lang.attributes.Sigla);
-                    const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;
-
-                    if (sigla !== userSettings.lang) {
-                        return (
-                            <button key={sigla} onClick={() => changeLang(sigla)}>
-                                <img alt={bandeira.caption} src={STRAPI_URL + bandeira.url} />
-                            </button>
-                        );
-                    }
-                })
+                selectedLang &&
+                <Select
+                    defaultValue={selectedLang}
+                    options={options.filter((option) => option.value !== selectedLang.value)}
+                    styles={selectStyles}
+                    onChange={(e) => changeLang(e ? e.value : DEFAULT_LANGUAGE)}
+                    isSearchable={false}
+                />
             }
         </div>
     );
