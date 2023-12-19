@@ -9,6 +9,8 @@ import PageBanner from './PageBanner';
 import axios from 'axios';
 import PageSection from './PageSection';
 import './DIA.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ProcessData = (CSV: string) => {
     const data: diaData[] = [];
@@ -135,8 +137,6 @@ const UniversityComparison = (data: diaData[]) => {
     correctedData.map((entry) => {
         const div = (summedNum[entry.Universidade] < 3 ? 3 : summedNum[entry.Universidade]);
 
-        console.log(entry.Universidade, entry.Comparativo, div)
-
         entry.Comparativo = ((entry.Comparativo || 0) / div);
     });
 
@@ -153,16 +153,16 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Universidade.includes(options.name))
+        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Universidade.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
             processedData.push(entry);
     })
 
-    processedData.sort((a, b) =>  (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
+    processedData.sort((a, b) => (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
     return <>
         {
             processedData.length !== 0
-                ? <ResponsiveContainer width="70%" aspect={1.0 / 1.0}>
+                ? <ResponsiveContainer className='dia-chart' width="70%" aspect={1.0 / 1.0}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -190,7 +190,10 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
                     </BarChart>
 
                 </ResponsiveContainer>
-                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+                : <div className='dia-empty' style={{width: '70%'}}>
+                    <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
+                    <p>Nenhum item corresponde aos filtros selecionados</p>
+                </div>
         }
     </>
 }
@@ -199,16 +202,16 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = []
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Pais.includes(options.name))
+        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Pais.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
             processedData.push(entry);
     })
 
-    processedData.sort((a, b) =>  (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
+    processedData.sort((a, b) => (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
     return <>
         {
             processedData.length !== 0
-                ? <ResponsiveContainer width="70%" aspect={1.0 / 1.0} >
+                ? <ResponsiveContainer className='dia-chart' width="70%" aspect={1.0 / 1.0} >
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -235,7 +238,10 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
                         <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
                     </BarChart>
                 </ResponsiveContainer>
-                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+                : <div className='dia-empty' style={{width: '70%'}}>
+                    <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
+                    <p>Nenhum item corresponde aos filtros selecionados</p>
+                </div>
         }
     </>
 }
@@ -244,16 +250,23 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max && entry.Universidade.includes(options.name))
+        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max &&
+            entry.Universidade.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
             processedData.push(entry);
     });
 
-    processedData.sort((a, b) =>  (a.Comparativo - b.Comparativo) * (options.ascending ? 1 : -1));
+    processedData.sort((a, b) => (a.Comparativo - b.Comparativo) * (options.ascending ? 1 : -1));
+
+    const barWidth = 40;
+    const barPadding = 10;
+    const minHeight = 600;
+
+    const totalHeight = (processedData.length * (barWidth + barPadding) + 100 > minHeight ? processedData.length * (barWidth + barPadding) + 100 : minHeight);
 
     return <>
         {
             processedData.length !== 0
-                ? <ResponsiveContainer width="80%" aspect={1.0 / 5.0}>
+                ? <ResponsiveContainer className='dia-chart' width="80%" height={totalHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -269,26 +282,24 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
                         <YAxis
                             type='category'
                             dataKey="Universidade"
-                            tick={{ fontSize: 11 }}
+                            tick={{ fontSize: 14 }}
                             interval={0}
                             width={180}
                         />
                         <ReferenceLine x={0} stroke="#000" />
                         <Tooltip />
 
-                        <Bar type='number' dataKey="Comparativo" stackId='a' >
+                        <Bar type='number' dataKey="Comparativo" stackId='a' maxBarSize={barWidth} >
                             {
-                                processedData.map((entry, index) => {
-                                    console.log(index, entry.Comparativo, entry.Universidade)
-
-                                    return <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />
-
-                                })
+                                processedData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.Comparativo > 0 ? '#BDDDE8' : '#FF0000'} />)
                             }
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
-                : <div className='dia-empty'> Nenhum item corresponde aos filtros selecionados </div>
+                : <div className='dia-empty' style={{width: '80%'}}>
+                    <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
+                    <p>Nenhum item corresponde aos filtros selecionados</p>
+                </div>
         }
     </>;
 }
@@ -409,13 +420,13 @@ const DIA = () => {
                         id={ids[0].id}
                         title={ids[0].name}
                         body={
-                            <div className='dia-chart'>
+                            <div className='dia-chart-box'>
                                 {CostByUniversityGraph(CostByUniversityData, CostByUniversityOptions)}
 
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form className='dia-options-form' onSubmit={handleSubmitUni(onUniSubmit)}>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniSubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input
@@ -454,13 +465,13 @@ const DIA = () => {
                         id={ids[1].id}
                         title={ids[1].name}
                         body={
-                            <div className='dia-chart'>
+                            <div className='dia-chart-box'>
                                 {CostByCountryGraph(CostByCountryData, CostByCountryOptions)}
 
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form className='dia-options-form' onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCt(onCountrySubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
@@ -495,13 +506,13 @@ const DIA = () => {
                         id={ids[2].id}
                         title={ids[2].name}
                         body={
-                            <div className='dia-chart'>
+                            <div className='dia-chart-box'>
                                 {UniversityComparisonGraph(UniversityComparisonData, UniversityCompOptions)}
 
                                 <div className='dia-options'>
                                     <div className='dia-options-title'>Opções de visualização:</div>
 
-                                    <form className='dia-options-form' onSubmit={handleSubmitComp(onComparisonSubmit)}>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComp(onComparisonSubmit)}>
                                         <div className='dia-options-item'>
                                             <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
