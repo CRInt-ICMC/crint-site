@@ -24,7 +24,7 @@
         }
 
         .dia-empty {
-            transition: font 500ms ease;
+            transition: font 250ms ease;
 
             display: flex;
             flex-direction: column;
@@ -36,7 +36,7 @@
         }
 
         .dia-options {
-            transition: font 500ms ease;
+            transition: font 250ms ease;
 
             max-width: 30%;
 
@@ -78,6 +78,59 @@
                     border-radius: 0.5rem;
                     background: transparent;
                     color: black;
+                }
+
+                input[type=checkbox] {
+                    width: 1rem;
+                    height: 1rem;
+                    margin-right: 0.5rem;
+                }
+            }
+
+            #curto {
+                input[type=number] {
+                    width: 1rem;
+                    font-size: 0.8rem;
+                    padding: 0.5rem;
+                    border: 1px solid gray;
+                    border-radius: 0.5rem;
+                    background: transparent;
+                    color: black;
+                    text-align: center;
+                    appearance: textfield;
+                    -moz-appearance: textfield;
+                }
+            }
+
+            .dia-options-buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                padding: 0 10%;
+
+                input[type=submit] {
+                    width: 4rem;
+                    font-size: 0.8rem;
+                    padding: 0.5rem;
+                    border: 1px solid gray;
+                    border-radius: 0.5rem;
+                    background: lightgreen;
+                    color: black;
+                    appearance: button;
+                    -moz-appearance: button;
+                }
+
+                input[type=button] {
+                    width: 4rem;
+                    font-size: 0.8rem;
+                    padding: 0.5rem;
+                    border: 1px solid gray;
+                    border-radius: 0.5rem;
+                    background: lightcoral;
+                    color: black;
+                    appearance: button;
+                    -moz-appearance: button;
                 }
             }
         }

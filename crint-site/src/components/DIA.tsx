@@ -137,7 +137,7 @@ const UniversityComparison = (data: diaData[]) => {
     correctedData.map((entry) => {
         const div = (summedNum[entry.Universidade] < 3 ? 3 : summedNum[entry.Universidade]);
 
-        entry.Comparativo = ((entry.Comparativo || 0) / div);
+        entry.Comparativo = Number(((entry.Comparativo || 0) / div).toFixed(2));
     });
 
     const processedData: diaData[] = [];
@@ -268,7 +268,7 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
 
     processedData.sort((a, b) => (a.Comparativo - b.Comparativo) * (options.ascending ? 1 : -1));
 
-    const barWidth = 30;
+    const barWidth = 40;
     const barPadding = 10;
     const minHeight = 600;
 
@@ -289,14 +289,16 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
                             type='number'
                             tick={{ fontSize: 20 }}
                             domain={[-5, 5]}
+                            tickCount={11}
                         />
                         <YAxis
                             type='category'
                             dataKey="Universidade"
                             tick={{ fontSize: 14 }}
                             interval={0}
-                            width={180}
+                            width={200}
                         />
+                        
                         <ReferenceLine x={0} stroke="#000" />
                         <Tooltip />
 
@@ -439,30 +441,23 @@ const DIA = () => {
 
                                     <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniSubmit)}>
                                         <div className='dia-options-item'>
-                                            <label htmlFor='ascending'>Ordem crescente:</label>
-                                            <input
-                                                {...registerUni('ascending')}
-                                                type='checkbox' id='ascending' name='ascending' defaultChecked={true}
-                                            />
+                                            <input {...registerUni('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <div className='dia-options-item'>Limites</div>
-                                            <span>R$ </span>
-                                            <input {...registerUni('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
-                                            <span> a </span>
-                                            <span>R$ </span>
+                                            <span>Custo Máximo (R$) </span>
                                             <input {...registerUni('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='name'>Nome da universidade:</label>
-                                            <input {...registerUni('name')} type='text' id='name' name='name' />
+                                            <input {...registerUni('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
                                         </div>
 
                                         <div className='dia-options-buttons'>
-                                            <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, min: 0, max: 1000000, name: '' }) }} value="Resetar" />
+                                            <input type='submit' value='Aplicar' name='aplicar' />
+                                            <input type='button' name='resetar' value='Resetar'  onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, min: 0, max: 1000000, name: '' }) }} />
                                         </div>
                                     </form>
                                 </div>
@@ -483,22 +478,18 @@ const DIA = () => {
 
                                     <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCt(onCountrySubmit)}>
                                         <div className='dia-options-item'>
-                                            <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <div className='dia-options-item'>Limites</div>
-                                            <span>R$ </span>
-                                            <input {...registerCt('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
-                                            <span> a </span>
-                                            <span>R$ </span>
+                                            <span>Custo Máximo R$ </span>
                                             <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='name'>Nome do país:</label>
-                                            <input {...registerCt('name')} type='text' id='name' name='name' />
+                                            <input {...registerCt('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
                                         </div>
 
                                         <div className='dia-options-buttons'>
@@ -523,23 +514,20 @@ const DIA = () => {
 
                                     <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComp(onComparisonSubmit)}>
                                         <div className='dia-options-item'>
-                                            <label htmlFor='ascending'>Ordem crescente:</label>
                                             <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
                                         </div>
 
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='min'>Avaliação mínima:</label>
+                                        <div className='dia-options-item' id='curto'>
+                                            <span className='dia-options-item'>Limites </span>
                                             <input {...registerComp('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={-5} min={-5} max={5} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='max'>Avaliação máxima:</label>
+                                            <span> a </span>
                                             <input {...registerComp('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={5} min={-5} max={5} />
                                         </div>
 
                                         <div className='dia-options-item'>
                                             <label htmlFor='name'>Nome da universidade:</label>
-                                            <input {...registerComp('name')} type='text' id='name' name='name' />
+                                            <input {...registerComp('name')} type='text' id='name' name='name'  placeholder='Digite aqui...' />
                                         </div>
 
                                         <div className='dia-options-buttons'>

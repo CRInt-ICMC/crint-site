@@ -43,7 +43,7 @@
         }
 
         .page-title {
-            transition: font 500ms ease;
+            transition: font 250ms ease;
 
             @media screen and (orientation: portrait) {
                 font-size: calc(base.$banner-fontsize * 1.25);
@@ -63,7 +63,7 @@
             }
 
             .page-summary {
-                transition: font 500ms ease;
+                transition: font 250ms ease;
 
                 display: grid;
                 grid-template-columns: auto auto auto;
