@@ -57,7 +57,6 @@
 
             .topics {
                 height: 100%;
-                will-change: transform, font-size;
 
                 @media screen and (orientation: portrait) {
                     display: block;

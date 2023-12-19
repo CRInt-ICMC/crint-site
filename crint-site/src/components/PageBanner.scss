@@ -34,7 +34,7 @@
             @media screen and (orientation: portrait) {
                 max-width: 30%;
             }
-    
+
             img {
                 max-width: 100%;
                 max-height: base.$altura-banner;
@@ -43,10 +43,12 @@
         }
 
         .page-title {
+            transition: font 500ms ease;
+
             @media screen and (orientation: portrait) {
                 font-size: calc(base.$banner-fontsize * 1.25);
             }
-    
+
             @media screen and (orientation: landscape) {
                 font-size: base.$banner-fontsize;
             }
@@ -61,6 +63,8 @@
             }
 
             .page-summary {
+                transition: font 500ms ease;
+
                 display: grid;
                 grid-template-columns: auto auto auto;
                 font-size: base.$summary-fontsize;

@@ -1,7 +1,7 @@
 import { Bar, BarChart, Cell, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
-import { useSettings } from '../utils/utils';
+import { normalizeText, useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
 import { ApiDia, ApiPagina } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -153,7 +153,7 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Universidade.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
+        if (entry.Soma >= options.min && entry.Soma <= options.max && normalizeText(entry.Universidade).includes(normalizeText(options.name)))
             processedData.push(entry);
     })
 
@@ -196,7 +196,7 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
                     </BarChart>
 
                 </ResponsiveContainer>
-                : <div className='dia-empty' style={{width: '70%'}}>
+                : <div className='dia-empty' style={{ width: '70%' }}>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -208,7 +208,7 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = []
 
     data.map((entry) => {
-        if (entry.Soma >= options.min && entry.Soma <= options.max && entry.Pais.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
+        if (entry.Soma >= options.min && entry.Soma <= options.max && normalizeText(entry.Pais).includes(normalizeText(options.name)))
             processedData.push(entry);
     })
 
@@ -250,7 +250,7 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
                         <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" maxBarSize={barWidth} />
                     </BarChart>
                 </ResponsiveContainer>
-                : <div className='dia-empty' style={{width: '70%'}}>
+                : <div className='dia-empty' style={{ width: '70%' }}>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -262,8 +262,7 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
     const processedData: diaData[] = [];
 
     data.map((entry) => {
-        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max &&
-            entry.Universidade.toLocaleLowerCase().includes(options.name.toLocaleLowerCase()))
+        if (entry.Comparativo >= options.min && entry.Comparativo <= options.max && normalizeText(entry.Universidade).includes(normalizeText(options.name)))
             processedData.push(entry);
     });
 
@@ -308,7 +307,7 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
-                : <div className='dia-empty' style={{width: '80%'}}>
+                : <div className='dia-empty' style={{ width: '80%' }}>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -447,12 +446,12 @@ const DIA = () => {
                                             />
                                         </div>
 
-                                        <h3 className='dia-options-item'>Limites</h3>
                                         <div className='dia-options-item'>
-                                            <label htmlFor='min'>R$ </label>
+                                            <div className='dia-options-item'>Limites</div>
+                                            <span>R$ </span>
                                             <input {...registerUni('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
                                             <span> a </span>
-                                            <label htmlFor='max'>R$ </label>
+                                            <span>R$ </span>
                                             <input {...registerUni('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 
@@ -489,12 +488,11 @@ const DIA = () => {
                                         </div>
 
                                         <div className='dia-options-item'>
-                                            <label htmlFor='min'>Custo mínimo:</label>
+                                            <div className='dia-options-item'>Limites</div>
+                                            <span>R$ </span>
                                             <input {...registerCt('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='max'>Custo máximo:</label>
+                                            <span> a </span>
+                                            <span>R$ </span>
                                             <input {...registerCt('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 

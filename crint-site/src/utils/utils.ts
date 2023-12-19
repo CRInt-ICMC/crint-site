@@ -100,3 +100,8 @@ export const clampFontSize = (fontsize: number) => {
     // Retorna a fonte sem alterações
     return fontsize;
 }
+
+// Remove acentos e caracteres especiais e deixa tudo em minúsculo
+export const normalizeText = (text: string) => {
+    return text.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
