@@ -159,10 +159,16 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
 
     processedData.sort((a, b) => (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
+    const barWidth = 30;
+    const barPadding = 10;
+    const minHeight = 600;
+
+    const totalHeight = (processedData.length * (barWidth + barPadding) + 100 > minHeight ? processedData.length * (barWidth + barPadding) + 100 : minHeight);
+
     return <>
         {
             processedData.length !== 0
-                ? <ResponsiveContainer className='dia-chart' width="70%" aspect={1.0 / 1.0}>
+                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} minHeight={minHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -184,9 +190,9 @@ const CostByUniversityGraph = (data: diaData[], options: OptionsForm) => {
                         <Legend wrapperStyle={{ fontSize: "25px" }} />
                         <Tooltip wrapperStyle={{ fontSize: "25px" }} />
 
-                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" maxBarSize={barWidth} />
+                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" maxBarSize={barWidth} />
+                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" maxBarSize={barWidth} />
                     </BarChart>
 
                 </ResponsiveContainer>
@@ -208,10 +214,16 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
 
     processedData.sort((a, b) => (a.Soma - b.Soma) * (options.ascending ? 1 : -1));
 
+    const barWidth = 40;
+    const barPadding = 10;
+    const minHeight = 600;
+
+    const totalHeight = (processedData.length * (barWidth + barPadding) + 100 > minHeight ? processedData.length * (barWidth + barPadding) + 100 : minHeight);
+
     return <>
         {
             processedData.length !== 0
-                ? <ResponsiveContainer className='dia-chart' width="70%" aspect={1.0 / 1.0} >
+                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} >
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -233,9 +245,9 @@ const CostByCountryGraph = (data: diaData[], options: OptionsForm) => {
                         <Legend wrapperStyle={{ fontSize: "20px" }} />
                         <Tooltip />
 
-                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" />
-                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" />
-                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" />
+                        <Bar type='number' dataKey="Transporte" fill="#0A2C57" stackId="a" maxBarSize={barWidth} />
+                        <Bar type='number' dataKey="Alimentacao" fill="#00BFBF" stackId="a" maxBarSize={barWidth} />
+                        <Bar type='number' dataKey="Moradia" fill="#FF8C00" stackId="a" maxBarSize={barWidth} />
                     </BarChart>
                 </ResponsiveContainer>
                 : <div className='dia-empty' style={{width: '70%'}}>
@@ -257,7 +269,7 @@ const UniversityComparisonGraph = (data: diaData[], options: OptionsForm) => {
 
     processedData.sort((a, b) => (a.Comparativo - b.Comparativo) * (options.ascending ? 1 : -1));
 
-    const barWidth = 40;
+    const barWidth = 30;
     const barPadding = 10;
     const minHeight = 600;
 
