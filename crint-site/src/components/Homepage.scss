@@ -39,8 +39,6 @@
         }
 
         .carousel {
-            transition: font 250ms ease;
-
             text-align: center;
             display: block;
             max-width: 100%;
@@ -80,14 +78,18 @@
         }
 
         .slide-caption {
+            transition: font 250ms ease;
+
             position: absolute;
-            bottom: 0;
-            text-align: center;
-            width: 100%;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.623);
-            font-size: 2rem;
             z-index: 1;
+            bottom: 0;
+
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.623);
+
+            text-align: center;
+            color: white;
+            font-size: 2rem;
         }
 
         .swiper-button-next,
