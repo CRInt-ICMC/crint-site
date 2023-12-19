@@ -26,7 +26,7 @@
         .dia-empty {
             display: flex;
             flex-direction: column;
-            
+
             align-items: center;
             justify-content: center;
 
@@ -35,7 +35,7 @@
 
         .dia-options {
             max-width: 30%;
-            
+
             word-wrap: break-word;
             text-wrap: normal;
 
@@ -47,6 +47,23 @@
 
             .dia-options-item {
                 margin-bottom: 1rem;
+
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                input[type=number] {
+                    width: 4rem;
+                    font-size: 0.8rem;
+                    padding: 0.5rem;
+                    border: 1px solid gray;
+                    border-radius: 0.5rem;
+                    background: transparent;
+                    color: black;
+                    -moz-appearance: textfield;
+                }
             }
         }
     }

@@ -39,6 +39,8 @@
         }
 
         .carousel {
+            transition: font 250ms ease;
+
             text-align: center;
             display: block;
             max-width: 100%;
@@ -84,7 +86,7 @@
             width: 100%;
             color: white;
             background-color: rgba(0, 0, 0, 0.623);
-            font-size: 2em;
+            font-size: 2rem;
             z-index: 1;
         }
 

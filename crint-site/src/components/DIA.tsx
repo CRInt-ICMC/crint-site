@@ -447,13 +447,12 @@ const DIA = () => {
                                             />
                                         </div>
 
+                                        <h3 className='dia-options-item'>Limites</h3>
                                         <div className='dia-options-item'>
-                                            <label htmlFor='min'>Custo mínimo:</label>
+                                            <label htmlFor='min'>R$ </label>
                                             <input {...registerUni('min', { valueAsNumber: true })} type='number' id='min' name='min' defaultValue={0} min={0} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='max'>Custo máximo:</label>
+                                            <span> a </span>
+                                            <label htmlFor='max'>R$ </label>
                                             <input {...registerUni('max', { valueAsNumber: true })} type='number' id='max' name='max' defaultValue={1000000} min={0} />
                                         </div>
 

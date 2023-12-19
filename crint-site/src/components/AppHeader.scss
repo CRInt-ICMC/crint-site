@@ -57,6 +57,7 @@
 
             .topics {
                 height: 100%;
+                will-change: transform, font-size;
 
                 @media screen and (orientation: portrait) {
                     display: block;
@@ -80,7 +81,7 @@
                         border: 0;
 
                         color: white;
-                        font-size: min(1.5em, 50px);
+                        font-size: min(1.5rem, 50px);
                         font-weight: bolder;
 
                         svg {
@@ -133,7 +134,7 @@
                         }
 
                         .title {
-                            font-size: 1.25em;
+                            font-size: 1.25rem;
                         }
 
                         .highlight {
