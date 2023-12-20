@@ -105,3 +105,16 @@ export const clampFontSize = (fontsize: number) => {
 export const normalizeText = (text: string) => {
     return text.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
+
+// Formata a data do formato DD/MM/YYYY para o formato YYYY/MM/DD
+export const formatDateString = (date: string) => {
+    const splitDate = date.split('/');
+
+    console.log('What?', date, splitDate);
+
+    const day = splitDate[0];
+    const month = splitDate[1];
+    const year = splitDate[2];
+
+    return `${year}-${month}-${day}`;
+}

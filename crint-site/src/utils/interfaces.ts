@@ -60,23 +60,21 @@ interface sectionLink {
 }
 
 interface diaData {
-    CursoICMC: string,
-    Universidade: string,
-    Pais: string,
-    Inicio: string,
-    Termino: string,
-    Comparativo: number,
-    Moradia: number,
-    Alimentacao: number,
-    Transporte: number,
-    Soma: number,
+    university: string,
+    country: string,
+    date: string,
+    comparative: number,
+    housing: number,
+    food: number,
+    transport: number,
+    totalExpenses: number,
 }
 
 interface OptionsForm {
     ascending: boolean,
-    min: number,
-    max: number,
+    limit: number,
     name: string,
+    date: string,
 }
 
 interface langIcon {
