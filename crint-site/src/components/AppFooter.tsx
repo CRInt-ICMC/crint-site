@@ -44,8 +44,7 @@ const AppFooter = () => {
                 <nav className='footer' >
                     {
                         !mobile
-                            ?
-                            <div className='footer-row'>
+                            ? <div className='footer-row'>
                                 {/* ENDEREÇO */}
                                 <div className='footer-left'>
                                     <h3> {String(textData.attributes.Endereco_titulo)} </h3>
@@ -68,8 +67,7 @@ const AppFooter = () => {
                                 </div>
                             </div>
 
-                            :
-                            <>
+                            : <>
                                 <div className='footer-row'>
                                     {/* ENDEREÇO */}
                                     <div>

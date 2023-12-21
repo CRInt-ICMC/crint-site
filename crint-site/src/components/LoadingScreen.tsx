@@ -9,6 +9,7 @@ const LoadingScreen = () => {
     const [display, setDisplay] = useState(true);
     const [animate, setAnimate] = useState(false);
 
+    // Tempo de transição e timeout da tela de carregamento
     const time = 700;
 
     useEffect(() => {

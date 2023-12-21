@@ -1,6 +1,6 @@
 @use '../Base.scss' as base;
 
-.dropMenu {
+.dropmenu {
     display: flex;
     position: relative;
 
@@ -12,7 +12,7 @@
 
     overflow: visible;
 
-    .dropMenuHead {
+    .dropmenu-head {
         margin: auto;
         text-align: left;
         position: relative;
@@ -20,7 +20,7 @@
         // transition: 0.5s;
     }
 
-    .dropMenuItens {
+    .dropmenu-itens {
         background-color: base.$azul-icmc;
 
         display: block;

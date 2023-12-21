@@ -9,10 +9,10 @@ const DropDownMenu = (props: { head: ReactNode, body: ReactNode }) => {
     const showMenu = () => toggleDisplay(true);
 
     return (
-        <menu className='dropMenu' onMouseEnter={showMenu} onMouseLeave={hideMenu}>
-            <div className='dropMenuHead'>
+        <menu className='dropmenu' onMouseEnter={showMenu} onMouseLeave={hideMenu}>
+            <div className='dropmenu-head'>
                 {props.head}
-                <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
+                <AnimateHeight height={display ? 'auto' : 0} className='dropmenu-itens'>
                     {props.body}
                 </AnimateHeight>
             </div>

@@ -36,7 +36,7 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
             const link = String(slide.attributes.Link);
             const caption = String(slide.attributes.Texto);
             const key = link + caption;
-            const image = (slide.attributes.Imagem as any)['data']['attributes'] as strapiImageData;
+            const image = (slide.attributes.Imagem as any)['data']['attributes'] as StrapiImageData;
 
             return (
                 <SwiperSlide key={key} className='swiper-slide'>
@@ -115,7 +115,6 @@ const Homepage = () => {
                     );
                 })
             }
-
         </div>
     )
 }
