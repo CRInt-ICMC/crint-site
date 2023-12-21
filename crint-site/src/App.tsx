@@ -6,6 +6,7 @@ import VLibras from '@djpfs/react-vlibras';
 import AppHeader from './components/AppHeader';
 import Homepage from './components/Homepage';
 import PageLoader from './components/PageLoader';
+import DIA from './components/DIA';
 import AppFooter from './components/AppFooter';
 import { LoadingContext, STD_COINS_STATE } from './Loading';
 import LoadingScreen from './components/LoadingScreen';
@@ -45,6 +46,7 @@ function App() {
           <AppHeader />
           <Routes>
             <Route index element={<Homepage />} />
+            <Route path='/informacoes/dia' element={<DIA />} />
 
             {/* Todas as páginas (exceto as anteriores) são carregadas pelo PageLoader */}
             <Route path='*' element={<PageLoader />} />

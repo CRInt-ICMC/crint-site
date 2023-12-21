@@ -5,7 +5,7 @@ import { useLoading, useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
-import TopicSection from './PageSection';
+import PageSection from './PageSection';
 import axios from 'axios';
 import './Homepage.scss';
 import 'swiper/css';
@@ -102,7 +102,7 @@ const Homepage = () => {
             {sections &&
                 sections.map((section) => {
                     return (
-                        <TopicSection
+                        <PageSection
                             key={String(section.attributes.Titulo)}
                             id={String(section.attributes.Titulo)}
                             title={String(section.attributes.Titulo)}

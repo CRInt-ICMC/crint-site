@@ -11,10 +11,10 @@
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
-        font-size: base.$footer-fontsize * 1.5;
+        font-size: calc(base.$footer-fontsize * 1.5);
 
         .text {
-            font-size: 0.75em;
+            font-size: 0.75rem;
         }
     }
 
@@ -40,6 +40,8 @@
     }
 
     .footer-row {
+        transition: font 250ms ease;
+
         display: flex;
         justify-content: center;
 

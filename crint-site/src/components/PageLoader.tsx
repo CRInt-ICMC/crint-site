@@ -5,8 +5,8 @@ import { useLoading, useSettings } from "../utils/utils";
 import { ApiPagina, ApiSecao } from "../utils/types";
 import { readCache, setCache } from "../Caching";
 import axios from "axios";
-import TopicBanner from "./PageBanner";
-import TopicSection from "./PageSection";
+import PageBanner from "./PageBanner";
+import PageSection from "./PageSection";
 import './PageLoader.scss'
 import { useMediaPredicate } from "react-media-hook";
 
@@ -118,7 +118,7 @@ const PageLoader = () => {
     return (
         <div className='page-body'>
             {textData && bannerImage &&
-                <TopicBanner
+                <PageBanner
                     pageName={String(textData?.attributes.Banner_text)}
                     pageSections={getLinks(sections || [])}
                     bannerImage={STRAPI_URL + bannerImage}
@@ -128,7 +128,7 @@ const PageLoader = () => {
 
             {status === 200 && sections &&
                 sections.map((section) => (
-                    <TopicSection
+                    <PageSection
                         key={String(section.attributes.Titulo)}
                         id={String(section.attributes.Titulo).replace(/[^a-z0-9áéíóúñüçãõà \.,_-]/gim, "").replace(/\s/g, "").trim()}
                         title={String(section.attributes.Titulo)}
