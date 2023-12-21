@@ -24,7 +24,7 @@
         }
 
         @media screen and (orientation: landscape) {
-            width: 2 * base.$largura-botao-fonte;
+            width: calc(2 * base.$largura-botao-fonte);
         }
 
         .button {

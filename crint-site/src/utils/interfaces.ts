@@ -59,6 +59,24 @@ interface sectionLink {
     id: string,
 }
 
+interface diaData {
+    university: string,
+    country: string,
+    date: string,
+    comparative: number,
+    housing: number,
+    food: number,
+    transport: number,
+    totalExpenses: number,
+}
+
+interface OptionsForm {
+    ascending: boolean,
+    limit: number,
+    name: string,
+    date: string,
+}
+
 interface langIcon {
     value: string,
     label: any,

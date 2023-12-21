@@ -80,7 +80,7 @@
                         border: 0;
 
                         color: white;
-                        font-size: min(1.5em, 50px);
+                        font-size: min(1.5rem, 50px);
                         font-weight: bolder;
 
                         svg {
@@ -118,7 +118,7 @@
 
                 .subtopics {
                     @media screen and (orientation: portrait) {
-                        font-size: base.$subtopico-fontsize * 2;
+                        font-size: calc(base.$subtopico-fontsize * 2);
 
                         a {
                             font-size: inherit;
@@ -133,7 +133,7 @@
                         }
 
                         .title {
-                            font-size: 1.25em;
+                            font-size: 1.25rem;
                         }
 
                         .highlight {
