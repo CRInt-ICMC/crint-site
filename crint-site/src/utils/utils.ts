@@ -110,8 +110,6 @@ export const normalizeText = (text: string) => {
 export const formatDateString = (date: string) => {
     const splitDate = date.split('/');
 
-    console.log('What?', date, splitDate);
-
     const day = splitDate[0];
     const month = splitDate[1];
     const year = splitDate[2];

@@ -3,7 +3,7 @@ import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
 import { formatDateString, normalizeText, useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
-import { ApiDia, ApiPagina } from '../utils/types';
+import { ApiDia, ApiPagina, ApiSecao } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
 import PageBanner from './PageBanner';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import PageSection from './PageSection';
 import './DIA.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Interweave } from 'interweave';
 
 const ProcessData = (CSV: string) => {
     const data: diaData[] = [];
@@ -49,15 +50,10 @@ const CostByUniversity = (data: diaData[], date: string) => {
     const summedData: { [key: string]: diaData } = {};
     const summedNum: { [key: string]: number } = {};
 
-    const formattedDate = new Date('01/08/2012');
-    // console.log(formattedDate);
-
     data.map((line) => {
         const universityData = summedData[line.university];
 
         if (line.housing > 0 && line.date >= date) {
-            // console.log(line.date, date);
-
             if (universityData && universityData.housing) {
                 universityData.housing = line.housing + universityData.housing;
                 universityData.food = line.food + universityData.food;
@@ -91,7 +87,7 @@ const CostByCountry = (data: diaData[], date: string) => {
     data.map((line) => {
         const countryData = summedData[line.country];
 
-        if (line.housing > 0) {
+        if (line.housing > 0 && line.date >= date) {
             if (countryData && countryData.housing) {
                 countryData.housing = line.housing + countryData.housing;
                 countryData.food = line.food + countryData.food;
@@ -125,14 +121,16 @@ const UniversityComparison = (data: diaData[], date: string) => {
     data.map((line) => {
         const universityData = summedData[line.university];
 
-        if (universityData && universityData.comparative) {
-            universityData.comparative = universityData.comparative;
-            summedNum[line.university] += 1;
-        }
+        if (line.date >= date) {
+            if (universityData && universityData.comparative) {
+                universityData.comparative = universityData.comparative;
+                summedNum[line.university] += 1;
+            }
 
-        else {
-            summedData[line.university] = line;
-            summedNum[line.university] = 1;
+            else {
+                summedData[line.university] = line;
+                summedNum[line.university] = 1;
+            }
         }
     });
 
@@ -326,22 +324,25 @@ const DIA = () => {
     const [textData, setTextData] = useState<ApiPagina>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
+    const [sections, setSections] = useState<ApiSecao[]>();
 
     const [dataURL, setDataURL] = useState<string>();
     const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<diaData[]>([]);
 
+    const defaultDate = `${new Date().getFullYear() - 5}-01-01`;
+
     const { register: registerUni, handleSubmit: handleSubmitUni, reset: resetUni } = useForm<OptionsForm>();
     const onUniSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniOptions(input);
-    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: '2013-01-01' });
+    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
 
     const { register: registerCt, handleSubmit: handleSubmitCt, reset: resetCt } = useForm<OptionsForm>();
     const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCtOptions(input);
-    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: '2013-01-01' });
+    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
 
     const { register: registerComp, handleSubmit: handleSubmitComp, reset: resetComp } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityCompOptions(input);
-    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: '2013-01-01' });
+    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: defaultDate });
 
 
     // Recebe o texto e as imagens do Strapi
@@ -353,6 +354,7 @@ const DIA = () => {
             setTextData(diaTextCache as ApiPagina);
             setBannerImage(diaTextCache['attributes']['Banner_imagem']['data']['attributes']['url']);
             setGradient(diaTextCache['attributes']['Gradiente']['data']['attributes']['CSS']);
+            setSections(diaTextCache['attributes']['secoes']['data']);
         }
 
         else
@@ -364,6 +366,7 @@ const DIA = () => {
                     setTextData(data as ApiPagina);
                     setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
+                    setSections(data['attributes']['secoes']['data']);
 
                     setCache('diaText' + userSettings.lang, data);
                 });
@@ -423,7 +426,7 @@ const DIA = () => {
 
     useEffect(() => {
         setUniversityCompData(UniversityComparison(structuredClone(data), UniversityCompOptions.date));
-    } , [data, UniversityCompOptions.date]);
+    }, [data, UniversityCompOptions.date]);
 
     return (
         <div className='dia-body'>
@@ -441,41 +444,46 @@ const DIA = () => {
                     <PageSection
                         id={ids[0].id}
                         title={ids[0].name}
-                        body={ 
-                            <div className='dia-chart-box'>
-                                {CostByUniversityGraph(CostByUniversityData, CostByUniversityOptions)}
-
-                                <div className='dia-options'>
-                                    <div className='dia-options-title'>Opções de visualização:</div>
-
-                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniSubmit)}>
-                                        <div className='dia-options-item'>
-                                            <input {...registerUni('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                            <label htmlFor='ascending'>Ordem crescente</label>
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <span>Custo Máximo (R$) </span>
-                                            <input {...registerUni('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='name'>Nome da universidade:</label>
-                                            <input {...registerUni('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='date'>Data de início:</label>
-                                            <input {...registerUni('date')} type='date' id='date' name='date' defaultValue='2013-01-01' min='2013-01-01' />
-                                        </div>
-
-                                        <div className='dia-options-buttons'>
-                                            <input type='submit' value='Aplicar' name='aplicar' />
-                                            <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, limit: 1000000, name: '', date: '2013-01-01' }) }} />
-                                        </div>
-                                    </form>
+                        body={
+                            <>
+                                <div>
+                                    {sections && sections[0] && <Interweave content={String(sections[0].attributes.Corpo)} allowElements />}
                                 </div>
-                            </div>
+                                <div className='dia-chart-box'>
+                                    {CostByCountryData.length > 0 && CostByUniversityGraph(CostByUniversityData, CostByUniversityOptions)}
+
+                                    <div className='dia-options'>
+                                        <div className='dia-options-title'>Opções de visualização:</div>
+
+                                        <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniSubmit)}>
+                                            <div className='dia-options-item'>
+                                                <input {...registerUni('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                <label htmlFor='ascending'>Ordem crescente</label>
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='limit'>Custo Máximo (R$): </label>
+                                                <input {...registerUni('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='name'>Nome da universidade:</label>
+                                                <input {...registerUni('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='date'>Dados a partir de:</label>
+                                                <input {...registerUni('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                            </div>
+
+                                            <div className='dia-options-buttons'>
+                                                <input type='submit' value='Aplicar' name='aplicar' />
+                                                <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </>
                         }
                     />
 
@@ -483,40 +491,45 @@ const DIA = () => {
                         id={ids[1].id}
                         title={ids[1].name}
                         body={
-                            <div className='dia-chart-box'>
-                                {CostByCountryGraph(CostByCountryData, CostByCountryOptions)}
-
-                                <div className='dia-options'>
-                                    <div className='dia-options-title'>Opções de visualização:</div>
-
-                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCt(onCountrySubmit)}>
-                                        <div className='dia-options-item'>
-                                            <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                            <label htmlFor='ascending'>Ordem crescente</label>
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <span>Custo Máximo R$ </span>
-                                            <input {...registerCt('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='name'>Nome do país:</label>
-                                            <input {...registerCt('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='date'>Data de início:</label>
-                                            <input {...registerCt('date')} type='date' id='date' name='date' defaultValue='2013-01-01' min='2013-01-01' />
-                                        </div>
-
-                                        <div className='dia-options-buttons'>
-                                            <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => { resetCt(); setCostByCtOptions({ ascending: true, limit: 1000000, name: '', date: '2013-01-01' }) }} value="Resetar" />
-                                        </div>
-                                    </form>
+                            <>
+                                <div>
+                                    {sections && sections[1] && <Interweave content={String(sections[1].attributes.Corpo)} allowElements />}
                                 </div>
-                            </div>
+                                <div className='dia-chart-box'>
+                                    {CostByCountryData.length > 0 && CostByCountryGraph(CostByCountryData, CostByCountryOptions)}
+
+                                    <div className='dia-options'>
+                                        <div className='dia-options-title'>Opções de visualização:</div>
+
+                                        <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                            <div className='dia-options-item'>
+                                                <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                <label htmlFor='ascending'>Ordem crescente</label>
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='limit'>Custo Máximo (R$): </label>
+                                                <input {...registerCt('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='name'>Nome do país:</label>
+                                                <input {...registerCt('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='date'>Dados a partir de: </label>
+                                                <input {...registerCt('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                            </div>
+
+                                            <div className='dia-options-buttons'>
+                                                <input type='submit' value='Aplicar' />
+                                                <input type="button" onClick={() => { resetCt(); setCostByCtOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </>
                         }
                     />
 
@@ -524,40 +537,45 @@ const DIA = () => {
                         id={ids[2].id}
                         title={ids[2].name}
                         body={
-                            <div className='dia-chart-box'>
-                                {UniversityComparisonGraph(UniversityComparisonData, UniversityCompOptions)}
-
-                                <div className='dia-options'>
-                                    <div className='dia-options-title'>Opções de visualização:</div>
-
-                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComp(onComparisonSubmit)}>
-                                        <div className='dia-options-item'>
-                                            <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                            <label htmlFor='ascending'>Ordem crescente</label>
-                                        </div>
-
-                                        <div className='dia-options-item' id='short'>
-                                            <label htmlFor='min'>Pontuação mínima: </label>
-                                            <input {...registerComp('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='name'>Nome da universidade:</label>
-                                            <input {...registerComp('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                        </div>
-
-                                        <div className='dia-options-item'>
-                                            <label htmlFor='date'>Data de início:</label>
-                                            <input {...registerComp('date')} type='date' id='date' name='date' defaultValue='2013-01-01' min='2013-01-01' />
-                                        </div>
-
-                                        <div className='dia-options-buttons'>
-                                            <input type='submit' value='Aplicar' />
-                                            <input type="button" onClick={() => { resetComp(); setUniversityCompOptions({ ascending: true, limit: -5, name: '', date: '2013-01-01' }) }} value="Resetar" />
-                                        </div>
-                                    </form>
+                            <>
+                                <div>
+                                    {sections && sections[2] && <Interweave content={String(sections[2].attributes.Corpo)} allowElements />}
                                 </div>
-                            </div>
+                                <div className='dia-chart-box'>
+                                    {UniversityComparisonData.length > 0 && UniversityComparisonGraph(UniversityComparisonData, UniversityCompOptions)}
+
+                                    <div className='dia-options'>
+                                        <div className='dia-options-title'>Opções de visualização:</div>
+
+                                        <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComp(onComparisonSubmit)}>
+                                            <div className='dia-options-item'>
+                                                <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                <label htmlFor='ascending'>Ordem crescente</label>
+                                            </div>
+
+                                            <div className='dia-options-item' id='short'>
+                                                <label htmlFor='min'>Pontuação mínima: </label>
+                                                <input {...registerComp('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='name'>Nome da universidade:</label>
+                                                <input {...registerComp('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                            </div>
+
+                                            <div className='dia-options-item'>
+                                                <label htmlFor='date'>Dados a partir de:</label>
+                                                <input {...registerComp('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2013-01-01' />
+                                            </div>
+
+                                            <div className='dia-options-buttons'>
+                                                <input type='submit' value='Aplicar' />
+                                                <input type="button" onClick={() => { resetComp(); setUniversityCompOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </>
                         }
                     />
                 </div>
