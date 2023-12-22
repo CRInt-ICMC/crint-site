@@ -64,7 +64,7 @@ interface SectionLink {
 }
 
 // Informações para a formação dos gráficos
-interface DIAData {
+interface DiaData {
     university: string,
     country: string,
     date: string,

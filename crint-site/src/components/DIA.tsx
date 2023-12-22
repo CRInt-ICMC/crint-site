@@ -5,17 +5,17 @@ import { cleanText, formatDateString, getLinks, normalizeText, useLoading, useSe
 import { readCache, setCache } from '../Caching';
 import { ApiDia, ApiPagina, ApiSecao } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
-import PageBanner from './PageBanner';
-import axios from 'axios';
-import PageSection from './PageSection';
-import './DIA.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Interweave } from 'interweave';
 import { useNavigate } from 'react-router-dom';
+import PageBanner from './PageBanner';
+import axios from 'axios';
+import PageSection from './PageSection';
+import './DIA.scss'
 
 const processData = (CSV: string) => {
-    const data: DIAData[] = [];
+    const data: DiaData[] = [];
 
     const lines = CSV.split('\n');
     lines.splice(0, 1); // Remove os títulos
@@ -25,7 +25,7 @@ const processData = (CSV: string) => {
     lines.map((line) => {
         const columns = line.split(',');
 
-        const dataLine: DIAData = {
+        const dataLine: DiaData = {
             university: columns[0],
             country: columns[1],
             date: formatDateString(columns[2]),
@@ -48,8 +48,8 @@ const processData = (CSV: string) => {
     return data;
 }
 
-const processCostUniversity = (data: DIAData[], date: string) => {
-    const summedData: { [key: string]: DIAData } = {};
+const processCostUniversity = (data: DiaData[], date: string) => {
+    const summedData: { [key: string]: DiaData } = {};
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
@@ -70,7 +70,7 @@ const processCostUniversity = (data: DIAData[], date: string) => {
         }
     });
 
-    const processedData: DIAData[] = Object.values(summedData);
+    const processedData: DiaData[] = Object.values(summedData);
 
     processedData.map((entry) => {
         entry.housing = Number((entry.housing / summedNum[entry.university]).toFixed(2));
@@ -82,8 +82,8 @@ const processCostUniversity = (data: DIAData[], date: string) => {
     return processedData;
 }
 
-const processDataPerCountry = (data: DIAData[], date: string) => {
-    const summedData: { [key: string]: DIAData } = {};
+const processCostCountry = (data: DiaData[], date: string) => {
+    const summedData: { [key: string]: DiaData } = {};
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
@@ -104,7 +104,7 @@ const processDataPerCountry = (data: DIAData[], date: string) => {
         }
     });
 
-    const processedData: DIAData[] = Object.values(summedData);
+    const processedData: DiaData[] = Object.values(summedData);
 
     processedData.map((entry) => {
         entry.housing = Number((entry.housing / summedNum[entry.country]).toFixed(2));
@@ -116,8 +116,8 @@ const processDataPerCountry = (data: DIAData[], date: string) => {
     return processedData;
 }
 
-const processComparisonData = (data: DIAData[], date: string) => {
-    const summedData: { [key: string]: DIAData } = {};
+const processComparisonData = (data: DiaData[], date: string) => {
+    const summedData: { [key: string]: DiaData } = {};
     const summedNum: { [key: string]: number } = {};
 
     data.map((line) => {
@@ -136,24 +136,21 @@ const processComparisonData = (data: DIAData[], date: string) => {
         }
     });
 
-    const correctedData: DIAData[] = Object.values(summedData);
-    correctedData.map((entry) => {
+    const processedData: DiaData[] = [];
+    Object.values(summedData).map((entry) => {
         const div = (summedNum[entry.university] < 3 ? 3 : summedNum[entry.university]);
 
-        entry.comparative = Number(((entry.comparative || 0) / div).toFixed(2));
-    });
-
-    const processedData: DIAData[] = [];
-    correctedData.map((entry) => {
-        if (entry.comparative && entry.comparative !== 0)
+        if (entry.comparative && entry.comparative !== 0) {
+            entry.comparative = Number(((entry.comparative || 0) / div).toFixed(2));
             processedData.push(entry);
+        }
     });
 
     return processedData;
 }
 
-const CostPerUniversityGraph = (data: DIAData[], options: OptionsForm) => {
-    const processedData: DIAData[] = [];
+const plotCostUniversity = (data: DiaData[], options: OptionsForm) => {
+    const processedData: DiaData[] = [];
 
     data.map((entry) => {
         if (entry.totalExpenses <= options.limit && normalizeText(entry.university).includes(normalizeText(options.name)))
@@ -210,8 +207,8 @@ const CostPerUniversityGraph = (data: DIAData[], options: OptionsForm) => {
     </>
 }
 
-const CostPerCountryGraph = (data: DIAData[], options: OptionsForm) => {
-    const processedData: DIAData[] = []
+const plotCostCountry = (data: DiaData[], options: OptionsForm) => {
+    const processedData: DiaData[] = []
 
     data.map((entry) => {
         if (entry.totalExpenses <= options.limit && normalizeText(entry.country).includes(normalizeText(options.name)))
@@ -266,8 +263,8 @@ const CostPerCountryGraph = (data: DIAData[], options: OptionsForm) => {
     </>
 }
 
-const UniversityComparisonGraph = (data: DIAData[], options: OptionsForm) => {
-    const processedData: DIAData[] = [];
+const plotComparison = (data: DiaData[], options: OptionsForm) => {
+    const processedData: DiaData[] = [];
 
     data.map((entry) => {
         if (entry.comparative >= options.limit && normalizeText(entry.university).includes(normalizeText(options.name)))
@@ -338,20 +335,23 @@ const DIA = () => {
     const [sections, setSections] = useState<ApiSecao[]>();
 
     const [dataURL, setDataURL] = useState<string>();
-    const [data, setData] = useState<DIAData[]>([]);
+    const [data, setData] = useState<DiaData[]>([]);
 
     // Por padrão, os gráficos mostram apenas os dados dos últimos 5 anos
     const defaultDate = `${new Date().getFullYear() - 5}-01-01`;
 
     /* Estados dos formulários de cada gráfico */
-    const [costUniversityOptions, setCostUniversityOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
+    // Universidades
+    const [universityOptions, setUniversityOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
     const { register: registerUni, handleSubmit: handleSubmitUni, reset: resetUni } = useForm<OptionsForm>();
-    const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setCostUniversityOptions(input);
+    const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setUniversityOptions(input);
 
-    const [costCountryOptions, setCostCountryOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
+    // Países
+    const [countryOptions, setCountryOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
     const { register: registerCt, handleSubmit: handleSubmitCt, reset: resetCt } = useForm<OptionsForm>();
-    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostCountryOptions(input);
+    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCountryOptions(input);
 
+    // Comparação
     const [comparisonOptions, setComparisonOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: defaultDate });
     const { register: registerComp, handleSubmit: handleSubmitComp, reset: resetComp } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setComparisonOptions(input);
@@ -359,19 +359,18 @@ const DIA = () => {
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        const diaTextCache = readCache('diaText' + userSettings.lang);
-        const dataURLCache = readCache('dataURLCache');
+        const cacheDIAText = readCache('DIAText' + userSettings.lang);
+        const cacheDataURL = readCache('cacheDataURL');
 
-        if (diaTextCache) {
-            setTextData(diaTextCache as ApiPagina);
-            setBannerImage(diaTextCache['attributes']['Banner_imagem']['data']['attributes']['url']);
-            setGradient(diaTextCache['attributes']['Gradiente']['data']['attributes']['CSS']);
-            setSections(diaTextCache['attributes']['secoes']['data']);
+        if (cacheDIAText) {
+            setTextData(cacheDIAText as ApiPagina);
+            setBannerImage(cacheDIAText['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setGradient(cacheDIAText['attributes']['Gradiente']['data']['attributes']['CSS']);
+            setSections(cacheDIAText['attributes']['secoes']['data']);
         }
 
         else {
             addLoadingCoins();
-            console.log('cacheMiss')
 
             axios
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -379,7 +378,7 @@ const DIA = () => {
                     const data = response['data']['data'][0];
 
                     if (data === undefined) {
-                        navigate('/404');
+                        navigate('/');
                         subLoadingCoins();
                         return;
                     }
@@ -389,13 +388,13 @@ const DIA = () => {
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
                     setSections(data['attributes']['secoes']['data']);
 
-                    setCache('diaText' + userSettings.lang, data);
+                    setCache('DIAText' + userSettings.lang, data);
                     subLoadingCoins();
-                })
+                });
         }
 
-        if (dataURLCache)
-            setDataURL(dataURLCache);
+        if (cacheDataURL)
+            setDataURL(cacheDataURL);
 
         else {
             addLoadingCoins();
@@ -407,7 +406,7 @@ const DIA = () => {
                     const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageFormat).url;
                     setDataURL(url);
 
-                    setCache('dataURLCache', url);
+                    setCache('cacheDataURL', url);
                     subLoadingCoins();
                 });
         }
@@ -436,19 +435,19 @@ const DIA = () => {
     }, [dataURL]);
 
     /* Reprocessa os dados de acordo com a data de corte selecionada */
-    const [costPerUniversity, setCostUniversity] = useState<DIAData[]>([]);
+    const [costPerUniversity, setCostUniversity] = useState<DiaData[]>([]);
     useEffect(() => {
-        setCostUniversity(processCostUniversity(structuredClone(data), costUniversityOptions.date));
-    }, [data, costUniversityOptions.date]);
+        setCostUniversity(processCostUniversity(structuredClone(data), universityOptions.date));
+    }, [data, universityOptions.date]);
 
-    const [CostPerCountryData, setCostPerCountryData] = useState<DIAData[]>([]);
+    const [costCountryData, setCostCountry] = useState<DiaData[]>([]);
     useEffect(() => {
-        setCostPerCountryData(processDataPerCountry(structuredClone(data), costCountryOptions.date));
-    }, [data, costCountryOptions.date]);
+        setCostCountry(processCostCountry(structuredClone(data), countryOptions.date));
+    }, [data, countryOptions.date]);
 
-    const [UniversityComparisonData, setUniversityCompData] = useState<DIAData[]>([]);
+    const [comparisonData, setComparisonData] = useState<DiaData[]>([]);
     useEffect(() => {
-        setUniversityCompData(processComparisonData(structuredClone(data), comparisonOptions.date));
+        setComparisonData(processComparisonData(structuredClone(data), comparisonOptions.date));
     }, [data, comparisonOptions.date]);
 
     return (
@@ -474,7 +473,7 @@ const DIA = () => {
                                     <Interweave content={String(sections[0].attributes.Corpo)} allowElements />
 
                                     <div className='dia-chart-box'>
-                                        {costPerUniversity.length > 0 && CostPerUniversityGraph(costPerUniversity, costUniversityOptions)}
+                                        {costPerUniversity.length > 0 && plotCostUniversity(costPerUniversity, universityOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
@@ -502,7 +501,7 @@ const DIA = () => {
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' name='aplicar' />
-                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setCostUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
+                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
                                                 </div>
                                             </form>
                                         </div>
@@ -522,7 +521,7 @@ const DIA = () => {
                                     {sections && sections[1] && <Interweave content={String(sections[1].attributes.Corpo)} allowElements />}
 
                                     <div className='dia-chart-box'>
-                                        {CostPerCountryData.length > 0 && CostPerCountryGraph(CostPerCountryData, costCountryOptions)}
+                                        {costCountryData.length > 0 && plotCostCountry(costCountryData, countryOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
@@ -550,7 +549,7 @@ const DIA = () => {
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetCt(); setCostCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
+                                                    <input type="button" onClick={() => { resetCt(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
                                         </div>
@@ -570,7 +569,7 @@ const DIA = () => {
                                     {sections && sections[2] && <Interweave content={String(sections[2].attributes.Corpo)} allowElements />}
 
                                     <div className='dia-chart-box'>
-                                        {UniversityComparisonData.length > 0 && UniversityComparisonGraph(UniversityComparisonData, comparisonOptions)}
+                                        {comparisonData.length > 0 && plotComparison(comparisonData, comparisonOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>

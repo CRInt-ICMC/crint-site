@@ -9,10 +9,10 @@ const FontSizeSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const [BASE_FONTSIZE, setBASE_FONTSIZE] = useState(getBaseFontSize());
+    const [baseFontsize, setBaseFontsize] = useState(getBaseFontSize());
 
-    const MIN_FONT_SIZE = MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
-    const MAX_FONT_SIZE = MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
+    const minFontsize = MIN_FONT_MULTIPLIER * baseFontsize;
+    const maxFontsize = MAX_FONT_MULTIPLIER * baseFontsize;
 
     // Atualiza a fonte global do site
     useEffect(() => {
@@ -25,16 +25,13 @@ const FontSizeSystem = () => {
 
     // Atualiza a fonte caso haja uma mudança repentina
     useEffect(() => {
-        const updateScreenWidth = () => {
-            setScreenWidth(window.innerWidth);
-        }
-
+        const updateScreenWidth = () => setScreenWidth(window.innerWidth);
         window.addEventListener('resize', updateScreenWidth);
 
         // Caso haja uma mudança no tamanho da tela, atualiza a fonte se necessário
-        if (BASE_FONTSIZE !== getBaseFontSize()) {
-            setBASE_FONTSIZE(getBaseFontSize());
-            setFontSize(0);
+        if (baseFontsize !== getBaseFontSize()) {
+            setBaseFontsize(getBaseFontSize());
+            setFontSize(0); // Atualiza a fonte
         }
 
         return (() => {
@@ -52,12 +49,12 @@ const FontSizeSystem = () => {
         <div className='fontsize-root'>
             <div className='fontsize-body'>
                 {
-                    userSettings.fontSize > MIN_FONT_SIZE
+                    userSettings.fontSize > minFontsize
                         ? <button className='enabled button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>
                         : <button className='disabled button'><FontAwesomeIcon icon={faMinus} /></button>
                 }
                 {
-                    userSettings.fontSize < MAX_FONT_SIZE
+                    userSettings.fontSize < maxFontsize
                         ? <button className='enabled button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>
                         : <button className='disabled button'><FontAwesomeIcon icon={faPlus} /></button>
                 }

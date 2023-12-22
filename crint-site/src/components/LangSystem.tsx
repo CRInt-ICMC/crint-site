@@ -9,6 +9,7 @@ import './LangSystem.scss';
 const LangSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
+    
     const [options, setOptions] = useState<LangIcon[]>([]);
     const [selectedLang, setSelectedLang] = useState<LangIcon>();
 

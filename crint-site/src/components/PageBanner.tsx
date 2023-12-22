@@ -17,7 +17,7 @@ const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bann
                 </div>
             ))}
         </div>
-    )
+    );
 
     return (
         <section className='banner-root' style={{ background: props.bannerGradient || '' }}>

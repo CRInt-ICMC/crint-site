@@ -4,11 +4,11 @@ import { useLocation } from "react-router-dom";
 import { cleanText, getLinks, useLoading, useSettings } from "../utils/utils";
 import { ApiPagina, ApiSecao } from "../utils/types";
 import { readCache, setCache } from "../Caching";
+import { useMediaPredicate } from "react-media-hook";
 import axios from "axios";
 import PageBanner from "./PageBanner";
 import PageSection from "./PageSection";
 import './PageLoader.scss'
-import { useMediaPredicate } from "react-media-hook";
 
 const WIP = (
     <div className="wip-root">
@@ -37,6 +37,7 @@ const PageLoader = () => {
     const [gradient, setGradient] = useState<string>();
 
     const [status, setStatus] = useState<number>();
+    
     const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
     

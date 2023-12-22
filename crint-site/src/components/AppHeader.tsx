@@ -39,7 +39,7 @@ const topics = (topicos: ApiTopico[]) => (
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentURL: string) => (
+const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -53,7 +53,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                             <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
-                                    <Link className={(currentURL === String(pagina.attributes.URL)) ? 'highlight' : ''}
+                                    <Link className={(currentUrl === String(pagina.attributes.URL)) ? 'highlight' : ''}
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
@@ -70,8 +70,8 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
 )
 
 interface HeaderImages {
-    ICMC: StrapiImageData,
-    ICMC_mini: StrapiImageData,
+    icmc: StrapiImageData,
+    icmcMini: StrapiImageData,
 }
 
 const AppHeader = () => {
@@ -109,8 +109,8 @@ const AppHeader = () => {
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const dataImages = {
-                        ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
-                        ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
+                        icmc: response['data']['data']['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
+                        icmcMini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
                     };
 
                     setHeaderImages(dataImages);
@@ -162,7 +162,7 @@ const AppHeader = () => {
                 {/* LOGO */}
                 <div className='navbar-left'>
                     {headerImages &&
-                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.ICMC_mini.url : headerImages.ICMC.url)} /></Link>
+                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
                     }
                 </div>
 
