@@ -25,7 +25,7 @@
         font-weight: bold;
 
         @media screen and (orientation: landscape) {
-            padding-left: 25px; 
+            padding-left: 25px;
         }
 
         @media screen and (orientation: portrait) {
@@ -40,4 +40,15 @@
 
 .hidden {
     opacity: 0;
+}
+
+.failure {
+    flex-direction: column;
+
+    .loader-text {
+        @media screen and (orientation: landscape) {
+            padding-left: 0;
+            padding-bottom: 5vh;
+        }
+    }
 }
