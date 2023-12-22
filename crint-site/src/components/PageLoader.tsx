@@ -39,7 +39,7 @@ const PageLoader = () => {
     const [status, setStatus] = useState<number>();
     const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
-
+    
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
         const pageCache = readCache('secao/' + location.pathname + '-' + userSettings.lang);
@@ -72,6 +72,7 @@ const PageLoader = () => {
                     // Verifica se a página existe
                     if (data === undefined) {
                         setStatus(404);
+                        subLoadingCoins();
                         return;
                     }
 
@@ -94,7 +95,7 @@ const PageLoader = () => {
                     setSections(data['attributes']['secoes']['data']);
 
                     setStatus(200);
-                })
+                });
         }
     }, [userSettings.lang, location]);
 

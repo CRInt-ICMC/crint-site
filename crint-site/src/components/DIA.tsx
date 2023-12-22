@@ -12,8 +12,9 @@ import './DIA.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Interweave } from 'interweave';
+import { useNavigate } from 'react-router-dom';
 
-const ProcessData = (CSV: string) => {
+const processData = (CSV: string) => {
     const data: DIAData[] = [];
 
     const lines = CSV.split('\n');
@@ -329,6 +330,7 @@ const UniversityComparisonGraph = (data: DIAData[], options: OptionsForm) => {
 const DIA = () => {
     const { userSettings } = useSettings();
     const { addLoadingCoins, subLoadingCoins } = useLoading();
+    const navigate = useNavigate();
 
     const [textData, setTextData] = useState<ApiPagina>();
     const [bannerImage, setBannerImage] = useState<string>();
@@ -336,7 +338,6 @@ const DIA = () => {
     const [sections, setSections] = useState<ApiSecao[]>();
 
     const [dataURL, setDataURL] = useState<string>();
-    const [dataCSV, setDataCSV] = useState<string>();
     const [data, setData] = useState<DIAData[]>([]);
 
     // Por padrão, os gráficos mostram apenas os dados dos últimos 5 anos
@@ -377,6 +378,12 @@ const DIA = () => {
                 .then((response) => {
                     const data = response['data']['data'][0];
 
+                    if (data === undefined) {
+                        navigate('/404');
+                        subLoadingCoins();
+                        return;
+                    }
+
                     setTextData(data as ApiPagina);
                     setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
@@ -406,12 +413,12 @@ const DIA = () => {
         }
     }, [userSettings.lang, location]);
 
-    // Recebe os dados do CSV
+    // Recebe os dados do CSV, processa e salva no estado
     useEffect(() => {
         const dataCache = readCache('dataCache');
 
         if (dataCache)
-            setDataCSV(dataCache);
+            setData(dataCache);
 
         else if (dataURL) {
             addLoadingCoins();
@@ -419,22 +426,14 @@ const DIA = () => {
             axios
                 .get(STRAPI_URL + dataURL, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data'];
-                    setDataCSV(data);
+                    const data = processData(response['data']);
+                    setData(data);
 
                     setCache('dataCache', data);
                     subLoadingCoins();
                 });
         }
     }, [dataURL]);
-
-    // Processa os dados do CSV para o formato desejado
-    useEffect(() => {
-        if (dataCSV) {
-            const processedData = ProcessData(dataCSV);
-            setData(processedData);
-        }
-    }, [dataCSV]);
 
     /* Reprocessa os dados de acordo com a data de corte selecionada */
     const [costPerUniversity, setCostUniversity] = useState<DIAData[]>([]);
