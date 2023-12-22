@@ -6,4 +6,4 @@ export const STD_SETTINGS_STATE: UserSettings = loadSettings();
 
 // Cria um contexto vazio
 export const SettingsContext = React.createContext<UserSettingsState>({});
-export const useSettingsState = () => useContext(SettingsContext)
+export const useSettingsState = () => useContext(SettingsContext);

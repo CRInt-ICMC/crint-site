@@ -47,7 +47,7 @@ const ProcessData = (CSV: string) => {
     return data;
 }
 
-const CostByUniversity = (data: DIAData[], date: string) => {
+const processCostUniversity = (data: DIAData[], date: string) => {
     const summedData: { [key: string]: DIAData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -81,7 +81,7 @@ const CostByUniversity = (data: DIAData[], date: string) => {
     return processedData;
 }
 
-const CostByCountry = (data: DIAData[], date: string) => {
+const processDataPerCountry = (data: DIAData[], date: string) => {
     const summedData: { [key: string]: DIAData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -115,7 +115,7 @@ const CostByCountry = (data: DIAData[], date: string) => {
     return processedData;
 }
 
-const UniversityComparison = (data: DIAData[], date: string) => {
+const processComparisonData = (data: DIAData[], date: string) => {
     const summedData: { [key: string]: DIAData } = {};
     const summedNum: { [key: string]: number } = {};
 
@@ -151,7 +151,7 @@ const UniversityComparison = (data: DIAData[], date: string) => {
     return processedData;
 }
 
-const CostByUniversityGraph = (data: DIAData[], options: OptionsForm) => {
+const CostPerUniversityGraph = (data: DIAData[], options: OptionsForm) => {
     const processedData: DIAData[] = [];
 
     data.map((entry) => {
@@ -209,7 +209,7 @@ const CostByUniversityGraph = (data: DIAData[], options: OptionsForm) => {
     </>
 }
 
-const CostByCountryGraph = (data: DIAData[], options: OptionsForm) => {
+const CostPerCountryGraph = (data: DIAData[], options: OptionsForm) => {
     const processedData: DIAData[] = []
 
     data.map((entry) => {
@@ -343,17 +343,17 @@ const DIA = () => {
     const defaultDate = `${new Date().getFullYear() - 5}-01-01`;
 
     /* Estados dos formulários de cada gráfico */
+    const [costUniversityOptions, setCostUniversityOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
     const { register: registerUni, handleSubmit: handleSubmitUni, reset: resetUni } = useForm<OptionsForm>();
-    const onUniSubmit: SubmitHandler<OptionsForm> = (input) => setCostByUniOptions(input);
-    const [CostByUniversityOptions, setCostByUniOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
+    const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setCostUniversityOptions(input);
 
+    const [costCountryOptions, setCostCountryOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
     const { register: registerCt, handleSubmit: handleSubmitCt, reset: resetCt } = useForm<OptionsForm>();
-    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostByCtOptions(input);
-    const [CostByCountryOptions, setCostByCtOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
+    const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCostCountryOptions(input);
 
+    const [comparisonOptions, setComparisonOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: defaultDate });
     const { register: registerComp, handleSubmit: handleSubmitComp, reset: resetComp } = useForm<OptionsForm>();
-    const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setUniversityCompOptions(input);
-    const [UniversityCompOptions, setUniversityCompOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: defaultDate });
+    const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setComparisonOptions(input);
 
 
     // Recebe o texto e as imagens do Strapi
@@ -370,6 +370,7 @@ const DIA = () => {
 
         else {
             addLoadingCoins();
+            console.log('cacheMiss')
 
             axios
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -383,7 +384,7 @@ const DIA = () => {
 
                     setCache('diaText' + userSettings.lang, data);
                     subLoadingCoins();
-                });
+                })
         }
 
         if (dataURLCache)
@@ -395,11 +396,11 @@ const DIA = () => {
             axios
                 .get(STRAPI_URL + `/api/dia?populate=*`, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data'] as ApiDia;
+                    // Não é uma imagem, mas só preciso da URL mesmo
+                    const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageFormat).url;
+                    setDataURL(url);
 
-                    setDataURL(((data.attributes.Dados as any)['data']['attributes'] as StrapiImageFormat).url); // Não é uma imagem, mas só preciso da URL mesmo
-
-                    setCache('dataURLCache', (data.attributes.Dados as any as StrapiImageFormat).url);
+                    setCache('dataURLCache', url);
                     subLoadingCoins();
                 });
         }
@@ -412,14 +413,19 @@ const DIA = () => {
         if (dataCache)
             setDataCSV(dataCache);
 
-        else if (dataURL)
+        else if (dataURL) {
+            addLoadingCoins();
+
             axios
                 .get(STRAPI_URL + dataURL, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = response['data'];
                     setDataCSV(data);
+
                     setCache('dataCache', data);
+                    subLoadingCoins();
                 });
+        }
     }, [dataURL]);
 
     // Processa os dados do CSV para o formato desejado
@@ -431,20 +437,20 @@ const DIA = () => {
     }, [dataCSV]);
 
     /* Reprocessa os dados de acordo com a data de corte selecionada */
-    const [CostByUniversityData, setCostByUniversityData] = useState<DIAData[]>([]);
+    const [costPerUniversity, setCostUniversity] = useState<DIAData[]>([]);
     useEffect(() => {
-        setCostByUniversityData(CostByUniversity(structuredClone(data), CostByUniversityOptions.date));
-    }, [data, CostByUniversityOptions.date]);
+        setCostUniversity(processCostUniversity(structuredClone(data), costUniversityOptions.date));
+    }, [data, costUniversityOptions.date]);
 
-    const [CostByCountryData, setCostByCountryData] = useState<DIAData[]>([]);
+    const [CostPerCountryData, setCostPerCountryData] = useState<DIAData[]>([]);
     useEffect(() => {
-        setCostByCountryData(CostByCountry(structuredClone(data), CostByCountryOptions.date));
-    }, [data, CostByCountryOptions.date]);
+        setCostPerCountryData(processDataPerCountry(structuredClone(data), costCountryOptions.date));
+    }, [data, costCountryOptions.date]);
 
     const [UniversityComparisonData, setUniversityCompData] = useState<DIAData[]>([]);
     useEffect(() => {
-        setUniversityCompData(UniversityComparison(structuredClone(data), UniversityCompOptions.date));
-    }, [data, UniversityCompOptions.date]);
+        setUniversityCompData(processComparisonData(structuredClone(data), comparisonOptions.date));
+    }, [data, comparisonOptions.date]);
 
     return (
         <div className='dia-body'>
@@ -469,12 +475,12 @@ const DIA = () => {
                                     <Interweave content={String(sections[0].attributes.Corpo)} allowElements />
 
                                     <div className='dia-chart-box'>
-                                        {CostByUniversityData.length > 0 && CostByUniversityGraph(CostByUniversityData, CostByUniversityOptions)}
+                                        {costPerUniversity.length > 0 && CostPerUniversityGraph(costPerUniversity, costUniversityOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniSubmit)}>
+                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniversitySubmit)}>
                                                 <div className='dia-options-item'>
                                                     <input {...registerUni('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                                     <label htmlFor='ascending'>Ordem crescente</label>
@@ -497,7 +503,7 @@ const DIA = () => {
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' name='aplicar' />
-                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setCostByUniOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
+                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setCostUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
                                                 </div>
                                             </form>
                                         </div>
@@ -517,7 +523,7 @@ const DIA = () => {
                                     {sections && sections[1] && <Interweave content={String(sections[1].attributes.Corpo)} allowElements />}
 
                                     <div className='dia-chart-box'>
-                                        {CostByCountryData.length > 0 && CostByCountryGraph(CostByCountryData, CostByCountryOptions)}
+                                        {CostPerCountryData.length > 0 && CostPerCountryGraph(CostPerCountryData, costCountryOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
@@ -545,7 +551,7 @@ const DIA = () => {
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetCt(); setCostByCtOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
+                                                    <input type="button" onClick={() => { resetCt(); setCostCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
                                         </div>
@@ -565,7 +571,7 @@ const DIA = () => {
                                     {sections && sections[2] && <Interweave content={String(sections[2].attributes.Corpo)} allowElements />}
 
                                     <div className='dia-chart-box'>
-                                        {UniversityComparisonData.length > 0 && UniversityComparisonGraph(UniversityComparisonData, UniversityCompOptions)}
+                                        {UniversityComparisonData.length > 0 && UniversityComparisonGraph(UniversityComparisonData, comparisonOptions)}
 
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
@@ -593,7 +599,7 @@ const DIA = () => {
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetComp(); setUniversityCompOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
+                                                    <input type="button" onClick={() => { resetComp(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
                                         </div>
