@@ -1,6 +1,6 @@
 @use '../Base.scss' as base;
 
-.dropMenu {
+.dropmenu {
     display: flex;
     position: relative;
 
@@ -12,15 +12,14 @@
 
     overflow: visible;
 
-    .dropMenuHead {
+    .dropmenu-head {
         margin: auto;
         text-align: left;
         position: relative;
         transition: font 250ms ease;
-        // transition: 0.5s;
     }
 
-    .dropMenuItens {
+    .dropmenu-itens {
         background-color: base.$azul-icmc;
 
         display: block;
@@ -30,16 +29,18 @@
         position: absolute;
 
         white-space: nowrap;
+
+        a {
+            width: 100%;
+            background-clip: border-box;
+            text-align: left;
+            transition: background-color 400ms ease;
+        }
+    
+        a:hover {
+            background-color: #020f20;
+        }
     }
 
-    a {
-        width: 100%;
-        background-clip: border-box;
-        text-align: left;
-    }
-
-    a:hover {
-        background-color: #020f20;
-        color: black;
-    }
+    
 }

@@ -39,7 +39,7 @@ const topics = (topicos: ApiTopico[]) => (
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentURL: string) => (
+const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -53,7 +53,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                             <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
                                 (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
-                                    <Link className={(currentURL === String(pagina.attributes.URL)) ? 'highlight' : ''}
+                                    <Link className={(currentUrl === String(pagina.attributes.URL)) ? 'highlight' : ''}
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
@@ -70,8 +70,8 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
 )
 
 interface HeaderImages {
-    ICMC: strapiImageData,
-    ICMC_mini: strapiImageData,
+    icmc: StrapiImageData,
+    icmcMini: StrapiImageData,
 }
 
 const AppHeader = () => {
@@ -79,16 +79,19 @@ const AppHeader = () => {
     const context = useSettings();
     const { userSettings } = context;
     const { addLoadingCoins, subLoadingCoins } = useLoading();
+
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopico[]>();
     const [display, setDisplay] = useState(false);
+
     const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
 
+    // Recolhe o menu do mobile quando a página muda
     useEffect(() => {
         setDisplay(false);
-    }, [location.pathname])
+    }, [location.pathname]);
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
@@ -106,8 +109,8 @@ const AppHeader = () => {
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const dataImages = {
-                        ICMC: response['data']['data']['attributes']['ICMC']['data']['attributes'] as strapiImageData,
-                        ICMC_mini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as strapiImageData,
+                        icmc: response['data']['data']['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
+                        icmcMini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
                     };
 
                     setHeaderImages(dataImages);
@@ -116,9 +119,8 @@ const AppHeader = () => {
                 })
         }
 
-        if (cachePopupText) {
+        if (cachePopupText) 
             setPopupText(cachePopupText);
-        }
 
         else {
             addLoadingCoins();
@@ -160,7 +162,7 @@ const AppHeader = () => {
                 {/* LOGO */}
                 <div className='navbar-left'>
                     {headerImages &&
-                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.ICMC_mini.url : headerImages.ICMC.url)} /></Link>
+                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
                     }
                 </div>
 
@@ -169,6 +171,7 @@ const AppHeader = () => {
                     {topicos && !mobile && topics(topicos)}
                     {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
                 </div>
+
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
                     <LangSystem />
@@ -191,7 +194,6 @@ const AppHeader = () => {
                     </button>
                 </div>
             }
-
         </header>
     );
 }

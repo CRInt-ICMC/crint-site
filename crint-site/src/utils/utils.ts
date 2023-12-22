@@ -2,13 +2,14 @@ import React from 'react';
 import { SettingsContext } from '../Settings';
 import { DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
 import { LoadingContext } from '../Loading';
+import { ApiSecao } from './types';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
     const BASE_FONTSIZE = getBaseFontSize();
 
     // Configurações padrão
-    const userSettings: userSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
+    const userSettings: UserSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString: string = localStorage.getItem('settings') || '';
@@ -18,7 +19,7 @@ export const loadSettings = () => {
         return userSettings;
 
     // Recupera as informações em JSON e passa para a variável que será retornada
-    const savedConfig: userSettings = JSON.parse(savedConfigString);
+    const savedConfig: UserSettings = JSON.parse(savedConfigString);
 
     // Carrega os valores para o contexto garantindo que não sejam nulos e que estejam dentro dos limites
     userSettings.cookieConsent = savedConfig.cookieConsent ?? false;
@@ -29,7 +30,7 @@ export const loadSettings = () => {
 }
 
 // Facilita a atualização do valores de configuração
-export const updateUserSettings = (context: initializedSettings, newValues: { lang?: string, cookieConsent?: boolean, fontSize?: number }) => {
+export const updateUserSettings = (context: InitializedSettings, newValues: { lang?: string, cookieConsent?: boolean, fontSize?: number }) => {
     const { userSettings, setUserSettings } = context;
 
     // Passa o valores originais quando não há alterações
@@ -38,7 +39,7 @@ export const updateUserSettings = (context: initializedSettings, newValues: { la
     const definedFontSize: number = newValues.fontSize ?? userSettings.fontSize;
 
     // Cria um novo conjunto se configurações
-    const newSettings: userSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
+    const newSettings: UserSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
 
     // Salva as atualizações em disco e sobreescreve o contexto atual
     localStorage.setItem('settings', JSON.stringify(newSettings));
@@ -52,7 +53,7 @@ export const useSettings = () => {
     if (context === undefined)
         throw new Error('useSettings está fora de contexto')
 
-    return context as initializedSettings;
+    return context as InitializedSettings;
 }
 
 // Garante que o contexto foi inicializado
@@ -62,7 +63,7 @@ export const useLoading = () => {
     if (context === undefined)
         throw new Error('useLoading está fora de contexto')
 
-    return context as initializedLoadingState;
+    return context as InitializedLoadingState;
 }
 
 export const getBaseFontSize = () => {
@@ -106,7 +107,11 @@ export const normalizeText = (text: string) => {
     return text.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-// Formata a data do formato DD/MM/YYYY para o formato YYYY/MM/DD
+export const cleanText = (text: string) => {
+    return normalizeText(text).replace(/[^a-z0-9\.,_-]/gim, "").replace(/\s/g, "").trim();
+}
+
+// Formata a data do formato DD/MM/YYYY para o formato YYYY-MM-DD
 export const formatDateString = (date: string) => {
     const splitDate = date.split('/');
 
@@ -115,4 +120,18 @@ export const formatDateString = (date: string) => {
     const year = splitDate[2];
 
     return `${year}-${month}-${day}`;
+}
+
+// Forma os dados dos links para o sumário
+export const getLinks = (sections: ApiSecao[]) => {
+    const sectionLinks: SectionLink[] = [];
+
+    sections.map((section) => {
+        sectionLinks.push({
+            name: String(section.attributes.Titulo),
+            id: cleanText(String(section.attributes.Titulo)),
+        } as SectionLink)
+    })
+
+    return sectionLinks;
 }

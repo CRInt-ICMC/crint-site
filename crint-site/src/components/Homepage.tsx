@@ -5,12 +5,12 @@ import { useLoading, useSettings } from '../utils/utils';
 import { ApiSecao, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
+import { useMediaPredicate } from 'react-media-hook';
 import PageSection from './PageSection';
 import axios from 'axios';
-import './Homepage.scss';
 import 'swiper/css';
 import 'swiper/css/bundle';
-import { useMediaPredicate } from 'react-media-hook';
+import './Homepage.scss';
 
 const CreateCarousel = (carouselSlides: ApiSlide[]) => (
     <Swiper
@@ -36,7 +36,7 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
             const link = String(slide.attributes.Link);
             const caption = String(slide.attributes.Texto);
             const key = link + caption;
-            const image = (slide.attributes.Imagem as any)['data']['attributes'] as strapiImageData;
+            const image = (slide.attributes.Imagem as any)['data']['attributes'] as StrapiImageData;
 
             return (
                 <SwiperSlide key={key} className='swiper-slide'>
@@ -53,8 +53,10 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
 const Homepage = () => {
     const { userSettings } = useSettings();
     const { addLoadingCoins, subLoadingCoins } = useLoading()
+
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
     const [sections, setSections] = useState<ApiSecao[]>();
+
     const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Recebe a imagem de fundo e as seções
@@ -85,7 +87,7 @@ const Homepage = () => {
                     setCarouselImages(slidesData);
                     setCache('carousel' + '-' + userSettings.lang, slidesData);
                     subLoadingCoins();
-                })
+                });
         }
     }, [userSettings.lang]);
 
@@ -115,7 +117,6 @@ const Homepage = () => {
                     );
                 })
             }
-
         </div>
     )
 }
