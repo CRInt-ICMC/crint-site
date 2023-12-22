@@ -10,21 +10,29 @@ O *Header* é composto por uma barra de navegação que é dividida em três par
 
 - Esquerda: Contém o logo ICMC.
 - Central: Contém os tópicos e subtópicos.
-- Direira: Contém as opções de acessibilidade.
+- Direita: Contém as opções de acessibilidade.
 
-Os tópicos de subtópicos são organizados em elementos `DropDownMenu`. Isso será explorado na próxima seção.
+Os tópicos e subtópicos são organizados em elementos ***DropDownMenu***. Os tópicos servem apenas como cabeçalhos para conjuntos de subtópicos, cada subtópico é um link para uma página do site. A relação entre tópicos e subtópicos e gerenciada através do Strapi, o ***AppHeader*** faz uma requisição para o servidor pedindo a estrutura dos tópicos e subtópicos e, após isso, monta o *Header* da página.
 
-O funcionamento das opções de acessibilidade é tercerizado para *FontSizeSystem* e *LangSystem*.
+**Nota**: O *header* não é necessariamente o mesmo para cada opção de idioma e deve ser ajustado individualmente para cada idioma registrado no Strapi.
+
+O funcionamento das opções de acessibilidade é tercerizado para ***FontSizeSystem*** e ***LangSystem***.
 
 ### FontSizeSystem
 
 É responsável pelo tamanho das fontes do projeto. Quando o botão de acrescentar ou de decrescer é pressionado, o sistema passa a mudança para o contexto e salva as alterações em disco. Alterações além dos limites definidos em `/utils/constants.ts` serão corrigidos para a borda do limite.
 
-As alterações são aplicadas no tamanho base da fonte, e são propagadas através do CSS, pois os tamanhos locais de fonte são definidos em medidas relativas ao tamanho base.
+Quando o limite superior ou inferior de tamanho é atingido, o botão que levaria a exceder o limite é desativado, isto é, sua aparência é alterada e sua funcionalidade cancelada para indicar que a fonte não pode ser aumentada ou diminuída além daquele ponto.
+
+As alterações são aplicadas no tamanho base da fonte, e são propagadas através do CSS com tamanhos definidos em *rem* (root em).
 
 ### LangSystem
 
 É responsável pelas linguagens disponíveis do projeto. Quando algum botão que representa uma língua é clicado, o sistema verifica se a língua está disponível no projeto e atualiza o contexto, forçando novas requisições no idioma selecionado. Caso a opção por alguma razão nao esteja disponível, a língua padrão será selecionada.
+
+A aplicação requisita ao servidor quais os idiomas disponíveis no projeto e suas respectivas bandeiras. A aplicação não sabe se os idiomas fornecidos realmente estão disponíveis no servidor e não há como descobrir de forma simples. Fica a cargo dos responsáveis pelo gerenciamento do site garantir que quaisquer idiomas registrados no Strapi tenham os devidos conteúdos disponíveis.
+
+A interface do sistema é uma seleção onde o idioma atual aparece no *header* enquanto as outras aparecem quando o usuário interage com esta interface.
 
 #### DropDownMenu
 
@@ -32,11 +40,17 @@ Recebe o tópico como a cabeça do menu e os subtópicos como o corpo/menu. Este
 
 #### Pageloader
 
-O *Pageloader* lê a URL atual e requisita a página ao servidor. Após receber os dados do servidor, ele carrega o banner da página e cada seção que recebeu do servidor. Caso a página não exista, ele mostra uma mensagem indicando isso. Caso a página exista, mas não tenha nenhuma seção, ela mostra outra mensagem indicando essa situação.
+O *Pageloader* lê a URL atual e requisita a página ao servidor no idioma atualmente selecionado. Após receber os dados do servidor, ele carrega o banner da página e cada seção que recebeu do servidor através do ***PageBanner*** e ***PageSection***, respectivamente.
+
+Caso a página não exista, ele mostra uma mensagem de alerta indicando que não há nenhuma página com a URL procurada disponível no servidor.
+
+Caso a página exista, mas não tenha nenhuma seção, ela mostra uma mensagem indicando que a página provavelmente ainda está sendo desenvolvida e por isso, apesar de existir, não tem nenhum conteúdo disponível.
 
 #### PageBanner
 
-Recebe o nome do tópico, os ids das seções da página, uma imagem e um gradiente. Com isso, é montado um banner contendo um sumário que leva a cada seção da página.
+Recebe o nome do tópico, os *ids* das seções da página, uma imagem e um gradiente. Com isso, é montado um banner contendo um sumário que leva a cada seção da página. Os *ids* são montados no componente pai e devem ser associados às seções que irão aparecer no sumário disponibilizado pelo ***PageBanner***.
+
+Os links no sumário scrollam a tela até a seção correspondente.
 
 #### PageSection
 
