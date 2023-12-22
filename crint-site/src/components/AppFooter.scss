@@ -31,6 +31,7 @@
     a,
     a:link,
     a:visited {
+        transition: color 250ms ease;
         text-decoration: none;
         color: inherit;
     }
