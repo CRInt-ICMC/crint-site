@@ -4,10 +4,10 @@ interface Map {
 
 const cache: Map = {}
 
-export function readCache(cachePosition: string) {
+export const readCache = (cachePosition: string) => {
     return cache[cachePosition];
 }
 
-export function setCache(cachePosition: string, value: any) {
+export const setCache = (cachePosition: string, value: any) => {
     cache[cachePosition] = value;
 }

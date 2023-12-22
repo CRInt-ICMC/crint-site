@@ -1,34 +1,37 @@
-interface userSettings {
+interface UserSettings {
     cookieConsent: boolean,
     lang: string,
     fontSize: number,
 }
 
+// Utilizada apenas para a criação do estado inicial
 interface UserSettingsState {
-    userSettings?: userSettings,
-    setUserSettings?: (userOptions: userSettings) => void,
+    userSettings?: UserSettings,
+    setUserSettings?: (userOptions: UserSettings) => void,
 }
 
 // Interface que será utilizada pela aplicação
-interface initializedSettings {
-    userSettings: userSettings,
-    setUserSettings: (userOptions: userSettings) => void,
+interface InitializedSettings {
+    userSettings: UserSettings,
+    setUserSettings: (userOptions: UserSettings) => void,
 }
 
+// Utilizada apenas para a criação do estado inicial
 interface AppLoadingState {
     loadingCoins?: number,
     addLoadingCoins?: () => void,
     subLoadingCoins?: () => void,
 }
 
-interface initializedLoadingState {
+// Interface que será utilizada pela aplicação
+interface InitializedLoadingState {
     loadingCoins: number,
     addLoadingCoins: () => void,
     subLoadingCoins: () => void,
 }
 
 // Informações da imagem
-interface strapiImageFormat {
+interface StrapiImageFormat {
     name: string,
     caption: string,
     alternativeText: string,
@@ -45,21 +48,23 @@ interface strapiImageFormat {
 }
 
 // Pacote recebido do strapi
-interface strapiImageData extends strapiImageFormat {
+interface StrapiImageData extends StrapiImageFormat {
     formats: {
-        large: strapiImageFormat,
-        medium: strapiImageFormat,
-        small: strapiImageFormat,
-        thumbnail: strapiImageFormat,
+        large: StrapiImageFormat,
+        medium: StrapiImageFormat,
+        small: StrapiImageFormat,
+        thumbnail: StrapiImageFormat,
     }
 }
 
-interface sectionLink {
+// Informações para a formação do sumário
+interface SectionLink {
     name: string,
     id: string,
 }
 
-interface diaData {
+// Informações para a formação dos gráficos
+interface DiaData {
     university: string,
     country: string,
     date: string,
@@ -77,7 +82,7 @@ interface OptionsForm {
     date: string,
 }
 
-interface langIcon {
+interface LangIcon {
     value: string,
     label: any,
     icon: string,

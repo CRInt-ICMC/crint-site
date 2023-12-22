@@ -9,9 +9,11 @@ import './LangSystem.scss';
 const LangSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
-    const [options, setOptions] = useState<langIcon[]>([]);
-    const [selectedLang, setSelectedLang] = useState<langIcon>();
+    
+    const [options, setOptions] = useState<LangIcon[]>([]);
+    const [selectedLang, setSelectedLang] = useState<LangIcon>();
 
+    // Recebe as opções de linguagem do sistema e as bandeiras associadas
     useEffect(() => {
         axios
             .get(STRAPI_URL + '/api/linguas?populate=*', { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
@@ -28,26 +30,27 @@ const LangSystem = () => {
 
                 const optionsData = data.map((lang) => {
                     const sigla = String(lang.attributes.Sigla);
-                    const bandeira = (lang.attributes.Bandeira as any).data.attributes as strapiImageData;
+                    const bandeira = (lang.attributes.Bandeira as any).data.attributes as StrapiImageData;
 
                     return {
                         value: sigla,
                         label: <img src={STRAPI_URL + bandeira.url} height='30px' width='45px'></img>,
                         icon: STRAPI_URL + bandeira.url,
-                    } as langIcon;
+                    } as LangIcon;
                 });
 
                 setOptions(optionsData);
             })
     }, []);
 
+    // Altera a linguagem que aparece na seleção
     useEffect(() => {
         setSelectedLang(options.find((option) => option.value === userSettings.lang));
     }, [options]);
 
     const changeLang = (lang: string) => {
-        updateUserSettings(context, { lang: lang })
-        setSelectedLang(options?.find((option) => option.value === lang));
+        updateUserSettings(context, { lang: lang });
+        setSelectedLang(options.find((option) => option.value === lang));
     };
 
     const selectStyles = {
@@ -78,13 +81,13 @@ const LangSystem = () => {
 
     return (
         <div className='flags'>
-            { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atual
+            { // Adiciona bandeiras de todas as linguagens, exceto a linguagem atualmente selecionada
                 selectedLang &&
                 <Select
                     defaultValue={selectedLang}
                     options={options.filter((option) => option.value !== selectedLang.value)}
                     styles={selectStyles}
-                    onChange={(e) => changeLang(e ? e.value : DEFAULT_LANGUAGE)}
+                    onChange={e => changeLang(e ? e.value : DEFAULT_LANGUAGE)}
                     isSearchable={false}
                 />
             }

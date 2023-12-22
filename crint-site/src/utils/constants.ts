@@ -4,6 +4,7 @@ export const DEFAULT_LANGUAGE = 'pt';
 // Strapi
 export const STRAPI_URL = 'https://crint.icmc.usp.br/strapi';
 export const STRAPI_API_TOKEN = 'bearer ' + import.meta.env.VITE_STRAPI_API_TOKEN;
+// export const STRAPI_API_TOKEN = 'bearer ';
 
 // Fontsize System
 export const MIN_FONT_MULTIPLIER = 0.8;

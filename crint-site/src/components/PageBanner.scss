@@ -1,6 +1,6 @@
 @use '../Base.scss' as base;
 
-.page-root {
+.banner-root {
     @media screen and (orientation: portrait) {
         margin-top: base.$header-mobile;
     }
@@ -9,7 +9,7 @@
         margin-top: base.$header-computador;
     }
 
-    .page-banner {
+    .banner-body {
         overflow: auto;
 
         align-items: center;
@@ -23,7 +23,7 @@
             padding: 0 5%;
         }
 
-        .page-img-container {
+        .banner-img {
             text-align: center;
             min-width: 30%;
 
@@ -42,7 +42,7 @@
             }
         }
 
-        .page-title {
+        .banner-title {
             transition: font 250ms ease;
 
             @media screen and (orientation: portrait) {
@@ -62,7 +62,7 @@
                 color: black;
             }
 
-            .page-summary {
+            .banner-summary {
                 transition: font 250ms ease;
 
                 display: grid;
@@ -86,7 +86,7 @@
                 }
             }
 
-            .page-summary:last-child {
+            .banner-summary:last-child {
                 padding-bottom: 25px;
             }
         }

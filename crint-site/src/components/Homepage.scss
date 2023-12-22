@@ -100,7 +100,12 @@
 
         .swiper-button-next:hover,
         .swiper-button-prev:hover {
-            opacity: 1;
+            opacity: 0.7;
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 60px;
         }
     }
 }
