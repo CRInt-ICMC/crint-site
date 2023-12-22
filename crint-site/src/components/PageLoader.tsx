@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NOTFOUND_ICON, STRAPI_API_TOKEN, STRAPI_URL, WIP_ICON } from "../utils/constants";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cleanText, getLinks, useLoading, useSettings } from "../utils/utils";
 import { ApiPagina, ApiSecao } from "../utils/types";
 import { readCache, setCache } from "../Caching";
@@ -23,6 +23,7 @@ const NotFound = (
         <div className='notfound-content'>
             <h1>Página não encontrada</h1>
             <img src={NOTFOUND_ICON} alt="Erro 404: Not Found" />
+            <Link to='/'>Voltar para a página inicial</Link>
         </div>
     </div>
 );
@@ -108,7 +109,7 @@ const PageLoader = () => {
     return (
         <div className='page-body'>
             {/* BANNER */}
-            {textData && bannerImage &&
+            {textData && bannerImage && status === 200 &&
                 <PageBanner
                     pageName={String(textData?.attributes.Banner_text)}
                     pageSections={getLinks(sections || [])}
