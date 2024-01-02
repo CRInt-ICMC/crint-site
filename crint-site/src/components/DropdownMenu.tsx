@@ -1,8 +1,8 @@
 import { ReactNode, useState } from 'react';
 import AnimateHeight from 'react-animate-height';
-import './DropDownMenu.scss'
+import './DropdownMenu.scss'
 
-const DropDownMenu = (props: { head: ReactNode, body: ReactNode }) => {
+const DropdownMenu = (props: { head: ReactNode, body: ReactNode }) => {
     const [display, toggleDisplay] = useState(false);
 
     const hideMenu = () => toggleDisplay(false);
@@ -20,4 +20,4 @@ const DropDownMenu = (props: { head: ReactNode, body: ReactNode }) => {
     );
 }
 
-export default DropDownMenu;
+export default DropdownMenu;

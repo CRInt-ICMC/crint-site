@@ -12,15 +12,15 @@ O *Header* é composto por uma barra de navegação que é dividida em três par
 - Central: Contém os tópicos e subtópicos.
 - Direita: Contém as opções de acessibilidade.
 
-Os tópicos e subtópicos são organizados em elementos ***DropDownMenu***. Os tópicos servem apenas como cabeçalhos para conjuntos de subtópicos, cada subtópico é um link para uma página do site. A relação entre tópicos e subtópicos e gerenciada através do Strapi, o ***AppHeader*** faz uma requisição para o servidor pedindo a estrutura dos tópicos e subtópicos e, após isso, monta o *Header* da página.
+Os tópicos e subtópicos são organizados em elementos ***DropdownMenu***. Os tópicos servem apenas como cabeçalhos para conjuntos de subtópicos, cada subtópico é um link para uma página do site. A relação entre tópicos e subtópicos e gerenciada através do Strapi, o ***AppHeader*** faz uma requisição para o servidor pedindo a estrutura dos tópicos e subtópicos e, após isso, monta o *Header* da página.
 
 **Nota**: O *header* não é necessariamente o mesmo para cada opção de idioma e deve ser ajustado individualmente para cada idioma registrado no Strapi.
 
 O funcionamento das opções de acessibilidade é tercerizado para ***FontsizeSystem*** e ***LangSystem***.
 
-#### DropDownMenu
+#### DropdownMenu
 
-Cria um elemento com uma cabeça e um corpo. Quando o mouse passa por cima da cabeça o corpo aparece como um menu *dropdown*. Nesta aplicação, é utilizado apenas no *header* para criar múltiplos menus para cada tópico na versão desktop ou um menu unificado na versão mobile.
+Cria um elemento com uma cabeça e um corpo. Quando o mouse passa por cima da cabeça o corpo aparece como um menu *dropdown*. Nesta aplicação, é utilizado apenas no *header* para criar múltiplos menus para cada tópico na versão desktop.
 
 #### FontsizeSystem
 

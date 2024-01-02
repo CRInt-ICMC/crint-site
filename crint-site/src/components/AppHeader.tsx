@@ -8,7 +8,7 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
-import DropDownMenu from './DropDownMenu';
+import DropdownMenu from './DropdownMenu';
 import LangSystem from './LangSystem';
 import FontsizeSystem from './FontsizeSystem';
 import AnimateHeight from 'react-animate-height';
@@ -17,7 +17,7 @@ import './AppHeader.scss';
 const topics = (topicos: ApiTopic[]) => (
     <div className='topics'>
         {
-            topicos.map((topico) => (<DropDownMenu
+            topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
                 head={<p>{String(topico.attributes.Nome)}</p>}
                 body={<span className='subtopics' >
