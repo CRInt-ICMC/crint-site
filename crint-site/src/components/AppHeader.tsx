@@ -10,7 +10,7 @@ import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
 import LangSystem from './LangSystem';
-import FontSizeSystem from './FontSizeSystem';
+import FontsizeSystem from './FontsizeSystem';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
@@ -175,7 +175,7 @@ const AppHeader = () => {
                 {/* OPÇÕES */}
                 <div className='navbar-right'>
                     <LangSystem />
-                    <FontSizeSystem />
+                    <FontsizeSystem />
                 </div>
             </nav>
 

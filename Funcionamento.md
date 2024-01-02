@@ -16,13 +16,13 @@ Os tópicos e subtópicos são organizados em elementos ***DropDownMenu***. Os t
 
 **Nota**: O *header* não é necessariamente o mesmo para cada opção de idioma e deve ser ajustado individualmente para cada idioma registrado no Strapi.
 
-O funcionamento das opções de acessibilidade é tercerizado para ***FontSizeSystem*** e ***LangSystem***.
+O funcionamento das opções de acessibilidade é tercerizado para ***FontsizeSystem*** e ***LangSystem***.
 
 #### DropDownMenu
 
 Cria um elemento com uma cabeça e um corpo. Quando o mouse passa por cima da cabeça o corpo aparece como um menu *dropdown*. Nesta aplicação, é utilizado apenas no *header* para criar múltiplos menus para cada tópico na versão desktop ou um menu unificado na versão mobile.
 
-#### FontSizeSystem
+#### FontsizeSystem
 
 É responsável pelo tamanho das fontes do projeto. Quando o botão de acrescentar ou de decrescer é pressionado, o sistema passa a mudança para o contexto e salva as alterações em disco. Alterações além dos limites definidos em `/utils/constants.ts` serão corrigidos para a borda do limite.
 
