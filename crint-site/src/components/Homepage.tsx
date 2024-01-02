@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
+import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useLoading, useSettings } from '../utils/utils';
+import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { ApiSection, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
@@ -51,7 +51,8 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
 );
 
 const Homepage = () => {
-    const { userSettings } = useSettings();
+    const context = useSettings();
+    const { userSettings } = context;
     const { addLoadingCoins, subLoadingCoins } = useLoading()
 
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
@@ -77,6 +78,13 @@ const Homepage = () => {
                     { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = response['data']['data']['attributes'];
+
+                    // Previne o caso catastrófico de não haver conteúdo disponível no idioma selecionado
+                    if (data === undefined) {
+                        subLoadingCoins();
+                        updateUserSettings(context, { lang: DEFAULT_LANGUAGE });
+                        return;
+                    }
 
                     const sectionsData = data['secoes']['data'];
                     setSections(sectionsData);

@@ -363,17 +363,17 @@ const DIA = () => {
     /* Estados dos formulários de cada gráfico */
     // Universidades
     const [universityOptions, setUniversityOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
-    const { register: registerUni, handleSubmit: handleSubmitUni, reset: resetUni } = useForm<OptionsForm>();
+    const { register: registerUniversity, handleSubmit: handleSubmitUniversity, reset: resetUniversityForm } = useForm<OptionsForm>();
     const onUniversitySubmit: SubmitHandler<OptionsForm> = (input) => setUniversityOptions(input);
 
     // Países
     const [countryOptions, setCountryOptions] = useState<OptionsForm>({ ascending: true, limit: 1000000, name: '', date: defaultDate });
-    const { register: registerCt, handleSubmit: handleSubmitCt, reset: resetCt } = useForm<OptionsForm>();
+    const { register: registerCountry, handleSubmit: handleSubmitCountry, reset: resetCountryForm } = useForm<OptionsForm>();
     const onCountrySubmit: SubmitHandler<OptionsForm> = (input) => setCountryOptions(input);
 
     // Comparação
     const [comparisonOptions, setComparisonOptions] = useState<OptionsForm>({ ascending: true, limit: -5, name: '', date: defaultDate });
-    const { register: registerComp, handleSubmit: handleSubmitComp, reset: resetComp } = useForm<OptionsForm>();
+    const { register: registerComparison, handleSubmit: handleSubmitComparison, reset: resetComparisonForm } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setComparisonOptions(input);
 
 
@@ -498,30 +498,30 @@ const DIA = () => {
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUni(onUniversitySubmit)}>
+                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUniversity(onUniversitySubmit)}>
                                                 <div className='dia-options-item'>
-                                                    <input {...registerUni('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                    <input {...registerUniversity('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                                     <label htmlFor='ascending'>Ordem crescente</label>
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='limit'>Custo Máximo (R$): </label>
-                                                    <input {...registerUni('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                                    <input {...registerUniversity('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='name'>Nome da universidade:</label>
-                                                    <input {...registerUni('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                                    <input {...registerUniversity('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='date'>Dados a partir de:</label>
-                                                    <input {...registerUni('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                                    <input {...registerUniversity('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
                                                 </div>
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' name='aplicar' />
-                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUni(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
+                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUniversityForm(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
                                                 </div>
                                             </form>
                                         </div>
@@ -546,30 +546,30 @@ const DIA = () => {
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCt(onCountrySubmit)}>
+                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCountry(onCountrySubmit)}>
                                                 <div className='dia-options-item'>
-                                                    <input {...registerCt('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                    <input {...registerCountry('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                                     <label htmlFor='ascending'>Ordem crescente</label>
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='limit'>Custo Máximo (R$): </label>
-                                                    <input {...registerCt('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                                    <input {...registerCountry('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='name'>Nome do país:</label>
-                                                    <input {...registerCt('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                                    <input {...registerCountry('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='date'>Dados a partir de: </label>
-                                                    <input {...registerCt('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                                    <input {...registerCountry('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
                                                 </div>
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetCt(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
+                                                    <input type="button" onClick={() => { resetCountryForm(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
                                         </div>
@@ -594,30 +594,30 @@ const DIA = () => {
                                         <div className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComp(onComparisonSubmit)}>
+                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComparison(onComparisonSubmit)}>
                                                 <div className='dia-options-item'>
-                                                    <input {...registerComp('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                                    <input {...registerComparison('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
                                                     <label htmlFor='ascending'>Ordem crescente</label>
                                                 </div>
 
                                                 <div className='dia-options-item' id='short'>
                                                     <label htmlFor='min'>Pontuação mínima: </label>
-                                                    <input {...registerComp('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
+                                                    <input {...registerComparison('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='name'>Nome da universidade:</label>
-                                                    <input {...registerComp('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                                    <input {...registerComparison('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
                                                 </div>
 
                                                 <div className='dia-options-item'>
                                                     <label htmlFor='date'>Dados a partir de:</label>
-                                                    <input {...registerComp('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2013-01-01' />
+                                                    <input {...registerComparison('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2013-01-01' />
                                                 </div>
 
                                                 <div className='dia-options-buttons'>
                                                     <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetComp(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
+                                                    <input type="button" onClick={() => { resetComparisonForm(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
                                         </div>
