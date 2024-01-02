@@ -14,6 +14,26 @@ import axios from 'axios';
 import PageSection from './PageSection';
 import './DIA.scss'
 
+// Informações para a formação dos gráficos
+interface DiaData {
+    university: string,
+    country: string,
+    date: string,
+    comparative: number,
+    housing: number,
+    food: number,
+    transport: number,
+    totalExpenses: number,
+}
+
+// Opções de visualização dos gráficos
+interface OptionsForm {
+    ascending: boolean,
+    limit: number,
+    name: string,
+    date: string,
+}
+
 const processData = (CSV: string) => {
     const data: DiaData[] = [];
 
@@ -403,7 +423,7 @@ const DIA = () => {
                 .get(STRAPI_URL + `/api/dia?populate=*`, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     // Não é uma imagem, mas só preciso da URL mesmo
-                    const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageFormat).url;
+                    const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageData).url;
                     setDataURL(url);
 
                     setCache('cacheDataURL', url);
