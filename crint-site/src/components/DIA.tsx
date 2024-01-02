@@ -466,7 +466,7 @@ const DIA = () => {
                     {/* GRÁFICO DE CUSTO POR UNIVERSIDADE */}
                     {sections && sections[0] &&
                         <PageSection
-                            id={cleanText(String(sections[0].attributes.Titulo))}
+                            id={'0-' + cleanText(String(sections[0].attributes.Titulo))}
                             title={String(sections[0].attributes.Titulo)}
                             body={
                                 <>
@@ -514,7 +514,7 @@ const DIA = () => {
                     {/* GRÁFICO DE CUSTO POR PAÍS */}
                     {sections && sections[1] &&
                         <PageSection
-                            id={cleanText(String(sections[1].attributes.Titulo))}
+                            id={'1-' + cleanText(String(sections[1].attributes.Titulo))}
                             title={String(sections[1].attributes.Titulo)}
                             body={
                                 <>
@@ -562,7 +562,7 @@ const DIA = () => {
                     {/* GRÁFICO DE COMPARAÇÃO DE UNIVERSIDADES */}
                     {sections && sections[2] &&
                         <PageSection
-                            id={cleanText(String(sections[2].attributes.Titulo))}
+                            id={'2-' + cleanText(String(sections[2].attributes.Titulo))}
                             title={String(sections[2].attributes.Titulo)}
                             body={
                                 <>

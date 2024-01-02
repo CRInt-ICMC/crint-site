@@ -123,7 +123,7 @@ const PageLoader = () => {
                 sections.map((section) => (
                     <PageSection
                         key={String(section.attributes.Titulo)}
-                        id={cleanText(String(section.attributes.Titulo))}
+                        id={sections.indexOf(section) + '-' + cleanText(String(section.attributes.Titulo))}
                         title={String(section.attributes.Titulo)}
                         body={String(section.attributes.Corpo)}
                         textColor={String(section.attributes.Cor_texto)}
