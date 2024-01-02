@@ -1,27 +1,27 @@
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from "../utils/constants";
-import { clampFontSize, getBaseFontSize, updateUserSettings, useSettings } from "../utils/utils";
+import { MAX_FONTSIZE_MULTIPLIER, MIN_FONTSIZE_MULTIPLIER } from "../utils/constants";
+import { clampFontsize, getBaseFontsize, updateUserSettings, useSettings } from "../utils/utils";
 import { useEffect, useState } from "react";
-import './FontSizeSystem.scss';
+import './FontsizeSystem.scss';
 
-const FontSizeSystem = () => {
+const FontsizeSystem = () => {
     const context = useSettings();
     const { userSettings } = context;
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const [baseFontsize, setBaseFontsize] = useState(getBaseFontSize());
+    const [baseFontsize, setBaseFontsize] = useState(getBaseFontsize());
 
-    const minFontsize = MIN_FONT_MULTIPLIER * baseFontsize;
-    const maxFontsize = MAX_FONT_MULTIPLIER * baseFontsize;
+    const minFontsize = MIN_FONTSIZE_MULTIPLIER * baseFontsize;
+    const maxFontsize = MAX_FONTSIZE_MULTIPLIER * baseFontsize;
 
     // Atualiza a fonte global do site
     useEffect(() => {
         const root = document.documentElement;
         root.style.setProperty(
             '--base-font-size',
-            String(clampFontSize(userSettings.fontSize)) + 'px'
+            String(clampFontsize(userSettings.fontsize)) + 'px'
         );
-    }, [userSettings.fontSize]);
+    }, [userSettings.fontsize]);
 
     // Atualiza a fonte caso haja uma mudança repentina
     useEffect(() => {
@@ -29,9 +29,9 @@ const FontSizeSystem = () => {
         window.addEventListener('resize', updateScreenWidth);
 
         // Caso haja uma mudança no tamanho da tela, atualiza a fonte se necessário
-        if (baseFontsize !== getBaseFontSize()) {
-            setBaseFontsize(getBaseFontSize());
-            setFontSize(0); // Atualiza a fonte
+        if (baseFontsize !== getBaseFontsize()) {
+            setBaseFontsize(getBaseFontsize());
+            setFontsize(0); // Atualiza a fonte
         }
 
         return (() => {
@@ -40,22 +40,22 @@ const FontSizeSystem = () => {
     }, [screenWidth]);
 
     // Atualiza a fonte do usuário
-    const setFontSize = (offset: number) => {
-        const newFontSize = clampFontSize(userSettings.fontSize + offset);
-        updateUserSettings(context, { fontSize: newFontSize });
+    const setFontsize = (offset: number) => {
+        const newFontsize = clampFontsize(userSettings.fontsize + offset);
+        updateUserSettings(context, { fontSize: newFontsize });
     }
 
     return (
         <div className='fontsize-root'>
             <div className='fontsize-body'>
                 {
-                    userSettings.fontSize > minFontsize
-                        ? <button className='enabled button' onClick={() => setFontSize(-2)}><FontAwesomeIcon icon={faMinus} /></button>
+                    userSettings.fontsize > minFontsize
+                        ? <button className='enabled button' onClick={() => setFontsize(-2)}><FontAwesomeIcon icon={faMinus} /></button>
                         : <button className='disabled button'><FontAwesomeIcon icon={faMinus} /></button>
                 }
                 {
-                    userSettings.fontSize < maxFontsize
-                        ? <button className='enabled button' onClick={() => setFontSize(2)}><FontAwesomeIcon icon={faPlus} /></button>
+                    userSettings.fontsize < maxFontsize
+                        ? <button className='enabled button' onClick={() => setFontsize(2)}><FontAwesomeIcon icon={faPlus} /></button>
                         : <button className='disabled button'><FontAwesomeIcon icon={faPlus} /></button>
                 }
             </div>
@@ -63,4 +63,4 @@ const FontSizeSystem = () => {
     );
 }
 
-export default FontSizeSystem;
+export default FontsizeSystem;

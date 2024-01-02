@@ -7,8 +7,8 @@ export const STRAPI_API_TOKEN = 'bearer ' + import.meta.env.VITE_STRAPI_API_TOKE
 // export const STRAPI_API_TOKEN = 'bearer ';
 
 // Fontsize System
-export const MIN_FONT_MULTIPLIER = 0.8;
-export const MAX_FONT_MULTIPLIER = 1.3;
+export const MIN_FONTSIZE_MULTIPLIER = 0.8;
+export const MAX_FONTSIZE_MULTIPLIER = 1.3;
 
 // Imagens
 import email from '../img/icones/email.png';

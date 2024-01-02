@@ -1,15 +1,15 @@
 import React from 'react';
 import { SettingsContext } from '../Settings';
-import { DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
+import { DEFAULT_LANGUAGE, MAX_FONTSIZE_MULTIPLIER, MIN_FONTSIZE_MULTIPLIER } from './constants';
 import { LoadingContext } from '../Loading';
-import { ApiSecao } from './types';
+import { ApiSection } from './types';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
-    const BASE_FONTSIZE = getBaseFontSize();
+    const BASE_FONTSIZE = getBaseFontsize();
 
     // Configurações padrão
-    const userSettings: UserSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontSize: BASE_FONTSIZE };
+    const userSettings: UserSettings = { lang: DEFAULT_LANGUAGE, cookieConsent: false, fontsize: BASE_FONTSIZE };
 
     // Se não encontra uma configuração salva, retorna a padrão
     const savedConfigString: string = localStorage.getItem('settings') || '';
@@ -24,7 +24,7 @@ export const loadSettings = () => {
     // Carrega os valores para o contexto garantindo que não sejam nulos e que estejam dentro dos limites
     userSettings.cookieConsent = savedConfig.cookieConsent ?? false;
     userSettings.lang = savedConfig.lang ?? DEFAULT_LANGUAGE;
-    userSettings.fontSize = clampFontSize(savedConfig.fontSize)
+    userSettings.fontsize = clampFontsize(savedConfig.fontsize)
 
     return userSettings;
 }
@@ -36,10 +36,10 @@ export const updateUserSettings = (context: InitializedSettings, newValues: { la
     // Passa o valores originais quando não há alterações
     const definedLang: string = newValues.lang ?? userSettings.lang;
     const definedCookieConsent: boolean = newValues.cookieConsent ?? userSettings.cookieConsent;
-    const definedFontSize: number = newValues.fontSize ?? userSettings.fontSize;
+    const definedFontSize: number = newValues.fontSize ?? userSettings.fontsize;
 
     // Cria um novo conjunto se configurações
-    const newSettings: UserSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontSize: definedFontSize };
+    const newSettings: UserSettings = { lang: definedLang, cookieConsent: definedCookieConsent, fontsize: definedFontSize };
 
     // Salva as atualizações em disco e sobreescreve o contexto atual
     localStorage.setItem('settings', JSON.stringify(newSettings));
@@ -66,7 +66,7 @@ export const useLoading = () => {
     return context as InitializedLoadingState;
 }
 
-export const getBaseFontSize = () => {
+export const getBaseFontsize = () => {
     const windowWidth = window.innerWidth;
 
     if (windowWidth <= 480)
@@ -83,20 +83,20 @@ export const getBaseFontSize = () => {
 }
 
 // Mantém a fonte dentro dos limites
-export const clampFontSize = (fontsize: number) => {
-    const BASE_FONTSIZE = getBaseFontSize();
+export const clampFontsize = (fontsize: number) => {
+    const BASE_FONTSIZE = getBaseFontsize();
 
     // Checa se realmente é um número
     if (isNaN(fontsize))
         return BASE_FONTSIZE;
 
     // Limita superiormente a fonte
-    if (fontsize > MAX_FONT_MULTIPLIER * BASE_FONTSIZE)
-        return MAX_FONT_MULTIPLIER * BASE_FONTSIZE;
+    if (fontsize > MAX_FONTSIZE_MULTIPLIER * BASE_FONTSIZE)
+        return MAX_FONTSIZE_MULTIPLIER * BASE_FONTSIZE;
 
     // Limita inferiormente a fonte
-    if (fontsize < MIN_FONT_MULTIPLIER * BASE_FONTSIZE)
-        return MIN_FONT_MULTIPLIER * BASE_FONTSIZE;
+    if (fontsize < MIN_FONTSIZE_MULTIPLIER * BASE_FONTSIZE)
+        return MIN_FONTSIZE_MULTIPLIER * BASE_FONTSIZE;
 
     // Retorna a fonte sem alterações
     return fontsize;
@@ -123,13 +123,13 @@ export const formatDateString = (date: string) => {
 }
 
 // Forma os dados dos links para o sumário
-export const getLinks = (sections: ApiSecao[]) => {
+export const getLinks = (sections: ApiSection[]) => {
     const sectionLinks: SectionLink[] = [];
 
     sections.map((section) => {
         sectionLinks.push({
             name: String(section.attributes.Titulo),
-            id: cleanText(String(section.attributes.Titulo)),
+            id: sections.indexOf(section) + '-' +  cleanText(String(section.attributes.Titulo)),
         } as SectionLink)
     })
 

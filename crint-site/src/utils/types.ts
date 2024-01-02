@@ -3,10 +3,10 @@ import { ApiDiaDia, ApiFooterFooter, ApiGradienteGradiente, ApiHeaderHeader, Api
 export type ApiFooter = ApiFooterFooter;
 export type ApiGradient = ApiGradienteGradiente;
 export type ApiHeader = ApiHeaderHeader;
-export type ApiLingua = ApiLinguaLingua;
-export type ApiPagina = ApiPaginaPagina;
+export type ApiLang = ApiLinguaLingua;
+export type ApiPage = ApiPaginaPagina;
 export type ApiPopup = ApiPopupDePrivacidadePopupDePrivacidade;
-export type ApiSecao = ApiSecaoSecao;
+export type ApiSection = ApiSecaoSecao;
 export type ApiSlide = ApiSlideSlide;
-export type ApiTopico = ApiTopicoTopico;
+export type ApiTopic = ApiTopicoTopico;
 export type ApiDia = ApiDiaDia;
