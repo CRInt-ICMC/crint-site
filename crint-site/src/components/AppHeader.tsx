@@ -5,7 +5,7 @@ import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { ApiTopico, ApiPopup, ApiPagina } from '../utils/types';
+import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropDownMenu from './DropDownMenu';
@@ -14,7 +14,7 @@ import FontSizeSystem from './FontSizeSystem';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
-const topics = (topicos: ApiTopico[]) => (
+const topics = (topicos: ApiTopic[]) => (
     <div className='topics'>
         {
             topicos.map((topico) => (<DropDownMenu
@@ -22,7 +22,7 @@ const topics = (topicos: ApiTopico[]) => (
                 head={<p>{String(topico.attributes.Nome)}</p>}
                 body={<span className='subtopics' >
                     {
-                        (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                        (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
                             <Link
                                 key={String(pagina.attributes.Titulo)}
                                 to={String(pagina.attributes.URL)}
@@ -39,7 +39,7 @@ const topics = (topicos: ApiTopico[]) => (
     </div>
 )
 
-const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
+const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div>Menu</div>
@@ -52,7 +52,7 @@ const topicsMobile = (topicos: ApiTopico[], display: boolean, setDisplay: Callab
                         <span className='subtopics'>
                             <span className='title'>{String(topico.attributes.Nome)}</span>
                             {
-                                (topico.attributes.paginas as any)['data'].map((pagina: ApiPagina) => (
+                                (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
                                     <Link className={(currentUrl === String(pagina.attributes.URL)) ? 'highlight' : ''}
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
@@ -82,7 +82,7 @@ const AppHeader = () => {
 
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
-    const [topicos, setTopicos] = useState<ApiTopico[]>();
+    const [topicos, setTopicos] = useState<ApiTopic[]>();
     const [display, setDisplay] = useState(false);
 
     const mobile = useMediaPredicate("(orientation: portrait)");
@@ -144,8 +144,8 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const dataTopicos: ApiTopico[] = [];
-                    response['data']['data'].map((topico: ApiTopico) => {
+                    const dataTopicos: ApiTopic[] = [];
+                    response['data']['data'].map((topico: ApiTopic) => {
                         dataTopicos.push(topico);
                     })
 

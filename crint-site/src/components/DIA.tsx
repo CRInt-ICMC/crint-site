@@ -3,7 +3,7 @@ import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
 import { cleanText, formatDateString, getLinks, normalizeText, useLoading, useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
-import { ApiDia, ApiPagina, ApiSecao } from '../utils/types';
+import { ApiDia, ApiPage, ApiSection } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
@@ -349,10 +349,10 @@ const DIA = () => {
     const { addLoadingCoins, subLoadingCoins } = useLoading();
     const navigate = useNavigate();
 
-    const [textData, setTextData] = useState<ApiPagina>();
+    const [textData, setTextData] = useState<ApiPage>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
-    const [sections, setSections] = useState<ApiSecao[]>();
+    const [sections, setSections] = useState<ApiSection[]>();
 
     const [dataURL, setDataURL] = useState<string>();
     const [data, setData] = useState<DiaData[]>([]);
@@ -383,7 +383,7 @@ const DIA = () => {
         const cacheDataURL = readCache('cacheDataURL');
 
         if (cacheDIAText) {
-            setTextData(cacheDIAText as ApiPagina);
+            setTextData(cacheDIAText as ApiPage);
             setBannerImage(cacheDIAText['attributes']['Banner_imagem']['data']['attributes']['url']);
             setGradient(cacheDIAText['attributes']['Gradiente']['data']['attributes']['CSS']);
             setSections(cacheDIAText['attributes']['secoes']['data']);
@@ -403,7 +403,7 @@ const DIA = () => {
                         return;
                     }
 
-                    setTextData(data as ApiPagina);
+                    setTextData(data as ApiPage);
                     setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
                     setSections(data['attributes']['secoes']['data']);

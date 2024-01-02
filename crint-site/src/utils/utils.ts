@@ -2,7 +2,7 @@ import React from 'react';
 import { SettingsContext } from '../Settings';
 import { DEFAULT_LANGUAGE, MAX_FONT_MULTIPLIER, MIN_FONT_MULTIPLIER } from './constants';
 import { LoadingContext } from '../Loading';
-import { ApiSecao } from './types';
+import { ApiSection } from './types';
 
 // Carrega as configurações armazenadas
 export const loadSettings = () => {
@@ -123,7 +123,7 @@ export const formatDateString = (date: string) => {
 }
 
 // Forma os dados dos links para o sumário
-export const getLinks = (sections: ApiSecao[]) => {
+export const getLinks = (sections: ApiSection[]) => {
     const sectionLinks: SectionLink[] = [];
 
     sections.map((section) => {

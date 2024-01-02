@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useLoading, useSettings } from '../utils/utils';
-import { ApiSecao, ApiSlide } from '../utils/types';
+import { ApiSection, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
 import { useMediaPredicate } from 'react-media-hook';
@@ -55,7 +55,7 @@ const Homepage = () => {
     const { addLoadingCoins, subLoadingCoins } = useLoading()
 
     const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
-    const [sections, setSections] = useState<ApiSecao[]>();
+    const [sections, setSections] = useState<ApiSection[]>();
 
     const mobile = useMediaPredicate("(orientation: portrait)");
 
