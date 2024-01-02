@@ -349,14 +349,6 @@ const DIA = () => {
     const { addLoadingCoins, subLoadingCoins } = useLoading();
     const navigate = useNavigate();
 
-    const [textData, setTextData] = useState<ApiPage>();
-    const [bannerImage, setBannerImage] = useState<string>();
-    const [gradient, setGradient] = useState<string>();
-    const [sections, setSections] = useState<ApiSection[]>();
-
-    const [dataURL, setDataURL] = useState<string>();
-    const [data, setData] = useState<DiaData[]>([]);
-
     // Por padrão, os gráficos mostram apenas os dados dos últimos 5 anos
     const defaultDate = `${new Date().getFullYear() - 5}-01-01`;
 
@@ -376,17 +368,25 @@ const DIA = () => {
     const { register: registerComparison, handleSubmit: handleSubmitComparison, reset: resetComparisonForm } = useForm<OptionsForm>();
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setComparisonOptions(input);
 
+    /* Estados com os dados do Strapi */
+    const [textData, setTextData] = useState<ApiPage>();
+    const [bannerImage, setBannerImage] = useState<string>();
+    const [gradient, setGradient] = useState<string>();
+    const [sections, setSections] = useState<ApiSection[]>();
+
+    const [dataUrl, setDataUrl] = useState<string>();
+    const [data, setData] = useState<DiaData[]>([]);
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        const cacheDIAText = readCache('DIAText' + userSettings.lang);
-        const cacheDataURL = readCache('cacheDataURL');
+        const cacheDiaText = readCache('DiaText' + userSettings.lang);
+        const cacheDataUrl = readCache('cacheDataUrl');
 
-        if (cacheDIAText) {
-            setTextData(cacheDIAText as ApiPage);
-            setBannerImage(cacheDIAText['attributes']['Banner_imagem']['data']['attributes']['url']);
-            setGradient(cacheDIAText['attributes']['Gradiente']['data']['attributes']['CSS']);
-            setSections(cacheDIAText['attributes']['secoes']['data']);
+        if (cacheDiaText) {
+            setTextData(cacheDiaText as ApiPage);
+            setBannerImage(cacheDiaText['attributes']['Banner_imagem']['data']['attributes']['url']);
+            setGradient(cacheDiaText['attributes']['Gradiente']['data']['attributes']['CSS']);
+            setSections(cacheDiaText['attributes']['secoes']['data']);
         }
 
         else {
@@ -408,13 +408,13 @@ const DIA = () => {
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
                     setSections(data['attributes']['secoes']['data']);
 
-                    setCache('DIAText' + userSettings.lang, data);
+                    setCache('DiaText' + userSettings.lang, data);
                     subLoadingCoins();
                 });
         }
 
-        if (cacheDataURL)
-            setDataURL(cacheDataURL);
+        if (cacheDataUrl)
+            setDataUrl(cacheDataUrl);
 
         else {
             addLoadingCoins();
@@ -424,9 +424,9 @@ const DIA = () => {
                 .then((response) => {
                     // Não é uma imagem, mas só preciso da URL mesmo
                     const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageData).url;
-                    setDataURL(url);
+                    setDataUrl(url);
 
-                    setCache('cacheDataURL', url);
+                    setCache('cacheDataUrl', url);
                     subLoadingCoins();
                 });
         }
@@ -439,11 +439,11 @@ const DIA = () => {
         if (dataCache)
             setData(dataCache);
 
-        else if (dataURL) {
+        else if (dataUrl) {
             addLoadingCoins();
 
             axios
-                .get(STRAPI_URL + dataURL, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+                .get(STRAPI_URL + dataUrl, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = processData(response['data']);
                     setData(data);
@@ -452,7 +452,7 @@ const DIA = () => {
                     subLoadingCoins();
                 });
         }
-    }, [dataURL]);
+    }, [dataUrl]);
 
     /* Reprocessa os dados de acordo com a data de corte selecionada */
     const [costPerUniversity, setCostUniversity] = useState<DiaData[]>([]);
