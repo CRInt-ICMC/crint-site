@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NOTFOUND_ICON, STRAPI_API_TOKEN, STRAPI_URL, WIP_ICON } from "../utils/constants";
 import { Link, useLocation } from "react-router-dom";
 import { cleanText, getLinks, useLoading, useSettings } from "../utils/utils";
-import { ApiPagina, ApiSecao } from "../utils/types";
+import { ApiPage, ApiSection } from "../utils/types";
 import { readCache, setCache } from "../Caching";
 import { useMediaPredicate } from "react-media-hook";
 import axios from "axios";
@@ -32,8 +32,8 @@ const PageLoader = () => {
     const { userSettings } = useSettings();
     const { addLoadingCoins, subLoadingCoins } = useLoading();
 
-    const [textData, setTextData] = useState<ApiPagina>();
-    const [sections, setSections] = useState<ApiSecao[]>();
+    const [textData, setTextData] = useState<ApiPage>();
+    const [sections, setSections] = useState<ApiSection[]>();
     const [bannerImage, setBannerImage] = useState<string>();
     const [gradient, setGradient] = useState<string>();
 
@@ -47,7 +47,7 @@ const PageLoader = () => {
         const pageCache = readCache('secao/' + location.pathname + '-' + userSettings.lang);
 
         if (pageCache) {
-            setTextData(pageCache as ApiPagina);
+            setTextData(pageCache as ApiPage);
             setBannerImage(pageCache['attributes']['Banner_imagem']['data']['attributes']['url']);
             setGradient(pageCache['attributes']['Gradiente']['data']['attributes']['CSS']);
 
@@ -79,7 +79,7 @@ const PageLoader = () => {
                     }
 
                     // Passa o texto e a imagem do banner para seus hooks
-                    setTextData(data as ApiPagina);
+                    setTextData(data as ApiPage);
                     setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
                     setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
 
@@ -123,7 +123,7 @@ const PageLoader = () => {
                 sections.map((section) => (
                     <PageSection
                         key={String(section.attributes.Titulo)}
-                        id={cleanText(String(section.attributes.Titulo))}
+                        id={sections.indexOf(section) + '-' + cleanText(String(section.attributes.Titulo))}
                         title={String(section.attributes.Titulo)}
                         body={String(section.attributes.Corpo)}
                         textColor={String(section.attributes.Cor_texto)}
