@@ -92,3 +92,7 @@ Para os interessados em continuar o desenvolvimento e a manutenção desse site,
 ## Créditos
 
 - Pedro Henrique Vilela do Nascimento - Desenvolvedor do projeto
+
+## Licença
+
+Esse programa é lançado sob a licença GPLv3 ou qualquer versão posterior.
