@@ -93,6 +93,6 @@ Para os interessados em continuar o desenvolvimento e a manutenção desse site,
 
 - Pedro Henrique Vilela do Nascimento - Desenvolvedor do projeto
 
-## Licensa
+## Licença
 
 Esse programa é lançado sob a licença GPLv3 ou qualquer versão posterior.
