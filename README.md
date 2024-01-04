@@ -20,13 +20,11 @@ Além disso, a biblioteca `@djpfs/react-vlibras` garante o funcionamento do VLib
 
 #### Mudança do Tamanho de Fonte
 
-Todas as partes cujos textos são relevantes são e devem ser adaptáveis. No modelo atual, a variável de contexto `fontSizeMod` utiliza a métrica `em` (relativa ao tamanho do elemento pai) para realizar as mudanças. A variável é inicializada com valor '1' e a cada clique aumenta ou diminui esse valor em '0.1' até os limites estimados.
-
-A variável deve ser utilizada através de CSS *inline* nos elementos que serão modificados devido às limitações do React e do próprio CSS.
+Todas as partes cujos textos são relevantes são e devem ser adaptáveis. No modelo atual, a variável de contexto `fontsize` armazena o tamanho de fonte da raiz. Os botões aumentam ou diminuem a fonte em 2px até o limite superior ou inferior, respectivamente. As mudanças são propagadas através do uso da métrica `rem` (relativa ao tamanho de fonte da raiz).
 
 #### Sistema de Línguas
 
-O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor. Porém, existe a constante AVAILABLE_LANGUAGES deve ser atualizada no código para que o novo idioma seja adicionado
+O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada, assim como as opções disponíveis de idioma. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor.
 
 #### VLibras
 
