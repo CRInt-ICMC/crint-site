@@ -12,7 +12,7 @@ O código disponibilizado aqui é de uso livre em partes ou em sua totalidade de
 
 Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
 
-- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...). Todos são visíveis de uma ou mais páginas.
+- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...).
 - `/img`: é onde as imagens que não serão alteradas devem ser armazenadas. Todas as imagens que podem demandar atualização devem ser armazenadas no strapi e requisitadas pela API.
 - `/utils`: esta é a pasta onde funções globais, constantes, interfaces e tipos devem ser armazenados. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam, i.e., todas as constantes devem estar num arquivo próprio, assim como todas as funções globais, interfaces e tipos.
 
