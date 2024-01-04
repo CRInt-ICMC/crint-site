@@ -1,18 +1,14 @@
 # Site da CRInt
 
-Esse projeto foi desenvolvido com a finalidade de facilitar o fluxo de informações da CRInt do ICMC para os alunos da graduação, funcionários, servidores e estrangeiros.
-
-Ele surgiu dos relatos de dificuldade para encontrar instruções quanto à realização dos processos relacionados ao intercâmbio dos membros da USP.
-
-O código disponibilizado aqui é de uso livre em partes ou em sua totalidade desde que não seja utilizado para impersonar a CRInt ou qualquer órgão relacionado à USP.
+Esse projeto foi desenvolvido com a finalidade de facilitar o fluxo de informações da CRInt do ICMC para os alunos da graduação, docentes, servidores e estrangeiros, e ampliar a autonomia da CRInt-ICMC de gerenciar o fluxo de informações relacionadas a sua área de competência.
 
 ## Funcionamento
 
 ### Organização
 
-Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
+Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela. Através do README e outros documentos, essa pasta será tratada como a raiz do projeto.
 
-- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...). Todos são visíveis de uma ou mais páginas.
+- `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...).
 - `/img`: é onde as imagens que não serão alteradas devem ser armazenadas. Todas as imagens que podem demandar atualização devem ser armazenadas no strapi e requisitadas pela API.
 - `/utils`: esta é a pasta onde funções globais, constantes, interfaces e tipos devem ser armazenados. Cada arquivo deve ser especializado para os tipos de utilidade que proporcionam, i.e., todas as constantes devem estar num arquivo próprio, assim como todas as funções globais, interfaces e tipos.
 
@@ -24,19 +20,17 @@ Além disso, a biblioteca `@djpfs/react-vlibras` garante o funcionamento do VLib
 
 #### Mudança do Tamanho de Fonte
 
-Todas as partes cujos textos são relevantes são e devem ser adaptáveis. No modelo atual, a variável de contexto `fontSizeMod` utiliza a métrica `em` (relativa ao tamanho do elemento pai) para realizar as mudanças. A variável é inicializada com valor '1' e a cada clique aumenta ou diminui esse valor em '0.1' até os limites estimados.
-
-A variável deve ser utilizada através de CSS *inline* nos elementos que serão modificados devido às limitações do React e do próprio CSS.
+Todas as partes cujos textos são relevantes são e devem ser adaptáveis. No modelo atual, a variável de contexto `fontsize` armazena o tamanho de fonte da raiz. Os botões aumentam ou diminuem a fonte em 2px até o limite superior ou inferior, respectivamente. As mudanças são propagadas através do uso da métrica `rem` (relativa ao tamanho de fonte da raiz).
 
 #### Sistema de Línguas
 
-O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor. Porém, existe a constante AVAILABLE_LANGUAGES deve ser atualizada no código para que o novo idioma seja adicionado
+O sistema atual faz requisições ao servidor para receber o conteúdo na opção de língua selecionada, assim como as opções disponíveis de idioma. Toda tradução e alteração do conteúdo, assim como adição de novas línguas deve ser efetuado no lado do servidor.
 
 #### VLibras
 
 A implementação do VLibras é realizada segundo as instruções na [página do github do pacote](https://github.com/djpfs/react-vlibras).
 
-Atenção: O VLibras não carregará normalmente na versão de produção devido a sua natureza síncrona, mas executará corretamente na build. Se precisar que ele apareça durante o desenvolvimento, adicione `forceOnload={true}` à seu elemento em `/App.tsx`
+Atenção: O VLibras não carregará normalmente na versão de produção devido a sua natureza síncrona, mas executará corretamente na build. Se precisar que ele apareça durante o desenvolvimento, adicione `forceOnload={true}` a seu elemento em `/App.tsx`
 
 ### Componentes e Utilidades
 
@@ -65,23 +59,23 @@ Então, entre na pasta do repositório e baixe as dependências do projeto.
 
 ```
 cd crint-site/crint-site
-npm install
+yarn
 ```
 
 Por fim, entre na pasta do site e inicialize ele com:
 
 ```
 # Executa a versão de desenvolvimento
-npm run dev
+yarn dev
 
 # Constrói o html do site
-npm run build
+yarn build
 
 # Exibe a versão de produção
-npm run preview
+yarn preview
 
 # Faz o host da versão de produção na rede local na porta 8080
-npm run host
+yarn host
 ```
 Porém, sem um token válido em `/crint-site/.env` as requisições vão ser recusadas pelo servidor e o site não carregará.
 
