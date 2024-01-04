@@ -1,16 +1,12 @@
 # Site da CRInt
 
-Esse projeto foi desenvolvido com a finalidade de facilitar o fluxo de informações da CRInt do ICMC para os alunos da graduação, funcionários, servidores e estrangeiros.
-
-Ele surgiu dos relatos de dificuldade para encontrar instruções quanto à realização dos processos relacionados ao intercâmbio dos membros da USP.
-
-O código disponibilizado aqui é de uso livre em partes ou em sua totalidade desde que não seja utilizado para impersonar a CRInt ou qualquer órgão relacionado à USP.
+Esse projeto foi desenvolvido com a finalidade de facilitar o fluxo de informações da CRInt do ICMC para os alunos da graduação, docentes, servidores e estrangeiros, e ampliar a autonomia da CRInt-ICMC de gerenciar o fluxo de informações relacionadas a sua área de competência.
 
 ## Funcionamento
 
 ### Organização
 
-Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela.
+Todo o código relevante do projeto está na pasta `/crint-site/src`, todas as pastas comentadas a seguir estão localizadas nela. Através do README e outros documentos, essa pasta será tratada como a raiz do projeto.
 
 - `/components`: é a pasta onde estão os arquivos que compõe as frações individuais das páginas (Header, Homepage, Footer, Seções, etc...).
 - `/img`: é onde as imagens que não serão alteradas devem ser armazenadas. Todas as imagens que podem demandar atualização devem ser armazenadas no strapi e requisitadas pela API.
