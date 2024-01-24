@@ -14,7 +14,7 @@
 // along with CRInt-site. If not, see <https://www.gnu.org/licenses/>.
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SettingsContext, STD_SETTINGS_STATE, } from './Settings';
 import VLibras from '@djpfs/react-vlibras';
 
@@ -25,11 +25,38 @@ import DIA from './components/DIA';
 import AppFooter from './components/AppFooter';
 import { LoadingContext, STD_COINS_STATE } from './Loading';
 import LoadingScreen from './components/LoadingScreen';
+import axios from 'axios';
+import { STRAPI_URL, STRAPI_API_TOKEN } from './utils/constants';
 
 function App() {
+  // Carrega o FavIcon da página
+  useEffect(() => {
+    axios
+      .get(STRAPI_URL + '/api/icone?populate=*', { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+      .then((response) => {
+        const data = response['data']['data']['attributes']['Favicon']['data']['attributes'] as StrapiImageData;
+        console.log(data.url);
+
+        let link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+          link = document.createElement('link');
+
+          // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
+          link.rel = 'icon';
+
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
+        link.href = STRAPI_URL + data.url;
+      })
+  },
+    []);
+
   const [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
   const [appLoadingState, setAppLoadingState] = useState(STD_COINS_STATE);
 
+  // Declara as funções de adicionar e remover moedas
   const coins: number[] = []
 
   const addCoin = () => {

@@ -782,6 +782,20 @@ export interface ApiFooterFooter extends Schema.SingleType {
           localized: true;
         };
       }>;
+    Cor_fundo: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    Cor_texto: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -866,6 +880,20 @@ export interface ApiHeaderHeader extends Schema.SingleType {
           localized: false;
         };
       }>;
+    Cor_fundo: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    Cor_texto: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -937,6 +965,35 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
       'api::homepage.homepage'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiIconeIcone extends Schema.SingleType {
+  collectionName: 'icones';
+  info: {
+    singularName: 'icone';
+    pluralName: 'icones';
+    displayName: 'Icone';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    Favicon: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::icone.icone',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::icone.icone',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1317,6 +1374,7 @@ declare module '@strapi/strapi' {
       'api::gradiente.gradiente': ApiGradienteGradiente;
       'api::header.header': ApiHeaderHeader;
       'api::homepage.homepage': ApiHomepageHomepage;
+      'api::icone.icone': ApiIconeIcone;
       'api::lingua.lingua': ApiLinguaLingua;
       'api::pagina.pagina': ApiPaginaPagina;
       'api::popup-de-privacidade.popup-de-privacidade': ApiPopupDePrivacidadePopupDePrivacidade;

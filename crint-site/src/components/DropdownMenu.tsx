@@ -17,7 +17,7 @@ import { ReactNode, useState } from 'react';
 import AnimateHeight from 'react-animate-height';
 import './DropdownMenu.scss'
 
-const DropdownMenu = (props: { head: ReactNode, body: ReactNode }) => {
+const DropdownMenu = (props: { head: ReactNode, body: ReactNode, backgroundColor: string }) => {
     const [display, toggleDisplay] = useState(false);
 
     const hideMenu = () => toggleDisplay(false);
@@ -27,7 +27,7 @@ const DropdownMenu = (props: { head: ReactNode, body: ReactNode }) => {
         <menu className='dropmenu' onMouseEnter={showMenu} onMouseLeave={hideMenu}>
             <div className='dropmenu-head'>
                 {props.head}
-                <AnimateHeight height={display ? 'auto' : 0} className='dropmenu-itens'>
+                <AnimateHeight height={display ? 'auto' : 0} className='dropmenu-itens' style={{backgroundColor: props.backgroundColor}}>
                     {props.body}
                 </AnimateHeight>
             </div>

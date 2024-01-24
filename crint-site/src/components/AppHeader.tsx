@@ -20,7 +20,7 @@ import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
+import { ApiTopic, ApiPopup, ApiPage, ApiHeader } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropdownMenu from './DropdownMenu';
@@ -29,18 +29,19 @@ import FontsizeSystem from './FontsizeSystem';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
-const topics = (topicos: ApiTopic[]) => (
+const topics = (topicos: ApiTopic[], color: string, backgroundColor: string) => (
     <div className='topics'>
         {
             topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
                 head={<p>{String(topico.attributes.Nome)}</p>}
-                body={<span className='subtopics' >
+                body={<span className='subtopics'>
                     {
                         (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
                             <Link
                                 key={String(pagina.attributes.Titulo)}
                                 to={String(pagina.attributes.URL)}
+                                style={{ color: color, backgroundColor: backgroundColor}}
                             >
                                 {String(pagina.attributes.Titulo)}
                             </Link>
@@ -48,6 +49,7 @@ const topics = (topicos: ApiTopic[]) => (
                     }
                 </span>
                 }
+                backgroundColor={backgroundColor}
             />
             ))
         }
@@ -95,6 +97,7 @@ const AppHeader = () => {
     const { userSettings } = context;
     const { addLoadingCoins, subLoadingCoins } = useLoading();
 
+    const [headerData, setHeaderData] = useState<ApiHeader>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopic[]>();
@@ -110,12 +113,15 @@ const AppHeader = () => {
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
+        const cacheHeader = readCache('header');
         const cacheHeaderImages = readCache('headerImages');
         const cachePopupText = readCache('popup' + '-' + userSettings.lang);
         const cacheTopicos = readCache('topicos' + '-' + userSettings.lang);
 
-        if (cacheHeaderImages)
+        if (cacheHeaderImages && cacheHeader) {
+            setHeaderData(cacheHeader);
             setHeaderImages(cacheHeaderImages);
+        }
 
         else {
             addLoadingCoins();
@@ -123,18 +129,26 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
+                    const data = response['data']['data'];
+                    console.log(data);
+
                     const dataImages = {
-                        icmc: response['data']['data']['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
-                        icmcMini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
+                        icmc: data['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
+                        icmcMini: data['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
                     };
+
+                    setHeaderData(data);
+                    setCache('header', data);
+
 
                     setHeaderImages(dataImages);
                     setCache('headerImages', dataImages);
+
                     subLoadingCoins();
                 })
         }
 
-        if (cachePopupText) 
+        if (cachePopupText)
             setPopupText(cachePopupText);
 
         else {
@@ -155,7 +169,7 @@ const AppHeader = () => {
 
         else {
             addLoadingCoins();
-       
+
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -173,26 +187,29 @@ const AppHeader = () => {
 
     return (
         <header className='header-root'>
-            <nav className='navbar'>
-                {/* LOGO */}
-                <div className='navbar-left'>
-                    {headerImages &&
-                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
-                    }
-                </div>
+            {headerData &&
+                <nav className='navbar' style={{ color: String(headerData.attributes.Cor_texto), backgroundColor: String(headerData.attributes.Cor_fundo) }}>
+                    {/* LOGO */}
+                    <div className='navbar-left'>
+                        {headerImages &&
+                            <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
+                        }
+                    </div>
 
-                {/* TÓPICOS */}
-                <div className='navbar-center' role='navigation'>
-                    {topicos && !mobile && topics(topicos)}
-                    {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
-                </div>
+                    {/* TÓPICOS */}
+                    <div className='navbar-center' role='navigation'>
+                        {topicos && !mobile && topics(topicos, String(headerData.attributes.Cor_texto), String(headerData.attributes.Cor_fundo))}
+                        {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
+                    </div>
 
-                {/* OPÇÕES */}
-                <div className='navbar-right'>
-                    <LangSystem />
-                    <FontsizeSystem />
-                </div>
-            </nav>
+                    {/* OPÇÕES */}
+                    <div className='navbar-right'>
+                        <LangSystem />
+                        <FontsizeSystem />
+                    </div>
+                </nav>
+
+            }
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
             {!userSettings.cookieConsent && popupText &&

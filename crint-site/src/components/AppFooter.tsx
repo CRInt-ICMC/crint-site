@@ -29,7 +29,7 @@ import './AppFooter.scss'
 const AppFooter = () => {
     const { userSettings } = useSettings();
     const { addLoadingCoins, subLoadingCoins } = useLoading();
-    const [textData, setFooterText] = useState<ApiFooter>();
+    const [footerData, setFooterData] = useState<ApiFooter>();
     const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Executa apenas uma vez quando o site é carregado
@@ -37,7 +37,7 @@ const AppFooter = () => {
         const cacheFooter = readCache('footer' + '-' + userSettings.lang);
 
         if (cacheFooter)
-            setFooterText(cacheFooter);
+            setFooterData(cacheFooter);
 
         else {
             addLoadingCoins();
@@ -46,7 +46,7 @@ const AppFooter = () => {
                 .get(STRAPI_URL + '/api/footer?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = response['data']['data'] as ApiFooter;
-                    setFooterText(response['data']['data'] as ApiFooter);
+                    setFooterData(response['data']['data'] as ApiFooter);
                     setCache('footer' + '-' + userSettings.lang, data);
                     subLoadingCoins();
                 })
@@ -55,30 +55,30 @@ const AppFooter = () => {
 
     return (
         <footer>
-            {textData &&
-                <nav className='footer' >
+            {footerData &&
+                <nav className='footer' style={{ color: String(footerData.attributes.Cor_texto), background: String(footerData.attributes.Cor_fundo)}}>
                     {
                         !mobile
                             ? <div className='footer-row'>
                                 {/* ENDEREÇO */}
                                 <div className='footer-left'>
-                                    <h3> {String(textData.attributes.Endereco_titulo)} </h3>
-                                    <p> {String(textData.attributes.Endereco_texto)} </p>
+                                    <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
+                                    <p> {String(footerData.attributes.Endereco_texto)} </p>
                                 </div>
 
                                 {/* REDES SOCIAIS */}
                                 <div className='footer-center' role='navigation'>
-                                    <h3> {String(textData.attributes.Redes_sociais)} </h3>
-                                    <a href={String(textData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
-                                    <a href={String(textData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
-                                    <a href={String(textData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
+                                    <h3> {String(footerData.attributes.Redes_sociais)} </h3>
+                                    <a href={String(footerData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
+                                    <a href={String(footerData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
+                                    <a href={String(footerData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
                                 </div>
 
                                 {/* CONTATO */}
                                 <div className='footer-right'>
-                                    <h3> {String(textData.attributes.Contato_titulo)} </h3>
-                                    <a href={'mailto:' + String(textData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(textData.attributes.Contato_email)} </a> <br />
-                                    <a href={'tel:' + String(textData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData.attributes.Contato_numero)} </a>
+                                    <h3> {String(footerData.attributes.Contato_titulo)} </h3>
+                                    <a href={'mailto:' + String(footerData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(footerData.attributes.Contato_email)} </a> <br />
+                                    <a href={'tel:' + String(footerData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(footerData.attributes.Contato_numero)} </a>
                                 </div>
                             </div>
 
@@ -86,33 +86,33 @@ const AppFooter = () => {
                                 <div className='footer-row'>
                                     {/* ENDEREÇO */}
                                     <div>
-                                        <h3> {String(textData.attributes.Endereco_titulo)} </h3>
-                                        <p className='text'> {String(textData.attributes.Endereco_texto)} </p>
+                                        <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
+                                        <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
                                     </div>
                                 </div>
 
                                 <div className='footer-row'>
                                     {/* REDES SOCIAIS */}
                                     <div className='footer-left' role='navigation'>
-                                        <h3> {String(textData.attributes.Redes_sociais)} </h3>
-                                        <a className='text' href={String(textData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
-                                        <a className='text' href={String(textData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
-                                        <a className='text' href={String(textData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
+                                        <h3> {String(footerData.attributes.Redes_sociais)} </h3>
+                                        <a className='text' href={String(footerData.attributes.Instagram_link)}><FontAwesomeIcon icon={faInstagram} /> Instagram </a> <br />
+                                        <a className='text' href={String(footerData.attributes.Telegram_link)}><FontAwesomeIcon icon={faTelegram} /> Telegram </a> <br />
+                                        <a className='text' href={String(footerData.attributes.Github_link)}><FontAwesomeIcon icon={faGithub} /> Github </a>
                                     </div>
 
                                     {/* CONTATO */}
                                     <div className='footer-right'>
-                                        <h3> {String(textData.attributes.Contato_titulo)} </h3>
-                                        <a className='text' href={'mailto:' + String(textData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(textData.attributes.Contato_email)} </a> <br />
-                                        <a className='text' href={'tel:' + String(textData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(textData.attributes.Contato_numero)} </a>
+                                        <h3> {String(footerData.attributes.Contato_titulo)} </h3>
+                                        <a className='text' href={'mailto:' + String(footerData.attributes.Contato_email)}><FontAwesomeIcon icon={faEnvelope} /> {String(footerData.attributes.Contato_email)} </a> <br />
+                                        <a className='text' href={'tel:' + String(footerData.attributes.Contato_numero)}><FontAwesomeIcon icon={faPhone} /> {String(footerData.attributes.Contato_numero)} </a>
                                     </div>
                                 </div>
                             </>
                     }
 
                     <div className='footer-row'>
-                        <div><Link to={'/creditos'}>{String(textData.attributes.Creditos)}</Link ></div>
-                        <div><Link to={'/privacidade'}>{String(textData.attributes.Politica_privacidade)}</Link ></div>
+                        <div><Link to={'/creditos'}>{String(footerData.attributes.Creditos)}</Link ></div>
+                        <div><Link to={'/privacidade'}>{String(footerData.attributes.Politica_privacidade)}</Link ></div>
                     </div>
                 </nav>
             }

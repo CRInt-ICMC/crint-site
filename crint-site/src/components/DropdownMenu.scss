@@ -20,8 +20,6 @@
     }
 
     .dropmenu-itens {
-        background-color: base.$azul-icmc;
-
         display: block;
         min-width: 100%;
 
@@ -38,9 +36,7 @@
         }
     
         a:hover {
-            background-color: #020f20;
+            filter: brightness(80%);
         }
     }
-
-    
 }
