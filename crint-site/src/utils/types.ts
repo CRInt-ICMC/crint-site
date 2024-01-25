@@ -13,15 +13,17 @@
 // You should have received a copy of the GNU General Public License
 // along with CRInt-site. If not, see <https://www.gnu.org/licenses/>.
 
-import { ApiDiaDia, ApiFooterFooter, ApiGradienteGradiente, ApiHeaderHeader, ApiLinguaLingua, ApiPaginaPagina, ApiPopupDePrivacidadePopupDePrivacidade, ApiSecaoSecao, ApiSlideSlide, ApiTopicoTopico } from "./generated/contentTypes";
+import { ApiDiaDia, ApiEstiloEstilo, ApiFooterFooter, ApiGradienteGradiente, ApiHeaderHeader, ApiLinguaLingua, ApiLinkLink, ApiPaginaPagina, ApiPopupDePrivacidadePopupDePrivacidade, ApiSecaoSecao, ApiSlideSlide, ApiTopicoTopico } from "./generated/contentTypes";
 
+export type ApiDia = ApiDiaDia;
+export type ApiEstilo = ApiEstiloEstilo;
 export type ApiFooter = ApiFooterFooter;
 export type ApiGradient = ApiGradienteGradiente;
 export type ApiHeader = ApiHeaderHeader;
 export type ApiLang = ApiLinguaLingua;
+export type ApiLink = ApiLinkLink;
 export type ApiPage = ApiPaginaPagina;
 export type ApiPopup = ApiPopupDePrivacidadePopupDePrivacidade;
 export type ApiSection = ApiSecaoSecao;
 export type ApiSlide = ApiSlideSlide;
 export type ApiTopic = ApiTopicoTopico;
-export type ApiDia = ApiDiaDia;

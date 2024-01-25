@@ -35,7 +35,7 @@ const topics = (topicos: ApiTopic[]) => (
             topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
                 head={<p>{String(topico.attributes.Nome)}</p>}
-                body={<span className='subtopics' >
+                body={<span className='subtopics'>
                     {
                         (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
                             <Link
@@ -123,9 +123,11 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
+                    const data = response['data']['data'];
+
                     const dataImages = {
-                        icmc: response['data']['data']['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
-                        icmcMini: response['data']['data']['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
+                        icmc: data['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
+                        icmcMini: data['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
                     };
 
                     setHeaderImages(dataImages);
@@ -134,7 +136,7 @@ const AppHeader = () => {
                 })
         }
 
-        if (cachePopupText) 
+        if (cachePopupText)
             setPopupText(cachePopupText);
 
         else {
@@ -155,7 +157,7 @@ const AppHeader = () => {
 
         else {
             addLoadingCoins();
-       
+
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
@@ -200,7 +202,7 @@ const AppHeader = () => {
                     <h3> {String(popupText.attributes.Titulo)} </h3>
 
                     <p>
-                        {String(popupText.attributes.Corpo)}
+                        {String(popupText.attributes.Corpo) + ' '}
                         <Link to={'privacidade'}>{String(popupText.attributes.Saiba_mais)}</Link>
                     </p>
 

@@ -20,7 +20,7 @@
     }
 
     .dropmenu-itens {
-        background-color: base.$azul-icmc;
+        background-color: var(--base-bg-color);
 
         display: block;
         min-width: 100%;
@@ -31,16 +31,18 @@
         white-space: nowrap;
 
         a {
-            width: 100%;
+            background-color: var(--base-bg-color);
             background-clip: border-box;
-            text-align: left;
             transition: background-color 400ms ease;
+
+            color: var(--base-text-color);
+            text-align: left;
+
+            width: 100%;
         }
-    
+
         a:hover {
-            background-color: #020f20;
+            filter: brightness(80%);
         }
     }
-
-    
 }
