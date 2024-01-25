@@ -20,7 +20,7 @@ import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { ApiTopic, ApiPopup, ApiPage, ApiHeader } from '../utils/types';
+import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropdownMenu from './DropdownMenu';
@@ -29,7 +29,7 @@ import FontsizeSystem from './FontsizeSystem';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
-const topics = (topicos: ApiTopic[], color: string, backgroundColor: string) => (
+const topics = (topicos: ApiTopic[]) => (
     <div className='topics'>
         {
             topicos.map((topico) => (<DropdownMenu
@@ -41,7 +41,6 @@ const topics = (topicos: ApiTopic[], color: string, backgroundColor: string) => 
                             <Link
                                 key={String(pagina.attributes.Titulo)}
                                 to={String(pagina.attributes.URL)}
-                                style={{ color: color, backgroundColor: backgroundColor}}
                             >
                                 {String(pagina.attributes.Titulo)}
                             </Link>
@@ -49,7 +48,6 @@ const topics = (topicos: ApiTopic[], color: string, backgroundColor: string) => 
                     }
                 </span>
                 }
-                backgroundColor={backgroundColor}
             />
             ))
         }
@@ -97,7 +95,6 @@ const AppHeader = () => {
     const { userSettings } = context;
     const { addLoadingCoins, subLoadingCoins } = useLoading();
 
-    const [headerData, setHeaderData] = useState<ApiHeader>();
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopic[]>();
@@ -113,15 +110,12 @@ const AppHeader = () => {
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
-        const cacheHeader = readCache('header');
         const cacheHeaderImages = readCache('headerImages');
         const cachePopupText = readCache('popup' + '-' + userSettings.lang);
         const cacheTopicos = readCache('topicos' + '-' + userSettings.lang);
 
-        if (cacheHeaderImages && cacheHeader) {
-            setHeaderData(cacheHeader);
+        if (cacheHeaderImages)
             setHeaderImages(cacheHeaderImages);
-        }
 
         else {
             addLoadingCoins();
@@ -130,20 +124,14 @@ const AppHeader = () => {
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
                     const data = response['data']['data'];
-                    console.log(data);
 
                     const dataImages = {
                         icmc: data['attributes']['ICMC']['data']['attributes'] as StrapiImageData,
                         icmcMini: data['attributes']['ICMC_mini']['data']['attributes'] as StrapiImageData,
                     };
 
-                    setHeaderData(data);
-                    setCache('header', data);
-
-
                     setHeaderImages(dataImages);
                     setCache('headerImages', dataImages);
-
                     subLoadingCoins();
                 })
         }
@@ -187,29 +175,26 @@ const AppHeader = () => {
 
     return (
         <header className='header-root'>
-            {headerData &&
-                <nav className='navbar' style={{ color: String(headerData.attributes.Cor_texto), backgroundColor: String(headerData.attributes.Cor_fundo) }}>
-                    {/* LOGO */}
-                    <div className='navbar-left'>
-                        {headerImages &&
-                            <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
-                        }
-                    </div>
+            <nav className='navbar'>
+                {/* LOGO */}
+                <div className='navbar-left'>
+                    {headerImages &&
+                        <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
+                    }
+                </div>
 
-                    {/* TÓPICOS */}
-                    <div className='navbar-center' role='navigation'>
-                        {topicos && !mobile && topics(topicos, String(headerData.attributes.Cor_texto), String(headerData.attributes.Cor_fundo))}
-                        {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
-                    </div>
+                {/* TÓPICOS */}
+                <div className='navbar-center' role='navigation'>
+                    {topicos && !mobile && topics(topicos)}
+                    {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
+                </div>
 
-                    {/* OPÇÕES */}
-                    <div className='navbar-right'>
-                        <LangSystem />
-                        <FontsizeSystem />
-                    </div>
-                </nav>
-
-            }
+                {/* OPÇÕES */}
+                <div className='navbar-right'>
+                    <LangSystem />
+                    <FontsizeSystem />
+                </div>
+            </nav>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
             {!userSettings.cookieConsent && popupText &&
@@ -217,7 +202,7 @@ const AppHeader = () => {
                     <h3> {String(popupText.attributes.Titulo)} </h3>
 
                     <p>
-                        {String(popupText.attributes.Corpo)}
+                        {String(popupText.attributes.Corpo) + ' '}
                         <Link to={'privacidade'}>{String(popupText.attributes.Saiba_mais)}</Link>
                     </p>
 

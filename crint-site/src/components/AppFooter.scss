@@ -2,6 +2,8 @@
 
 .footer {
     position: relative;
+    background-color: var(--base-bg-color);
+    color: var(--base-text-color);
 
     padding: 3vh 0;
 
@@ -13,12 +15,23 @@
 
         .text {
             font-size: 0.75rem;
+
+            img {
+                height: 0.75rem;
+                width: 0.75rem;
+            }
         }
     }
 
     @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
         font-size: base.$footer-fontsize;
+
+        .text img {
+            color: white;
+            height: base.$footer-fontsize;
+            width: base.$footer-fontsize;
+        }
     }
 
     h3 {
@@ -55,7 +68,7 @@
             @media screen and (orientation: portrait) {
                 width: 50%;
             }
-        
+
             @media screen and (orientation: landscape) {
                 width: 25%;
             }
@@ -78,13 +91,17 @@
             @media screen and (orientation: portrait) {
                 width: 50%;
             }
-        
+
             @media screen and (orientation: landscape) {
                 width: 25%;
             }
-            
+
             height: 100%;
             float: right;
+        }
+
+        .text {
+            padding: 0;
         }
     }
 }

@@ -32,6 +32,8 @@
 
             border-radius: 10px;
 
+            cursor: pointer;
+
             @media screen and (orientation: portrait) {
                 width: clamp(10%, base.$largura-botao-fonte * 4, 50px);
                 aspect-ratio: 3 / 2;

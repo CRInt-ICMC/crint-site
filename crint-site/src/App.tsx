@@ -16,6 +16,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SettingsContext, STD_SETTINGS_STATE, } from './Settings';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 import VLibras from '@djpfs/react-vlibras';
 
 import AppHeader from './components/AppHeader';
@@ -27,32 +31,62 @@ import { LoadingContext, STD_COINS_STATE } from './Loading';
 import LoadingScreen from './components/LoadingScreen';
 import axios from 'axios';
 import { STRAPI_URL, STRAPI_API_TOKEN } from './utils/constants';
+import { ApiEstilo } from './utils/types';
 
 function App() {
-  // Carrega o FavIcon da página
+  // Carrega o estilo da página definido pelo servidor
   useEffect(() => {
     axios
-      .get(STRAPI_URL + '/api/icone?populate=*', { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
+      .get(STRAPI_URL + '/api/estilo?populate=*', { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
       .then((response) => {
-        const data = response['data']['data']['attributes']['Favicon']['data']['attributes'] as StrapiImageData;
-        console.log(data.url);
+        const data = response['data']['data'] as ApiEstilo;
+        const favicon = (data.attributes.Favicon as any)['data']['attributes'] as StrapiImageData;
 
+        // Se não houver dados, não faz nada
+        if (data === undefined)
+          return;
+
+        /* ATUALIZA O FAVICON */
         let link = document.querySelector("link[rel~='icon']");
         if (!link) {
           link = document.createElement('link');
 
-          // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
+          // @ts-expect-error - Necessário, pois o elemento tem essas propriedades, mas o typescript não reconhece
           link.rel = 'icon';
 
           document.getElementsByTagName('head')[0].appendChild(link);
         }
 
-        // @ts-expect-error - Necessário, pois o pacote não possui tipagem para essas propriedades
-        link.href = STRAPI_URL + data.url;
+        // @ts-expect-error - Necessário, pois o elemento tem essas propriedades, mas o typescript não reconhece
+        link.href = STRAPI_URL + favicon.url;
+
+        /* ATUALIZA O TÍTULO DA PÁGINA */
+        document.title = String(data.attributes.Aba_texto);
+
+        /* ATUALIZA AS CORES BASE, DE FUNDO E DE TEXTO */
+        const root = document.documentElement;
+        root.style.setProperty(
+          '--base-bg-color',
+          String(data.attributes.Cor_base)
+        );
+
+        root.style.setProperty(
+          '--global-bg-color',
+          String(data.attributes.Cor_fundo)
+        );
+
+        root.style.setProperty(
+          '--base-text-color',
+          String(data.attributes.Cor_texto)
+        );
       })
   },
     []);
 
+  // Carrega os ícones do fontawesome
+  library.add(fas, far, fab);
+
+  // Declara os estados globais do site
   const [appSettingsState, setAppSettingsState] = useState(STD_SETTINGS_STATE);
   const [appLoadingState, setAppLoadingState] = useState(STD_COINS_STATE);
 
