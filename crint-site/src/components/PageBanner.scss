@@ -89,6 +89,14 @@
             .banner-summary:last-child {
                 padding-bottom: 25px;
             }
+
+            .banner-summary-button {
+                text-align: right;
+                color: black;
+                font-size: base.$summary-fontsize;
+
+                cursor: pointer;
+            }
         }
     }
 }
