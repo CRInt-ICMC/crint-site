@@ -82,6 +82,7 @@ const LangSystem = () => {
             color: 'white',
             border: 0,
             margin: 0,
+            cursor: 'pointer',
 
             '&:hover': {
                 border: 0,

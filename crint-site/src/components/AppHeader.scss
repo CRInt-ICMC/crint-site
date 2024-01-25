@@ -10,7 +10,7 @@
     overflow: visible;
 
     .navbar {
-        background-color: base.$azul-icmc;
+        background-color: var(--base-bg-color);
         opacity: 0.85;
 
         height: 100%;
@@ -96,7 +96,7 @@
                     div {
                         position: relative;
                         padding-left: 3px;
-                        background-color: #061e3d;
+                        background-color: var(--base-bg-color);
                         color: white;
                         z-index: 1000;
                     }
@@ -109,7 +109,7 @@
                 }
 
                 p {
-                    color: white;
+                    color: var(--base-text-color);
                     font-weight: 400;
                     text-decoration: none;
 
@@ -123,7 +123,7 @@
                         a {
                             font-size: inherit;
                             font-weight: bold;
-                            color: white;
+                            color: var(--base-text-color);
                             text-decoration: none;
 
                             display: flex;
@@ -146,7 +146,7 @@
 
                         a {
                             font-size: inherit;
-                            color: white;
+                            color: var(--base-text-color);
                             font-weight: 400;
                             text-decoration: none;
 
@@ -195,6 +195,7 @@
 
         color: white;
         background-color: black;
+        opacity: 0.85;
 
         h3 {
             margin: 0;

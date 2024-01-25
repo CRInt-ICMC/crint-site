@@ -699,6 +699,43 @@ export interface ApiDiaDia extends Schema.SingleType {
   };
 }
 
+export interface ApiEstiloEstilo extends Schema.SingleType {
+  collectionName: 'estilos';
+  info: {
+    singularName: 'estilo';
+    pluralName: 'estilos';
+    displayName: 'Estilo';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    Aba_texto: Attribute.String;
+    Favicon: Attribute.Media;
+    Cor_base: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'>;
+    Cor_texto: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'>;
+    Cor_fundo: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::estilo.estilo',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::estilo.estilo',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFooterFooter extends Schema.SingleType {
   collectionName: 'footers';
   info: {
@@ -782,6 +819,16 @@ export interface ApiFooterFooter extends Schema.SingleType {
           localized: true;
         };
       }>;
+    Links_contatos: Attribute.Relation<
+      'api::footer.footer',
+      'oneToMany',
+      'api::link.link'
+    >;
+    Links_redes: Attribute.Relation<
+      'api::footer.footer',
+      'oneToMany',
+      'api::link.link'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -968,6 +1015,58 @@ export interface ApiLinguaLingua extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+  };
+}
+
+export interface ApiLinkLink extends Schema.CollectionType {
+  collectionName: 'links';
+  info: {
+    singularName: 'link';
+    pluralName: 'links';
+    displayName: 'Link';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Texto: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Link: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    Icone_FA: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::link.link', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::link.link', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::link.link',
+      'oneToMany',
+      'api::link.link'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1313,11 +1412,13 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::dia.dia': ApiDiaDia;
+      'api::estilo.estilo': ApiEstiloEstilo;
       'api::footer.footer': ApiFooterFooter;
       'api::gradiente.gradiente': ApiGradienteGradiente;
       'api::header.header': ApiHeaderHeader;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::lingua.lingua': ApiLinguaLingua;
+      'api::link.link': ApiLinkLink;
       'api::pagina.pagina': ApiPaginaPagina;
       'api::popup-de-privacidade.popup-de-privacidade': ApiPopupDePrivacidadePopupDePrivacidade;
       'api::secao.secao': ApiSecaoSecao;
