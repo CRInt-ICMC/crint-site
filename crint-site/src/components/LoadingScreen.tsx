@@ -31,7 +31,7 @@ const LoadingScreen = () => {
     // Tempo de transição da tela de carregamento
     const animationTime = 700;
     
-    const timeoutTime = 10000;
+    const timeoutTime = 30000;
 
     // Trava local para evitar que o timeout seja setado mais de uma vez
     let t: ReturnType<typeof setTimeout>;

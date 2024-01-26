@@ -15,8 +15,8 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowRight, faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import './PageBanner.scss';
 import { useEffect, useState } from 'react';
+import './PageBanner.scss';
 
 const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
@@ -46,8 +46,6 @@ const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bann
     }, [props.pageSections]);
 
     const updateSummary = () => {
-        console.log(showMore);
-
         setShowMore(!showMore);
 
         if (!showMore)
