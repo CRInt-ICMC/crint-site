@@ -66,17 +66,21 @@
                 transition: font 250ms ease;
 
                 display: grid;
-                grid-template-columns: auto auto auto;
+                grid-template-columns: 33% 33% 33%;
                 font-size: base.$summary-fontsize;
 
                 @media screen and (orientation: portrait) {
                     display: none;
                 }
 
+
                 div {
-                    padding: 0 10px;
+                    padding: 5px 10px;
                     color: black;
                     font-size: inherit;
+
+                    display: flex;
+                    align-items: center;
 
                     cursor: pointer;
 
