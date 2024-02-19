@@ -43,7 +43,7 @@
         }
 
         .banner-title {
-            transition: font 250ms ease;
+            transition: all 250ms ease;
 
             @media screen and (orientation: portrait) {
                 font-size: calc(base.$banner-fontsize * 1.25);
@@ -66,7 +66,7 @@
                 transition: font 250ms ease;
 
                 display: grid;
-                grid-template-columns: auto auto auto;
+                grid-template-columns: 33% 33% 33%;
                 font-size: base.$summary-fontsize;
 
                 @media screen and (orientation: portrait) {
@@ -74,9 +74,12 @@
                 }
 
                 div {
-                    padding: 0 10px;
+                    padding: 5px 10px;
                     color: black;
                     font-size: inherit;
+
+                    display: flex;
+                    align-items: center;
 
                     cursor: pointer;
 
@@ -88,6 +91,14 @@
 
             .banner-summary:last-child {
                 padding-bottom: 25px;
+            }
+
+            .banner-summary-button {
+                text-align: right;
+                color: black;
+                font-size: base.$summary-fontsize;
+
+                cursor: pointer;
             }
         }
     }

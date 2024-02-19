@@ -13,15 +13,18 @@
 // You should have received a copy of the GNU General Public License
 // along with CRInt-site. If not, see <https://www.gnu.org/licenses/>.
 
-import { DotSpinner } from "@uiball/loaders";
 import { useEffect, useState } from "react";
 import { useLoading } from "../utils/utils";
-import './LoadingScreen.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons/faTriangleExclamation";
+import { dotSpinner } from 'ldrs'
+import './LoadingScreen.scss'
+
 
 const LoadingScreen = () => {
     const { loadingCoins } = useLoading();
+
+    dotSpinner.register()
 
     const [display, setDisplay] = useState(true);
     const [animate, setAnimate] = useState(false);
@@ -30,8 +33,7 @@ const LoadingScreen = () => {
 
     // Tempo de transição da tela de carregamento
     const animationTime = 700;
-    
-    const timeoutTime = 10000;
+    const timeoutTime = 30000;
 
     // Trava local para evitar que o timeout seja setado mais de uma vez
     let t: ReturnType<typeof setTimeout>;
@@ -68,15 +70,15 @@ const LoadingScreen = () => {
                 }}
             >
 
-                <DotSpinner
-                    size={40}
-                    speed={0.9}
+                <l-dot-spinner
+                    size="40"
+                    speed="0.9"
                     color="black"
-                />
+                ></l-dot-spinner>
                 <span className='loader-text'>Requisitando conteúdo</span>
             </div >
 
-            : <div className='loader-root failure'> 
+            : <div className='loader-root failure'>
                 <FontAwesomeIcon icon={faTriangleExclamation} size='4x' color='red' />
                 <span className='loader-text'>Ops... Parece que estamos sem conexão com o servidor</span>
             </div>
