@@ -15,24 +15,50 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useRef, useState } from 'react';
 import './PageBanner.scss';
+import AnimateHeight, { Height } from 'react-animate-height';
 
-const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bannerImage?: string, bannerGradient?: string }) => {
-    const scrollToElement = (id: string) => {
-        const element = document.getElementById(id);
-        element?.scrollIntoView({ behavior: 'smooth' });
-    }
+const scrollToElement = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({ behavior: 'smooth' });
+}
 
-    const summary = (
-        <div className='banner-summary'>
-            {props.pageSections.map((section) => (
+const createSummary = (pageSections: SectionLink[]) => (
+    <div className='banner-summary'>
+        {
+            pageSections.map((section) => (
                 <div key={section.name} onClick={() => scrollToElement(section.id)}>
                     <FontAwesomeIcon icon={faArrowRight} />
                     <span>{section.name}</span>
                 </div>
-            ))}
-        </div>
-    );
+            ))
+        }
+    </div>
+)
+
+const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bannerImage?: string, bannerGradient?: string }) => {
+    const [summary, setSummary] = useState(createSummary(props.pageSections.slice(0, 3)));
+    const [height, setHeight] = useState<Height>('auto');
+
+    const contentDiv = useRef<HTMLDivElement | null>(null);
+
+    // Observa o tamanho do conteúdo para atualizar a altura do banner quando o sumário é atualizado
+    useEffect(() => {
+        const element = contentDiv.current as HTMLDivElement;
+
+        const resizeObserver = new ResizeObserver(() => {
+            setHeight(element.clientHeight);
+        });
+
+        resizeObserver.observe(element);
+
+        return () => resizeObserver.disconnect();
+    }, []);
+
+    // Atualiza o sumário quando o mouse entra ou sai do banner
+    const expandSummary = () => setSummary(createSummary(props.pageSections));
+    const collapseSummary = () => setSummary(createSummary(props.pageSections.slice(0, 3)));
 
     return (
         <section className='banner-root' style={{ background: props.bannerGradient || '' }}>
@@ -40,7 +66,10 @@ const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bann
                 <div className='banner-img'><img src={props.bannerImage || ''} /></div>
                 <div className='banner-title'>
                     <h1>{props.pageName}</h1>
-                    {summary}
+
+                    <AnimateHeight height={height} contentRef={contentDiv} onMouseEnter={() => expandSummary()} onMouseLeave={() => collapseSummary()} >
+                        {summary}
+                    </AnimateHeight>
                 </div>
             </div>
         </section>
