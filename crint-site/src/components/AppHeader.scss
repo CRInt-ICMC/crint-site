@@ -82,7 +82,7 @@
 
                         .title {
                             transition: font 250ms ease;
-                            
+
                             color: white;
                             font-size: 3.5rem;
                             background-color: transparent;
@@ -117,6 +117,8 @@
                 }
 
                 .subtopics {
+                    transition: font 250ms ease;
+
                     @media screen and (orientation: portrait) {
                         font-size: calc(base.$subtopico-fontsize * 2.5);
 
@@ -132,6 +134,7 @@
                         }
 
                         .title {
+                            transition: font 250ms ease;
                             font-size: 2.5rem;
                         }
 
