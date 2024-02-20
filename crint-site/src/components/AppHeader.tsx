@@ -19,7 +19,7 @@ import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
 import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
@@ -57,8 +57,10 @@ const topics = (topicos: ApiTopic[]) => (
 const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
     <div className='topics'>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
-            <div>Menu</div>
-            <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
+            <div className='title'>
+                <p>Menu</p>
+                <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
+            </div>
         </button>
         <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
             {
@@ -72,6 +74,7 @@ const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: Callabl
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
+                                        <FontAwesomeIcon icon={faAngleRight} style={{paddingRight: '5px'}} />
                                         {String(pagina.attributes.Titulo)}
                                     </Link>
                                 ))
@@ -177,20 +180,20 @@ const AppHeader = () => {
         <header className='header-root'>
             <nav className='navbar'>
                 {/* LOGO */}
-                <div className='navbar-left'>
+                <div className='navbar-column logo'>
                     {headerImages &&
                         <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
                     }
                 </div>
 
                 {/* TÓPICOS */}
-                <div className='navbar-center' role='navigation'>
+                <div className='navbar-column navbar-center' role='navigation'>
                     {topicos && !mobile && topics(topicos)}
                     {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
                 </div>
 
                 {/* OPÇÕES */}
-                <div className='navbar-right'>
+                <div className='navbar-column options'>
                     <LangSystem />
                     <FontsizeSystem />
                 </div>

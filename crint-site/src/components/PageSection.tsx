@@ -36,7 +36,7 @@ const PageSection = (props: { id: string, title: string, body: string | ReactNod
                     </button>
                 </h1>
                 <AnimateHeight height={collapsed ? 0 : 'auto'} duration={500} className='section-content'>
-                    {props.api ? <Interweave content={String(props.body)} allowElements /> : props.body}
+                    {props.api ? <Interweave content={String(props.body)} allowElements allowAttributes /> : props.body}
                 </AnimateHeight>
             </div>
         </section>
