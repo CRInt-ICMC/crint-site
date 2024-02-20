@@ -143,7 +143,7 @@ export const getLinks = (sections: ApiSection[]) => {
 
     sections.map((section) => {
         sectionLinks.push({
-            name: String(section.attributes.Titulo),
+            name: String(section.attributes.Sumario || section.attributes.Titulo),
             id: sections.indexOf(section) + '-' +  cleanText(String(section.attributes.Titulo)),
         } as SectionLink)
     })
