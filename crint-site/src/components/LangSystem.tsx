@@ -55,7 +55,7 @@ const LangSystem = () => {
 
                     return {
                         value: sigla,
-                        label: <img src={STRAPI_URL + bandeira.url} height='30px' width='45px'></img>,
+                        label: <img src={STRAPI_URL + bandeira.url} className='icon'></img>,
                         icon: STRAPI_URL + bandeira.url,
                     } as LangIcon;
                 });
@@ -83,7 +83,8 @@ const LangSystem = () => {
             border: 0,
             margin: 0,
             cursor: 'pointer',
-
+            textAlign: 'center',
+            
             '&:hover': {
                 border: 0,
                 boxShadow: 'none',
@@ -107,6 +108,7 @@ const LangSystem = () => {
                 selectedLang &&
                 <Select
                     defaultValue={selectedLang}
+                    className='select-lang'
                     options={options.filter((option) => option.value !== selectedLang.value)}
                     styles={selectStyles}
                     onChange={e => changeLang(e ? e.value : DEFAULT_LANGUAGE)}
