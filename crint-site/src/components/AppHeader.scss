@@ -28,15 +28,20 @@
             height: base.$header-computador;
         }
 
-        .navbar-left {
-            float: left;
-            margin-left: 1%;
-
+        .navbar-column {
             height: 100%;
 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            margin-left: 1%;
+
             a {
-                align-items: center;
                 display: flex;
+                align-items: center;
                 height: 100%;
 
                 img {
@@ -47,17 +52,9 @@
         }
 
         .navbar-center {
-            float: center;
-            align-items: center;
-            justify-content: center;
-            display: flex;
-            max-width: 100%;
-            height: 100%;
             flex-grow: 1;
 
             .topics {
-                height: 100%;
-
                 @media screen and (orientation: portrait) {
                     display: block;
                     position: absolute;
@@ -83,13 +80,16 @@
                         font-size: min(1.5rem, 50px);
                         font-weight: bolder;
 
-                        svg {
-                            color: white;
-                        }
+                        .title {
+                            transition: font 250ms ease;
 
-                        div {
                             color: white;
+                            font-size: 3.5rem;
                             background-color: transparent;
+
+                            p {
+                                font-weight: 800;
+                            }
                         }
                     }
 
@@ -117,8 +117,10 @@
                 }
 
                 .subtopics {
+                    transition: font 250ms ease;
+
                     @media screen and (orientation: portrait) {
-                        font-size: calc(base.$subtopico-fontsize * 2);
+                        font-size: calc(base.$subtopico-fontsize * 2.5);
 
                         a {
                             font-size: inherit;
@@ -127,13 +129,13 @@
                             text-decoration: none;
 
                             display: flex;
+                            align-items: center;
                             padding-left: 20px;
-
-                            width: 100%;
                         }
 
                         .title {
-                            font-size: 1.25rem;
+                            transition: font 250ms ease;
+                            font-size: 2.5rem;
                         }
 
                         .highlight {
@@ -159,18 +161,11 @@
             }
         }
 
-        .navbar-right {
-            float: right;
-
-            height: 100%;
-
-            display: flex;
+        .options {
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
 
             @media screen and (orientation: portrait) {
-                width: 20%;
+                width: 25%;
             }
 
             @media screen and (orientation: landscape) {

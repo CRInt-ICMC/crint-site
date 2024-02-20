@@ -72,13 +72,13 @@ const AppFooter = () => {
                         // DESKTOP
                         ? <div className='footer-row'>
                             {/* ENDEREÇO */}
-                            <div className='footer-left'>
+                            <div className='footer-column' style={{ width: '25%' }}>
                                 <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
-                                <p> {String(footerData.attributes.Endereco_texto)} </p>
+                                <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
                             </div>
 
                             {/* REDES SOCIAIS */}
-                            <div className='footer-center' role='navigation'>
+                            <div className='footer-column' role='navigation' style={{ width: '30%', padding: 0, textAlign: 'center' }}>
                                 <h3> {String(footerData.attributes.Redes_sociais)} </h3>
                                 {linksRedesSociais && linksRedesSociais.map((link) => {
                                     const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -93,7 +93,7 @@ const AppFooter = () => {
                             </div>
 
                             {/* CONTATO */}
-                            <div className='footer-right'>
+                            <div className='footer-column' role='navigation' style={{ width: '25%' }}>
                                 <h3> {String(footerData.attributes.Contato_titulo)} </h3>
                                 {linksContato && linksContato.map((link) => {
                                     const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -112,7 +112,7 @@ const AppFooter = () => {
                         : <>
                             <div className='footer-row'>
                                 {/* ENDEREÇO */}
-                                <div>
+                                <div className='footer-column' style={{ width: '70%' }}>
                                     <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
                                     <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
                                 </div>
@@ -120,7 +120,7 @@ const AppFooter = () => {
 
                             <div className='footer-row'>
                                 {/* REDES SOCIAIS */}
-                                <div className='footer-left' role='navigation'>
+                                <div className='footer-column' role='navigation' style={{ width: '35%' }}>
                                     <h3> {String(footerData.attributes.Redes_sociais)} </h3>
                                     {linksRedesSociais && linksRedesSociais.map((link) => {
                                         const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -135,7 +135,7 @@ const AppFooter = () => {
                                 </div>
 
                                 {/* CONTATO */}
-                                <div className='footer-right'>
+                                <div className='footer-column' role='navigation' style={{ width: '35%' }}>
                                     <h3> {String(footerData.attributes.Contato_titulo)} </h3>
                                     {linksContato && linksContato.map((link) => {
                                         const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -153,8 +153,12 @@ const AppFooter = () => {
                     }
 
                     <div className='footer-row'>
-                        <div><Link to={'/creditos'}>{String(footerData.attributes.Creditos)}</Link ></div>
-                        <div><Link to={'/privacidade'}>{String(footerData.attributes.Politica_privacidade)}</Link ></div>
+                        <div className='footer-column' style={{width: '35%', textAlign: 'center'}}>
+                            <Link to={'/creditos'}>{String(footerData.attributes.Creditos)}</Link >
+                        </div>
+                        <div className='footer-column' style={{width: '35%', textAlign: 'center'}}>
+                            <Link to={'/privacidade'}>{String(footerData.attributes.Politica_privacidade)}</Link >
+                        </div>
                     </div>
                 </nav>
             }

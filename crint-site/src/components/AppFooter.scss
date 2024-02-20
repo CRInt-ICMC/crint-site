@@ -12,43 +12,11 @@
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
         font-size: calc(base.$footer-fontsize * 1.5);
-
-        .text {
-            font-size: 0.75rem;
-
-            img {
-                height: 0.75rem;
-                width: 0.75rem;
-            }
-        }
     }
 
     @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
         font-size: base.$footer-fontsize;
-
-        .text img {
-            color: white;
-            height: base.$footer-fontsize;
-            width: base.$footer-fontsize;
-        }
-    }
-
-    h3 {
-        margin-top: 0;
-        text-decoration: underline;
-    }
-
-    a,
-    a:link,
-    a:visited {
-        transition: color 250ms ease;
-        text-decoration: none;
-        color: inherit;
-    }
-
-    a:hover {
-        color: base.$laranja-usp;
     }
 
     .footer-row {
@@ -57,51 +25,54 @@
         display: flex;
         justify-content: center;
 
-        padding: 25px 0;
+        padding: 35px 0;
         width: 100%;
 
         div {
             padding: 0 min(50px, 5%);
         }
 
-        .footer-left {
-            @media screen and (orientation: portrait) {
-                width: 50%;
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+
+            h3 {
+                margin-top: 0;
+                text-decoration: underline;
             }
 
-            @media screen and (orientation: landscape) {
-                width: 25%;
+            a,
+            a:link,
+            a:visited {
+                transition: color 250ms ease;
+                text-decoration: none;
+                color: inherit;
             }
 
-            float: left;
-            height: 100%;
-        }
-
-        .footer-center {
-            width: 30%;
-            height: 100%;
-
-            padding: 0 20px;
-
-            text-align: center;
-            float: center;
-        }
-
-        .footer-right {
-            @media screen and (orientation: portrait) {
-                width: 50%;
+            a:hover {
+                color: base.$laranja-usp;
             }
 
-            @media screen and (orientation: landscape) {
-                width: 25%;
+            .text {
+                margin: 0;
+                padding: 0;
+
+                @media screen and (orientation: portrait) {
+                    img {
+                        height: 0.75rem;
+                        width: 0.75rem;
+                    }
+                }
+
+                @media screen and (orientation: landscape) {
+                    img {
+                        color: white;
+                        height: base.$footer-fontsize;
+                        width: base.$footer-fontsize;
+                    }
+                }
             }
-
-            height: 100%;
-            float: right;
-        }
-
-        .text {
-            padding: 0;
         }
     }
 }
