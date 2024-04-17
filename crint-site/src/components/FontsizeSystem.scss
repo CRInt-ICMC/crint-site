@@ -40,7 +40,7 @@
 
             @media screen and (orientation: portrait) {
                 aspect-ratio: 3 / 2;
-                width: clamp(20%, base.$largura-botao-fonte * 4, 50%);
+                width: clamp(20%, base.$largura-botao-fonte * 4, 25%);
 
                 font-size: clamp(9px, 2.5vw, 50px);
             }

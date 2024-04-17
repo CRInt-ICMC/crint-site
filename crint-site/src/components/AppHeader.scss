@@ -37,7 +37,6 @@
         }
 
         .logo {
-            margin-left: 1%;
 
             a {
                 display: flex;
@@ -52,148 +51,132 @@
         }
 
         .navbar-center {
-            flex-grow: 1;
+            @media screen and (orientation: portrait) {
+                height: 100%;
 
-            .topics {
-                @media screen and (orientation: portrait) {
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    text-align: left;
+                padding-top: auto;
+
+                button {
+                    height: 100%;
+                    width: 100%;
+                    max-height: 100%;
+                    border: 0;
 
                     color: white;
-                    font-size: base.$topico-fontsize;
+                    font-size: min(1.5rem, 50px);
                     font-weight: bolder;
 
-                    width: 60%;
-                    height: 100%;
-
-                    padding-top: auto;
-
-                    button {
-                        height: 100%;
-                        width: 100%;
-                        max-height: 100%;
-                        border: 0;
+                    .title {
+                        transition: font 250ms ease;
 
                         color: white;
-                        font-size: min(1.5rem, 50px);
-                        font-weight: bolder;
+                        font-size: 3.5rem;
+                        background-color: transparent;
 
-                        .title {
-                            transition: font 250ms ease;
-
-                            color: white;
-                            font-size: 3.5rem;
-                            background-color: transparent;
-
-                            p {
-                                font-weight: 800;
-                            }
-                        }
-                    }
-
-                    div {
-                        position: relative;
-                        padding-left: 3px;
-                        background-color: var(--base-bg-color);
-                        color: white;
-                        z-index: 1000;
-                    }
-                }
-
-                @media screen and (orientation: landscape) {
-                    width: 100%;
-                    font-size: base.$topico-fontsize;
-                    display: inline-flex;
-                }
-
-                p {
-                    color: var(--base-text-color);
-                    font-weight: 400;
-                    text-decoration: none;
-
-                    margin: 0px 0px;
-                }
-
-                .subtopics {
-                    transition: font 250ms ease;
-
-                    @media screen and (orientation: portrait) {
-                        font-size: calc(base.$subtopico-fontsize * 2.5);
-
-                        a {
-                            font-size: inherit;
-                            font-weight: bold;
-                            color: var(--base-text-color);
-                            text-decoration: none;
-
-                            display: flex;
-                            align-items: center;
-                            padding-left: 20px;
-                        }
-
-                        .title {
-                            transition: font 250ms ease;
-                            font-size: 2.5rem;
-                        }
-
-                        .highlight {
-                            color: base.$laranja-usp;
-                        }
-                    }
-
-                    @media screen and (orientation: landscape) {
-                        font-size: base.$subtopico-fontsize;
-
-                        a {
-                            font-size: inherit;
-                            color: var(--base-text-color);
-                            font-weight: 400;
-                            text-decoration: none;
-
-                            display: flex;
-
-                            width: 100%;
+                        p {
+                            font-weight: 800;
                         }
                     }
                 }
+
+                div {
+                    position: relative;
+                    padding-left: 3px;
+                    background-color: var(--base-bg-color);
+                    color: white;
+                    z-index: 1000;
+                }
+            }
+
+
+
+            @media screen and (orientation: landscape) {
+                width: 100%;
+                font-size: base.$topico-fontsize;
+                display: inline-flex;
+            }
+
+            p {
+                color: var(--base-text-color);
+                font-weight: 400;
+                text-decoration: none;
+
+                margin: 0px 0px;
             }
         }
 
         .options {
             flex-direction: column;
+        }
 
-            @media screen and (orientation: portrait) {
-                width: 25%;
-            }
+        .popup-root {
+            $popup-width: 70%;
+            $popup-vertical-padding: 30px;
+            $popup-horizontal-padding: 20px;
 
-            @media screen and (orientation: landscape) {
-                width: 15%;
+            width: $popup-width;
+
+            position: fixed;
+            bottom: 50px;
+
+            margin: 0 calc((100% - $popup-width) / 2 - $popup-horizontal-padding);
+            padding: $popup-vertical-padding $popup-horizontal-padding;
+            border-radius: 20px;
+
+            color: white;
+            background-color: black;
+            opacity: 0.85;
+
+            h3 {
+                margin: 0;
             }
         }
     }
+}
 
-    .popup-root {
-        $popup-width: 70%;
-        $popup-vertical-padding: 30px;
-        $popup-horizontal-padding: 20px;
+.subtopics {
+    opacity: 1.0;
+    transition: font 250ms ease;
 
-        width: $popup-width;
+    display: flex;
+    flex-direction: column;
 
-        position: fixed;
-        bottom: 50px;
+    @media screen and (orientation: portrait) {
+        font-size: calc(base.$subtopico-fontsize * 2.5);
 
-        margin: 0 calc((100% - $popup-width) / 2 - $popup-horizontal-padding);
-        padding: $popup-vertical-padding $popup-horizontal-padding;
-        border-radius: 20px;
+        a {
+            font-size: inherit;
+            font-weight: bold;
+            color: var(--base-text-color);
+            text-decoration: none;
 
-        color: white;
-        background-color: black;
-        opacity: 0.85;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
 
-        h3 {
-            margin: 0;
+        .title {
+            transition: font 250ms ease;
+            font-size: 2.5rem;
+        }
+
+        .highlight {
+            color: base.$laranja-usp;
+        }
+    }
+
+    @media screen and (orientation: landscape) {
+        font-size: base.$subtopico-fontsize;
+
+        a {
+            font-size: inherit;
+            color: var(--base-text-color);
+            font-weight: 400;
+            text-decoration: none;
+
+            display: flex;
+
+            width: 100%;
         }
     }
 }

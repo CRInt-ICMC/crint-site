@@ -28,9 +28,10 @@ import LangSystem from './LangSystem';
 import FontsizeSystem from './FontsizeSystem';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
+import Grid from '@mui/material/Grid';;
 
 const topics = (topicos: ApiTopic[]) => (
-    <div className='topics'>
+    <>
         {
             topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
@@ -51,11 +52,11 @@ const topics = (topicos: ApiTopic[]) => (
             />
             ))
         }
-    </div>
+    </>
 )
 
 const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
-    <div className='topics'>
+    <>
         <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
             <div className='title'>
                 <p>Menu</p>
@@ -74,7 +75,7 @@ const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: Callabl
                                         key={String(pagina.attributes.Titulo)}
                                         to={String(pagina.attributes.URL)}
                                     >
-                                        <FontAwesomeIcon icon={faAngleRight} style={{paddingRight: '5px'}} />
+                                        <FontAwesomeIcon icon={faAngleRight} style={{ paddingRight: '5px' }} />
                                         {String(pagina.attributes.Titulo)}
                                     </Link>
                                 ))
@@ -84,7 +85,7 @@ const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: Callabl
                 ))
             }
         </AnimateHeight>
-    </div>
+    </>
 )
 
 interface HeaderImages {
@@ -178,26 +179,26 @@ const AppHeader = () => {
 
     return (
         <header className='header-root'>
-            <nav className='navbar'>
+            <Grid container spacing={0.5} className='navbar'>
                 {/* LOGO */}
-                <div className='navbar-column logo'>
+                <Grid item xs={2.5} md={2} className='navbar-column logo'>
                     {headerImages &&
                         <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
                     }
-                </div>
+                </Grid>
 
                 {/* TÓPICOS */}
-                <div className='navbar-column navbar-center' role='navigation'>
+                <Grid item xs={5.5} md={8.5} className='navbar-column navbar-center' role='navigation'>
                     {topicos && !mobile && topics(topicos)}
                     {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
-                </div>
+                </Grid>
 
                 {/* OPÇÕES */}
-                <div className='navbar-column options'>
+                <Grid item xs={4} md={1} className='navbar-column options'>
                     <LangSystem />
                     <FontsizeSystem />
-                </div>
-            </nav>
+                </Grid>
+            </Grid>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
             {!userSettings.cookieConsent && popupText &&
