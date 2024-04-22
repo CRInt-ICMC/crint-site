@@ -14,7 +14,6 @@
 // along with CRInt-site. If not, see <https://www.gnu.org/licenses/>.
 
 import { useEffect, useState } from 'react';
-// import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconName, IconPrefix } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
@@ -22,7 +21,7 @@ import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useLoading, useSettings } from '../utils/utils';
 import { ApiFooter, ApiLink } from '../utils/types';
 import { readCache, setCache } from '../Caching';
-import { useMediaPredicate } from 'react-media-hook';
+import { Grid } from '@mui/material';
 import axios from 'axios';
 import './AppFooter.scss'
 
@@ -32,7 +31,6 @@ const AppFooter = () => {
     const [footerData, setFooterData] = useState<ApiFooter>();
     const [linksContato, setLinksContato] = useState<ApiLink[]>();
     const [linksRedesSociais, setLinksRedesSociais] = useState<ApiLink[]>();
-    const mobile = useMediaPredicate("(orientation: portrait)");
 
     // Executa apenas uma vez quando o site é carregado
     useEffect(() => {
@@ -68,98 +66,52 @@ const AppFooter = () => {
         <footer>
             {footerData &&
                 <nav className='footer'>
-                    {!mobile
-                        // DESKTOP
-                        ? <div className='footer-row'>
-                            {/* ENDEREÇO */}
-                            <div className='footer-column' style={{ width: '25%' }}>
-                                <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
-                                <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
-                            </div>
+                    <Grid sx={{ rowGap: 8 }} container spacing={0} justifyContent="space-evenly" alignItems="flex-start" className='footer-row'>
+                        {/* ENDEREÇO */}
+                        <Grid item xs={8} md={3} className='footer-column' style={{ width: '25%' }}>
+                            <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
+                            <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
+                        </Grid>
 
-                            {/* REDES SOCIAIS */}
-                            <div className='footer-column' role='navigation' style={{ width: '30%', padding: 0, textAlign: 'center' }}>
-                                <h3> {String(footerData.attributes.Redes_sociais)} </h3>
-                                {linksRedesSociais && linksRedesSociais.map((link) => {
-                                    const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
+                        {/* REDES SOCIAIS */}
+                        <Grid item xs={5.5} md={2.5} className='footer-column' role='navigation' style={{ width: '30%', padding: 0, textAlign: 'center' }}>
+                            <h3> {String(footerData.attributes.Redes_sociais)} </h3>
+                            {linksRedesSociais && linksRedesSociais.map((link) => {
+                                const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
 
-                                    return <div className='text' key={String(link.attributes.Texto)}>
-                                        <a href={String(link.attributes.Link)}>
-                                            <FontAwesomeIcon icon={icon} />
-                                            {' ' + String(link.attributes.Texto)}
-                                        </a>
-                                    </div>
-                                })}
-                            </div>
-
-                            {/* CONTATO */}
-                            <div className='footer-column' role='navigation' style={{ width: '25%' }}>
-                                <h3> {String(footerData.attributes.Contato_titulo)} </h3>
-                                {linksContato && linksContato.map((link) => {
-                                    const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
-
-                                    return <div className='text' key={String(link.attributes.Texto)}>
-                                        <a href={String(link.attributes.Link)}>
-                                            <FontAwesomeIcon icon={icon} />
-                                            {' ' + String(link.attributes.Texto)}
-                                        </a>
-                                    </div>
-                                })}
-                            </div>
-                        </div>
-
-                        // MOBILE
-                        : <>
-                            <div className='footer-row'>
-                                {/* ENDEREÇO */}
-                                <div className='footer-column' style={{ width: '70%' }}>
-                                    <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
-                                    <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
+                                return <div className='text' key={String(link.attributes.Texto)}>
+                                    <a href={String(link.attributes.Link)}>
+                                        <FontAwesomeIcon icon={icon} />
+                                        {' ' + String(link.attributes.Texto)}
+                                    </a>
                                 </div>
-                            </div>
+                            })}
+                        </Grid>
 
-                            <div className='footer-row'>
-                                {/* REDES SOCIAIS */}
-                                <div className='footer-column' role='navigation' style={{ width: '35%' }}>
-                                    <h3> {String(footerData.attributes.Redes_sociais)} </h3>
-                                    {linksRedesSociais && linksRedesSociais.map((link) => {
-                                        const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
+                        {/* CONTATO */}
+                        <Grid item xs={5.5} md={3} className='footer-column' role='navigation' style={{ width: '25%' }}>
+                            <h3> {String(footerData.attributes.Contato_titulo)} </h3>
+                            {linksContato && linksContato.map((link) => {
+                                const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
 
-                                        return <div className='text' key={String(link.attributes.Texto)}>
-                                            <a href={String(link.attributes.Link)}>
-                                                <FontAwesomeIcon icon={icon} />
-                                                {' ' + String(link.attributes.Texto)}
-                                            </a>
-                                        </div>
-                                    })}
+                                return <div className='text' key={String(link.attributes.Texto)}>
+                                    <a href={String(link.attributes.Link)}>
+                                        <FontAwesomeIcon icon={icon} />
+                                        {' ' + String(link.attributes.Texto)}
+                                    </a>
                                 </div>
+                            })}
+                        </Grid>
+                    </Grid>
 
-                                {/* CONTATO */}
-                                <div className='footer-column' role='navigation' style={{ width: '35%' }}>
-                                    <h3> {String(footerData.attributes.Contato_titulo)} </h3>
-                                    {linksContato && linksContato.map((link) => {
-                                        const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
-
-                                        return <div className='text' key={String(link.attributes.Texto)}>
-                                            <a href={String(link.attributes.Link)}>
-                                                <FontAwesomeIcon icon={icon} />
-                                                {' ' + String(link.attributes.Texto)}
-                                            </a>
-                                        </div>
-                                    })}
-                                </div>
-                            </div>
-                        </>
-                    }
-
-                    <div className='footer-row'>
-                        <div className='footer-column' style={{width: '35%', textAlign: 'center'}}>
+                    <Grid sx={{ rowGap: 2, columnGap: 16 }} container justifyContent="center" className='footer-row'>
+                        <Grid item className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
                             <Link to={'/creditos'}>{String(footerData.attributes.Creditos)}</Link >
-                        </div>
-                        <div className='footer-column' style={{width: '35%', textAlign: 'center'}}>
+                        </Grid>
+                        <Grid item className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
                             <Link to={'/privacidade'}>{String(footerData.attributes.Politica_privacidade)}</Link >
-                        </div>
-                    </div>
+                        </Grid>
+                    </Grid>
                 </nav>
             }
         </footer>

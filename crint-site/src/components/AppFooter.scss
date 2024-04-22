@@ -22,21 +22,9 @@
     .footer-row {
         transition: font 250ms ease;
 
-        display: flex;
-        justify-content: center;
-
         padding: 35px 0;
-        width: 100%;
-
-        div {
-            padding: 0 min(50px, 5%);
-        }
 
         .footer-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: start;
-
             h3 {
                 margin-top: 0;
                 text-decoration: underline;

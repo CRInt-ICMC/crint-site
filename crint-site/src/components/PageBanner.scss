@@ -24,9 +24,6 @@
         }
 
         .banner-img {
-            text-align: center;
-            min-width: 30%;
-
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,9 +61,8 @@
 
             .banner-summary {
                 transition: font 250ms ease;
+                padding-left: 10%;
 
-                display: grid;
-                grid-template-columns: 33% 33% 33%;
                 font-size: base.$summary-fontsize;
 
                 @media screen and (orientation: portrait) {

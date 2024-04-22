@@ -18,31 +18,31 @@
         position: relative;
         transition: font 250ms ease;
     }
+}
 
-    .dropmenu-itens {
+.dropmenu-itens {
+    background-color: var(--base-bg-color);
+
+    display: block;
+    min-width: 100%;
+
+    top: 100%;
+    position: absolute;
+
+    white-space: nowrap;
+
+    a {
         background-color: var(--base-bg-color);
+        background-clip: border-box;
+        transition: background-color 400ms ease;
 
-        display: block;
-        min-width: 100%;
+        color: var(--base-text-color);
+        text-align: left;
 
-        top: 100%;
-        position: absolute;
+        width: 100%;
+    }
 
-        white-space: nowrap;
-
-        a {
-            background-color: var(--base-bg-color);
-            background-clip: border-box;
-            transition: background-color 400ms ease;
-
-            color: var(--base-text-color);
-            text-align: left;
-
-            width: 100%;
-        }
-
-        a:hover {
-            filter: brightness(80%);
-        }
+    a:hover {
+        filter: brightness(80%);
     }
 }

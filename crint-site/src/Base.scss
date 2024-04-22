@@ -10,7 +10,7 @@ $margem-pagina: calc((100% - $largura-pagina) / 2);
 $altura-minima: 80vh;
 
 // Tamanhos de elementos
-$header-mobile: 8vh;
+$header-mobile: max(8vh, 80px);
 $header-computador: 128px;
 
 $largura-bandeira: 3vw;

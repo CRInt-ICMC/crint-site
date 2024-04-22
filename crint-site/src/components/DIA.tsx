@@ -24,6 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Interweave } from 'interweave';
 import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 import PageBanner from './PageBanner';
 import axios from 'axios';
 import PageSection from './PageSection';
@@ -204,7 +205,7 @@ const plotCostUniversity = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} minHeight={minHeight}>
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight} minHeight={minHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -234,7 +235,7 @@ const plotCostUniversity = (data: DiaData[], options: OptionsForm) => {
 
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '70%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -262,7 +263,7 @@ const plotCostCountry = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} >
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight} >
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -290,7 +291,7 @@ const plotCostCountry = (data: DiaData[], options: OptionsForm) => {
                     </BarChart>
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '70%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -318,7 +319,7 @@ const plotComparison = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="80%" height={totalHeight}>
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -351,7 +352,7 @@ const plotComparison = (data: DiaData[], options: OptionsForm) => {
                     </BarChart>
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '80%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -497,7 +498,7 @@ const DIA = () => {
             }
 
             {data &&
-                <div>
+                <>
                     {/* GRÁFICO DE CUSTO POR UNIVERSIDADE */}
                     {sections && sections[0] &&
                         <PageSection
@@ -507,10 +508,12 @@ const DIA = () => {
                                 <>
                                     <Interweave content={String(sections[0].attributes.Corpo)} allowElements />
 
-                                    <div className='dia-chart-box'>
-                                        {costPerUniversity.length > 0 && plotCostUniversity(costPerUniversity, universityOptions)}
+                                    <Grid container className='dia-chart-box'>
+                                        <Grid md={9}>
+                                            {costPerUniversity.length > 0 && plotCostUniversity(costPerUniversity, universityOptions)}
+                                        </Grid>
 
-                                        <div className='dia-options'>
+                                        <Grid md={3} className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
                                             <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUniversity(onUniversitySubmit)}>
@@ -539,8 +542,8 @@ const DIA = () => {
                                                     <input type='button' name='resetar' value='Resetar' onClick={() => { resetUniversityForm(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
                                                 </div>
                                             </form>
-                                        </div>
-                                    </div>
+                                        </Grid>
+                                    </Grid>
                                 </>
                             }
                         />
@@ -555,10 +558,12 @@ const DIA = () => {
                                 <>
                                     {sections && sections[1] && <Interweave content={String(sections[1].attributes.Corpo)} allowElements />}
 
-                                    <div className='dia-chart-box'>
-                                        {costCountryData.length > 0 && plotCostCountry(costCountryData, countryOptions)}
+                                    <Grid container className='dia-chart-box'>
+                                        <Grid md={9}>
+                                            {costCountryData.length > 0 && plotCostCountry(costCountryData, countryOptions)}
+                                        </Grid>
 
-                                        <div className='dia-options'>
+                                        <Grid md={3} className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
                                             <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCountry(onCountrySubmit)}>
@@ -587,8 +592,8 @@ const DIA = () => {
                                                     <input type="button" onClick={() => { resetCountryForm(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
-                                        </div>
-                                    </div>
+                                        </Grid>
+                                    </Grid>
                                 </>
                             }
                         />
@@ -603,10 +608,12 @@ const DIA = () => {
                                 <>
                                     {sections && sections[2] && <Interweave content={String(sections[2].attributes.Corpo)} allowElements />}
 
-                                    <div className='dia-chart-box'>
-                                        {comparisonData.length > 0 && plotComparison(comparisonData, comparisonOptions)}
+                                    <Grid container className='dia-chart-box'>
+                                        <Grid md={9}>
+                                            {comparisonData.length > 0 && plotComparison(comparisonData, comparisonOptions)}
+                                        </Grid>
 
-                                        <div className='dia-options'>
+                                        <Grid md={3} className='dia-options'>
                                             <div className='dia-options-title'>Opções de visualização:</div>
 
                                             <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComparison(onComparisonSubmit)}>
@@ -635,13 +642,13 @@ const DIA = () => {
                                                     <input type="button" onClick={() => { resetComparisonForm(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
                                                 </div>
                                             </form>
-                                        </div>
-                                    </div>
+                                        </Grid>
+                                    </Grid>
                                 </>
                             }
                         />
                     }
-                </div>
+                </>
             }
         </div>
     );
