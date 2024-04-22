@@ -16,8 +16,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
-import './PageBanner.scss';
+import { Grid } from '@mui/material';
 import AnimateHeight, { Height } from 'react-animate-height';
+import './PageBanner.scss';
 
 const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
@@ -26,14 +27,14 @@ const scrollToElement = (id: string) => {
 
 const createSummary = (pageSections: SectionLink[], cut?: boolean) => {
     let summary = pageSections.map((section) => (
-        <div key={section.name} onClick={() => scrollToElement(section.id)} >
+        <Grid item md={4} key={section.name} onClick={() => scrollToElement(section.id)} >
             <FontAwesomeIcon icon={faArrowRight} />
             <span>{section.name}</span>
-        </div>
+        </Grid>
     ));
 
     if (cut) {
-        summary = summary.slice(0, 2);
+        summary = summary.slice(0, 3);
         summary.push(
             <div key='more'>
                 <FontAwesomeIcon icon={faEllipsis} style={{paddingLeft: '5%'}} />
@@ -42,9 +43,9 @@ const createSummary = (pageSections: SectionLink[], cut?: boolean) => {
     }
 
     return (
-        <div className='banner-summary'>
+        <Grid container className='banner-summary'>
             {summary}
-        </div>
+        </Grid>
     );
 }
 
@@ -78,16 +79,16 @@ const PageBanner = (props: { pageName: string, pageSections: SectionLink[], bann
 
     return (
         <section className='banner-root' style={{ background: props.bannerGradient || '' }}>
-            <div className='banner-body'>
-                <div className='banner-img'><img src={props.bannerImage || ''} /></div>
-                <div className='banner-title'>
+            <Grid container spacing={1} className='banner-body'>
+                <Grid item xs={4} md={3.5} className='banner-img'><img src={props.bannerImage || ''} /></Grid>
+                <Grid item xs={8} md={8.5} className='banner-title'>
                     <h1>{props.pageName}</h1>
 
                     <AnimateHeight height={height} contentRef={contentDiv} onMouseEnter={() => expandSummary()} onMouseLeave={() => collapseSummary()} >
                         {summary}
                     </AnimateHeight>
-                </div>
-            </div>
+                </Grid>
+            </Grid>
         </section>
     );
 }

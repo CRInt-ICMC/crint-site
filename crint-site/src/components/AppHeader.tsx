@@ -26,11 +26,12 @@ import axios from 'axios';
 import DropdownMenu from './DropdownMenu';
 import LangSystem from './LangSystem';
 import FontsizeSystem from './FontsizeSystem';
+import Grid from '@mui/material/Grid';
 import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
 const topics = (topicos: ApiTopic[]) => (
-    <div className='topics'>
+    <Grid item xs={5} md={8.5} className='navbar-column navbar-center' role='navigation'>
         {
             topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
@@ -51,40 +52,47 @@ const topics = (topicos: ApiTopic[]) => (
             />
             ))
         }
-    </div>
+    </Grid>
 )
 
-const topicsMobile = (topicos: ApiTopic[], display: boolean, setDisplay: CallableFunction, currentUrl: string) => (
-    <div className='topics'>
-        <button onClick={() => setDisplay(!display)} style={{ backgroundColor: display ? '#061e3d' : 'transparent' }}>
-            <div className='title'>
-                <p>Menu</p>
-                <FontAwesomeIcon icon={display ? faAngleUp : faAngleDown} />
-            </div>
-        </button>
-        <AnimateHeight height={display ? 'auto' : 0} className='dropMenuItens'>
-            {
-                topicos.map((topico) => (
-                    <div key={String(topico.attributes.Nome)}>
-                        <span className='subtopics'>
-                            <span className='title'>{String(topico.attributes.Nome)}</span>
-                            {
-                                (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
-                                    <Link className={(currentUrl === String(pagina.attributes.URL)) ? 'highlight' : ''}
-                                        key={String(pagina.attributes.Titulo)}
-                                        to={String(pagina.attributes.URL)}
-                                    >
-                                        <FontAwesomeIcon icon={faAngleRight} style={{paddingRight: '5px'}} />
-                                        {String(pagina.attributes.Titulo)}
-                                    </Link>
-                                ))
-                            }
-                        </span>
+const topicsMobile = (topicos: ApiTopic[], currentUrl: string, open: Boolean, toggleOpen: CallableFunction) => (
+    <>
+        <Grid item xs={5} md={8.5} className='navbar-column navbar-center' role='navigation'>
+            <div className='navbar-mobile'>
+                <button onClick={() => { toggleOpen(!open) }} style={{ backgroundColor: 'transparent' }} >
+                    <div className='title'>
+                        <p>Menu</p>
+                        <FontAwesomeIcon icon={open ? faAngleUp : faAngleDown} />
                     </div>
-                ))
-            }
+                </button>
+            </div>
+        </Grid>
+
+        <AnimateHeight className='navbar-mobile-itens-wrapper' height={open ? 'auto' : 0}>
+            <Grid justifyContent="center" container>
+                {
+                    topicos.map((topico) => (
+                        <Grid xs={8} key={String(topico.attributes.Nome)}>
+                            <span className='subtopics'>
+                                <span className='title'>{String(topico.attributes.Nome)}</span>
+                                {
+                                    (topico.attributes.paginas as any)['data'].map((pagina: ApiPage) => (
+                                        <Link className={(currentUrl === String(pagina.attributes.URL)) ? 'highlight' : ''}
+                                            key={String(pagina.attributes.Titulo)}
+                                            to={String(pagina.attributes.URL)}
+                                        >
+                                            <FontAwesomeIcon icon={faAngleRight} style={{ paddingRight: '5px' }} />
+                                            {String(pagina.attributes.Titulo)}
+                                        </Link>
+                                    ))
+                                }
+                            </span>
+                        </Grid>
+                    ))
+                }
+            </Grid>
         </AnimateHeight>
-    </div>
+    </>
 )
 
 interface HeaderImages {
@@ -101,15 +109,12 @@ const AppHeader = () => {
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
     const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopic[]>();
-    const [display, setDisplay] = useState(false);
+    const [open, toggleOpen] = useState(false);
 
     const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
 
-    // Recolhe o menu do mobile quando a página muda
-    useEffect(() => {
-        setDisplay(false);
-    }, [location.pathname]);
+    console.log(open)
 
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
@@ -178,26 +183,25 @@ const AppHeader = () => {
 
     return (
         <header className='header-root'>
-            <nav className='navbar'>
+            <Grid container spacing={0.5} className='navbar'>
                 {/* LOGO */}
-                <div className='navbar-column logo'>
+                <Grid item xs={3} md={2} className='navbar-column logo'>
                     {headerImages &&
                         <Link to={'/'}><img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL + (mobile ? headerImages.icmcMini.url : headerImages.icmc.url)} /></Link>
                     }
-                </div>
+                </Grid>
 
                 {/* TÓPICOS */}
-                <div className='navbar-column navbar-center' role='navigation'>
-                    {topicos && !mobile && topics(topicos)}
-                    {topicos && mobile && topicsMobile(topicos, display, setDisplay, location.pathname)}
-                </div>
+                {topicos && !mobile && topics(topicos)}
+
+                {topicos && mobile && topicsMobile(topicos, location.pathname, open, toggleOpen)}
 
                 {/* OPÇÕES */}
-                <div className='navbar-column options'>
+                <Grid item xs={4} md={1} className='navbar-column options'>
                     <LangSystem />
                     <FontsizeSystem />
-                </div>
-            </nav>
+                </Grid>
+            </Grid>
 
             {/* Aparece caso o usuário não tenha consentido ainda */}
             {!userSettings.cookieConsent && popupText &&

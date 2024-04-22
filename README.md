@@ -43,6 +43,7 @@ Não é necessário nada mais do que o NodeJS 20 para executar o projeto, pois a
 - React;
 - Typescript;
 - SCSS;
+- Material UI (pelo menos Grid);
 - Básico de Web Development (HTML, CSS E Javascript).
 
 Vite foi usado para criar o projeto e é usado para executá-lo e construí-lo, porém não é necessário qualquer conhecimento dessa ferramenta para compreender o projeto.
@@ -77,6 +78,7 @@ yarn preview
 # Faz o host da versão de produção na rede local na porta 8080
 yarn host
 ```
+
 Porém, sem um token válido em `/crint-site/.env` as requisições vão ser recusadas pelo servidor e o site não carregará.
 
 ## Desenvolvimento e Manutenção

@@ -60,7 +60,6 @@ function App() {
         // @ts-expect-error - Necessário, pois o elemento tem essas propriedades, mas o typescript não reconhece
         link.href = STRAPI_URL + favicon.url;
 
-        /* ATUALIZA O TÍTULO DA PÁGINA */
         document.title = String(data.attributes.Aba_texto);
 
         /* ATUALIZA AS CORES BASE, DE FUNDO E DE TEXTO */
