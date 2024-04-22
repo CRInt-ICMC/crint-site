@@ -14,7 +14,6 @@
     }
 
     .dia-chart-box {
-        width: 100%;
         margin-top: 50px;
 
         display: flex;
@@ -28,8 +27,10 @@
 
             align-items: center;
             justify-content: center;
-
-            margin-right: 10%;
+            
+            @media screen and (orientation: landscape) {
+                min-height: 450px;
+            }
         }
 
         .dia-options {

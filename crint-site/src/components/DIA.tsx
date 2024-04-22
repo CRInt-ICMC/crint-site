@@ -24,11 +24,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Interweave } from 'interweave';
 import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 import PageBanner from './PageBanner';
 import axios from 'axios';
 import PageSection from './PageSection';
 import './DIA.scss'
-import { Grid } from '@mui/material';
 
 // Informações para a formação dos gráficos
 interface DiaData {
@@ -205,7 +205,7 @@ const plotCostUniversity = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} minHeight={minHeight}>
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight} minHeight={minHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -235,7 +235,7 @@ const plotCostUniversity = (data: DiaData[], options: OptionsForm) => {
 
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '70%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -263,7 +263,7 @@ const plotCostCountry = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="70%" height={totalHeight} >
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight} >
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -291,7 +291,7 @@ const plotCostCountry = (data: DiaData[], options: OptionsForm) => {
                     </BarChart>
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '70%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -319,7 +319,7 @@ const plotComparison = (data: DiaData[], options: OptionsForm) => {
         {
             processedData.length !== 0
 
-                ? <ResponsiveContainer className='dia-chart' width="80%" height={totalHeight}>
+                ? <ResponsiveContainer className='dia-chart' height={totalHeight}>
                     <BarChart
                         data={processedData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -352,7 +352,7 @@ const plotComparison = (data: DiaData[], options: OptionsForm) => {
                     </BarChart>
                 </ResponsiveContainer>
 
-                : <div className='dia-empty' style={{ width: '80%' }}>
+                : <div className='dia-empty'>
                     <FontAwesomeIcon icon={faQuestionCircle} size='4x' color='#0A2C57' />
                     <p>Nenhum item corresponde aos filtros selecionados</p>
                 </div>
@@ -498,7 +498,7 @@ const DIA = () => {
             }
 
             {data &&
-                <div>
+                <>
                     {/* GRÁFICO DE CUSTO POR UNIVERSIDADE */}
                     {sections && sections[0] &&
                         <PageSection
@@ -648,7 +648,7 @@ const DIA = () => {
                             }
                         />
                     }
-                </div>
+                </>
             }
         </div>
     );
