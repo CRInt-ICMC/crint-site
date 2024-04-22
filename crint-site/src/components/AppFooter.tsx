@@ -68,13 +68,13 @@ const AppFooter = () => {
                 <nav className='footer'>
                     <Grid sx={{ rowGap: 8 }} container spacing={0} justifyContent="space-evenly" alignItems="flex-start" className='footer-row'>
                         {/* ENDEREÇO */}
-                        <Grid xs={8} md={3} className='footer-column' style={{ width: '25%' }}>
+                        <Grid item xs={8} md={3} className='footer-column' style={{ width: '25%' }}>
                             <h3> {String(footerData.attributes.Endereco_titulo)} </h3>
                             <p className='text'> {String(footerData.attributes.Endereco_texto)} </p>
                         </Grid>
 
                         {/* REDES SOCIAIS */}
-                        <Grid xs={5.5} md={2.5} className='footer-column' role='navigation' style={{ width: '30%', padding: 0, textAlign: 'center' }}>
+                        <Grid item xs={5.5} md={2.5} className='footer-column' role='navigation' style={{ width: '30%', padding: 0, textAlign: 'center' }}>
                             <h3> {String(footerData.attributes.Redes_sociais)} </h3>
                             {linksRedesSociais && linksRedesSociais.map((link) => {
                                 const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -89,7 +89,7 @@ const AppFooter = () => {
                         </Grid>
 
                         {/* CONTATO */}
-                        <Grid xs={5.5} md={3} className='footer-column' role='navigation' style={{ width: '25%' }}>
+                        <Grid item xs={5.5} md={3} className='footer-column' role='navigation' style={{ width: '25%' }}>
                             <h3> {String(footerData.attributes.Contato_titulo)} </h3>
                             {linksContato && linksContato.map((link) => {
                                 const icon = String(link.attributes.Icone_FA).split(',') as [IconPrefix, IconName];
@@ -105,10 +105,10 @@ const AppFooter = () => {
                     </Grid>
 
                     <Grid sx={{ rowGap: 2, columnGap: 16 }} container justifyContent="center" className='footer-row'>
-                        <Grid className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
+                        <Grid item className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
                             <Link to={'/creditos'}>{String(footerData.attributes.Creditos)}</Link >
                         </Grid>
-                        <Grid className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
+                        <Grid item className='footer-column' xs={10} md={4} style={{ textAlign: 'center' }}>
                             <Link to={'/privacidade'}>{String(footerData.attributes.Politica_privacidade)}</Link >
                         </Grid>
                     </Grid>

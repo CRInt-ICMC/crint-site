@@ -21,6 +21,8 @@
         @media screen and (orientation: portrait) {
             @include base.formato-pagina(100%);
             height: base.$header-mobile;
+
+            position: absolute;
         }
 
         @media screen and (orientation: landscape) {
@@ -37,8 +39,15 @@
         }
 
         .logo {
+            @media screen and (orientation: portrait) {
+                justify-content: flex-start;
+                text-align: left;
+                padding-left: 10px;
+            }
 
             a {
+
+
                 display: flex;
                 align-items: center;
                 height: 100%;
@@ -52,14 +61,18 @@
 
         .navbar-center {
             @media screen and (orientation: portrait) {
+                justify-content: center;
                 height: 100%;
 
-                padding-top: auto;
+                .navbar-mobile {
+                    height: 100%;
+
+                    display: flex;
+                    position: absolute;
+                    top: 0;
+                }
 
                 button {
-                    height: 100%;
-                    width: 100%;
-                    max-height: 100%;
                     border: 0;
 
                     color: white;
@@ -143,6 +156,11 @@
 
     @media screen and (orientation: portrait) {
         font-size: calc(base.$subtopico-fontsize * 2.5);
+        padding: 0 7.5%;
+
+        background-color: var(--base-bg-color);
+        position: relative;
+        top: 0;
 
         a {
             font-size: inherit;
@@ -156,6 +174,7 @@
         }
 
         .title {
+            font-weight: bold;
             transition: font 250ms ease;
             font-size: 2.5rem;
         }
@@ -179,4 +198,9 @@
             width: 100%;
         }
     }
+}
+
+.navbar-mobile-itens-wrapper {
+    position: absolute;
+    top: base.$header-mobile;
 }
