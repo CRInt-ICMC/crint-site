@@ -20,16 +20,10 @@
     }
 
     .fontsize-body {
-        @media screen and (orientation: portrait) {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media screen and (orientation: landscape) {
-            width: calc(2 * base.$largura-botao-fonte);
-        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
 
         .button {
             color: black;
@@ -40,14 +34,15 @@
 
             @media screen and (orientation: portrait) {
                 aspect-ratio: 3 / 2;
-                width: clamp(20%, base.$largura-botao-fonte * 4, 25%);
+                min-height: 18px;
+                width: 25%;
 
                 font-size: clamp(9px, 2.5vw, 50px);
             }
 
             @media screen and (orientation: landscape) {
-                height: base.$largura-botao-fonte;
-                width: base.$largura-botao-fonte;
+                width: 15%;
+                height: 100%;
 
                 font-size: 1em;
             }
