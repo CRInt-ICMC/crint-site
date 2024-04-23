@@ -11,7 +11,11 @@
 
     .select-lang {
         @media screen and (orientation: portrait) {
-            height: 100%;
+            max-height: 100%;
+            width: 70%;
+        }
+
+        @media screen and (orientation: landscape) {
             width: 70%;
         }
     }
@@ -19,14 +23,18 @@
     .icon {
         text-align: center;
 
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        aspect-ratio: 1.5/1;
+
         @media screen and (orientation: portrait) {
-            aspect-ratio: 1.5/1;
-            width: max(35px, 70%);
+            max-width: 100%;
+            max-height: calc(base.$header-mobile * 0.4);
         }
 
         @media screen and (orientation: landscape) {
-            height: 30px;
-            width: 45px;
+            width: 70%;
         }
     }
 }
