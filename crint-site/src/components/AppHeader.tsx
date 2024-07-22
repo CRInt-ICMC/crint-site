@@ -16,11 +16,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { STRAPI_URL, STRAPI_API_TOKEN } from '../utils/constants';
-import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
+import { useLoading, useSettings } from '../utils/utils';
 import { useMediaPredicate } from 'react-media-hook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { ApiTopic, ApiPopup, ApiPage } from '../utils/types';
+import { ApiTopic, ApiPage } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import axios from 'axios';
 import DropdownMenu from './DropdownMenu';
@@ -31,7 +31,7 @@ import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
 const topics = (topicos: ApiTopic[]) => (
-    <Grid item xs={5} md={8.5} className='navbar-column navbar-center' role='navigation'>
+    <Grid item xs={5} md={8} className='navbar-column navbar-center' role='navigation'>
         {
             topicos.map((topico) => (<DropdownMenu
                 key={String(topico.attributes.Nome)}
@@ -107,7 +107,6 @@ const AppHeader = () => {
     const { addLoadingCoins, subLoadingCoins } = useLoading();
 
     const [headerImages, setHeaderImages] = useState<HeaderImages>();
-    const [popupText, setPopupText] = useState<ApiPopup>();
     const [topicos, setTopicos] = useState<ApiTopic[]>();
     const [open, toggleOpen] = useState(false);
 
@@ -119,7 +118,7 @@ const AppHeader = () => {
     // Executa apenas quando a linguagem é alterada
     useEffect(() => {
         const cacheHeaderImages = readCache('headerImages');
-        const cachePopupText = readCache('popup' + '-' + userSettings.lang);
+        // const cachePopupText = readCache('popup' + '-' + userSettings.lang);
         const cacheTopicos = readCache('topicos' + '-' + userSettings.lang);
 
         if (cacheHeaderImages)
@@ -140,22 +139,6 @@ const AppHeader = () => {
 
                     setHeaderImages(dataImages);
                     setCache('headerImages', dataImages);
-                    subLoadingCoins();
-                })
-        }
-
-        if (cachePopupText)
-            setPopupText(cachePopupText);
-
-        else {
-            addLoadingCoins();
-
-            axios
-                .get(STRAPI_URL + '/api/popup-de-privacidade?locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
-                .then((response) => {
-                    const dataPopup = response['data']['data'] as ApiPopup;
-                    setPopupText(dataPopup);
-                    setCache('popup' + '-' + userSettings.lang, dataPopup);
                     subLoadingCoins();
                 })
         }
@@ -197,27 +180,11 @@ const AppHeader = () => {
                 {topicos && mobile && topicsMobile(topicos, location.pathname, open, toggleOpen)}
 
                 {/* OPÇÕES */}
-                <Grid item xs={4} md={1} className='navbar-column options'>
+                <Grid item xs={4} md={2} className='navbar-column options'>
                     <LangSystem />
                     <FontsizeSystem />
                 </Grid>
             </Grid>
-
-            {/* Aparece caso o usuário não tenha consentido ainda */}
-            {!userSettings.cookieConsent && popupText &&
-                <div className='popup-root'>
-                    <h3> {String(popupText.attributes.Titulo)} </h3>
-
-                    <p>
-                        {String(popupText.attributes.Corpo) + ' '}
-                        <Link to={'privacidade'}>{String(popupText.attributes.Saiba_mais)}</Link>
-                    </p>
-
-                    <button onClick={() => updateUserSettings(context, { cookieConsent: true })}>
-                        {String(popupText.attributes.Botao)}
-                    </button>
-                </div>
-            }
         </header>
     );
 }
