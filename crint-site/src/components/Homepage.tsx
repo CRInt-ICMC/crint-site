@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { DEFAULT_LANGUAGE, STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { updateUserSettings, useLoading, useSettings } from '../utils/utils';
-import { ApiSection, ApiSlide } from '../utils/types';
+import { ApiHomepage, ApiSection, ApiSlide } from '../utils/types';
 import { readCache, setCache } from '../Caching';
 import { Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation } from 'swiper/modules';
 import { useMediaPredicate } from 'react-media-hook';
@@ -27,7 +27,20 @@ import 'swiper/css';
 import 'swiper/css/bundle';
 import './Homepage.scss';
 
-const CreateCarousel = (carouselSlides: ApiSlide[]) => (
+interface HomepageSlide {
+    caption: string;
+    url: string;
+    imageUrl: string;
+}
+
+interface HomepageSection {
+    title: string,
+    body: string,
+    color: string,
+    backgroundColor: string,
+}
+
+const CreateCarousel = (carouselSlides: HomepageSlide[]) => (
     <Swiper
         modules={[Pagination, Scrollbar, A11y, Autoplay, EffectFade, Navigation]}
 
@@ -47,17 +60,17 @@ const CreateCarousel = (carouselSlides: ApiSlide[]) => (
         pagination={{ clickable: true }}
         navigation
     >
-        {carouselSlides.map((slide: ApiSlide) => {
-            const link = String(slide.attributes.Link);
-            const caption = String(slide.attributes.Texto);
+        {carouselSlides.map((slide: HomepageSlide) => {
+            const link = slide.url;
+            const caption = slide.caption;
             const key = link + caption;
-            const image = (slide.attributes.Imagem as any)['data']['attributes'] as StrapiImageData;
+            const image = slide.imageUrl;
 
             return (
                 <SwiperSlide key={key} className='swiper-slide'>
                     <a href={link}>
                         <div className='slide-caption'>{caption}</div>
-                        <img src={STRAPI_URL + image.url} />
+                        <img src={STRAPI_URL + image} />
                     </a>
                 </SwiperSlide>
             );
@@ -70,8 +83,9 @@ const Homepage = () => {
     const { userSettings } = context;
     const { addLoadingCoins, subLoadingCoins } = useLoading()
 
-    const [carouselImages, setCarouselImages] = useState<ApiSlide[]>();
-    const [sections, setSections] = useState<ApiSection[]>();
+    const [carouselImages, setCarouselImages] = useState<HomepageSlide[]>();
+    const [sections, setSections] = useState<HomepageSection[]>();
+
 
     const mobile = useMediaPredicate("(orientation: portrait)");
 
@@ -92,23 +106,43 @@ const Homepage = () => {
                 .get(STRAPI_URL + `/api/homepage?populate[secoes]=*&populate[slides][populate][0]=Imagem&locale=` + userSettings.lang,
                     { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data']['attributes'];
+                    const raw = response['data']['data'] as ApiHomepage;
 
                     // Previne o caso catastrófico de não haver conteúdo disponível no idioma selecionado
-                    if (data === undefined) {
+                    if (raw['attributes'] === undefined) {
                         subLoadingCoins();
                         updateUserSettings(context, { lang: DEFAULT_LANGUAGE });
                         return;
                     }
 
-                    const sectionsData = data['secoes']['data'];
+                    const slidesData: HomepageSlide[] = [];
+
+                    setCarouselImages(slidesData);
+
+                    raw['attributes']['slides']['data'].map((slide: ApiSlide) => {
+                        slidesData.push({
+                            caption: String(slide['attributes']['Texto']),
+                            url: String(slide['attributes']['Link']),
+                            imageUrl: String(slide['attributes']['Imagem']['data']['attributes']['url']),
+                        });
+                    });
+
+                    const sectionsData: HomepageSection[] = [];
+                    setCache('carousel' + '-' + userSettings.lang, slidesData);
+
+                    raw['attributes']['secoes']['data'].map((section: ApiSection) => {
+                        sectionsData.push({
+                            title: String(section['attributes']['Titulo']),
+                            body: String(section['attributes']['Corpo']),
+                            color: String(section['attributes']['Cor_texto']),
+                            backgroundColor: String(section['attributes']['Cor_fundo']),
+                        });
+                    });
+
                     setSections(sectionsData);
                     setCache('homepage' + '-' + userSettings.lang, sectionsData);
 
-                    const slidesData = data['slides']['data'];
 
-                    setCarouselImages(slidesData);
-                    setCache('carousel' + '-' + userSettings.lang, slidesData);
                     subLoadingCoins();
                 });
         }
@@ -128,12 +162,12 @@ const Homepage = () => {
                 sections.map((section) => {
                     return (
                         <PageSection
-                            key={String(section.attributes.Titulo)}
-                            id={String(section.attributes.Titulo)}
-                            title={String(section.attributes.Titulo)}
-                            body={String(section.attributes.Corpo)}
-                            textColor={String(section.attributes.Cor_texto)}
-                            backgroundColor={String(section.attributes.Cor_fundo)}
+                            key={section.title}
+                            id={section.title}
+                            title={section.title}
+                            body={section.body}
+                            textColor={section.color}
+                            backgroundColor={section.backgroundColor}
                             mobile={mobile}
                             api
                         />
