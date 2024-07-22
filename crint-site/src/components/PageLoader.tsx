@@ -25,6 +25,19 @@ import PageBanner from "./PageBanner";
 import PageSection from "./PageSection";
 import './PageLoader.scss'
 
+interface PageData {
+    bannerText: string;
+    bannerImage: string;
+    gradient: string;
+    sections: {
+        title: string,
+        summary: string,
+        body: string,
+        color: string,
+        backgroundColor: string,
+    }[];
+}
+
 const WIP = (
     <div className="wip-root">
         <div className="wip-content">
@@ -47,34 +60,20 @@ const PageLoader = () => {
     const { userSettings } = useSettings();
     const { addLoadingCoins, subLoadingCoins } = useLoading();
 
-    const [textData, setTextData] = useState<ApiPage>();
-    const [sections, setSections] = useState<ApiSection[]>();
-    const [bannerImage, setBannerImage] = useState<string>();
-    const [gradient, setGradient] = useState<string>();
+    const [pageData, setPageData] = useState<PageData>();
 
     const [status, setStatus] = useState<number>();
-    
+
     const mobile = useMediaPredicate("(orientation: portrait)");
     const location = useLocation();
-    
+
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        const pageCache = readCache('secao/' + location.pathname + '-' + userSettings.lang);
+        const pageCache: PageData = readCache('page/' + location.pathname + '-' + userSettings.lang);
 
         if (pageCache) {
-            setTextData(pageCache as ApiPage);
-            setBannerImage(pageCache['attributes']['Banner_imagem']['data']['attributes']['url']);
-            setGradient(pageCache['attributes']['Gradiente']['data']['attributes']['CSS']);
-
-            if (pageCache['attributes']['secoes']['data'].length === 0) {
-                setStatus(403);
-                setSections(undefined);
-                return;
-            }
-
-            setSections(pageCache['attributes']['secoes']['data']);
-
-            setStatus(200);
+            pageCache.sections.length === 0 ? setStatus(403) : setStatus(200);
+            setPageData(pageCache);
         }
 
         else {
@@ -84,34 +83,42 @@ const PageLoader = () => {
                 // Strapi + Chamada de página filtrada por UID + Idioma selecionado
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data'][0];
+                    const raw = response['data']['data'][0] as ApiPage;
 
                     // Verifica se a página existe
-                    if (data === undefined) {
+                    if (raw === undefined) {
                         setStatus(404);
                         subLoadingCoins();
                         return;
                     }
 
-                    // Passa o texto e a imagem do banner para seus hooks
-                    setTextData(data as ApiPage);
-                    setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
-                    setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
+                    let data: PageData = {
+                        bannerText: raw['attributes']['Banner_text'],
+                        bannerImage: String(raw['attributes']['Banner_imagem']['data']['attributes']['url']),
+                        gradient: String(raw['attributes']['Gradiente']['data']['attributes']['CSS']),
+                        sections: []
+                    };
 
-                    setCache('secao/' + location.pathname + '-' + userSettings.lang, data);
-                    subLoadingCoins();
-
-                    // Verifica se encontrou as seções, se não, a página está em construção
-                    if (data['attributes']['secoes']['data'].length === 0) {
+                    if (raw['attributes']['secoes']['data'].length === 0)
                         setStatus(403);
-                        setSections(undefined);
-                        return;
+
+                    else {
+                        raw['attributes']['secoes']['data'].map((section: ApiSection) => {
+                            data.sections.push({
+                                title: String(section['attributes']['Titulo']),
+                                summary: String(section['attributes']['Sumario']),
+                                body: String(section['attributes']['Corpo']),
+                                color: String(section['attributes']['Cor_texto']),
+                                backgroundColor: String(section['attributes']['Cor_fundo']),
+                            })
+                        })
+
+                        setStatus(200);
                     }
 
-                    // Passa as seções para seu hook
-                    setSections(data['attributes']['secoes']['data']);
-
-                    setStatus(200);
+                    setPageData(data);
+                    setCache('page/' + location.pathname + '-' + userSettings.lang, data);
+                    subLoadingCoins();
                 });
         }
     }, [userSettings.lang, location]);
@@ -124,29 +131,28 @@ const PageLoader = () => {
     return (
         <div className='page-body'>
             {/* BANNER */}
-            {textData && bannerImage && status === 200 &&
-                <PageBanner
-                    pageName={String(textData?.attributes.Banner_text)}
-                    pageSections={getLinks(sections || [])}
-                    bannerImage={STRAPI_URL + bannerImage}
-                    bannerGradient={String(gradient || '')}
-                />
-            }
-
-            {/* SEÇÕES */}
-            {status === 200 && sections &&
-                sections.map((section) => (
-                    <PageSection
-                        key={String(section.attributes.Titulo)}
-                        id={sections.indexOf(section) + '-' + cleanText(String(section.attributes.Titulo))}
-                        title={String(section.attributes.Titulo)}
-                        body={String(section.attributes.Corpo)}
-                        textColor={String(section.attributes.Cor_texto)}
-                        backgroundColor={String(section.attributes.Cor_fundo)}
-                        mobile={mobile}
-                        api
+            {pageData && status === 200 &&
+                <>
+                    <PageBanner
+                        pageName={pageData.bannerText}
+                        pageSections={getLinks(pageData.sections || [])}
+                        bannerImage={STRAPI_URL + pageData.bannerImage}
+                        bannerGradient={pageData.gradient}
                     />
-                ))
+
+                    {pageData.sections.map((section) => (
+                        <PageSection
+                            key={section.title}
+                            id={pageData.sections.indexOf(section) + '-' + cleanText(section.title)}
+                            title={section.title}
+                            body={section.body}
+                            textColor={section.color}
+                            backgroundColor={section.backgroundColor}
+                            mobile={mobile}
+                            api
+                        />
+                    ))}
+                </>
             }
 
             {status === 404 && NotFound}
