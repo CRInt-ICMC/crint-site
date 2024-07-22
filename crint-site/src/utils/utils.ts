@@ -138,13 +138,16 @@ export const formatDateString = (date: string) => {
 }
 
 // Forma os dados dos links para o sumário
-export const getLinks = (sections: ApiSection[]) => {
+export const getLinks = (sections: {
+    title: string, summary: string, body: string,
+    color: string, backgroundColor: string,
+}[]) => {
     const sectionLinks: SectionLink[] = [];
 
     sections.map((section) => {
         sectionLinks.push({
-            name: String(section.attributes.Sumario || section.attributes.Titulo),
-            id: sections.indexOf(section) + '-' +  cleanText(String(section.attributes.Titulo)),
+            name: section.summary === 'null' ? section.title : section.summary,
+            id: sections.indexOf(section) + '-' + cleanText(section.title),
         } as SectionLink)
     })
 

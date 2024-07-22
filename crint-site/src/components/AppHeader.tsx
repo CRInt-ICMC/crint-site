@@ -31,18 +31,17 @@ import AnimateHeight from 'react-animate-height';
 import './AppHeader.scss';
 
 interface HeaderTopics {
-    name: string,
+    name: string;
     pages: {
         title: string,
         url: string,
-    }[],
+    }[];
 }
 
 interface HeaderImages {
-    icmc: string,
-    icmcMini: string,
+    logo: string;
+    minilogo: string;
 }
-
 
 const topics = (topicos: HeaderTopics[]) => (
     <Grid item xs={5} md={8} className='navbar-column navbar-center' role='navigation'>
@@ -68,7 +67,6 @@ const topics = (topicos: HeaderTopics[]) => (
         }
     </Grid>
 )
-
 
 const topicsMobile = (topicos: HeaderTopics[], currentUrl: string, open: Boolean, toggleOpen: CallableFunction) => (
     <>
@@ -110,7 +108,6 @@ const topicsMobile = (topicos: HeaderTopics[], currentUrl: string, open: Boolean
     </>
 )
 
-
 const AppHeader = () => {
     // Hooks    
     const context = useSettings();
@@ -138,11 +135,11 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/header?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data'];
+                    const raw = response['data']['data'];
 
-                    const dataImages = {
-                        icmc: data['attributes']['ICMC']['data']['attributes']['url'],
-                        icmcMini: data['attributes']['ICMC_mini']['data']['attributes']['url'],
+                    const dataImages: HeaderImages = {
+                        logo: raw['attributes']['ICMC']['data']['attributes']['url'],
+                        minilogo: raw['attributes']['ICMC_mini']['data']['attributes']['url'],
                     };
 
                     setHeaderImages(dataImages);
@@ -160,26 +157,25 @@ const AppHeader = () => {
             axios
                 .get(STRAPI_URL + '/api/topicos?populate=*&locale=' + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const dataTopicos: HeaderTopics[] = [];
-                    response['data']['data'].map((raw: ApiTopic) => {
-                        let topico: HeaderTopics = {
-                            name: String(raw['attributes']['Nome']),
+                    const dataTopics: HeaderTopics[] = [];
+                    response['data']['data'].map((rawTopic: ApiTopic) => {
+                        let topic: HeaderTopics = {
+                            name: String(rawTopic['attributes']['Nome']),
                             pages: [],
                         };
 
-
-                        raw['attributes']['paginas']['data'].map((page: ApiPage) => {
-                            topico.pages.push({
+                        rawTopic['attributes']['paginas']['data'].map((page: ApiPage) => {
+                            topic.pages.push({
                                 title: String(page['attributes']['Titulo']),
                                 url: String(page['attributes']['URL']),
                             })
                         });
 
-                        dataTopicos.push(topico);
+                        dataTopics.push(topic);
                     })
 
-                    setTopicos(dataTopicos);
-                    setCache('topicos' + '-' + userSettings.lang, dataTopicos);
+                    setTopicos(dataTopics);
+                    setCache('topicos' + '-' + userSettings.lang, dataTopics);
                     subLoadingCoins();
                 })
         }
@@ -193,7 +189,7 @@ const AppHeader = () => {
                     {headerImages &&
                         <Link to={'/'}>
                             <img className='logo-crint' alt='Link Página Principal' src={STRAPI_URL +
-                                (mobile ? headerImages.icmcMini : headerImages.icmc)} />
+                                (mobile ? headerImages.minilogo : headerImages.logo)} />
                         </Link>
                     }
                 </Grid>

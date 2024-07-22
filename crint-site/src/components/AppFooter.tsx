@@ -26,17 +26,17 @@ import axios from 'axios';
 import './AppFooter.scss'
 
 interface FooterLink {
-    text: string,
-    url: string,
-    icon: [IconPrefix, IconName],
+    text: string;
+    url: string;
+    icon: [IconPrefix, IconName];
 }
 
 interface FooterData {
-    address: { title: string, text: string },
-    socials: { title: string, links: FooterLink[] },
-    contacts: { title: string, links: FooterLink[] },
-    credits: string,
-    privacy: string,
+    address: { title: string, text: string };
+    socials: { title: string, links: FooterLink[] };
+    contacts: { title: string, links: FooterLink[] };
+    credits: string;
+    privacy: string;
 }
 
 const AppFooter = () => {

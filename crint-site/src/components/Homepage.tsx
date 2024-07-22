@@ -34,10 +34,10 @@ interface HomepageSlide {
 }
 
 interface HomepageSection {
-    title: string,
-    body: string,
-    color: string,
-    backgroundColor: string,
+    title: string;
+    body: string;
+    color: string;
+    backgroundColor: string;
 }
 
 const CreateCarousel = (carouselSlides: HomepageSlide[]) => (
