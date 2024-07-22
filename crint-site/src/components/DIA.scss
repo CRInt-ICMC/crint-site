@@ -7,10 +7,18 @@
 
     @media screen and (orientation: portrait) {
         @include base.formato-pagina(100%);
+
+        .desktop {
+            display: none;
+        }
     }
 
     @media screen and (orientation: landscape) {
         @include base.formato-pagina(base.$largura-pagina);
+
+        .mobile {
+            display: none;
+        }
     }
 
     .dia-chart-box {

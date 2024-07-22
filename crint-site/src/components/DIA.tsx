@@ -18,7 +18,7 @@ import { STRAPI_API_TOKEN, STRAPI_URL } from '../utils/constants';
 import { useEffect, useState } from 'react';
 import { cleanText, formatDateString, getLinks, normalizeText, useLoading, useSettings } from '../utils/utils';
 import { readCache, setCache } from '../Caching';
-import { ApiDia, ApiPage, ApiSection } from '../utils/types';
+import { ApiPage, ApiSection } from '../utils/types';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
@@ -48,6 +48,19 @@ interface OptionsForm {
     limit: number,
     name: string,
     date: string,
+}
+
+interface PageData {
+    bannerText: string;
+    bannerImage: string;
+    gradient: string;
+    sections: {
+        title: string,
+        summary: string,
+        body: string,
+        color: string,
+        backgroundColor: string,
+    }[];
 }
 
 const processData = (CSV: string) => {
@@ -385,25 +398,17 @@ const DIA = () => {
     const onComparisonSubmit: SubmitHandler<OptionsForm> = (input) => setComparisonOptions(input);
 
     /* Estados com os dados do Strapi */
-    const [textData, setTextData] = useState<ApiPage>();
-    const [bannerImage, setBannerImage] = useState<string>();
-    const [gradient, setGradient] = useState<string>();
-    const [sections, setSections] = useState<ApiSection[]>();
-
+    const [pageData, setPageData] = useState<PageData>();
     const [dataUrl, setDataUrl] = useState<string>();
     const [data, setData] = useState<DiaData[]>([]);
 
     // Recebe o texto e as imagens do Strapi
     useEffect(() => {
-        const cacheDiaText = readCache('DiaText' + userSettings.lang);
+        const cacheDiaText = readCache('DiaData' + userSettings.lang);
         const cacheDataUrl = readCache('cacheDataUrl');
 
-        if (cacheDiaText) {
-            setTextData(cacheDiaText as ApiPage);
-            setBannerImage(cacheDiaText['attributes']['Banner_imagem']['data']['attributes']['url']);
-            setGradient(cacheDiaText['attributes']['Gradiente']['data']['attributes']['CSS']);
-            setSections(cacheDiaText['attributes']['secoes']['data']);
-        }
+        if (cacheDiaText)
+            setPageData(cacheDiaText as PageData);
 
         else {
             addLoadingCoins();
@@ -411,20 +416,33 @@ const DIA = () => {
             axios
                 .get(STRAPI_URL + `/api/paginas?filters[URL][$eq]=${location.pathname}&populate=*&locale=` + userSettings.lang, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    const data = response['data']['data'][0];
+                    const raw = response['data']['data'][0] as ApiPage;
 
-                    if (data === undefined) {
+                    if (raw === undefined) {
                         navigate('/');
                         subLoadingCoins();
                         return;
                     }
 
-                    setTextData(data as ApiPage);
-                    setBannerImage(data['attributes']['Banner_imagem']['data']['attributes']['url']);
-                    setGradient(data['attributes']['Gradiente']['data']['attributes']['CSS']);
-                    setSections(data['attributes']['secoes']['data']);
+                    let data: PageData = {
+                        bannerText: raw['attributes']['Banner_text'],
+                        bannerImage: String(raw['attributes']['Banner_imagem']['data']['attributes']['url']),
+                        gradient: String(raw['attributes']['Gradiente']['data']['attributes']['CSS']),
+                        sections: []
+                    }
 
-                    setCache('DiaText' + userSettings.lang, data);
+                    raw['attributes']['secoes']['data'].map((section: ApiSection) => {
+                        data.sections.push({
+                            title: String(section['attributes']['Titulo']),
+                            summary: String(section['attributes']['Sumario']),
+                            body: String(section['attributes']['Corpo']),
+                            color: String(section['attributes']['Cor_texto']),
+                            backgroundColor: String(section['attributes']['Cor_fundo']),
+                        })
+                    })
+
+                    setPageData(data);
+                    setCache('DiaData' + userSettings.lang, data);
                     subLoadingCoins();
                 });
         }
@@ -438,10 +456,9 @@ const DIA = () => {
             axios
                 .get(STRAPI_URL + `/api/dia?populate=*`, { 'headers': { 'Authorization': STRAPI_API_TOKEN } })
                 .then((response) => {
-                    // Não é uma imagem, mas só preciso da URL mesmo
-                    const url = (((response['data']['data'] as ApiDia).attributes.Dados as any)['data']['attributes'] as StrapiImageData).url;
-                    setDataUrl(url);
+                    const url = response['data']['data']['attributes']['Dados']['data']['attributes']['url'];
 
+                    setDataUrl(url);
                     setCache('cacheDataUrl', url);
                     subLoadingCoins();
                 });
@@ -488,167 +505,163 @@ const DIA = () => {
 
     return (
         <div className='dia-body'>
-            {textData &&
+            {pageData &&
                 <PageBanner
-                    pageName={String(textData?.attributes.Banner_text)}
-                    pageSections={getLinks(sections || [])}
-                    bannerImage={STRAPI_URL + bannerImage}
-                    bannerGradient={String(gradient || '')}
+                    pageName={pageData.bannerText}
+                    pageSections={getLinks(pageData.sections || [])}
+                    bannerImage={STRAPI_URL + pageData.bannerImage}
+                    bannerGradient={pageData.gradient}
                 />
             }
 
-            {data &&
-                <>
-                    {/* GRÁFICO DE CUSTO POR UNIVERSIDADE */}
-                    {sections && sections[0] &&
-                        <PageSection
-                            id={'0-' + cleanText(String(sections[0].attributes.Titulo))}
-                            title={String(sections[0].attributes.Titulo)}
-                            body={
-                                <>
-                                    <Interweave content={String(sections[0].attributes.Corpo)} allowElements />
+            {/* GRÁFICO DE CUSTO POR UNIVERSIDADE */}
+            {data && pageData &&
+                <PageSection
+                    id={'0-' + cleanText(pageData.sections[0].title)}
+                    title={pageData.sections[0].title}
+                    body={
+                        <>
+                            <Interweave content={pageData.sections[0].body} allowElements />
 
-                                    <Grid container className='dia-chart-box'>
-                                        <Grid md={9}>
-                                            {costPerUniversity.length > 0 && plotCostUniversity(costPerUniversity, universityOptions)}
-                                        </Grid>
+                            <Grid container className='dia-chart-box desktop'>
+                                <Grid md={9}>
+                                    {costPerUniversity.length > 0 && plotCostUniversity(costPerUniversity, universityOptions)}
+                                </Grid>
 
-                                        <Grid md={3} className='dia-options'>
-                                            <div className='dia-options-title'>Opções de visualização:</div>
+                                <Grid md={3} className='dia-options'>
+                                    <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUniversity(onUniversitySubmit)}>
-                                                <div className='dia-options-item'>
-                                                    <input {...registerUniversity('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                                    <label htmlFor='ascending'>Ordem crescente</label>
-                                                </div>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitUniversity(onUniversitySubmit)}>
+                                        <div className='dia-options-item'>
+                                            <input {...registerUniversity('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='limit'>Custo Máximo (R$): </label>
-                                                    <input {...registerUniversity('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='limit'>Custo Máximo (R$): </label>
+                                            <input {...registerUniversity('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='name'>Nome da universidade:</label>
-                                                    <input {...registerUniversity('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome da universidade:</label>
+                                            <input {...registerUniversity('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='date'>Dados a partir de:</label>
-                                                    <input {...registerUniversity('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='date'>Dados a partir de:</label>
+                                            <input {...registerUniversity('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                        </div>
 
-                                                <div className='dia-options-buttons'>
-                                                    <input type='submit' value='Aplicar' name='aplicar' />
-                                                    <input type='button' name='resetar' value='Resetar' onClick={() => { resetUniversityForm(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
-                                                </div>
-                                            </form>
-                                        </Grid>
-                                    </Grid>
-                                </>
-                            }
-                        />
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' name='aplicar' />
+                                            <input type='button' name='resetar' value='Resetar' onClick={() => { resetUniversityForm(); setUniversityOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} />
+                                        </div>
+                                    </form>
+                                </Grid>
+                            </Grid>
+                        </>
                     }
+                />
+            }
 
-                    {/* GRÁFICO DE CUSTO POR PAÍS */}
-                    {sections && sections[1] &&
-                        <PageSection
-                            id={'1-' + cleanText(String(sections[1].attributes.Titulo))}
-                            title={String(sections[1].attributes.Titulo)}
-                            body={
-                                <>
-                                    {sections && sections[1] && <Interweave content={String(sections[1].attributes.Corpo)} allowElements />}
+            {/* GRÁFICO DE CUSTO POR PAÍS */}
+            {data && pageData &&
+                <PageSection
+                    id={'1-' + cleanText(pageData.sections[1].title)}
+                    title={pageData.sections[1].title}
+                    body={
+                        <>
+                            <Interweave content={pageData.sections[1].body} allowElements />
 
-                                    <Grid container className='dia-chart-box'>
-                                        <Grid md={9}>
-                                            {costCountryData.length > 0 && plotCostCountry(costCountryData, countryOptions)}
-                                        </Grid>
+                            <Grid container className='dia-chart-box'>
+                                <Grid md={9}>
+                                    {costCountryData.length > 0 && plotCostCountry(costCountryData, countryOptions)}
+                                </Grid>
 
-                                        <Grid md={3} className='dia-options'>
-                                            <div className='dia-options-title'>Opções de visualização:</div>
+                                <Grid md={3} className='dia-options'>
+                                    <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCountry(onCountrySubmit)}>
-                                                <div className='dia-options-item'>
-                                                    <input {...registerCountry('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                                    <label htmlFor='ascending'>Ordem crescente</label>
-                                                </div>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitCountry(onCountrySubmit)}>
+                                        <div className='dia-options-item'>
+                                            <input {...registerCountry('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='limit'>Custo Máximo (R$): </label>
-                                                    <input {...registerCountry('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='limit'>Custo Máximo (R$): </label>
+                                            <input {...registerCountry('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={1000000} min={0} />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='name'>Nome do país:</label>
-                                                    <input {...registerCountry('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome do país:</label>
+                                            <input {...registerCountry('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='date'>Dados a partir de: </label>
-                                                    <input {...registerCountry('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='date'>Dados a partir de: </label>
+                                            <input {...registerCountry('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2018-01-01' />
+                                        </div>
 
-                                                <div className='dia-options-buttons'>
-                                                    <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetCountryForm(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
-                                                </div>
-                                            </form>
-                                        </Grid>
-                                    </Grid>
-                                </>
-                            }
-                        />
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' />
+                                            <input type="button" onClick={() => { resetCountryForm(); setCountryOptions({ ascending: true, limit: 1000000, name: '', date: defaultDate }) }} value="Resetar" />
+                                        </div>
+                                    </form>
+                                </Grid>
+                            </Grid>
+                        </>
                     }
+                />
+            }
 
-                    {/* GRÁFICO DE COMPARAÇÃO DE UNIVERSIDADES */}
-                    {sections && sections[2] &&
-                        <PageSection
-                            id={'2-' + cleanText(String(sections[2].attributes.Titulo))}
-                            title={String(sections[2].attributes.Titulo)}
-                            body={
-                                <>
-                                    {sections && sections[2] && <Interweave content={String(sections[2].attributes.Corpo)} allowElements />}
+            {/* GRÁFICO DE COMPARAÇÃO DE UNIVERSIDADES */}
+            {data && pageData &&
+                <PageSection
+                    id={'2-' + cleanText(pageData.sections[1].title)}
+                    title={pageData.sections[1].title}
+                    body={
+                        <>
+                            <Interweave content={pageData.sections[2].body} allowElements />
 
-                                    <Grid container className='dia-chart-box'>
-                                        <Grid md={9}>
-                                            {comparisonData.length > 0 && plotComparison(comparisonData, comparisonOptions)}
-                                        </Grid>
+                            <Grid container className='dia-chart-box'>
+                                <Grid md={9}>
+                                    {comparisonData.length > 0 && plotComparison(comparisonData, comparisonOptions)}
+                                </Grid>
 
-                                        <Grid md={3} className='dia-options'>
-                                            <div className='dia-options-title'>Opções de visualização:</div>
+                                <Grid md={3} className='dia-options'>
+                                    <div className='dia-options-title'>Opções de visualização:</div>
 
-                                            <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComparison(onComparisonSubmit)}>
-                                                <div className='dia-options-item'>
-                                                    <input {...registerComparison('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
-                                                    <label htmlFor='ascending'>Ordem crescente</label>
-                                                </div>
+                                    <form className='dia-options-form' autoComplete="off" onSubmit={handleSubmitComparison(onComparisonSubmit)}>
+                                        <div className='dia-options-item'>
+                                            <input {...registerComparison('ascending')} type='checkbox' id='ascending' name='ascending' defaultChecked={true} />
+                                            <label htmlFor='ascending'>Ordem crescente</label>
+                                        </div>
 
-                                                <div className='dia-options-item' id='short'>
-                                                    <label htmlFor='min'>Pontuação mínima: </label>
-                                                    <input {...registerComparison('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
-                                                </div>
+                                        <div className='dia-options-item' id='short'>
+                                            <label htmlFor='min'>Pontuação mínima: </label>
+                                            <input {...registerComparison('limit', { valueAsNumber: true })} type='number' id='limit' name='limit' defaultValue={-5} min={-5} max={5} />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='name'>Nome da universidade:</label>
-                                                    <input {...registerComparison('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='name'>Nome da universidade:</label>
+                                            <input {...registerComparison('name')} type='text' id='name' name='name' placeholder='Digite aqui...' />
+                                        </div>
 
-                                                <div className='dia-options-item'>
-                                                    <label htmlFor='date'>Dados a partir de:</label>
-                                                    <input {...registerComparison('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2013-01-01' />
-                                                </div>
+                                        <div className='dia-options-item'>
+                                            <label htmlFor='date'>Dados a partir de:</label>
+                                            <input {...registerComparison('date')} type='date' id='date' name='date' defaultValue={defaultDate} min='2013-01-01' />
+                                        </div>
 
-                                                <div className='dia-options-buttons'>
-                                                    <input type='submit' value='Aplicar' />
-                                                    <input type="button" onClick={() => { resetComparisonForm(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
-                                                </div>
-                                            </form>
-                                        </Grid>
-                                    </Grid>
-                                </>
-                            }
-                        />
+                                        <div className='dia-options-buttons'>
+                                            <input type='submit' value='Aplicar' />
+                                            <input type="button" onClick={() => { resetComparisonForm(); setComparisonOptions({ ascending: true, limit: -5, name: '', date: defaultDate }) }} value="Resetar" />
+                                        </div>
+                                    </form>
+                                </Grid>
+                            </Grid>
+                        </>
                     }
-                </>
+                />
             }
         </div>
     );
